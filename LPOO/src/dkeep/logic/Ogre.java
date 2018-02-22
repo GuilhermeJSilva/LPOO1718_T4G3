@@ -4,7 +4,16 @@ import java.util.Random;
 
 public class Ogre extends Character {
 	private int clubPos[];
+	private char club;
 	
+	public char getClub() {
+		return club;
+	}
+
+	public void setClub(char club) {
+		this.club = club;
+	}
+
 	public int[] getClubPos() {
 		return clubPos;
 	}
@@ -13,8 +22,11 @@ public class Ogre extends Character {
 		this.clubPos = clubPos;
 	}
 
-	Ogre(int[] pos, char symbol) {
+	Ogre(int[] pos, char symbol, char club) {
 		super(pos, symbol);
+		clubPos = new int[2];
+		this.swing();
+		this.club = club;
 	}
 	
 	public void swing()
@@ -55,20 +67,22 @@ public class Ogre extends Character {
 			if(map[this.getPos()[0] - 1][this.getPos()[1]] == ' ' || map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
 				this.getPos()[0]--;
 			
-
+			break;
 		case 1:
 			if(map[this.getPos()[0]][this.getPos()[1] - 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] - 1] == 'S')
 				this.getPos()[1]--;
 			
-
+			break;
 		case 2:
 			if(map[this.getPos()[0] + 1][this.getPos()[1]] == ' '|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
 				this.getPos()[0]++;
 			
-
+			break;
 		case 3:
 			if(map[this.getPos()[0]][this.getPos()[1] + 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] + 1] == 'S')
 				this.getPos()[1]++;
+			
+			break;
 			
 		default:
 			break;
