@@ -2,56 +2,29 @@ package dkeep.cli;
 
 import java.util.Scanner;
 
-import game.Game;
+import dkeep.logic.GameState;
 
 public class Cli {
 	public static void main(String[] args) {
-		Game g = new Game();
-
-		g.printMap();
+		GameState g = new GameState();
 		mainLoop(g);
-
-		g.data.heroPos[0] = 8;
-		g.data.heroPos[1] = 1;
-		g.data.data.data.keyPicked = false;
-		g.data.data.data.key[0] = 1;
-		g.data.data.data.key[1] = 8;
-		g.printMap2();
-
-		while(!g.endGame2())
-		{
-			if(g.move2(g.getChar(),g.getHeroPos()))
-			{
-				g.moveRand(g.data.ogrePos);
-				g.clubRand(g.data.ogreClub,g.data.ogrePos);
-			}
-
-			if(!g.data.data.data.keyPicked)
-			{
-				g.pickKey2();
-			}
-			g.printMap2();
-		}
 	}
 
-	private static void mainLoop(Game g) {
+	private static void mainLoop(GameState g) {
+		printChar(g.getGameLayer());
 		while(!g.endGame())
 		{
-			if(g.move(g.getChar(),g.getHeroPos()))
-			{
-				g.move(g.data.guardPath[g.data.counter], g.data.guardPos);
-				g.data.counter++;
-				g.data.counter %= g.data.guardPath.length;
+			while (!g.getLevel().endLevel()) {
+				char command = getChar();
+				g.updateLevel(command);
+				printChar(g.getGameLayer());
 			}
-			if(!g.data.data.data.keyPicked)
-			{
-				g.pickKey();
-			}
-			g.printMap();
+			if(g.nextMap())
+				printChar(g.getGameLayer());
 		}
 	}
-	
-	public char getChar()
+
+	public static char getChar()
 	{
 		char c;
 		Scanner sc =  new Scanner(System.in);
@@ -59,5 +32,16 @@ public class Cli {
 		return c;
 
 	}
-	
+
+	public static void printChar(char map[][])
+	{
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				System.out.print(map[i][j]);
+				System.out.print(' ');
+			}
+			System.out.println();
+		}
+	}
+
 }

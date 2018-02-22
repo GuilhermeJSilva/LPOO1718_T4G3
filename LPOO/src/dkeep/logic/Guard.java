@@ -35,6 +35,7 @@ public class Guard extends Character {
 				this.getPos()[0]--;
 				counter++;
 			}
+			break;
 
 		case 'a':
 			if(map[this.getPos()[0]][this.getPos()[1] - 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] - 1] == 'S')
@@ -42,6 +43,7 @@ public class Guard extends Character {
 				this.getPos()[1]--;
 				counter++;
 			}
+			break;
 				
 		case 's':
 			if(map[this.getPos()[0] + 1][this.getPos()[1]] == ' '|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
@@ -49,6 +51,7 @@ public class Guard extends Character {
 				this.getPos()[0]++;
 				counter++;
 			}
+			break;
 
 		case 'd':
 			if(map[this.getPos()[0]][this.getPos()[1] + 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] + 1] == 'S')
@@ -56,11 +59,12 @@ public class Guard extends Character {
 				this.getPos()[1]++;
 				counter++;
 			}
+			break;
 			
 		default:
 			break;
 		}
-		
+		counter %= this.path.length;
 	}
 	
 	public boolean killedHero(Hero hero)
