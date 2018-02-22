@@ -43,7 +43,7 @@ public class LevelState {
 		map = deepCopyCharMatrix(map1);
 		guards = new ArrayList<Guard>();
 		ogres = new ArrayList<Ogre>();
-		this.addGuard(new Guard(new int[] {1,8}, new char[] {'a', 's', 's' , 's' , 's', 'a', 'a', 'a', 'a', 'a', 'a','s','d','d','d','d','d','d','d','w','w','w','w','w'}, 'G') );
+		this.addGuard(new Drunken(new int[] {1,8}, new char[] {'a', 's', 's' , 's' , 's', 'a', 'a', 'a', 'a', 'a', 'a','s','d','d','d','d','d','d','d','w','w','w','w','w'}, 'G','g') );
 		this.hero = hero;
 		lever = new LeverDoor(new int[] {8,7}, new int[][] {{5,0}, {6,0}}, 'k','S');
 
