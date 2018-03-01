@@ -6,7 +6,6 @@ public class Suspicios extends Guard {
 	private int backwards;
 	Suspicios(int[] pos, char[] path, char symbol) {
 		super(pos, path, symbol);
-		// TODO Auto-generated constructor stub
 		this.backwards = 0;
 	}
 

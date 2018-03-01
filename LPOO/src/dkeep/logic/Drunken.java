@@ -6,7 +6,8 @@ public class Drunken extends Guard {
 	private int backwards;
 	private int sleep;
 	private char sSymbol;
-	Drunken(int[] pos, char[] path, char symbol, char sSymbol) {
+	
+	public Drunken(int[] pos, char[] path, char symbol, char sSymbol) {
 		super(pos, path, symbol);
 		this.backwards = 0;
 		this.sleep = 0;
@@ -43,7 +44,7 @@ public class Drunken extends Guard {
 		{
 			switch (command) {
 			case 's':
-				if(map[this.getPos()[0] - 1][this.getPos()[1]] == ' ' || map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
+				if(map[this.getPos()[0] - 1][this.getPos()[1]] == ' ' )
 				{
 					this.getPos()[0]--;
 					this.setCounter(this.getCounter() - 1);
@@ -51,7 +52,7 @@ public class Drunken extends Guard {
 				break;
 
 			case 'd':
-				if(map[this.getPos()[0]][this.getPos()[1] - 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] - 1] == 'S')
+				if(map[this.getPos()[0]][this.getPos()[1] - 1] == ' ')
 				{
 					this.getPos()[1]--;
 					this.setCounter(this.getCounter() - 1);
@@ -59,7 +60,7 @@ public class Drunken extends Guard {
 				break;
 					
 			case 'w':
-				if(map[this.getPos()[0] + 1][this.getPos()[1]] == ' '|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
+				if(map[this.getPos()[0] + 1][this.getPos()[1]] == ' ')
 				{
 					this.getPos()[0]++;
 					this.setCounter(this.getCounter() - 1);
@@ -67,7 +68,7 @@ public class Drunken extends Guard {
 				break;
 
 			case 'a':
-				if(map[this.getPos()[0]][this.getPos()[1] + 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] + 1] == 'S')
+				if(map[this.getPos()[0]][this.getPos()[1] + 1] == ' ')
 				{
 					this.getPos()[1]++;
 					this.setCounter(this.getCounter() - 1);

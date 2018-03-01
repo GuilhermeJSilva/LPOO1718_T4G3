@@ -3,13 +3,14 @@ package dkeep.logic;
 public class GameState {
 	
 	public LevelState level;
+	
 	public int counter;
 	public int nLevels;
 
-	public GameState() {
-		counter = 0;
-		nLevels = 2;
-		level = new LevelState(new Hero(new int[] {1,1}, 'H'));
+	public GameState(LevelState level, int nLevels) {
+		this.counter = 0;
+		this.nLevels = nLevels;
+		this.level = level;
 	}
 	
 	public char[][] getGameLayer()
@@ -32,10 +33,10 @@ public class GameState {
 		return level;
 	}
 	
-	public boolean nextMap()
+	public boolean nextMap(LevelState level)
 	{
 		counter++;
-		level.nextMap();
+		this.level = level;
 		return counter < nLevels;
 	}
 }

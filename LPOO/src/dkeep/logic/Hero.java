@@ -2,18 +2,31 @@ package dkeep.logic;
 
 public class Hero extends Character {
 	private KeyDoor key;
+	private boolean armed;
 
 	@Override
 	public char getSymbol() {
-		// TODO Auto-generated method stub
+
 		if(key == null)
-			return super.getSymbol();
+			if(armed)
+				return 'A';
+			else
+				return super.getSymbol();
 		else 
 			return 'K';
 	}
 
-	Hero(int[] pos, char symbol) {
+	public boolean isArmed() {
+		return armed;
+	}
+
+	public void setArmed(boolean armed) {
+		this.armed = armed;
+	}
+
+	public Hero(int[] pos, char symbol, boolean armed) {
 		super(pos, symbol);
+		this.armed = armed;
 	}
 
 	public KeyDoor getKey() {
@@ -29,7 +42,7 @@ public class Hero extends Character {
 				this.getPos()[0]--;
 				return true;
 			}
-			
+
 			if(map[this.getPos()[0] - 1][this.getPos()[1]] == 'I' && key != null)
 			{
 				map[this.getPos()[0] - 1][this.getPos()[1]] = 'S';
@@ -43,7 +56,7 @@ public class Hero extends Character {
 				this.getPos()[1]--;
 				return true;
 			}
-			
+
 			if(map[this.getPos()[0]][this.getPos()[1] - 1] == 'I' && key != null)
 			{
 				map[this.getPos()[0]][this.getPos()[1] - 1] = 'S';
@@ -57,7 +70,7 @@ public class Hero extends Character {
 				this.getPos()[0]++;
 				return true;
 			}
-			
+
 			if(map[this.getPos()[0] + 1][this.getPos()[1]] == 'I' && key != null)
 			{
 				map[this.getPos()[0] + 1][this.getPos()[1]] = 'S';
@@ -70,7 +83,7 @@ public class Hero extends Character {
 				this.getPos()[1]++;
 				return true;
 			}
-			
+
 			if(map[this.getPos()[0]][this.getPos()[1] + 1] == 'I' && key != null)
 			{
 				map[this.getPos()[0]][this.getPos()[1] + 1] = 'S';

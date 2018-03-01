@@ -4,57 +4,49 @@ import java.util.ArrayList;
 
 public class LevelState {
 
-	private char[][] map;
-	private static char[][] map1;
-	private static char[][] map2;
 	private ArrayList<Enemy> enemy;
 	private Hero hero;
 	private LeverDoor lever;
 	private KeyDoor key;
+	private char map[][];
 
-	public LevelState(Hero hero) {
-		map1 = new char[][] {
-			{'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'},
-			{'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X'},
-			{'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X'},
-			{'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'},
-			{'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X'},
-			{'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X'},
-			{'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'},
-			{'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'},
-		};
-
-		map2 =  new char[][] {
-			{'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'},
-			{'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-			{'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'},
-		};
-
-		map = deepCopyCharMatrix(map1);
-		enemy = new ArrayList<Enemy>();
-		this.enemy.add(new Drunken(new int[] {1,8}, new char[] {'a', 's', 's' , 's' , 's', 'a', 'a', 'a', 'a', 'a', 'a','s','d','d','d','d','d','d','d','w','w','w','w','w'}, 'G','g') );
+	public LevelState(Hero hero, char map[][]) {		
 		this.hero = hero;
-		lever = new LeverDoor(new int[] {8,7}, new int[][] {{5,0}, {6,0}}, 'k','S');
-
+		this.map = deepCopyCharMatrix(map);
+		enemy = new ArrayList<Enemy>();
+		key = null;
+		lever = null;
 	}
 
-	public void addGuard(Guard guard)
+	public void addEnemy(Guard guard)
+	{
+		enemy.add(guard);
+	}
+	
+	public void addEnemy(Ogre guard)
 	{
 		enemy.add(guard);
 	}
 
+	public LeverDoor getLever() {
+		return lever;
+	}
+
+	public void setLever(LeverDoor lever) {
+		this.lever = lever;
+	}
+
+	public KeyDoor getKey() {
+		return key;
+	}
+
+	public void setKey(KeyDoor key) {
+		this.key = key;
+	}
+
 	public char[][] getMap() {
 
-		return map;
+		return this.map;
 	}
 
 	public void setMap(char[][] map) {
@@ -119,15 +111,13 @@ public class LevelState {
 			key.pickKey(hero, map);
 	}
 
-	public void nextMap()
-	{
-		map = deepCopyCharMatrix(map2);
-		enemy.clear();
-		enemy.add(new Ogre(new int[]{1,4},'O', '*'));
-		enemy.add(new Ogre(new int[]{5,4},'O', '*'));
-		lever = null;
-		key = new KeyDoor(new int[] {1,8}, new int[][] {{1,0}}, 'k', 'S');
-		hero = new Hero(new int[] {8,1}, 'H');
+
+	public ArrayList<Enemy> getEnemy() {
+		return enemy;
+	}
+
+	public void setEnemy(ArrayList<Enemy> enemy) {
+		this.enemy = enemy;
 	}
 
 	public static char[][] deepCopyCharMatrix(char[][] input) {
