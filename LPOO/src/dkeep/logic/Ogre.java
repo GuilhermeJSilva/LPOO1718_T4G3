@@ -2,7 +2,7 @@ package dkeep.logic;
 
 import java.util.Random;
 
-public class Ogre extends Character {
+public class Ogre extends Enemy {
 	private int clubPos[];
 	private char club;
 	
@@ -58,6 +58,7 @@ public class Ogre extends Character {
 		}
 	}
 	
+	@Override
 	public void move(char map[][])
 	{
 		Random generator = new Random();
@@ -87,8 +88,10 @@ public class Ogre extends Character {
 		default:
 			break;
 		}
+		this.swing();
 	}
 	
+	@Override
 	public boolean killedHero(Hero hero)
 	{
 		if ((Math.abs(hero.getPos()[0] - this.getPos()[0]) <= 1 && hero.getPos()[1] == this.getPos()[1]) ||
@@ -102,6 +105,19 @@ public class Ogre extends Character {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void print(char[][] map) {
+		// TODO Auto-generated method stub
+		if(map[this.getPos()[0]][this.getPos()[1]] == 'k')
+			map[this.getPos()[0]][this.getPos()[1]] = '$';
+		else
+			map[this.getPos()[0]][this.getPos()[1]] = this.getSymbol();
+		if(map[this.getClubPos()[0]][this.getClubPos()[1]] == 'k')
+			map[this.getClubPos()[0]][this.getClubPos()[1]] ='$';
+		else
+			map[this.getClubPos()[0]][this.getClubPos()[1]] = this.getClub();
 	}
 
 }

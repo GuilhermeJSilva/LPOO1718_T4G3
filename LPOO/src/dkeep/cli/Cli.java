@@ -14,11 +14,13 @@ public class Cli {
 		printChar(g.getGameLayer());
 		while(!g.endGame())
 		{
-			while (!g.getLevel().endLevel()) {
+			while (g.getLevel().endLevel() == 1) {
 				char command = getChar();
 				g.updateLevel(command);
 				printChar(g.getGameLayer());
 			}
+			if(g.getLevel().endLevel() == 2)
+				return;
 			if(g.nextMap())
 				printChar(g.getGameLayer());
 		}

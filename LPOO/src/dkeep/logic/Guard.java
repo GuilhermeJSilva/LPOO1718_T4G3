@@ -1,6 +1,6 @@
 package dkeep.logic;
 
-public class Guard extends Character {
+public class Guard extends Enemy {
 	private char path[];
 	private int counter;
 	
@@ -26,6 +26,7 @@ public class Guard extends Character {
 		this.counter = counter;
 	}
 
+	@Override
 	public void move(char[][] map) {
 		char command = path[counter];
 		switch (command) {
@@ -67,6 +68,7 @@ public class Guard extends Character {
 		counter %= this.path.length;
 	}
 	
+	@Override
 	public boolean killedHero(Hero hero)
 	{
 		if ((Math.abs(hero.getPos()[0] - this.getPos()[0]) <= 1 && hero.getPos()[1] == this.getPos()[1]) ||
@@ -76,5 +78,11 @@ public class Guard extends Character {
 		}
 		return false;
 	}
+
+	@Override
+	public void print(char[][] map) {
+		map[this.getPos()[0]][this.getPos()[1]] = this.getSymbol();
+	}
+
 
 }

@@ -7,8 +7,7 @@ public class LevelState {
 	private char[][] map;
 	private static char[][] map1;
 	private static char[][] map2;
-	private ArrayList<Guard> guards;
-	private ArrayList<Ogre> ogres;
+	private ArrayList<Enemy> enemy;
 	private Hero hero;
 	private LeverDoor lever;
 	private KeyDoor key;
@@ -41,9 +40,8 @@ public class LevelState {
 		};
 
 		map = deepCopyCharMatrix(map1);
-		guards = new ArrayList<Guard>();
-		ogres = new ArrayList<Ogre>();
-		this.addGuard(new Drunken(new int[] {1,8}, new char[] {'a', 's', 's' , 's' , 's', 'a', 'a', 'a', 'a', 'a', 'a','s','d','d','d','d','d','d','d','w','w','w','w','w'}, 'G','g') );
+		enemy = new ArrayList<Enemy>();
+		this.enemy.add(new Drunken(new int[] {1,8}, new char[] {'a', 's', 's' , 's' , 's', 'a', 'a', 'a', 'a', 'a', 'a','s','d','d','d','d','d','d','d','w','w','w','w','w'}, 'G','g') );
 		this.hero = hero;
 		lever = new LeverDoor(new int[] {8,7}, new int[][] {{5,0}, {6,0}}, 'k','S');
 
@@ -51,12 +49,7 @@ public class LevelState {
 
 	public void addGuard(Guard guard)
 	{
-		guards.add(guard);
-	}
-
-	public void addOgre(Ogre ogre)
-	{
-		ogres.add(ogre);
+		enemy.add(guard);
 	}
 
 	public char[][] getMap() {
@@ -68,22 +61,6 @@ public class LevelState {
 		this.map = map;
 	}
 
-	public ArrayList<Guard> getGuards() {
-		return guards;
-	}
-
-	public void setGuards(ArrayList<Guard> guards) {
-		this.guards = guards;
-	}
-
-	public ArrayList<Ogre> getOgres() {
-		return ogres;
-	}
-
-	public void setOgres(ArrayList<Ogre> ogres) {
-		this.ogres = ogres;
-	}
-
 	public Hero getHero() {
 		return hero;
 	}
@@ -92,32 +69,22 @@ public class LevelState {
 		this.hero = hero;
 	}
 
-	public boolean endLevel()
+	public int endLevel()
 	{
 		if(this.getMap()[this.getHero().getPos()[0]][this.getHero().getPos()[1]] == 'S') {
 			System.out.println("Victory");
-			return true;
+			return 0;
 		}
 
-		for (int i = 0; i < guards.size(); i++) {
-			if(guards.get(i).killedHero(hero))
+		for (int i = 0; i < enemy.size(); i++) {
+			if(enemy.get(i).killedHero(hero))
 			{
 				System.out.println("Defeat");
-				return true;
+				return 2;
 			}
 		}
 
-		for (int i = 0; i < ogres.size(); i++) {
-			if(ogres.get(i).killedHero(hero))
-			{
-				System.out.println("Defeat");
-				return true;
-			}
-		}
-
-
-
-		return false;
+		return 1;
 	}
 
 	public char[][] getMapWCharacter() {
@@ -130,21 +97,9 @@ public class LevelState {
 
 		mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
 
-		for (int i = 0; i < guards.size(); i++) {
-			mapWChar[guards.get(i).getPos()[0]][guards.get(i).getPos()[1]] = guards.get(i).getSymbol();
+		for (int i = 0; i < enemy.size(); i++) {
+			enemy.get(i).print(mapWChar);
 		}
-
-		for (int i = 0; i < ogres.size(); i++) {
-			if(mapWChar[ogres.get(i).getPos()[0]][ogres.get(i).getPos()[1]] == 'k')
-				mapWChar[ogres.get(i).getPos()[0]][ogres.get(i).getPos()[1]] = '$';
-			else
-				mapWChar[ogres.get(i).getPos()[0]][ogres.get(i).getPos()[1]] = ogres.get(i).getSymbol();
-			if(mapWChar[ogres.get(i).getClubPos()[0]][ogres.get(i).getClubPos()[1]] == 'k')
-				mapWChar[ogres.get(i).getClubPos()[0]][ogres.get(i).getClubPos()[1]] ='$';
-			else
-				mapWChar[ogres.get(i).getClubPos()[0]][ogres.get(i).getClubPos()[1]] = ogres.get(i).getClub();
-		}
-
 
 		return mapWChar;
 	}
@@ -153,13 +108,8 @@ public class LevelState {
 	{
 		if(!hero.move(command, map))
 			return;
-		for (int i = 0; i < guards.size(); i++) {
-			guards.get(i).move(map);
-		}
-
-		for (int i = 0; i < ogres.size(); i++) {
-			ogres.get(i).move(map);
-			ogres.get(i).swing();
+		for (int i = 0; i < enemy.size(); i++) {
+			enemy.get(i).move(map);
 		}
 		
 		if(lever != null)
@@ -172,8 +122,9 @@ public class LevelState {
 	public void nextMap()
 	{
 		map = deepCopyCharMatrix(map2);
-		guards.clear();
-		ogres.add(new Ogre(new int[]{1,4},'O', '*'));
+		enemy.clear();
+		enemy.add(new Ogre(new int[]{1,4},'O', '*'));
+		enemy.add(new Ogre(new int[]{5,4},'O', '*'));
 		lever = null;
 		key = new KeyDoor(new int[] {1,8}, new int[][] {{1,0}}, 'k', 'S');
 		hero = new Hero(new int[] {8,1}, 'H');
