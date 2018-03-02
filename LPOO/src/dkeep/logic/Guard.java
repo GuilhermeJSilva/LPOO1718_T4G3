@@ -28,6 +28,8 @@ public class Guard extends Enemy {
 
 	@Override
 	public void move(char[][] map) {
+		if(path.length == 0)
+			return;
 		char command = path[counter];
 		switch (command) {
 		case 'w':
