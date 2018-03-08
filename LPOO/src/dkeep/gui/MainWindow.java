@@ -152,9 +152,8 @@ public class MainWindow {
 		gbc_panel_3.gridy = 0;
 		frame.getContentPane().add(panel_3, gbc_panel_3);
 		GridBagLayout gbl_panel_3 = new GridBagLayout();
-		gbl_panel_3.columnWidths = new int[] {0};
 		gbl_panel_3.columnWeights = new double[]{0.0};
-		gbl_panel_3.rowWeights = new double[]{0.0, 1.0};
+		gbl_panel_3.rowWeights = new double[]{0.0, 1.0, 0.0};
 		panel_3.setLayout(gbl_panel_3);
 		
 		JButton btnNewButton = new JButton("New button");
@@ -166,6 +165,8 @@ public class MainWindow {
 		
 		JPanel panel_1 = new JPanel();
 		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.fill = GridBagConstraints.VERTICAL;
+		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_1.gridx = 0;
 		gbc_panel_1.gridy = 1;
 		panel_3.add(panel_1, gbc_panel_1);
@@ -205,5 +206,12 @@ public class MainWindow {
 		gbc_button_3.gridx = 1;
 		gbc_button_3.gridy = 2;
 		panel_1.add(button_3, gbc_button_3);
+		
+		JButton button_4 = new JButton("New button");
+		GridBagConstraints gbc_button_4 = new GridBagConstraints();
+		gbc_button_4.insets = new Insets(0, 0, 5, 0);
+		gbc_button_4.gridx = 0;
+		gbc_button_4.gridy = 2;
+		panel_3.add(button_4, gbc_button_4);
 	}
 }
