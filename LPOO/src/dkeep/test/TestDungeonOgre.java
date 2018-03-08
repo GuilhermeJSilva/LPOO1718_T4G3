@@ -9,11 +9,9 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import dkeep.cli.Cli;
-import dkeep.logic.Guard;
 import dkeep.logic.Hero;
 import dkeep.logic.KeyDoor;
 import dkeep.logic.LevelState;
-import dkeep.logic.LeverDoor;
 import dkeep.logic.Ogre;
 
 public class TestDungeonOgre {
