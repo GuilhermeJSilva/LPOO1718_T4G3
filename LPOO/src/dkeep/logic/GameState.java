@@ -39,4 +39,5 @@ public class GameState {
 		this.level = level;
 		return counter < nLevels;
 	}
+	
 }
