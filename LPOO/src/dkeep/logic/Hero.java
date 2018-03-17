@@ -33,7 +33,7 @@ public class Hero extends Character {
 		return key;
 	}
 
-	@Override
+
 	public boolean move(char command, char[][] map) {
 		switch (command) {
 		case 'w':

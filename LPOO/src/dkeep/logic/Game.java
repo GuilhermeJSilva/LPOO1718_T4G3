@@ -2,29 +2,31 @@ package dkeep.logic;
 
 import java.util.ArrayList;
 
-public class LevelState {
+public class Game {
 
 	private ArrayList<Enemy> enemy;
 	private Hero hero;
 	private LeverDoor lever;
 	private KeyDoor key;
 	private char map[][];
+	private boolean levelAvailable;
 
-	public LevelState(Hero hero, char map[][]) {		
+	public Game(Hero hero, char map[][]) {
 		this.hero = hero;
 		this.map = deepCopyCharMatrix(map);
 		enemy = new ArrayList<Enemy>();
 		key = null;
 		lever = null;
+		levelAvailable = true;
+
+		
 	}
 
-	public void addEnemy(Guard guard)
-	{
+	public void addEnemy(Guard guard) {
 		enemy.add(guard);
 	}
-	
-	public void addEnemy(Ogre guard)
-	{
+
+	public void addEnemy(Ogre guard) {
 		enemy.add(guard);
 	}
 
@@ -61,17 +63,13 @@ public class LevelState {
 		this.hero = hero;
 	}
 
-	public int endLevel()
-	{
-		if(this.getMap()[this.getHero().getPos()[0]][this.getHero().getPos()[1]] == 'S') {
-			System.out.println("Victory");
+	public int endLevel() {
+		if (this.getMap()[this.getHero().getPos()[0]][this.getHero().getPos()[1]] == 'S') {
 			return 0;
 		}
 
 		for (int i = 0; i < enemy.size(); i++) {
-			if(enemy.get(i).killedHero(hero))
-			{
-				System.out.println("Defeat");
+			if (enemy.get(i).killedHero(hero)) {
 				return 2;
 			}
 		}
@@ -80,11 +78,11 @@ public class LevelState {
 	}
 
 	public char[][] getMapWCharacter() {
-		char mapWChar[][] =  deepCopyCharMatrix(map);
-		if(lever != null)
+		char mapWChar[][] = deepCopyCharMatrix(map);
+		if (lever != null)
 			mapWChar[lever.getPos()[0]][lever.getPos()[1]] = lever.getSymbol();
 
-		if(key != null && !key.isPicked())
+		if (key != null && !key.isPicked())
 			mapWChar[key.getPos()[0]][key.getPos()[1]] = key.getSymbol();
 
 		mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
@@ -96,21 +94,19 @@ public class LevelState {
 		return mapWChar;
 	}
 
-	public void movement(char command) 
-	{
-		if(!hero.move(command, map))
+	public void movement(char command) {
+		if (!hero.move(command, map))
 			return;
 		for (int i = 0; i < enemy.size(); i++) {
 			enemy.get(i).move(map);
 		}
-		
-		if(lever != null)
+
+		if (lever != null)
 			lever.pullLever(hero, map);
-		
-		if(key != null)
+
+		if (key != null)
 			key.pickKey(hero, map);
 	}
-
 
 	public ArrayList<Enemy> getEnemy() {
 		return enemy;
@@ -128,6 +124,32 @@ public class LevelState {
 			result[r] = input[r].clone();
 		}
 		return result;
+	}
+
+	public boolean nextLevel(int numberOfOgres) {
+		if (levelAvailable) {
+			char[][] map2 = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+					{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, };
+
+			hero = new Hero(new int[] { 8, 1 }, 'H', true);
+			map = map2;
+			this.getEnemy().clear();
+			for (int i = 0; i < numberOfOgres; i++)
+				this.getEnemy().add(new Ogre(new int[] { 1, 4 }, 'O', '*', '8'));
+			this.setLever(null);
+			this.setKey(new KeyDoor(new int[] { 1, 8 }, new int[][] { { 1, 0 } }, 'k', 'S'));
+			levelAvailable = false;
+			return true;
+		}
+		return false;
 	}
 
 }

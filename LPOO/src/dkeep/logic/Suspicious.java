@@ -2,9 +2,9 @@ package dkeep.logic;
 
 import java.util.Random;
 
-public class Suspicios extends Guard {
+public class Suspicious extends Guard {
 	private int backwards;
-	Suspicios(int[] pos, char[] path, char symbol) {
+	public Suspicious(int[] pos, char[] path, char symbol) {
 		super(pos, path, symbol);
 		this.backwards = 0;
 	}

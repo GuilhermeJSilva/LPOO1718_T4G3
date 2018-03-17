@@ -11,10 +11,18 @@ public class KeyDoor {
 		this.pos = pos;
 		this.doors = is;
 		this.symbol = symbol;
-		this.openSymbol =openSymbol;
+		this.openSymbol = openSymbol;
 		this.picked = false;
 	}
 	
+	public char getOpenSymbol() {
+		return openSymbol;
+	}
+
+	public void setOpenSymbol(char openSymbol) {
+		this.openSymbol = openSymbol;
+	}
+
 	public boolean isPicked() {
 		return picked;
 	}
@@ -48,5 +56,14 @@ public class KeyDoor {
 		}
 	}
 
+	//NOT YET USED 
+	public boolean isADoor(int door[])
+	{
+		for (int i = 0; i < doors.length; i++) {
+			if(doors[i][0] == door[0] && doors[i][1] == door[1])
+				return true;
+		}
+		return false;
+	}
 
 }

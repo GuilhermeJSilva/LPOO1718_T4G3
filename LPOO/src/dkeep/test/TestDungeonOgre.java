@@ -9,135 +9,128 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import dkeep.cli.Cli;
+import dkeep.logic.Game;
 import dkeep.logic.Hero;
 import dkeep.logic.KeyDoor;
-import dkeep.logic.LevelState;
 import dkeep.logic.Ogre;
 
 public class TestDungeonOgre {
 
-	char map[][] = {
-			{'X', 'X', 'X', 'X', 'X'},
-			{'X', ' ', ' ', ' ', 'X'},
-			{'I', ' ', ' ', ' ', 'X'},
-			{'I', ' ', ' ', ' ', 'X'},
-			{'X', 'X', 'X', 'X', 'X'}};
-	
+	char map[][] = { { 'X', 'X', 'X', 'X', 'X' }, { 'X', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', 'X' },
+			{ 'I', ' ', ' ', ' ', 'X' }, { 'X', 'X', 'X', 'X', 'X' } };
+
 	@Test
 	public void testMoveHeroCapturedByOgre() {
-		LevelState level = new LevelState(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] {1,3}, 'O', '*', '8') ); 
-		level.setKey(new KeyDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
-		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
+		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
+		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
+		assertTrue(Arrays.equals(new int[] { 1, 1 }, level.getHero().getPos()));
 		level.getHero().move('d', level.getMap());
-		assertTrue(Arrays.equals(new int[] {1,2}, level.getHero().getPos()));
+		assertTrue(Arrays.equals(new int[] { 1, 2 }, level.getHero().getPos()));
 		assertEquals(level.endLevel(), 2);
 	}
-	
+
 	@Test
 	public void testMoveHeroPicksUpKey() {
-		LevelState level = new LevelState(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] {1,3}, 'O', '*', '8') ); 
-		level.setKey(new KeyDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
+		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
+		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		level.getHero().move('s', level.getMap());
 		level.getHero().move('s', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
 		assertEquals(level.getHero().getSymbol(), 'K');
 	}
-	
+
 	@Test
 	public void testMoveHeroRunsIntoDoor() {
-		LevelState level = new LevelState(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] {1,3}, 'O', '*', '8') ); 
-		level.setKey(new KeyDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
+		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
+		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		level.getHero().move('s', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
-		assertTrue(Arrays.equals(new int[] {2,1}, level.getHero().getPos()));
+		assertTrue(Arrays.equals(new int[] { 2, 1 }, level.getHero().getPos()));
 		level.getHero().move('a', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
-		assertTrue(Arrays.equals(new int[] {2,1}, level.getHero().getPos()));
+		assertTrue(Arrays.equals(new int[] { 2, 1 }, level.getHero().getPos()));
 		assertEquals(level.getMapWCharacter()[2][0], 'I');
 	}
-	
+
 	@Test
 	public void testMoveHeroOpensDoor() {
-		LevelState level = new LevelState(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] {1,3}, 'O', '*', '8') ); 
-		level.setKey(new KeyDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
+		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
+		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		level.getHero().move('s', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
 		level.getHero().move('s', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
-		assertTrue(Arrays.equals(new int[] {3,1}, level.getHero().getPos()));
+		assertTrue(Arrays.equals(new int[] { 3, 1 }, level.getHero().getPos()));
 		level.getHero().move('a', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
-		assertTrue(Arrays.equals(new int[] {3,1}, level.getHero().getPos()));
+		assertTrue(Arrays.equals(new int[] { 3, 1 }, level.getHero().getPos()));
 		assertEquals(level.getMapWCharacter()[3][0], 'S');
 	}
-	
+
 	@Test
 	public void testMoveHeroWins() {
-		LevelState level = new LevelState(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] {1,3}, 'O', '*', '8') ); 
-		level.setKey(new KeyDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
+		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
+		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		level.getHero().move('s', level.getMap());
 		level.getHero().move('s', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
 		level.getHero().move('a', level.getMap());
 		level.getHero().move('a', level.getMap());
 		assertEquals(level.endLevel(), 0);
-		
+
 	}
-	
+
 	@Test
 	public void testMoveOgre() {
-		LevelState level = new LevelState(new Hero(new int[] {1,1}, 'H', true), map);
-		level.addEnemy(new Ogre(new int[] {1,3}, 'O', '*', '8') ); 
-		level.setKey(new KeyDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
+
+		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
+		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		boolean up = false, down = false, left = false, right = false;
 		boolean upC = false, downC = false, leftC = false, rightC = false;
-		char path[] =  new char[] {'s', 's', 'd', 'd', 'w', 'w', 'a', 'a'};
+		char path[] = new char[] { 's', 's', 'd', 'd', 'w', 'w', 'a', 'a' };
 		int counter = 0;
-		while(!up || !down || !left || !right || !upC || !downC || !leftC || !rightC)
-		{
+		while (!up || !down || !left || !right || !upC || !downC || !leftC || !rightC) {
 			Cli.printChar(level.getMapWCharacter());
 			Ogre ogre = (Ogre) level.getEnemy().get(0);
 			int prevPos[] = ogre.getPos().clone();
-			level.endLevel();
-			//System.out.println(Arrays.toString(prevPos));
+			level.endLevel(); // System.out.println(Arrays.toString(prevPos));
 			level.movement(path[counter]);
-			
+
 			ogre = (Ogre) level.getEnemy().get(0);
 			int newPos[] = level.getEnemy().get(0).getPos();
-			//System.out.println(Arrays.toString(newPos));
+			// System.out.println(Arrays.toString(newPos));
 			int newCPos[] = ogre.getClubPos();
-			
-			if(Arrays.equals(newPos, new int[] {prevPos[0] + 1, prevPos[1]}))
+
+			if (Arrays.equals(newPos, new int[] { prevPos[0] + 1, prevPos[1] }))
 				down = true;
-			else if(Arrays.equals(newPos, new int[] {prevPos[0] - 1, prevPos[1]}))
+			else if (Arrays.equals(newPos, new int[] { prevPos[0] - 1, prevPos[1] }))
 				up = true;
-			else if(Arrays.equals(newPos, new int[] {prevPos[0], prevPos[1] + 1}))
+			else if (Arrays.equals(newPos, new int[] { prevPos[0], prevPos[1] + 1 }))
 				right = true;
-			else if(Arrays.equals(newPos, new int[] {prevPos[0], prevPos[1] - 1}))
+			else if (Arrays.equals(newPos, new int[] { prevPos[0], prevPos[1] - 1 }))
 				left = true;
-			else if(Arrays.equals(newPos, prevPos));
-				//System.out.println("Same Pos");
-			else
-				fail("Wrong Movement");
-			
-			
-			if(Arrays.equals(newCPos, new int[] {newPos[0] + 1, newPos[1]}))
+			else if (Arrays.equals(newPos, prevPos))
+				;
+			else fail("Wrong Movement");
+
+			if (Arrays.equals(newCPos, new int[] { newPos[0] + 1, newPos[1] }))
 				downC = true;
-			else if(Arrays.equals(newCPos, new int[] {newPos[0] - 1, newPos[1]}))
+			else if (Arrays.equals(newCPos, new int[] { newPos[0] - 1, newPos[1] }))
 				upC = true;
-			else if(Arrays.equals(newCPos, new int[] {newPos[0], newPos[1] + 1}))
+			else if (Arrays.equals(newCPos, new int[] { newPos[0], newPos[1] + 1 }))
 				rightC = true;
-			else if(Arrays.equals(newCPos, new int[] {newPos[0], newPos[1] - 1}))
+			else if (Arrays.equals(newCPos, new int[] { newPos[0], newPos[1] - 1 }))
 				leftC = true;
 			else
 				fail("Wrong Swing");
 			counter = (counter + 1) % path.length;
 		}
-		
+
 	}
 }

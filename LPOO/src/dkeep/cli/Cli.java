@@ -3,83 +3,69 @@ package dkeep.cli;
 import java.util.Scanner;
 
 import dkeep.logic.Drunken;
-import dkeep.logic.GameState;
+import dkeep.logic.Game;
+import dkeep.logic.Guard;
 import dkeep.logic.Hero;
-import dkeep.logic.KeyDoor;
-import dkeep.logic.LevelState;
 import dkeep.logic.LeverDoor;
-import dkeep.logic.Ogre;
+import dkeep.logic.Suspicious;
 
 public class Cli {
-	private static char[][] map1 = new char[][] {
-		{'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'},
-		{'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X'},
-		{'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X'},
-		{'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'},
-		{'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X'},
-		{'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X'},
-		{'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X'},
-		{'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'},
-	};
-	
-	private static char[][] map2 = new char[][] {
-		{'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'},
-		{'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'},
-		{'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X'},
-	};
-	
+	private static char[][] map1 = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
+			{ 'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
+			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
+			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
+			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' },
+			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, };
+
 	public static void main(String[] args) {
-		LevelState level = new LevelState(new Hero(new int[] {1,1}, 'H', false), map1);
-		level.addEnemy(new Drunken(new int[] {1,8}, new char[] {'a', 's', 's' , 's' , 's', 'a', 'a', 'a', 'a', 'a', 'a','s','d','d','d','d','d','d','d','w','w','w','w','w'}, 'G','g') ); 
-	   level.setLever(new LeverDoor(new int[] {8,7}, new int[][] {{5,0}, {6,0}}, 'k','S'));
-	   GameState g = new GameState(level, 2);
-		mainLoop(g);
+		Game game = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map1);
+		switch ("Rookie") {
+		case "Drunken":
+			game.addEnemy(new Drunken(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
+					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }, 'G', 'g'));
+			break;
+		case "Rookie":
+			game.addEnemy(new Guard(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
+					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }, 'G'));
+			break;
+		case "Suspicious":
+			game.addEnemy(new Suspicious(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
+					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }, 'G'));
+			break;
+		default:
+			break;
+		}
+
+		game.setLever(new LeverDoor(new int[] { 8, 7 }, new int[][] { { 5, 0 }, { 6, 0 } }, 'k', 'S'));
+		mainLoop(game);
 	}
 
-	private static void mainLoop(GameState g) {
-		//printChar(g.getGameLayer());
-		while(!g.endGame())
-		{
-			while (g.getLevel().endLevel() == 1) {
-				printChar(g.getGameLayer());
+	private static void mainLoop(Game g) {
+		while (true) {
+			while (g.endLevel() == 1) {
+				printChar(g.getMapWCharacter());
 				char command = getChar();
-				g.updateLevel(command);	
+				g.movement(command);
 			}
-			printChar(g.getGameLayer());
-			if(g.getLevel().endLevel() == 2)
+			printChar(g.getMapWCharacter());
+			if (g.endLevel() == 2) {
+				System.out.println("Defeat");
 				return;
-			
-			LevelState level = new LevelState(new Hero(new int[] {8,1}, 'H', true), map2);
-			level.getEnemy().clear();
-			level.getEnemy().add(new Ogre(new int[]{1,4},'O', '*', '8'));
-			level.getEnemy().add(new Ogre(new int[]{5,4},'O', '*', '8'));
-			level.setLever(null);
-			level.setKey(new KeyDoor(new int[] {1,8}, new int[][] {{1,0}}, 'k', 'S'));
-			if(g.nextMap(level))
-				printChar(g.getGameLayer());
+			}
+			if (!g.nextLevel(1))
+				return;
 		}
 	}
 
-	public static char getChar()
-	{
+	public static char getChar() {
 		char c;
-		Scanner sc =  new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		c = sc.next().charAt(0);
 		return c;
 
 	}
 
-	public static void printChar(char map[][])
-	{
+	public static void printChar(char map[][]) {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
 				System.out.print(map[i][j]);
