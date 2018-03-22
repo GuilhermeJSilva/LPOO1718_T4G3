@@ -1,8 +1,11 @@
 package dkeep.gui;
 
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GameBoard extends JPanel {
@@ -12,9 +15,40 @@ public class GameBoard extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private char[][] map;
+	private String guardType;
+	
+	public void setGuardType(String guardType) {
+		this.guardType = guardType;
+	}
 
-	public GameBoard() {
+	Image door;         
+	Image drukenawake;  
+	Image drukensleep;  
+	Image floor;        
+	Image hero;         
+	Image key;          
+	Image maul;         
+	Image ogre;         
+	Image rookie;       
+	Image suspicious;   
+	Image swordedHero;  
+	Image wall;         
+
+	public GameBoard() throws IOException {
+		
 		map = null;
+		door = ImageIO.read(new File("images/door.png"));       
+		drukenawake = ImageIO.read(new File("images/drunkenawake.png"));  
+		drukensleep = ImageIO.read(new File("images/drunkensleep.png"));  
+		floor= ImageIO.read(new File("images/floor.png"));        
+		hero = ImageIO.read(new File("images/hero2.png"));         
+		key = ImageIO.read(new File("images/key.png"));          
+		maul = ImageIO.read(new File("images/maul.png"));         
+		ogre= ImageIO.read(new File("images/ogre2.png"));         
+		rookie = ImageIO.read(new File("images/rookie.png"));       
+		suspicious = ImageIO.read(new File("images/suspicious2.png"));   
+		swordedHero = ImageIO.read(new File("images/swordedhero.png"));  
+		wall = ImageIO.read(new File("images/wall.png"));         
 	}
 
 	public void paintComponent(Graphics g) {
@@ -40,8 +74,11 @@ public class GameBoard extends JPanel {
 		for (char[] cs : map) {
 			x = (maxSize - super.getHeight())/2;
 			for (char c : cs) {
+				/*
 				g.setColor(this.getImage(c));
 				g.fillRect(x, y, deltaX, deltaY);
+				*/
+				 g.drawImage(getImage(c), x, y, deltaX, deltaY, null);
 				// System.out.print(c);
 				x += deltaX;
 			}
@@ -58,46 +95,56 @@ public class GameBoard extends JPanel {
 		this.map = map;
 	}
 
-	public Color getImage(char ch) {
+	public Image getImage(char ch) {
 		switch (ch) {
 		case 'X':
-			return Color.black;
+			return wall;
 
 		case 'I':
-			return Color.black;
+			return door;
 
 		case 'S':
-			return Color.white;
+			return floor;
 
 		case 'H':
-			return Color.yellow;
+			return hero;
 
 		case 'K':
-			return Color.black;
+			return hero;
 
 		case 'A':
-			return Color.magenta;
+			return swordedHero;
 
 		case 'G':
-			return Color.red;
+			switch (guardType) {
+			case "Drunken":
+				return drukenawake;
+			
+			case "Suspicious":
+				return suspicious;
+				
+			default:
+				return rookie;
+			}
+			
 
 		case 'g':
-			return Color.black;
+			return drukensleep;
 
 		case 'O':
-			return Color.CYAN;
+			return ogre;
 
 		case '*':
-			return Color.BLUE;
+			return maul;
 
 		case ' ':
-			return Color.WHITE;
+			return floor;
 
 		case 'k':
-			return Color.DARK_GRAY;
+			return key;
 
 		default:
-			return Color.PINK;
+			return null;
 
 		}
 	}

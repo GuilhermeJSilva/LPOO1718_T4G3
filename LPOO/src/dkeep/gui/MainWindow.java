@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -89,15 +90,17 @@ public class MainWindow {
 
 	/**
 	 * Create the application.
+	 * @throws IOException 
 	 */
-	public MainWindow() {
+	public MainWindow() throws IOException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws IOException 
 	 */
-	private void initialize() {
+	private void initialize() throws IOException {
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1*(1024-(256 + 32)), 1*(512));
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -220,7 +223,7 @@ public class MainWindow {
 
 					gameInfo.setText("Playing");
 					game = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map1);
-
+					gameArea.setGuardType((String) comboBox.getSelectedItem());
 					switch ((String) comboBox.getSelectedItem()) {
 					case "Drunken":
 						game.addEnemy(new Drunken(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a',
