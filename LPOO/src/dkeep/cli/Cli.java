@@ -22,15 +22,15 @@ public class Cli {
 		switch ("Rookie") {
 		case "Drunken":
 			game.addEnemy(new Drunken(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
-					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }, 'G', 'g'));
+					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
 			break;
 		case "Rookie":
 			game.addEnemy(new Guard(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
-					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }, 'G'));
+					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
 			break;
 		case "Suspicious":
 			game.addEnemy(new Suspicious(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
-					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }, 'G'));
+					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
 			break;
 		default:
 			break;

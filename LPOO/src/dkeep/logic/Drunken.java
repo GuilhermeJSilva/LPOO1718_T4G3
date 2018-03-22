@@ -1,5 +1,6 @@
 package dkeep.logic;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Drunken extends Guard {
@@ -7,11 +8,16 @@ public class Drunken extends Guard {
 	private int sleep;
 	private char sSymbol;
 
-	public Drunken(int[] pos, char[] path, char symbol, char sSymbol) {
-		super(pos, path, symbol);
+	public Drunken(int[] pos, char[] path) {
+		super(pos, path);
 		this.backwards = 0;
 		this.sleep = 0;
-		this.sSymbol = sSymbol;
+		this.sSymbol = 'g';
+	}
+
+	@Override
+	public String toString() {
+		return "Drunken [path=" + Arrays.toString(path) + ", pos=" + Arrays.toString(pos) + "]";
 	}
 
 	@Override

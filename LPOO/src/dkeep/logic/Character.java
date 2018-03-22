@@ -1,8 +1,8 @@
 package dkeep.logic;
 
 public abstract class Character {
-	private int pos[];
-	private char symbol;
+	protected int pos[];
+	protected char symbol;
 
 	Character(int pos[], char symbol)
 	{

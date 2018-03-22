@@ -1,5 +1,7 @@
 package dkeep.logic;
 
+import java.util.Arrays;
+
 public class Hero extends Character {
 	private KeyDoor key;
 	private boolean armed;
@@ -33,6 +35,11 @@ public class Hero extends Character {
 		return key;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Hero [key=" + key + ", armed=" + armed + ", pos=" + Arrays.toString(pos) + "]";
+	}
 
 	public boolean move(char command, char[][] map) {
 		switch (command) {

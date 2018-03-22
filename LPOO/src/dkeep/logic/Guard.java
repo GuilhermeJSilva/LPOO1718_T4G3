@@ -1,11 +1,20 @@
 package dkeep.logic;
 
+import java.util.Arrays;
+
 public class Guard extends Enemy {
-	private char path[];
+	protected char path[];
 	private int counter;
 	
-	public Guard(int[] pos, char path[], char symbol) {
-		super(pos, symbol);
+	
+
+	@Override
+	public String toString() {
+		return "Guard [path=" + Arrays.toString(path) + ", pos=" + Arrays.toString(pos) + "]";
+	}
+
+	public Guard(int[] pos, char path[]) {
+		super(pos, 'G');
 		this.path = path;
 		this.counter = 0;
 	}

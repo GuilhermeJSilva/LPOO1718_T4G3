@@ -1,12 +1,18 @@
 package dkeep.logic;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Suspicious extends Guard {
 	private int backwards;
-	public Suspicious(int[] pos, char[] path, char symbol) {
-		super(pos, path, symbol);
+	public Suspicious(int[] pos, char[] path) {
+		super(pos, path);
 		this.backwards = 0;
+	}
+
+	@Override
+	public String toString() {
+		return "Suspicious [path=" + Arrays.toString(path) + ", pos=" + Arrays.toString(pos) + "]";
 	}
 
 	@Override

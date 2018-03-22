@@ -19,21 +19,33 @@ public class GameBoard extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(map == null)
+		if (map == null)
 			return;
 		int x = 0, y = 0;
-		int deltaY = super.getHeight() / map.length;
-		int deltaX = super.getWidth() / map[0].length;
+
+		int gameSize = super.getHeight();
+		int maxSize = super.getWidth();
+		
+		if (gameSize > super.getWidth()) {
+			gameSize = super.getWidth();
+			maxSize = super.getHeight();
+		}
+		
+		x = (maxSize - super.getHeight())/2;
+		y = (maxSize - super.getWidth())/2;
+		
+		int deltaY = gameSize / map.length;
+		int deltaX = gameSize / map[0].length;
 
 		for (char[] cs : map) {
-			x = 0;
+			x = (maxSize - super.getHeight())/2;
 			for (char c : cs) {
 				g.setColor(this.getImage(c));
 				g.fillRect(x, y, deltaX, deltaY);
-				//System.out.print(c);
+				// System.out.print(c);
 				x += deltaX;
 			}
-			//System.out.println("");
+			// System.out.println("");
 			y += deltaY;
 		}
 	}
@@ -80,7 +92,7 @@ public class GameBoard extends JPanel {
 
 		case ' ':
 			return Color.WHITE;
-		
+
 		case 'k':
 			return Color.DARK_GRAY;
 
