@@ -74,12 +74,8 @@ public class GameBoard extends JPanel {
 		for (char[] cs : map) {
 			x = (maxSize - super.getHeight())/2;
 			for (char c : cs) {
-				/*
-				g.setColor(this.getImage(c));
-				g.fillRect(x, y, deltaX, deltaY);
-				*/
+				
 				 g.drawImage(getImage(c), x, y, deltaX, deltaY, null);
-				// System.out.print(c);
 				x += deltaX;
 			}
 			// System.out.println("");
