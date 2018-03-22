@@ -35,7 +35,6 @@ public class Hero extends Character {
 		return key;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Hero [key=" + key + ", armed=" + armed + ", pos=" + Arrays.toString(pos) + "]";

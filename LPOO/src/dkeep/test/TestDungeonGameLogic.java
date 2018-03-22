@@ -24,7 +24,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroIntoFreeCell() {
 		Game level = new Game(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Guard(new int[] {1,3}, new char[0], 'G') ); 
+		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
 		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('s');
@@ -34,7 +34,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroIntoWall() {
 		Game level = new Game(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Guard(new int[] {1,3}, new char[0], 'G') ); 
+		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
 		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('w');
@@ -44,7 +44,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroIntoDoor() {
 		Game level = new Game(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Guard(new int[] {1,3}, new char[0], 'G') ); 
+		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
 		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('s');
@@ -55,7 +55,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroOpensDoor() {
 		Game level = new Game(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Guard(new int[] {1,3}, new char[0], 'G') ); 
+		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
 		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('s');
@@ -68,7 +68,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroMovesToStairs() {
 		Game level = new Game(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Guard(new int[] {1,3}, new char[0], 'G') ); 
+		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
 		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
 		level.movement('s');
 		level.movement('s');
@@ -80,7 +80,7 @@ public class TestDungeonGameLogic {
 	@Test
 	public void testMoveHeroIsCapturedByGuard() {
 		Game level = new Game(new Hero(new int[] {1,1}, 'H', false), map);
-		level.addEnemy(new Guard(new int[] {1,3}, new char[0], 'G') ); 
+		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
 		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}, 'k','S'));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('d');
