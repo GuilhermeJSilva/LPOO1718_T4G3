@@ -100,6 +100,7 @@ public class MainWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1*(1024-(256 + 32)), 1*(512));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[] { 256 };
 		gridBagLayout.columnWidths = new int[] { 192, 64 };
@@ -227,7 +228,7 @@ public class MainWindow {
 						break;
 					case "Rookie":
 						game.addEnemy(new Guard(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a',
-								'a', 'a', 'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }, 'G'));
+								'a', 'a', 'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
 						break;
 					case "Suspicious":
 						game.addEnemy(new Suspicious(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a',
