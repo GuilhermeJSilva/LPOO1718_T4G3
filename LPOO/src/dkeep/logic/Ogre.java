@@ -24,12 +24,12 @@ public class Ogre extends Enemy {
 		this.clubPos = clubPos;
 	}
 
-	public Ogre(int[] pos, char symbol, char club, char sSymbol) {
-		super(pos, symbol);
+	public Ogre(int[] pos) {
+		super(pos, 'O');
 		clubPos = new int[2];
 		this.swing();
-		this.club = club;
-		this.sSymbol = sSymbol;
+		this.club = '*';
+		this.sSymbol = '8';
 		this.stunnedTurns = 0;
 	}
 

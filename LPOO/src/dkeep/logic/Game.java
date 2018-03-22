@@ -143,7 +143,7 @@ public class Game {
 			map = map2;
 			this.getEnemy().clear();
 			for (int i = 0; i < numberOfOgres; i++)
-				this.getEnemy().add(new Ogre(new int[] { 1, 4 }, 'O', '*', '8'));
+				this.getEnemy().add(new Ogre(new int[] { 1, 4 }));
 			this.setLever(null);
 			this.setKey(new KeyDoor(new int[] { 1, 8 }, new int[][] { { 1, 0 } }, 'k', 'S'));
 			levelAvailable = false;

@@ -22,7 +22,7 @@ public class TestDungeonOgre {
 	@Test
 	public void testMoveHeroCapturedByOgre() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.addEnemy(new Ogre(new int[] { 1, 3 }));
 		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		assertTrue(Arrays.equals(new int[] { 1, 1 }, level.getHero().getPos()));
 		level.getHero().move('d', level.getMap());
@@ -33,7 +33,7 @@ public class TestDungeonOgre {
 	@Test
 	public void testMoveHeroPicksUpKey() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.addEnemy(new Ogre(new int[] { 1, 3 }));
 		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		level.getHero().move('s', level.getMap());
 		level.getHero().move('s', level.getMap());
@@ -44,7 +44,7 @@ public class TestDungeonOgre {
 	@Test
 	public void testMoveHeroRunsIntoDoor() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.addEnemy(new Ogre(new int[] { 1, 3 }));
 		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		level.getHero().move('s', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
@@ -58,7 +58,7 @@ public class TestDungeonOgre {
 	@Test
 	public void testMoveHeroOpensDoor() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.addEnemy(new Ogre(new int[] { 1, 3 }));
 		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		level.getHero().move('s', level.getMap());
 		level.getKey().pickKey(level.getHero(), level.getMap());
@@ -74,7 +74,7 @@ public class TestDungeonOgre {
 	@Test
 	public void testMoveHeroWins() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.addEnemy(new Ogre(new int[] { 1, 3 }));
 		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		level.getHero().move('s', level.getMap());
 		level.getHero().move('s', level.getMap());
@@ -89,7 +89,7 @@ public class TestDungeonOgre {
 	public void testMoveOgre() {
 
 		Game level = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map);
-		level.addEnemy(new Ogre(new int[] { 1, 3 }, 'O', '*', '8'));
+		level.addEnemy(new Ogre(new int[] { 1, 3 }));
 		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }, 'k', 'S'));
 		boolean up = false, down = false, left = false, right = false;
 		boolean upC = false, downC = false, leftC = false, rightC = false;

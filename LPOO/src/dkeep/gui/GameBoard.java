@@ -32,7 +32,10 @@ public class GameBoard extends JPanel {
 	Image rookie;       
 	Image suspicious;   
 	Image swordedHero;  
-	Image wall;         
+	Image wall;        
+	Image stairs;
+	Image herowithkey;
+
 
 	public GameBoard() throws IOException {
 		
@@ -48,7 +51,9 @@ public class GameBoard extends JPanel {
 		rookie = ImageIO.read(new File("images/rookie.png"));       
 		suspicious = ImageIO.read(new File("images/suspicious2.png"));   
 		swordedHero = ImageIO.read(new File("images/swordedhero.png"));  
-		wall = ImageIO.read(new File("images/wall.png"));         
+		wall = ImageIO.read(new File("images/wall.png"));    
+		stairs = ImageIO.read(new File("images/stairs.png"));  ;
+		herowithkey = ImageIO.read(new File("images/herowithkey.png"));  ;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -100,13 +105,13 @@ public class GameBoard extends JPanel {
 			return door;
 
 		case 'S':
-			return floor;
+			return stairs;
 
 		case 'H':
 			return hero;
 
 		case 'K':
-			return hero;
+			return herowithkey;
 
 		case 'A':
 			return swordedHero;
@@ -138,7 +143,13 @@ public class GameBoard extends JPanel {
 
 		case 'k':
 			return key;
-
+			
+		case '$':
+			return null;
+		
+		case '8':
+			return null;
+			
 		default:
 			return null;
 
