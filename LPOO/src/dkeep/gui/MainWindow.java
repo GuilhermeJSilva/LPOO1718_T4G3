@@ -23,6 +23,8 @@ import dkeep.logic.Guard;
 import dkeep.logic.Hero;
 import dkeep.logic.LeverDoor;
 import dkeep.logic.Suspicious;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MainWindow {
 
@@ -43,7 +45,7 @@ public class MainWindow {
 	private JLabel lblNewLabel_2;
 	private JComboBox<String> comboBox;
 	private JLabel gameInfo;
-	private JTextArea gameArea;
+	private GameBoard gameArea;
 	private JPanel rightSide;
 	private JButton newGameBt;
 	private JPanel controls;
@@ -81,11 +83,11 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(10, 10, 1024 - 128, 512);
+		frame.setBounds(10, 10, 1024, 512);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[] { 256 };
 		gridBagLayout.columnWidths = new int[] { 256, 64 };
-		gridBagLayout.columnWeights = new double[] { 8.0, 1.0 };
+		gridBagLayout.columnWeights = new double[] { 10.0, 1.0 };
 		gridBagLayout.rowWeights = new double[] { 1.0 };
 
 		frame.getContentPane().setLayout(gridBagLayout);
@@ -99,13 +101,12 @@ public class MainWindow {
 		frame.getContentPane().add(leftSide, gbc_leftSide);
 		GridBagLayout gbl_leftSide = new GridBagLayout();
 		gbl_leftSide.columnWeights = new double[] { 1.0 };
-		gbl_leftSide.rowWeights = new double[] { 1.0, 8.0, 0.5 };
+		gbl_leftSide.rowWeights = new double[] { 0.5, 12.0, 0.5 };
 		leftSide.setLayout(gbl_leftSide);
 
 		options = new JPanel();
 		GridBagConstraints gbc_options = new GridBagConstraints();
 		gbc_options.weighty = 1.0;
-		gbc_options.gridheight = 3;
 		gbc_options.insets = new Insets(0, 0, 0, 0);
 		gbc_options.fill = GridBagConstraints.BOTH;
 		gbc_options.gridx = 0;
@@ -126,7 +127,7 @@ public class MainWindow {
 		options.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
 		textField = new JTextField();
-		textField.setText("0");
+		textField.setText("1");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.weighty = 1.0;
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -164,17 +165,49 @@ public class MainWindow {
 		gbc_gameInfo.gridy = 16;
 		leftSide.add(gameInfo, gbc_gameInfo);
 
-		gameArea = new JTextArea();
-		gameArea.setEditable(false);
+		gameArea = new GameBoard();
+		gameArea.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (KeyEvent.VK_UP == arg0.getKeyCode()) {
+					if (game == null)
+						return;
+					game.movement('w');
+
+					updateScreen();
+				}
+				if (KeyEvent.VK_DOWN == arg0.getKeyCode()) {
+					if (game == null)
+						return;
+					game.movement('s');
+
+					updateScreen();
+				}
+				if (KeyEvent.VK_LEFT == arg0.getKeyCode()) {
+					if (game == null)
+						return;
+					game.movement('a');
+
+					updateScreen();
+				}
+				if (KeyEvent.VK_RIGHT == arg0.getKeyCode()) {
+					if (game == null)
+						return;
+					game.movement('d');
+
+					updateScreen();
+				}
+			}
+		});
 		gameArea.setFont(new Font("Consolas", Font.PLAIN, 12));
 		GridBagConstraints gbc_gameArea = new GridBagConstraints();
 		gbc_gameArea.weighty = 40.0;
 		gbc_gameArea.weightx = 1.0;
-		gbc_gameArea.gridheight = 13;
+		gbc_gameArea.gridheight = 15;
 		gbc_gameArea.insets = new Insets(0, 0, 5, 0);
 		gbc_gameArea.fill = GridBagConstraints.BOTH;
 		gbc_gameArea.gridx = 0;
-		gbc_gameArea.gridy = 3;
+		gbc_gameArea.gridy = 1;
 		leftSide.add(gameArea, gbc_gameArea);
 
 		rightSide = new JPanel();
@@ -239,6 +272,7 @@ public class MainWindow {
 					downBt.setEnabled(true);
 					leftBt.setEnabled(true);
 					rightBt.setEnabled(true);
+					gameArea.requestFocusInWindow();
 
 				}
 
@@ -274,6 +308,7 @@ public class MainWindow {
 				game.movement('w');
 
 				updateScreen();
+				gameArea.requestFocusInWindow();
 			}
 		});
 		GridBagConstraints gbc_upBt = new GridBagConstraints();
@@ -296,6 +331,7 @@ public class MainWindow {
 				game.movement('a');
 
 				updateScreen();
+				gameArea.requestFocusInWindow();
 			}
 		});
 		GridBagConstraints gbc_leftBt = new GridBagConstraints();
@@ -317,6 +353,7 @@ public class MainWindow {
 				game.movement('d');
 
 				updateScreen();
+				gameArea.requestFocusInWindow();
 			}
 		});
 		GridBagConstraints gbc_rightBt = new GridBagConstraints();
@@ -338,6 +375,7 @@ public class MainWindow {
 				game.movement('s');
 
 				updateScreen();
+				gameArea.requestFocusInWindow();
 			}
 		});
 		GridBagConstraints gbc_downBt = new GridBagConstraints();
@@ -363,17 +401,8 @@ public class MainWindow {
 
 	public void updateScreen() {
 		char[][] gameText = game.getMapWCharacter();
-		String fText = new String();
-
-		for (char[] cs : gameText) {
-			for (char c : cs) {
-				fText += c;
-				fText += " ";
-			}
-			fText += '\n';
-		}
-
-		gameArea.setText(fText);
+		gameArea.setMap(gameText);
+		gameArea.repaint();
 
 		if (game != null)
 			switch (game.endLevel()) {
@@ -407,5 +436,6 @@ public class MainWindow {
 			default:
 				break;
 			}
+		gameArea.requestFocusInWindow();
 	}
 }
