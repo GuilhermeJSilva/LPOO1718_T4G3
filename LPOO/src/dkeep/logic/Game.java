@@ -15,20 +15,17 @@ public class Game {
 	private LeverDoor lever;
 	private KeyDoor key;
 	private char map[][];
-	private boolean levelAvailable;
-
+	
 	public Game(Hero hero, char map[][]) {
 		this.hero = hero;
 		this.map = deepCopyCharMatrix(map);
 		enemy = new ArrayList<Enemy>();
 		key = null;
 		lever = null;
-		levelAvailable = true;
 	}
 
 	public Game() {
 		enemy = new ArrayList<Enemy>();
-		levelAvailable = true;
 		levels.add("lvl1.txt");
 		levels.add("lvl2.txt");
 	}
