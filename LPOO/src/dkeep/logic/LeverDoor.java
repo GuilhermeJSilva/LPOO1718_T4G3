@@ -6,12 +6,12 @@ public class LeverDoor {
 	private char symbol;
 	private char openSymbol;
 	
-	public LeverDoor(int[] pos, int[][] is, char symbol, char openSymbol) {
+	public LeverDoor(int[] pos, int[][] is) {
 		super();
 		this.pos = pos;
 		this.doors = is;
-		this.symbol = symbol;
-		this.openSymbol =openSymbol;
+		this.symbol = 'k';
+		this.openSymbol ='S';
 	}
 	
 	public int[] getPos() {

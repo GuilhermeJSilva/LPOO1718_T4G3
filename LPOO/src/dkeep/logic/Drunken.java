@@ -40,7 +40,14 @@ public class Drunken extends Guard {
 
 		if (sleep == 1 && newSleep == 0) {
 			sleep = 0;
+			int oldBackwards = this.backwards;
 			this.backwards = generator.nextInt(2);
+			if (oldBackwards != this.backwards) {
+				if (this.backwards == 1)
+					this.setCounter((this.getCounter() - 1 + this.getPath().length) % this.getPath().length);
+				else
+					this.setCounter((this.getCounter() + 1) % this.getPath().length);
+			}
 		}
 
 		char command = this.getPath()[this.getCounter()];

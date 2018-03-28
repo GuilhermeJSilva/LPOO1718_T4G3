@@ -7,11 +7,11 @@ public class KeyDoor {
 	private char openSymbol;
 	private boolean picked;
 	
-	public KeyDoor(int[] pos, int[][] is, char symbol, char openSymbol) {
+	public KeyDoor(int[] pos, int[][] is) {
 		this.pos = pos;
 		this.doors = is;
-		this.symbol = symbol;
-		this.openSymbol = openSymbol;
+		this.symbol = 'k';
+		this.openSymbol = 'S';
 		this.picked = false;
 	}
 	

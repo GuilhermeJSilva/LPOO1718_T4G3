@@ -21,22 +21,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import dkeep.logic.Drunken;
 import dkeep.logic.Game;
-import dkeep.logic.Guard;
-import dkeep.logic.Hero;
-import dkeep.logic.LeverDoor;
-import dkeep.logic.Suspicious;
 
 public class MainWindow {
-
-	private static char[][] map1 = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-			{ 'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' },
-			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, };
-
+	
 	private JFrame frame;
 	private JTextField textField;
 	private Game game;
@@ -155,29 +143,35 @@ public class MainWindow {
 						return;
 					game.movement('w');
 
-					updateScreen();
 				}
 				if (KeyEvent.VK_S == arg0.getKeyCode()) {
 					if (game == null)
 						return;
 					game.movement('s');
 
-					updateScreen();
 				}
 				if (KeyEvent.VK_A == arg0.getKeyCode()) {
 					if (game == null)
 						return;
 					game.movement('a');
 
-					updateScreen();
 				}
 				if (KeyEvent.VK_D == arg0.getKeyCode()) {
 					if (game == null)
 						return;
 					game.movement('d');
 
-					updateScreen();
 				}
+				
+				try {
+					updateScreen();
+				} catch (NumberFormatException e1) {
+
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				gameArea.requestFocusInWindow();
 			}
 		});
 		gameArea.setFont(new Font("Consolas", Font.PLAIN, 12));
@@ -208,9 +202,9 @@ public class MainWindow {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (newGameBt.isEnabled()) {
-
+					int nOgres = 1;
 					try {
-						int nOgres = Integer.parseInt(textField.getText());
+						nOgres = Integer.parseInt(textField.getText());
 						if (nOgres <= 0 || nOgres > 5) {
 							gameInfo.setText("Invalid Number of ogres");
 							return;
@@ -222,28 +216,25 @@ public class MainWindow {
 					}
 
 					gameInfo.setText("Playing");
-					game = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map1);
+				
+					game = new Game();
 					gameArea.setGuardType((String) comboBox.getSelectedItem());
-					switch ((String) comboBox.getSelectedItem()) {
-					case "Drunken":
-						game.addEnemy(new Drunken(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a',
-								'a', 'a', 'a', 'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
-						break;
-					case "Rookie":
-						game.addEnemy(new Guard(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a',
-								'a', 'a', 'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
-						break;
-					case "Suspicious":
-						game.addEnemy(new Suspicious(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a',
-								'a', 'a', 'a', 'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
-						break;
-					default:
-						break;
+					try {
+						game.nextLevel(nOgres, (String) comboBox.getSelectedItem());
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
+					try {
+						updateScreen();
+					} catch (NumberFormatException e1) {
 
-					game.setLever(new LeverDoor(new int[] { 8, 7 }, new int[][] { { 5, 0 }, { 6, 0 } }, 'k', 'S'));
-
-					updateScreen();
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					gameArea.requestFocusInWindow();
 					enableChanges(false);
 
 				}
@@ -299,7 +290,15 @@ public class MainWindow {
 					return;
 				game.movement('w');
 
-				updateScreen();
+				try {
+					updateScreen();
+				} catch (NumberFormatException e1) {
+
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				gameArea.requestFocusInWindow();
 
 			}
 		});
@@ -324,7 +323,14 @@ public class MainWindow {
 					return;
 				game.movement('a');
 
-				updateScreen();
+				try {
+					updateScreen();
+				} catch (NumberFormatException e1) {
+
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				gameArea.requestFocusInWindow();
 			}
 		});
@@ -348,7 +354,14 @@ public class MainWindow {
 					return;
 				game.movement('d');
 
-				updateScreen();
+				try {
+					updateScreen();
+				} catch (NumberFormatException e1) {
+
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				gameArea.requestFocusInWindow();
 			}
 		});
@@ -372,7 +385,14 @@ public class MainWindow {
 					return;
 				game.movement('s');
 
-				updateScreen();
+				try {
+					updateScreen();
+				} catch (NumberFormatException e1) {
+
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				gameArea.requestFocusInWindow();
 			}
 		});
@@ -554,7 +574,7 @@ public class MainWindow {
 		rightSide.add(quitBt, gbc_quitBt);
 	}
 
-	public void updateScreen() {
+	public void updateScreen() throws NumberFormatException, IOException {
 		char[][] gameText = game.getMapWCharacter();
 		gameArea.setMap(gameText);
 		gameArea.repaint();
@@ -562,7 +582,7 @@ public class MainWindow {
 		if (game != null)
 			switch (game.endLevel()) {
 			case 0:
-				if (!game.nextLevel(Integer.parseInt(textField.getText()))) {
+				if (!game.nextLevel(Integer.parseInt(textField.getText()), (String) comboBox.getSelectedItem())) {
 					gameInfo.setText("YOU WIN");
 					game = null;
 					enableChanges(true);
@@ -598,6 +618,7 @@ public class MainWindow {
 		
 		btnNewLevel.setEnabled(value);
 		txtLevelN.setEnabled(value);
+		txtFileName.setEnabled(value);
 		
 		upBt.setEnabled(!value);
 		downBt.setEnabled(!value);

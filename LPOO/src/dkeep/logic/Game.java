@@ -1,9 +1,15 @@
 package dkeep.logic;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Game {
 
+	private ArrayList<String> levels = new ArrayList<String>();
+	private int curr_level = 0;
 	private ArrayList<Enemy> enemy;
 	private Hero hero;
 	private LeverDoor lever;
@@ -18,8 +24,13 @@ public class Game {
 		key = null;
 		lever = null;
 		levelAvailable = true;
+	}
 
-		
+	public Game() {
+		enemy = new ArrayList<Enemy>();
+		levelAvailable = true;
+		levels.add("lvl1.txt");
+		levels.add("lvl2.txt");
 	}
 
 	public void addEnemy(Guard guard) {
@@ -126,30 +137,162 @@ public class Game {
 		return result;
 	}
 
-	public boolean nextLevel(int numberOfOgres) {
-		if (levelAvailable) {
-			char[][] map2 = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-					{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-					{ 'X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-					{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, };
-
-			hero = new Hero(new int[] { 8, 1 }, 'H', true);
-			map = map2;
-			this.getEnemy().clear();
-			for (int i = 0; i < numberOfOgres; i++)
-				this.getEnemy().add(new Ogre(new int[] { 1, 4 }));
-			this.setLever(null);
-			this.setKey(new KeyDoor(new int[] { 1, 8 }, new int[][] { { 1, 0 } }, 'k', 'S'));
-			levelAvailable = false;
+	public boolean nextLevel(int numberOfOgres, String guardType) throws IOException {
+		if (curr_level < levels.size()) {
+			this.readLevel(levels.get(curr_level),numberOfOgres, guardType);
+			curr_level++;
 			return true;
 		}
 		return false;
+	}
+
+	public void readLevel(String fileName, int numberOfOgres, String guardType) throws IOException {
+		Scanner sc = new Scanner(new File(fileName));
+		try {
+			this.enemy.clear();
+			String line = new String();
+			this.map = readMap(sc, line);
+
+			readCharacters(numberOfOgres, guardType, sc);
+
+		} finally {
+			sc.close();
+		}
+
+	}
+
+	protected void readCharacters(int numberOfOgres, String guardType, Scanner sc) {
+		String line;
+
+		while (sc.hasNextLine()) {
+			line = sc.nextLine();
+			String charInfo = sc.nextLine();
+			switch (line) {
+			case "Ogre":
+				readOgre(numberOfOgres, charInfo);
+				break;
+			case "Key":
+			case "Lever":
+				readKeyOrLever(line, charInfo);
+				break;
+
+			case "Guard":
+				readGuard(guardType, charInfo);
+				break;
+
+			case "Hero":
+				readHero(charInfo);
+				break;
+
+			default:
+				break;
+			}
+
+		}
+	}
+
+	protected void readKeyOrLever(String line, String charInfo) {
+		Scanner keyScanner = new Scanner(charInfo);
+		int keyPos[] = new int[2];
+		if (keyScanner.hasNextInt())
+			keyPos[0] = keyScanner.nextInt();
+		if (keyScanner.hasNextInt())
+			keyPos[1] = keyScanner.nextInt();
+
+		ArrayList<int[]> doors = new ArrayList<int[]>();
+		while (keyScanner.hasNextInt()) {
+			int door[] = new int[2];
+			if (keyScanner.hasNextInt()) {
+				door[0] = keyScanner.nextInt();
+				if (keyScanner.hasNextInt()) {
+					door[1] = keyScanner.nextInt();
+					doors.add(door);
+				}
+			}
+		}
+
+		int aDoors[][] = new int[doors.size()][2];
+		aDoors = doors.toArray(aDoors);
+		//System.out.println(Arrays.toString(line.toCharArray()));
+		if(line.equals("Lever")) {
+			this.lever = new LeverDoor(keyPos, aDoors);
+			this.key = null;
+		}
+		else {
+			this.key = new KeyDoor(keyPos, aDoors);
+			this.lever = null;
+		}
+		keyScanner.close();
+	}
+
+	protected void readHero(String charInfo) {
+		Scanner heroScanner = new Scanner(charInfo);
+		int heroPos[] = new int[2];
+		int armed = 0;
+		if (heroScanner.hasNextInt())
+			heroPos[0] = heroScanner.nextInt();
+		if (heroScanner.hasNextInt())
+			heroPos[1] = heroScanner.nextInt();
+		if (heroScanner.hasNextInt())
+			armed = heroScanner.nextInt();
+		this.hero = new Hero(heroPos, armed == 1);
+		heroScanner.close();
+	}
+
+	protected void readGuard(String guardType, String charInfo) {
+		Scanner guardScanner = new Scanner(charInfo);
+		char path[] = new char[0];
+		int guardPos[] = new int[2];
+		if (guardScanner.hasNextInt())
+			guardPos[0] = guardScanner.nextInt();
+		if (guardScanner.hasNextInt())
+			guardPos[1] = guardScanner.nextInt();
+		if (guardScanner.hasNext())
+			path = guardScanner.nextLine().toCharArray();
+		switch (guardType) {
+		case "Rookie":
+			//System.out.println(guardType);
+			this.addEnemy(new Guard(guardPos, Arrays.copyOfRange(path, 1, path.length)));
+			break;
+		case "Drunken":
+			//System.out.println(guardType);
+			this.addEnemy(new Drunken(guardPos,  Arrays.copyOfRange(path, 1, path.length)));
+			break;
+		case "Suspicious":
+			//System.out.println(guardType);
+			this.addEnemy(new Suspicious(guardPos,  Arrays.copyOfRange(path, 1, path.length)));
+			break;
+		}
+		guardScanner.close();
+	}
+
+	protected void readOgre(int numberOfOgres, String charInfo) {
+		Scanner ogreScanner = new Scanner(charInfo);
+		int ogrePos[] = new int[2];
+		if (ogreScanner.hasNextInt())
+			ogrePos[0] = ogreScanner.nextInt();
+		if (ogreScanner.hasNextInt())
+			ogrePos[1] = ogreScanner.nextInt();
+		for (int i = 0; i < numberOfOgres; i++)
+			this.enemy.add(new Ogre(ogrePos.clone()));
+		ogreScanner.close();
+	}
+
+	protected char[][] readMap(Scanner sc, String line) {
+		int x, y;
+		x = sc.nextInt();
+		//System.out.println(x);
+		y = sc.nextInt();
+		//System.out.println(y);
+		if (sc.hasNext())
+			line = sc.nextLine();
+		char map[][] = new char[x][y];
+		for (int i = 0; i < x; i++) {
+			if (sc.hasNext())
+				line = sc.nextLine();
+			map[i] = line.toCharArray();
+		}
+		return map;
 	}
 
 }

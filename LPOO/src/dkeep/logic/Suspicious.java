@@ -18,7 +18,14 @@ public class Suspicious extends Guard {
 	@Override
 	public void move(char[][] map) {
 		Random generator = new Random();	
+		int oldBackwards = this.backwards;
 		this.backwards = generator.nextInt(2);
+		if(oldBackwards != this.backwards) {
+			if(this.backwards == 1)
+				this.setCounter((this.getCounter() - 1 + this.getPath().length) % this.getPath().length);
+			else 
+				this.setCounter((this.getCounter() + 1) % this.getPath().length);
+		}
 
 		char command = this.getPath()[this.getCounter()];
 		if(backwards == 1)

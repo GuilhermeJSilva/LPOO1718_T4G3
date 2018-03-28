@@ -1,0 +1,17 @@
+10 10
+XXXXXXXXXX
+I        X
+X        X
+X        X
+X        X
+X        X
+X        X
+X        X
+X        X
+XXXXXXXXXX
+Hero
+8 1 1
+Ogre
+1 4
+Key
+1 8 1 0

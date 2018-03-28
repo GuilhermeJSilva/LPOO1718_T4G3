@@ -26,8 +26,8 @@ public class Hero extends Character {
 		this.armed = armed;
 	}
 
-	public Hero(int[] pos, char symbol, boolean armed) {
-		super(pos, symbol);
+	public Hero(int[] pos, boolean armed) {
+		super(pos, 'H');
 		this.armed = armed;
 	}
 

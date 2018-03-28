@@ -1,0 +1,17 @@
+10 10
+XXXXXXXXXX
+X   I X  X
+XXX XXX  X
+X I I X  X
+XXX XXX  X
+I        X
+I        X
+XXX XXXX X
+X I I X  X
+XXXXXXXXXX
+Hero
+1 1 0
+Guard
+1 8 assssaaaaaasdddddddwwwww
+Lever
+8 7 5 0 6 0

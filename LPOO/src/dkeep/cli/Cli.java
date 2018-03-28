@@ -1,46 +1,20 @@
 package dkeep.cli;
 
+import java.io.IOException;
 import java.util.Scanner;
 
-import dkeep.logic.Drunken;
 import dkeep.logic.Game;
-import dkeep.logic.Guard;
-import dkeep.logic.Hero;
-import dkeep.logic.LeverDoor;
-import dkeep.logic.Suspicious;
 
 public class Cli {
-	private static char[][] map1 = new char[][] { { 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' },
-			{ 'X', ' ', ' ', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-			{ 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' }, { 'X', 'X', 'X', ' ', 'X', 'X', 'X', ' ', ' ', 'X' },
-			{ 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' }, { 'I', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X' },
-			{ 'X', 'X', 'X', ' ', 'X', 'X', 'X', 'X', ' ', 'X' }, { 'X', ' ', 'I', ' ', 'I', ' ', 'X', ' ', ' ', 'X' },
-			{ 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X', 'X' }, };
 
-	public static void main(String[] args) {
-		Game game = new Game(new Hero(new int[] { 1, 1 }, 'H', false), map1);
-		switch ("Rookie") {
-		case "Drunken":
-			game.addEnemy(new Drunken(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
-					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
-			break;
-		case "Rookie":
-			game.addEnemy(new Guard(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
-					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
-			break;
-		case "Suspicious":
-			game.addEnemy(new Suspicious(new int[] { 1, 8 }, new char[] { 'a', 's', 's', 's', 's', 'a', 'a', 'a', 'a', 'a',
-					'a', 's', 'd', 'd', 'd', 'd', 'd', 'd', 'd', 'w', 'w', 'w', 'w', 'w' }));
-			break;
-		default:
-			break;
-		}
-
-		game.setLever(new LeverDoor(new int[] { 8, 7 }, new int[][] { { 5, 0 }, { 6, 0 } }, 'k', 'S'));
+	public static void main(String[] args) throws IOException {
+		Game game = new Game();
+		//game.readLevel("lvl1.txt", 1, "Rookie");
+		game.nextLevel(1, "Rookie");
 		mainLoop(game);
 	}
 
-	private static void mainLoop(Game g) {
+	private static void mainLoop(Game g) throws IOException {
 		while (true) {
 			while (g.endLevel() == 1) {
 				printChar(g.getMapWCharacter());
@@ -52,7 +26,7 @@ public class Cli {
 				System.out.println("Defeat");
 				return;
 			}
-			if (!g.nextLevel(1))
+			if (!g.nextLevel(1, "Rookie"))
 				return;
 		}
 	}
