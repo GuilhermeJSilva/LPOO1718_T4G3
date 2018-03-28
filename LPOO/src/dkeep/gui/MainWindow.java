@@ -24,7 +24,7 @@ import javax.swing.SwingConstants;
 import dkeep.logic.Game;
 
 public class MainWindow {
-	
+
 	private JFrame frame;
 	private JTextField textField;
 	private Game game;
@@ -78,7 +78,8 @@ public class MainWindow {
 
 	/**
 	 * Create the application.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	public MainWindow() throws IOException {
 		initialize();
@@ -86,12 +87,13 @@ public class MainWindow {
 
 	/**
 	 * Initialize the contents of the frame.
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	private void initialize() throws IOException {
 		frame = new JFrame();
-		frame.setBounds(10, 10, 1*(1024-(256 + 32)), 1*(512));
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		frame.setBounds(10, 10, 1 * (1024 - (256 + 32)), 1 * (512));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[] { 256 };
 		gridBagLayout.columnWidths = new int[] { 192, 64 };
@@ -162,7 +164,7 @@ public class MainWindow {
 					game.movement('d');
 
 				}
-				
+
 				try {
 					updateScreen();
 				} catch (NumberFormatException e1) {
@@ -216,14 +218,17 @@ public class MainWindow {
 					}
 
 					gameInfo.setText("Playing");
-				
-					game = new Game();
+
+					try {
+						game = new Game();
+					} catch (IOException e2) {
+						e2.printStackTrace();
+						System.exit(-1);
+					}
 					gameArea.setGuardType((String) comboBox.getSelectedItem());
 					try {
 						game.nextLevel(nOgres, (String) comboBox.getSelectedItem());
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
 						e.printStackTrace();
 					}
 					try {
@@ -422,7 +427,7 @@ public class MainWindow {
 		textField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(!textField.isEnabled() || !textField.isEditable())
+				if (!textField.isEnabled() || !textField.isEditable())
 					gameArea.requestFocusInWindow();
 				else
 					super.mouseClicked(e);
@@ -448,7 +453,7 @@ public class MainWindow {
 		comboBox.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(!textField.isEnabled())
+				if (!textField.isEnabled())
 					gameArea.requestFocusInWindow();
 				else
 					super.mouseClicked(e);
@@ -459,14 +464,14 @@ public class MainWindow {
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 1;
 		settings_panel.add(comboBox, gbc_comboBox);
-		
+
 		editing = new JPanel();
 		tabbedPane.addTab("Editing", null, editing, null);
 		GridBagLayout gbl_editing = new GridBagLayout();
-		gbl_editing.columnWeights = new double[]{0.0, 1.0};
-		gbl_editing.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_editing.columnWeights = new double[] { 0.0, 1.0 };
+		gbl_editing.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		editing.setLayout(gbl_editing);
-		
+
 		btnStartEdit = new JButton("Start Edit");
 		GridBagConstraints gbc_btnStartEdit = new GridBagConstraints();
 		gbc_btnStartEdit.gridwidth = 2;
@@ -474,7 +479,7 @@ public class MainWindow {
 		gbc_btnStartEdit.gridx = 0;
 		gbc_btnStartEdit.gridy = 0;
 		editing.add(btnStartEdit, gbc_btnStartEdit);
-		
+
 		btnNxtLevel = new JButton("Next Level");
 		GridBagConstraints gbc_btnNxtLevel = new GridBagConstraints();
 		gbc_btnNxtLevel.gridwidth = 2;
@@ -482,7 +487,7 @@ public class MainWindow {
 		gbc_btnNxtLevel.gridx = 0;
 		gbc_btnNxtLevel.gridy = 1;
 		editing.add(btnNxtLevel, gbc_btnNxtLevel);
-		
+
 		btnNewLevel = new JButton("New Level");
 		GridBagConstraints gbc_btnNewLevel = new GridBagConstraints();
 		gbc_btnNewLevel.gridheight = 2;
@@ -490,7 +495,7 @@ public class MainWindow {
 		gbc_btnNewLevel.gridx = 0;
 		gbc_btnNewLevel.gridy = 2;
 		editing.add(btnNewLevel, gbc_btnNewLevel);
-		
+
 		txtLevelN = new JTextField();
 		txtLevelN.setText("Level n\u00BA");
 		GridBagConstraints gbc_txtLevelN = new GridBagConstraints();
@@ -500,7 +505,7 @@ public class MainWindow {
 		gbc_txtLevelN.gridy = 2;
 		editing.add(txtLevelN, gbc_txtLevelN);
 		txtLevelN.setColumns(10);
-		
+
 		txtFileName = new JTextField();
 		txtFileName.setText("File Name");
 		GridBagConstraints gbc_txtFileName = new GridBagConstraints();
@@ -510,7 +515,7 @@ public class MainWindow {
 		gbc_txtFileName.gridy = 3;
 		editing.add(txtFileName, gbc_txtFileName);
 		txtFileName.setColumns(10);
-		
+
 		chckbxEdit = new JRadioButton("Edit");
 		GridBagConstraints gbc_chckbxEdit = new GridBagConstraints();
 		gbc_chckbxEdit.gridwidth = 2;
@@ -518,14 +523,14 @@ public class MainWindow {
 		gbc_chckbxEdit.gridx = 0;
 		gbc_chckbxEdit.gridy = 4;
 		editing.add(chckbxEdit, gbc_chckbxEdit);
-		
+
 		tileChoser = new JLabel("Tile");
 		GridBagConstraints gbc_tileChoser = new GridBagConstraints();
 		gbc_tileChoser.insets = new Insets(0, 0, 5, 5);
 		gbc_tileChoser.gridx = 0;
 		gbc_tileChoser.gridy = 5;
 		editing.add(tileChoser, gbc_tileChoser);
-		
+
 		tileChoser_CB = new JComboBox<String>();
 		GridBagConstraints gbc_tileChoser_CB = new GridBagConstraints();
 		gbc_tileChoser_CB.insets = new Insets(0, 0, 5, 0);
@@ -533,7 +538,7 @@ public class MainWindow {
 		gbc_tileChoser_CB.gridx = 1;
 		gbc_tileChoser_CB.gridy = 5;
 		editing.add(tileChoser_CB, gbc_tileChoser_CB);
-		
+
 		rdbtnSelect = new JRadioButton("Select");
 		GridBagConstraints gbc_rdbtnSelect = new GridBagConstraints();
 		gbc_rdbtnSelect.gridwidth = 2;
@@ -541,7 +546,7 @@ public class MainWindow {
 		gbc_rdbtnSelect.gridx = 0;
 		gbc_rdbtnSelect.gridy = 6;
 		editing.add(rdbtnSelect, gbc_rdbtnSelect);
-		
+
 		guardPath = new JLabel("Path");
 		guardPath.setToolTipText("");
 		GridBagConstraints gbc_guardPath = new GridBagConstraints();
@@ -549,7 +554,7 @@ public class MainWindow {
 		gbc_guardPath.gridx = 0;
 		gbc_guardPath.gridy = 7;
 		editing.add(guardPath, gbc_guardPath);
-		
+
 		textField_Path = new JTextField();
 		GridBagConstraints gbc_textField_Path = new GridBagConstraints();
 		gbc_textField_Path.insets = new Insets(0, 0, 5, 0);
@@ -558,7 +563,7 @@ public class MainWindow {
 		gbc_textField_Path.gridy = 7;
 		editing.add(textField_Path, gbc_textField_Path);
 		textField_Path.setColumns(10);
-		
+
 		btnSaveLevel = new JButton("Save Level");
 		GridBagConstraints gbc_btnSaveLevel = new GridBagConstraints();
 		gbc_btnSaveLevel.gridwidth = 2;
@@ -606,7 +611,7 @@ public class MainWindow {
 		newGameBt.setEnabled(value);
 		textField.setEditable(value);
 		comboBox.setEnabled(value);
-			
+
 		tileChoser.setEnabled(value);
 		tileChoser_CB.setEnabled(value);
 		guardPath.setEnabled(value);
@@ -615,15 +620,15 @@ public class MainWindow {
 		rdbtnSelect.setEnabled(value);
 		btnStartEdit.setEnabled(value);
 		btnNxtLevel.setEnabled(value);
-		
+
 		btnNewLevel.setEnabled(value);
 		txtLevelN.setEnabled(value);
 		txtFileName.setEnabled(value);
-		
+
 		upBt.setEnabled(!value);
 		downBt.setEnabled(!value);
 		leftBt.setEnabled(!value);
 		rightBt.setEnabled(!value);
 	}
-	
+
 }

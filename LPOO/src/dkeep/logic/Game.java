@@ -1,7 +1,12 @@
 package dkeep.logic;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -15,7 +20,7 @@ public class Game {
 	private LeverDoor lever;
 	private KeyDoor key;
 	private char map[][];
-	
+
 	public Game(Hero hero, char map[][]) {
 		this.hero = hero;
 		this.map = deepCopyCharMatrix(map);
@@ -24,10 +29,10 @@ public class Game {
 		lever = null;
 	}
 
-	public Game() {
+	public Game() throws IOException {
 		enemy = new ArrayList<Enemy>();
-		levels.add("lvl1.txt");
-		levels.add("lvl2.txt");
+		this.readLevelNames();
+
 	}
 
 	public void addEnemy(Guard guard) {
@@ -134,9 +139,15 @@ public class Game {
 		return result;
 	}
 
-	public boolean nextLevel(int numberOfOgres, String guardType) throws IOException {
+	public boolean nextLevel(int numberOfOgres, String guardType) {
 		if (curr_level < levels.size()) {
-			this.readLevel(levels.get(curr_level),numberOfOgres, guardType);
+			try {
+				this.readLevel(levels.get(curr_level), numberOfOgres, guardType);
+			} catch (IOException e) {
+				System.out.println("File " + levels.get(curr_level) + " passing to the next level.");
+				curr_level++;
+				return this.nextLevel(numberOfOgres, guardType);
+			}
 			curr_level++;
 			return true;
 		}
@@ -210,12 +221,11 @@ public class Game {
 
 		int aDoors[][] = new int[doors.size()][2];
 		aDoors = doors.toArray(aDoors);
-		//System.out.println(Arrays.toString(line.toCharArray()));
-		if(line.equals("Lever")) {
+		// System.out.println(Arrays.toString(line.toCharArray()));
+		if (line.equals("Lever")) {
 			this.lever = new LeverDoor(keyPos, aDoors);
 			this.key = null;
-		}
-		else {
+		} else {
 			this.key = new KeyDoor(keyPos, aDoors);
 			this.lever = null;
 		}
@@ -248,16 +258,16 @@ public class Game {
 			path = guardScanner.nextLine().toCharArray();
 		switch (guardType) {
 		case "Rookie":
-			//System.out.println(guardType);
+			// System.out.println(guardType);
 			this.addEnemy(new Guard(guardPos, Arrays.copyOfRange(path, 1, path.length)));
 			break;
 		case "Drunken":
-			//System.out.println(guardType);
-			this.addEnemy(new Drunken(guardPos,  Arrays.copyOfRange(path, 1, path.length)));
+			// System.out.println(guardType);
+			this.addEnemy(new Drunken(guardPos, Arrays.copyOfRange(path, 1, path.length)));
 			break;
 		case "Suspicious":
-			//System.out.println(guardType);
-			this.addEnemy(new Suspicious(guardPos,  Arrays.copyOfRange(path, 1, path.length)));
+			// System.out.println(guardType);
+			this.addEnemy(new Suspicious(guardPos, Arrays.copyOfRange(path, 1, path.length)));
 			break;
 		}
 		guardScanner.close();
@@ -278,9 +288,9 @@ public class Game {
 	protected char[][] readMap(Scanner sc, String line) {
 		int x, y;
 		x = sc.nextInt();
-		//System.out.println(x);
+		// System.out.println(x);
 		y = sc.nextInt();
-		//System.out.println(y);
+		// System.out.println(y);
 		if (sc.hasNext())
 			line = sc.nextLine();
 		char map[][] = new char[x][y];
@@ -292,4 +302,26 @@ public class Game {
 		return map;
 	}
 
+	protected void readLevelNames() throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader("levels.txt"));
+		try {
+		    String line = br.readLine();
+
+		    while (line != null) {
+		        this.levels.add(line);
+		        line = br.readLine();
+		    }
+		} finally {
+		    br.close();
+		}
+	}
+	
+	public void saveLevelFiles() throws FileNotFoundException, UnsupportedEncodingException {
+		PrintWriter writer = new PrintWriter("levels.txt", "UTF-8");
+		for (String file : levels) {
+			writer.println(file);
+		}
+		writer.close();
+		
+	}
 }
