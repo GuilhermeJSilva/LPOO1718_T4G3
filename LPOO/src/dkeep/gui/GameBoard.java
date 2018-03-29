@@ -15,7 +15,7 @@ public class GameBoard extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private char[][] map;
-	private String guardType;
+	private String guardType = "";
 
 	public void setGuardType(String guardType) {
 		this.guardType = guardType;
@@ -37,7 +37,7 @@ public class GameBoard extends JPanel {
 	Image herowithkey;
 
 	public GameBoard() throws IOException {
-
+		super();
 		map = null;
 		door = ImageIO.read(new File("images/door.png"));
 		drukenawake = ImageIO.read(new File("images/drunkenawake.png"));
@@ -52,9 +52,8 @@ public class GameBoard extends JPanel {
 		swordedHero = ImageIO.read(new File("images/swordedhero.png"));
 		wall = ImageIO.read(new File("images/wall.png"));
 		stairs = ImageIO.read(new File("images/stairs.png"));
-		;
 		herowithkey = ImageIO.read(new File("images/herowithkey.png"));
-		;
+		
 	}
 
 	public void paintComponent(Graphics g) {

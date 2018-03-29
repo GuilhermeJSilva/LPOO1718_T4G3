@@ -9,18 +9,20 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import dkeep.editor.Editor;
 import dkeep.logic.Game;
 
 public class MainWindow {
@@ -28,6 +30,7 @@ public class MainWindow {
 	private JFrame frame;
 	private JTextField textField;
 	private Game game;
+	private Editor editor = null;
 
 	private JPanel options;
 	private JPanel leftSide;
@@ -51,14 +54,15 @@ public class MainWindow {
 	private JComboBox<String> tileChoser_CB;
 	private JLabel guardPath;
 	private JTextField textField_Path;
-	private JRadioButton chckbxEdit;
-	private JRadioButton rdbtnSelect;
 	private JButton btnStartEdit;
 	private JButton btnNxtLevel;
 	private JButton btnNewLevel;
 	private JTextField txtLevelN;
 	private JButton btnSaveLevel;
 	private JTextField txtFileName;
+	private JLabel lblInfo;
+	private JLabel lblKeyToOpen;
+	private JComboBox keysCB;
 
 	/**
 	 * Launch the application.
@@ -93,10 +97,8 @@ public class MainWindow {
 	private void initialize() throws IOException {
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1 * (1024 - (256 + 32)), 1 * (512));
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.rowHeights = new int[] { 256 };
-		gridBagLayout.columnWidths = new int[] { 192, 64 };
 		gridBagLayout.columnWeights = new double[] { 10.0, 1.0 };
 		gridBagLayout.rowWeights = new double[] { 1.0 };
 
@@ -212,7 +214,7 @@ public class MainWindow {
 							return;
 						}
 
-					} catch (Exception e) {
+					} catch (NumberFormatException e) {
 						gameInfo.setText("Invalid Number of ogres");
 						return;
 					}
@@ -468,33 +470,94 @@ public class MainWindow {
 		editing = new JPanel();
 		tabbedPane.addTab("Editing", null, editing, null);
 		GridBagLayout gbl_editing = new GridBagLayout();
-		gbl_editing.columnWeights = new double[] { 0.0, 1.0 };
-		gbl_editing.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		gbl_editing.columnWeights = new double[] { 1.0, 1.0 };
+		gbl_editing.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		editing.setLayout(gbl_editing);
 
 		btnStartEdit = new JButton("Start Edit");
+		btnStartEdit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (btnStartEdit.isEnabled()) {
+					editor = new Editor(10, 10);
+					try {
+						editor.readLevelNames();
+					} catch (IOException e) {
+						System.err.println("List of level not found");
+						System.exit(-1);
+					}
+					editor.nextLevel();
+					updateEditFields();
+					setLevelParam();
+					gameArea.repaint();
+				}
+				gameArea.requestFocusInWindow();
+			}
+		});
+
 		GridBagConstraints gbc_btnStartEdit = new GridBagConstraints();
-		gbc_btnStartEdit.gridwidth = 2;
-		gbc_btnStartEdit.insets = new Insets(0, 0, 5, 0);
+		gbc_btnStartEdit.insets = new Insets(0, 0, 5, 5);
 		gbc_btnStartEdit.gridx = 0;
 		gbc_btnStartEdit.gridy = 0;
 		editing.add(btnStartEdit, gbc_btnStartEdit);
 
 		btnNxtLevel = new JButton("Next Level");
 		GridBagConstraints gbc_btnNxtLevel = new GridBagConstraints();
-		gbc_btnNxtLevel.gridwidth = 2;
+		btnNxtLevel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (btnNxtLevel.isEnabled()) {
+					if (editor != null) {
+						editor.nextLevel();
+						updateEditFields();
+						setLevelParam();
+						gameArea.repaint();
+					}
+				}
+				gameArea.requestFocusInWindow();
+			}
+		});
 		gbc_btnNxtLevel.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNxtLevel.gridx = 0;
-		gbc_btnNxtLevel.gridy = 1;
+		gbc_btnNxtLevel.gridx = 1;
+		gbc_btnNxtLevel.gridy = 0;
 		editing.add(btnNxtLevel, gbc_btnNxtLevel);
 
 		btnNewLevel = new JButton("New Level");
+		btnNewLevel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (btnNewLevel.isEnabled()) {
+					editor = new Editor(10, 10);
+					updateEditFields();
+					txtLevelN.setText("Lvl order");
+					txtFileName.setText("Filename");
+					gameArea.repaint();
+				}
+				gameArea.requestFocusInWindow();
+			}
+		});
 		GridBagConstraints gbc_btnNewLevel = new GridBagConstraints();
-		gbc_btnNewLevel.gridheight = 2;
-		gbc_btnNewLevel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewLevel.gridwidth = 2;
+		gbc_btnNewLevel.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewLevel.gridx = 0;
-		gbc_btnNewLevel.gridy = 2;
+		gbc_btnNewLevel.gridy = 1;
 		editing.add(btnNewLevel, gbc_btnNewLevel);
+		
+		lblKeyToOpen = new JLabel("Key To Open");
+		lblKeyToOpen.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblKeyToOpen = new GridBagConstraints();
+		gbc_lblKeyToOpen.insets = new Insets(0, 0, 5, 5);
+		gbc_lblKeyToOpen.gridx = 0;
+		gbc_lblKeyToOpen.gridy = 3;
+		editing.add(lblKeyToOpen, gbc_lblKeyToOpen);
+		
+		keysCB = new JComboBox();
+		GridBagConstraints gbc_keysCB = new GridBagConstraints();
+		gbc_keysCB.insets = new Insets(0, 0, 5, 0);
+		gbc_keysCB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_keysCB.gridx = 1;
+		gbc_keysCB.gridy = 3;
+		editing.add(keysCB, gbc_keysCB);
 
 		txtLevelN = new JTextField();
 		txtLevelN.setText("Level n\u00BA");
@@ -502,7 +565,7 @@ public class MainWindow {
 		gbc_txtLevelN.insets = new Insets(0, 0, 5, 0);
 		gbc_txtLevelN.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtLevelN.gridx = 1;
-		gbc_txtLevelN.gridy = 2;
+		gbc_txtLevelN.gridy = 5;
 		editing.add(txtLevelN, gbc_txtLevelN);
 		txtLevelN.setColumns(10);
 
@@ -512,23 +575,15 @@ public class MainWindow {
 		gbc_txtFileName.insets = new Insets(0, 0, 5, 0);
 		gbc_txtFileName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtFileName.gridx = 1;
-		gbc_txtFileName.gridy = 3;
+		gbc_txtFileName.gridy = 6;
 		editing.add(txtFileName, gbc_txtFileName);
 		txtFileName.setColumns(10);
-
-		chckbxEdit = new JRadioButton("Edit");
-		GridBagConstraints gbc_chckbxEdit = new GridBagConstraints();
-		gbc_chckbxEdit.gridwidth = 2;
-		gbc_chckbxEdit.insets = new Insets(0, 0, 5, 0);
-		gbc_chckbxEdit.gridx = 0;
-		gbc_chckbxEdit.gridy = 4;
-		editing.add(chckbxEdit, gbc_chckbxEdit);
 
 		tileChoser = new JLabel("Tile");
 		GridBagConstraints gbc_tileChoser = new GridBagConstraints();
 		gbc_tileChoser.insets = new Insets(0, 0, 5, 5);
 		gbc_tileChoser.gridx = 0;
-		gbc_tileChoser.gridy = 5;
+		gbc_tileChoser.gridy = 2;
 		editing.add(tileChoser, gbc_tileChoser);
 
 		tileChoser_CB = new JComboBox<String>();
@@ -536,23 +591,23 @@ public class MainWindow {
 		gbc_tileChoser_CB.insets = new Insets(0, 0, 5, 0);
 		gbc_tileChoser_CB.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tileChoser_CB.gridx = 1;
-		gbc_tileChoser_CB.gridy = 5;
+		gbc_tileChoser_CB.gridy = 2;
 		editing.add(tileChoser_CB, gbc_tileChoser_CB);
-
-		rdbtnSelect = new JRadioButton("Select");
-		GridBagConstraints gbc_rdbtnSelect = new GridBagConstraints();
-		gbc_rdbtnSelect.gridwidth = 2;
-		gbc_rdbtnSelect.insets = new Insets(0, 0, 5, 0);
-		gbc_rdbtnSelect.gridx = 0;
-		gbc_rdbtnSelect.gridy = 6;
-		editing.add(rdbtnSelect, gbc_rdbtnSelect);
+		tileChoser_CB.addItem("Hero Armed");
+		tileChoser_CB.addItem("Hero");
+		tileChoser_CB.addItem("Ogre Spawn");
+		tileChoser_CB.addItem("Guard Spawn");
+		tileChoser_CB.addItem("Key");
+		tileChoser_CB.addItem("Door");
+		tileChoser_CB.addItem("Wall");
+		tileChoser_CB.addItem("Floor");
 
 		guardPath = new JLabel("Path");
 		guardPath.setToolTipText("");
 		GridBagConstraints gbc_guardPath = new GridBagConstraints();
 		gbc_guardPath.insets = new Insets(0, 0, 5, 5);
 		gbc_guardPath.gridx = 0;
-		gbc_guardPath.gridy = 7;
+		gbc_guardPath.gridy = 4;
 		editing.add(guardPath, gbc_guardPath);
 
 		textField_Path = new JTextField();
@@ -560,16 +615,73 @@ public class MainWindow {
 		gbc_textField_Path.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_Path.fill = GridBagConstraints.BOTH;
 		gbc_textField_Path.gridx = 1;
-		gbc_textField_Path.gridy = 7;
+		gbc_textField_Path.gridy = 4;
 		editing.add(textField_Path, gbc_textField_Path);
 		textField_Path.setColumns(10);
 
 		btnSaveLevel = new JButton("Save Level");
+		btnSaveLevel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (btnSaveLevel.isEnabled()) {
+					int index = 0;
+					if(editor.getHero() == null) {
+						lblInfo.setText("No hero");
+						return;
+					}
+					
+					if(editor.getKey() == null && editor.getLever() == null) {
+						lblInfo.setText("No way out");
+						return;
+					}
+					
+					try {
+						index = Integer.parseInt(txtLevelN.getText());
+					} catch (NumberFormatException e) {
+						lblInfo.setText("Invalid level number");
+						return;
+					}
+
+					if (txtFileName.getText().equals("Filename")) {
+						lblInfo.setText("Invalid filename");
+						return;
+					}
+					
+					if(editor == null) {
+						lblInfo.setText("Invalid editor");
+						return;
+					}
+					String fileName;
+					try {
+						fileName = txtFileName.getText();
+						editor.saveLevel(txtFileName.getText());
+						editor.insertLvl(index, fileName);
+						editor.saveLevelFiles();
+					} catch (FileNotFoundException e) {
+						lblInfo.setText("Invalid filename");
+						return;
+					} catch (UnsupportedEncodingException e) {
+						lblInfo.setText("Invalid ecoding");
+						return;
+					}
+					
+					lblInfo.setText("File Saved");
+				}
+			}
+		});
 		GridBagConstraints gbc_btnSaveLevel = new GridBagConstraints();
-		gbc_btnSaveLevel.gridwidth = 2;
+		gbc_btnSaveLevel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSaveLevel.gridheight = 2;
 		gbc_btnSaveLevel.gridx = 0;
-		gbc_btnSaveLevel.gridy = 8;
+		gbc_btnSaveLevel.gridy = 5;
 		editing.add(btnSaveLevel, gbc_btnSaveLevel);
+
+		lblInfo = new JLabel("Info");
+		GridBagConstraints gbc_lblInfo = new GridBagConstraints();
+		gbc_lblInfo.gridwidth = 2;
+		gbc_lblInfo.gridx = 0;
+		gbc_lblInfo.gridy = 7;
+		editing.add(lblInfo, gbc_lblInfo);
 		comboBox.addItem("Drunken");
 		comboBox.addItem("Rookie");
 		comboBox.addItem("Suspicious");
@@ -616,19 +728,38 @@ public class MainWindow {
 		tileChoser_CB.setEnabled(value);
 		guardPath.setEnabled(value);
 		textField_Path.setEnabled(value);
-		chckbxEdit.setEnabled(value);
-		rdbtnSelect.setEnabled(value);
 		btnStartEdit.setEnabled(value);
 		btnNxtLevel.setEnabled(value);
 
 		btnNewLevel.setEnabled(value);
 		txtLevelN.setEnabled(value);
 		txtFileName.setEnabled(value);
+		btnSaveLevel.setEnabled(value);
+		lblKeyToOpen.setEnabled(value);
+		keysCB.setEnabled(value);
 
 		upBt.setEnabled(!value);
 		downBt.setEnabled(!value);
 		leftBt.setEnabled(!value);
 		rightBt.setEnabled(!value);
+	}
+
+	protected void setLevelParam() {
+		txtLevelN.setText(Integer.toString(editor.getCurr_level() - 1));
+		txtFileName.setText(editor.getLevels().get(editor.getCurr_level() - 1));
+	}
+
+	protected void updateEditFields() {
+		gameArea.setMap(editor.getMapWCharacter());
+		if (editor.getGuard() != null) {
+			String path = new String();
+			for (char c : editor.getGuard().getPath()) {
+				path += c;
+			}
+			textField_Path.setText(path);
+		} else
+			textField_Path.setText("");
+
 	}
 
 }

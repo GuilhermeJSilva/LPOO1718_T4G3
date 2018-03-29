@@ -18,6 +18,10 @@ public class LeverDoor {
 		return pos;
 	}
 
+	public int[][] getDoors() {
+		return doors;
+	}
+
 	public void setPos(int[] pos) {
 		this.pos = pos;
 	}

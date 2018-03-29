@@ -15,6 +15,10 @@ public class KeyDoor {
 		this.picked = false;
 	}
 	
+	public int[][] getDoors() {
+		return doors;
+	}
+
 	public char getOpenSymbol() {
 		return openSymbol;
 	}

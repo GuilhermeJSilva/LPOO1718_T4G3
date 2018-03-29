@@ -1,25 +1,14 @@
 package dkeep.logic;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Game {
+public class Game extends GameReader {
 
-	private ArrayList<String> levels = new ArrayList<String>();
-	private int curr_level = 0;
 	private ArrayList<Enemy> enemy;
-	private Hero hero;
-	private LeverDoor lever;
-	private KeyDoor key;
-	private char map[][];
 
 	public Game(Hero hero, char map[][]) {
 		this.hero = hero;
@@ -43,39 +32,6 @@ public class Game {
 		enemy.add(guard);
 	}
 
-	public LeverDoor getLever() {
-		return lever;
-	}
-
-	public void setLever(LeverDoor lever) {
-		this.lever = lever;
-	}
-
-	public KeyDoor getKey() {
-		return key;
-	}
-
-	public void setKey(KeyDoor key) {
-		this.key = key;
-	}
-
-	public char[][] getMap() {
-
-		return this.map;
-	}
-
-	public void setMap(char[][] map) {
-		this.map = map;
-	}
-
-	public Hero getHero() {
-		return hero;
-	}
-
-	public void setHero(Hero hero) {
-		this.hero = hero;
-	}
-
 	public int endLevel() {
 		if (this.getMap()[this.getHero().getPos()[0]][this.getHero().getPos()[1]] == 'S') {
 			return 0;
@@ -89,7 +45,8 @@ public class Game {
 
 		return 1;
 	}
-
+	
+	@Override
 	public char[][] getMapWCharacter() {
 		char mapWChar[][] = deepCopyCharMatrix(map);
 		if (lever != null)
@@ -98,7 +55,8 @@ public class Game {
 		if (key != null && !key.isPicked())
 			mapWChar[key.getPos()[0]][key.getPos()[1]] = key.getSymbol();
 
-		mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
+		if (hero != null)
+			mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
 
 		for (int i = 0; i < enemy.size(); i++) {
 			enemy.get(i).print(mapWChar);
@@ -127,16 +85,6 @@ public class Game {
 
 	public void setEnemy(ArrayList<Enemy> enemy) {
 		this.enemy = enemy;
-	}
-
-	public static char[][] deepCopyCharMatrix(char[][] input) {
-		if (input == null)
-			return null;
-		char[][] result = new char[input.length][];
-		for (char r = 0; r < input.length; r++) {
-			result[r] = input[r].clone();
-		}
-		return result;
 	}
 
 	public boolean nextLevel(int numberOfOgres, String guardType) {
@@ -199,53 +147,6 @@ public class Game {
 		}
 	}
 
-	protected void readKeyOrLever(String line, String charInfo) {
-		Scanner keyScanner = new Scanner(charInfo);
-		int keyPos[] = new int[2];
-		if (keyScanner.hasNextInt())
-			keyPos[0] = keyScanner.nextInt();
-		if (keyScanner.hasNextInt())
-			keyPos[1] = keyScanner.nextInt();
-
-		ArrayList<int[]> doors = new ArrayList<int[]>();
-		while (keyScanner.hasNextInt()) {
-			int door[] = new int[2];
-			if (keyScanner.hasNextInt()) {
-				door[0] = keyScanner.nextInt();
-				if (keyScanner.hasNextInt()) {
-					door[1] = keyScanner.nextInt();
-					doors.add(door);
-				}
-			}
-		}
-
-		int aDoors[][] = new int[doors.size()][2];
-		aDoors = doors.toArray(aDoors);
-		// System.out.println(Arrays.toString(line.toCharArray()));
-		if (line.equals("Lever")) {
-			this.lever = new LeverDoor(keyPos, aDoors);
-			this.key = null;
-		} else {
-			this.key = new KeyDoor(keyPos, aDoors);
-			this.lever = null;
-		}
-		keyScanner.close();
-	}
-
-	protected void readHero(String charInfo) {
-		Scanner heroScanner = new Scanner(charInfo);
-		int heroPos[] = new int[2];
-		int armed = 0;
-		if (heroScanner.hasNextInt())
-			heroPos[0] = heroScanner.nextInt();
-		if (heroScanner.hasNextInt())
-			heroPos[1] = heroScanner.nextInt();
-		if (heroScanner.hasNextInt())
-			armed = heroScanner.nextInt();
-		this.hero = new Hero(heroPos, armed == 1);
-		heroScanner.close();
-	}
-
 	protected void readGuard(String guardType, String charInfo) {
 		Scanner guardScanner = new Scanner(charInfo);
 		char path[] = new char[0];
@@ -283,45 +184,5 @@ public class Game {
 		for (int i = 0; i < numberOfOgres; i++)
 			this.enemy.add(new Ogre(ogrePos.clone()));
 		ogreScanner.close();
-	}
-
-	protected char[][] readMap(Scanner sc, String line) {
-		int x, y;
-		x = sc.nextInt();
-		// System.out.println(x);
-		y = sc.nextInt();
-		// System.out.println(y);
-		if (sc.hasNext())
-			line = sc.nextLine();
-		char map[][] = new char[x][y];
-		for (int i = 0; i < x; i++) {
-			if (sc.hasNext())
-				line = sc.nextLine();
-			map[i] = line.toCharArray();
-		}
-		return map;
-	}
-
-	protected void readLevelNames() throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader("levels.txt"));
-		try {
-		    String line = br.readLine();
-
-		    while (line != null) {
-		        this.levels.add(line);
-		        line = br.readLine();
-		    }
-		} finally {
-		    br.close();
-		}
-	}
-	
-	public void saveLevelFiles() throws FileNotFoundException, UnsupportedEncodingException {
-		PrintWriter writer = new PrintWriter("levels.txt", "UTF-8");
-		for (String file : levels) {
-			writer.println(file);
-		}
-		writer.close();
-		
 	}
 }
