@@ -1,10 +1,6 @@
 package dkeep.logic;
 
-public class LeverDoor {
-	private int pos[];
-	private int [][] doors;
-	private char symbol;
-	private char openSymbol;
+public class LeverDoor extends DoorMechanism{
 	
 	public LeverDoor(int[] pos, int[][] is) {
 		super();
@@ -12,26 +8,6 @@ public class LeverDoor {
 		this.doors = is;
 		this.symbol = 'k';
 		this.openSymbol ='S';
-	}
-	
-	public int[] getPos() {
-		return pos;
-	}
-
-	public int[][] getDoors() {
-		return doors;
-	}
-
-	public void setPos(int[] pos) {
-		this.pos = pos;
-	}
-
-	public char getSymbol() {
-		return symbol;
-	}
-
-	public void setSymbol(char symbol) {
-		this.symbol = symbol;
 	}
 
 	public void pullLever(Hero hero, char map[][])

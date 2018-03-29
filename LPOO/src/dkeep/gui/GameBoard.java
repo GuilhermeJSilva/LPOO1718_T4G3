@@ -16,6 +16,10 @@ public class GameBoard extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private char[][] map;
 	private String guardType = "";
+	private int gameSize = 0;
+	private int maxSize = 0;
+	private int deltaX = 0;
+	private int deltaY = 0;
 
 	public void setGuardType(String guardType) {
 		this.guardType = guardType;
@@ -62,8 +66,8 @@ public class GameBoard extends JPanel {
 			return;
 		int x = 0, y = 0;
 
-		int gameSize = super.getHeight();
-		int maxSize = super.getWidth();
+		gameSize = super.getHeight();
+		maxSize = super.getWidth();
 
 		if (gameSize > super.getWidth()) {
 			gameSize = super.getWidth();
@@ -73,8 +77,8 @@ public class GameBoard extends JPanel {
 		x = (maxSize - super.getHeight()) / 2;
 		y = (maxSize - super.getWidth()) / 2;
 
-		int deltaY = gameSize / map.length;
-		int deltaX = gameSize / map[0].length;
+		deltaY = gameSize / map.length;
+		deltaX = gameSize / map[0].length;
 
 		for (char[] cs : map) {
 			x = (maxSize - super.getHeight()) / 2;
@@ -153,5 +157,22 @@ public class GameBoard extends JPanel {
 			return null;
 
 		}
+	}
+	
+	public int[] getMapCoords(int x, int y) throws InvalidClick {
+		if(map == null)
+			throw new InvalidClick();
+		int coords[] =  new int[2];
+		x -= (maxSize - super.getHeight()) / 2;
+		y -= (maxSize - super.getWidth()) / 2;
+		
+		coords[1] = x / deltaX;
+		coords[0] = y / deltaY;
+		
+		if(coords[0] >= map.length || coords[1] >= map[0].length)
+			throw new InvalidClick();
+		
+		return coords;
+		
 	}
 }

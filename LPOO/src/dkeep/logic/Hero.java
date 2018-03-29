@@ -3,7 +3,7 @@ package dkeep.logic;
 import java.util.Arrays;
 
 public class Hero extends Character {
-	private KeyDoor key;
+	private DoorMechanism key;
 	private boolean armed;
 
 	@Override
@@ -31,7 +31,7 @@ public class Hero extends Character {
 		this.armed = armed;
 	}
 
-	public KeyDoor getKey() {
+	public DoorMechanism getKey() {
 		return key;
 	}
 
@@ -102,7 +102,7 @@ public class Hero extends Character {
 		return false;
 	}
 
-	public void setKey(KeyDoor key) {
+	public void setKey(DoorMechanism key) {
 		this.key = key;
 	}
 

@@ -1,10 +1,6 @@
 package dkeep.logic;
 
-public class KeyDoor {
-	private int pos[];
-	private int [][] doors;
-	private char symbol;
-	private char openSymbol;
+public class KeyDoor extends DoorMechanism {
 	private boolean picked;
 	
 	public KeyDoor(int[] pos, int[][] is) {
@@ -15,40 +11,12 @@ public class KeyDoor {
 		this.picked = false;
 	}
 	
-	public int[][] getDoors() {
-		return doors;
-	}
-
-	public char getOpenSymbol() {
-		return openSymbol;
-	}
-
-	public void setOpenSymbol(char openSymbol) {
-		this.openSymbol = openSymbol;
-	}
-
 	public boolean isPicked() {
 		return picked;
 	}
 
 	public void setPicked(boolean picked) {
 		this.picked = picked;
-	}
-
-	public int[] getPos() {
-		return pos;
-	}
-
-	public void setPos(int[] pos) {
-		this.pos = pos;
-	}
-
-	public char getSymbol() {
-		return symbol;
-	}
-
-	public void setSymbol(char symbol) {
-		this.symbol = symbol;
 	}
 
 	public void pickKey(Hero hero, char map[][])

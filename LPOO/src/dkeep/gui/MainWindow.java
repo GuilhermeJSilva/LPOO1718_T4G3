@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import dkeep.editor.Editor;
+import dkeep.logic.DoorMechanism;
 import dkeep.logic.Game;
 
 public class MainWindow {
@@ -62,7 +64,7 @@ public class MainWindow {
 	private JTextField txtFileName;
 	private JLabel lblInfo;
 	private JLabel lblKeyToOpen;
-	private JComboBox keysCB;
+	private JComboBox<DoorMechanism> keysCB;
 
 	/**
 	 * Launch the application.
@@ -139,6 +141,17 @@ public class MainWindow {
 		leftSide.add(gameInfo, gbc_gameInfo);
 
 		gameArea = new GameBoard();
+		gameArea.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					int coords[] = gameArea.getMapCoords(e.getX(), e.getY());
+					System.out.println(Arrays.toString(coords));
+				} catch(InvalidClick ex) {
+					System.err.println("Invalid click");
+				}
+			}
+		});
 		gameArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -148,23 +161,25 @@ public class MainWindow {
 					game.movement('w');
 
 				}
-				if (KeyEvent.VK_S == arg0.getKeyCode()) {
+				else if (KeyEvent.VK_S == arg0.getKeyCode()) {
 					if (game == null)
 						return;
 					game.movement('s');
 
 				}
-				if (KeyEvent.VK_A == arg0.getKeyCode()) {
+				else if (KeyEvent.VK_A == arg0.getKeyCode()) {
 					if (game == null)
 						return;
 					game.movement('a');
 
 				}
-				if (KeyEvent.VK_D == arg0.getKeyCode()) {
+				else if (KeyEvent.VK_D == arg0.getKeyCode()) {
 					if (game == null)
 						return;
 					game.movement('d');
 
+				} else {
+					return;
 				}
 
 				try {
@@ -551,13 +566,14 @@ public class MainWindow {
 		gbc_lblKeyToOpen.gridy = 3;
 		editing.add(lblKeyToOpen, gbc_lblKeyToOpen);
 		
-		keysCB = new JComboBox();
+		keysCB = new JComboBox<DoorMechanism>();
 		GridBagConstraints gbc_keysCB = new GridBagConstraints();
 		gbc_keysCB.insets = new Insets(0, 0, 5, 0);
 		gbc_keysCB.fill = GridBagConstraints.HORIZONTAL;
 		gbc_keysCB.gridx = 1;
 		gbc_keysCB.gridy = 3;
 		editing.add(keysCB, gbc_keysCB);
+		keysCB.addItem(null);
 
 		txtLevelN = new JTextField();
 		txtLevelN.setText("Level n\u00BA");
