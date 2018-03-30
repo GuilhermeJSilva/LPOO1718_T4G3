@@ -9,9 +9,9 @@ I        X
 XXX XXXX X
 X I I X  X
 XXXXXXXXXX
-Hero
-1 1 0
 Guard
-1 8 assssaaaaaasdddddddwwwww
+1 8 asdw
 Lever
 8 7 5 0 6 0
+Hero
+1 1 0

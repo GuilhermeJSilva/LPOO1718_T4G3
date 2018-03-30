@@ -11,11 +11,6 @@ public class Suspicious extends Guard {
 	}
 
 	@Override
-	public String toString() {
-		return "Suspicious [path=" + Arrays.toString(path) + ", pos=" + Arrays.toString(pos) + "]";
-	}
-
-	@Override
 	public void move(char[][] map) {
 		Random generator = new Random();	
 		int oldBackwards = this.backwards;

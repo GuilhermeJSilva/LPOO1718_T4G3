@@ -6,25 +6,34 @@ public class Guard extends Enemy {
 	protected char path[];
 	private int counter;
 	
-	
-
-	@Override
-	public String toString() {
-		return "Guard [path=" + Arrays.toString(path) + ", pos=" + Arrays.toString(pos) + "]";
-	}
-
 	public Guard(int[] pos, char path[]) {
 		super(pos, 'G');
 		this.path = path;
 		this.counter = 0;
+	}
+	
+	@Override
+	public String toString() {
+		return "Guard [path=" + Arrays.toString(path) + ", pos=" + Arrays.toString(pos) + "]";
 	}
 
 	public char[] getPath() {
 		return path;
 	}
 
-	public void setPath(char[] path) {
+	public boolean setPath(char[] path) {
+		if(!checkPath(path))
+			return false;
 		this.path = path;
+		return true;
+	}
+	
+	public boolean checkPath(char[] path) {
+		for (char c : path) {
+			if(c != 'a' && c != 's' && c != 'd' && c != 'w')
+				return false;
+		}
+		return true;
 	}
 
 	public int getCounter() {
@@ -39,6 +48,7 @@ public class Guard extends Enemy {
 	public void move(char[][] map) {
 		if(path.length == 0)
 			return;
+		counter %= this.path.length;
 		char command = path[counter];
 		switch (command) {
 		case 'w':
@@ -74,6 +84,8 @@ public class Guard extends Enemy {
 			break;
 			
 		default:
+			counter++;
+			this.move(map);
 			break;
 		}
 		counter %= this.path.length;

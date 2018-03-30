@@ -1,0 +1,15 @@
+10 10
+XXXXXXXXXX
+X        X
+X        X
+X        X
+I        X
+X        X
+X        X
+X        X
+X        X
+XXXXXXXXXX
+Lever
+4 4 4 0
+Hero
+4 8 0

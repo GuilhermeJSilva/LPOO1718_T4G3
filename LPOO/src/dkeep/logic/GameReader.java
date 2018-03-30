@@ -74,7 +74,7 @@ public class GameReader {
 			try {
 				this.readLevel(levels.get(curr_level));
 			} catch (IOException e) {
-				System.out.println("File " + levels.get(curr_level) + " passing to the next level.");
+				System.out.println("File " + levels.get(curr_level) + " missing: passing to the next level.");
 				curr_level++;
 				return this.nextLevel();
 			}
@@ -271,6 +271,56 @@ public class GameReader {
 			}
 			writer.println();
 		}
+		saveGuard(writer);
+		
+		saveOgre(writer);
+		
+		saveKey(writer);
+		
+		saveLever(writer);
+		
+		saveHero(writer);
+		writer.close();
+
+	}
+
+	protected void saveHero(PrintWriter writer) {
+		if (this.hero != null) {
+			writer.println("Hero");
+			writer.println(hero.getPos()[0] + " " + hero.getPos()[1] + " " + (hero.isArmed() ? 1 : 0));
+		}
+	}
+
+	protected void saveLever(PrintWriter writer) {
+		if(this.lever != null) {
+			writer.println("Lever");
+			writer.print(lever.getPos()[0] + " " + lever.getPos()[1]);
+			for(ArrayList<Integer> intA: this.lever.getDoors()) {
+				writer.print(" " + intA.get(0) + " " + intA.get(1));
+			}
+			writer.println();
+		}
+	}
+
+	protected void saveKey(PrintWriter writer) {
+		if(this.key != null) {
+			writer.println("Key");
+			writer.print(key.getPos()[0] + " " + key.getPos()[1]);
+			for(ArrayList<Integer> intA: this.key.getDoors()) {
+				writer.print(" " + intA.get(0) + " " + intA.get(1));
+			}
+			writer.println();
+		}
+	}
+
+	protected void saveOgre(PrintWriter writer) {
+		if(this.ogre != null) {
+			writer.println("Ogre");
+			writer.println(ogre.getPos()[0] + " " + ogre.getPos()[1]);
+		}
+	}
+
+	protected void saveGuard(PrintWriter writer) {
 		if(this.guard != null) {
 			writer.println("Guard");
 			writer.print(guard.getPos()[0] + " " + guard.getPos()[1] + " ");
@@ -278,36 +328,6 @@ public class GameReader {
 				writer.print(c);
 			writer.println();
 		}
-		
-		if(this.ogre != null) {
-			writer.println("Ogre");
-			writer.println(ogre.getPos()[0] + " " + ogre.getPos()[1]);
-		}
-		
-		if(this.key != null) {
-			writer.println("Key");
-			writer.print(key.getPos()[0] + " " + key.getPos()[1]);
-			for(int[] intA: this.key.getDoors()) {
-				writer.print(" " + intA[0] + " " + intA[1]);
-			}
-			writer.println();
-		}
-		
-		if(this.lever != null) {
-			writer.println("Lever");
-			writer.print(lever.getPos()[0] + " " + lever.getPos()[1]);
-			for(int[] intA: this.lever.getDoors()) {
-				writer.print(" " + intA[0] + " " + intA[1]);
-			}
-			writer.println();
-		}
-		
-		if(this.hero != null) {
-			writer.println("Hero");
-			writer.println(hero.getPos()[0] + " " + hero.getPos()[1] + " " + (hero.isArmed()? 1 : 0));
-		}
-		writer.close();
-
 	}
 
 	public static char[][] deepCopyCharMatrix(char[][] input) {
