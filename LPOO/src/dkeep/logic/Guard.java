@@ -3,6 +3,10 @@ package dkeep.logic;
 import java.util.Arrays;
 
 public class Guard extends Enemy {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9167529585915531192L;
 	protected char path[];
 	private int counter;
 	

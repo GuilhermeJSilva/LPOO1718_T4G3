@@ -2,12 +2,14 @@ package dkeep.logic;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Game extends GameReader {
+public class Game extends GameReader implements Serializable {
 
+	private static final long serialVersionUID = 8322748650867056100L;
 	private ArrayList<Enemy> enemy;
 
 	public Game(Hero hero, char map[][]) {
@@ -45,7 +47,7 @@ public class Game extends GameReader {
 
 		return 1;
 	}
-	
+
 	@Override
 	public char[][] getMapWCharacter() {
 		char mapWChar[][] = deepCopyCharMatrix(map);
@@ -59,7 +61,8 @@ public class Game extends GameReader {
 			mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
 
 		for (int i = 0; i < enemy.size(); i++) {
-			enemy.get(i).print(mapWChar);
+			if (enemy.get(i) != null)
+				enemy.get(i).print(mapWChar);
 		}
 
 		return mapWChar;
@@ -185,4 +188,5 @@ public class Game extends GameReader {
 			this.enemy.add(new Ogre(ogrePos.clone()));
 		ogreScanner.close();
 	}
+
 }

@@ -85,7 +85,7 @@ public class TestDungeonOgre {
 
 	}
 
-	@Test
+	@Test(timeout=1000)
 	public void testMoveOgre() {
 
 		Game level = new Game(new Hero(new int[] { 1, 1 }, false), map);

@@ -6,12 +6,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class GameReader {
+public class GameReader implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3952642826484349830L;
 	protected ArrayList<String> levels = new ArrayList<String>();
 	protected int curr_level = 0;
 	protected Hero hero;

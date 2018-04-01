@@ -5,6 +5,11 @@ import java.util.Arrays;
 
 public class LeverDoor extends DoorMechanism{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7280934952309291058L;
+
 	public LeverDoor(int[] pos, int[][] is) {
 		super();
 		this.pos = pos;
@@ -17,11 +22,31 @@ public class LeverDoor extends DoorMechanism{
 		this.openSymbol ='S';
 	}
 	
+	public LeverDoor(int[] pos, int[][] is, char openS) {
+		super();
+		this.pos = pos;
+		this.doors = new ArrayList< ArrayList<Integer> >();
+		for (int[] is2 : is) {
+			this.addDoor(is2);
+		}
+		
+		this.symbol = 'k';
+		this.openSymbol = openS;
+	}
+	
+	
 	public LeverDoor(int[] pos) {
 		this.pos = pos;
 		this.doors = new ArrayList< ArrayList<Integer> >();
 		this.symbol = 'k';
 		this.openSymbol = 'S';
+	}
+	
+	public LeverDoor(int[] pos, char openS) {
+		this.pos = pos;
+		this.doors = new ArrayList< ArrayList<Integer> >();
+		this.symbol = 'k';
+		this.openSymbol = openS;
 	}
 
 	public void pullLever(Hero hero, char map[][])

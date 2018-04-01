@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Drunken extends Guard {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5512628551857065458L;
 	private int backwards;
 	private int sleep;
 	private char sSymbol;

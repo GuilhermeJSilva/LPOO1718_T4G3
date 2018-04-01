@@ -1,9 +1,12 @@
 package dkeep.logic;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Suspicious extends Guard {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4734790203016569031L;
 	private int backwards;
 	public Suspicious(int[] pos, char[] path) {
 		super(pos, path);

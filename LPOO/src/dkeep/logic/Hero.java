@@ -3,6 +3,10 @@ package dkeep.logic;
 import java.util.Arrays;
 
 public class Hero extends Character {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2037315788131079148L;
 	private DoorMechanism key;
 	private boolean armed;
 

@@ -8,17 +8,21 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
-import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -69,6 +73,11 @@ public class MainWindow {
 	private JLabel lblKeyToOpen;
 	private JComboBox<DoorMechanism> keysCB;
 	private JButton btnReplaceLevel;
+	private JPanel panel;
+	private JButton btnLoadGame;
+	private JButton btnSaveGame;
+
+	final JFileChooser fc = new JFileChooser();
 
 	/**
 	 * Launch the application.
@@ -148,8 +157,9 @@ public class MainWindow {
 		gameArea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(game != null)
+					return;
 				try {
-
 					int coords[] = gameArea.getMapCoords(e.getX(), e.getY());
 					String tile = (String) tileChoser_CB.getSelectedItem();
 					String path = (String) textField_Path.getText();
@@ -242,7 +252,104 @@ public class MainWindow {
 		gbl_rightSide.rowWeights = new double[] { 0.0, 1.0, 0.0 };
 		rightSide.setLayout(gbl_rightSide);
 
+		panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 0;
+		rightSide.add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWeights = new double[] { 1.0, 0.0 };
+		gbl_panel.rowWeights = new double[] { 0.0, 0.0 };
+		panel.setLayout(gbl_panel);
+
+		btnLoadGame = new JButton("Load Game");
+		btnLoadGame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int returnVal = fc.showOpenDialog(btnSaveGame);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					// This is where a real application would open the file.
+					System.out.println("Opening: " + file.getAbsolutePath() + ".\n");
+					ObjectInputStream oos = null;
+					FileInputStream fout = null;
+					try {
+						fout = new FileInputStream(file);
+						oos = new ObjectInputStream(fout);
+						game = (Game) oos.readObject();
+						oos.close();
+						gameArea.setMap(game.getMapWCharacter());
+						gameArea.repaint();
+						gameArea.requestFocusInWindow();
+						enableChanges(false);
+					} catch (IOException ex) {
+						gameInfo.setText("Load failed (IO)");
+					} catch (ClassNotFoundException e1) {
+						gameInfo.setText("Load failed (Class)");
+					} finally {
+					}
+
+				} else {
+					System.out.println("Open command cancelled by user.\n");
+				}
+				gameArea.requestFocusInWindow();
+
+			}
+		});
+		GridBagConstraints gbc_btnLoadGame = new GridBagConstraints();
+		gbc_btnLoadGame.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLoadGame.gridx = 0;
+		gbc_btnLoadGame.gridy = 0;
+		panel.add(btnLoadGame, gbc_btnLoadGame);
+
+		btnSaveGame = new JButton("Save Game");
+		btnSaveGame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int returnVal = fc.showSaveDialog(btnSaveGame);
+
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					// This is where a real application would open the file.
+					//System.out.println("Opening: " + file.getAbsolutePath() + "\\t1.ser" + ".\n");
+					ObjectOutputStream oos = null;
+					FileOutputStream fout = null;
+					try {
+						fout = new FileOutputStream(file.getAbsolutePath(), true);
+						oos = new ObjectOutputStream(fout);
+						oos.writeObject(game);
+						oos.close();
+					} catch (IOException ex) {
+						gameInfo.setText("Save failed");
+					} finally {
+						gameInfo.setText("Game state saved");
+					}
+
+				} else {
+					System.out.println("Open command cancelled by user.\n");
+				}
+				gameArea.requestFocusInWindow();
+
+			}
+		});
+		GridBagConstraints gbc_btnSaveGame = new GridBagConstraints();
+		gbc_btnSaveGame.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSaveGame.gridx = 1;
+		gbc_btnSaveGame.gridy = 0;
+		panel.add(btnSaveGame, gbc_btnSaveGame);
+
 		newGameBt = new JButton("New Game");
+		GridBagConstraints gbc_newGameBt = new GridBagConstraints();
+		gbc_newGameBt.gridwidth = 2;
+		gbc_newGameBt.gridx = 0;
+		gbc_newGameBt.gridy = 1;
+		panel.add(newGameBt, gbc_newGameBt);
 		newGameBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -291,11 +398,6 @@ public class MainWindow {
 
 			}
 		});
-		GridBagConstraints gbc_newGameBt = new GridBagConstraints();
-		gbc_newGameBt.insets = new Insets(0, 0, 5, 0);
-		gbc_newGameBt.gridx = 0;
-		gbc_newGameBt.gridy = 0;
-		rightSide.add(newGameBt, gbc_newGameBt);
 
 		quitBt = new JButton("Exit");
 		quitBt.addMouseListener(new MouseAdapter() {
@@ -730,8 +832,8 @@ public class MainWindow {
 
 			public void updatePath() {
 				String path = textField_Path.getText();
-				if(editor.getGuard() != null) {
-					if(!editor.getGuard().setPath(path.toCharArray())) {
+				if (editor.getGuard() != null) {
+					if (!editor.getGuard().setPath(path.toCharArray())) {
 						lblInfo.setText("Wrong guard path");
 					}
 				}
@@ -864,6 +966,9 @@ public class MainWindow {
 		btnReplaceLevel.setEnabled(value);
 		lblKeyToOpen.setEnabled(value);
 		keysCB.setEnabled(value);
+
+		btnLoadGame.setEnabled(value);
+		btnSaveGame.setEnabled(!value);
 
 		upBt.setEnabled(!value);
 		downBt.setEnabled(!value);

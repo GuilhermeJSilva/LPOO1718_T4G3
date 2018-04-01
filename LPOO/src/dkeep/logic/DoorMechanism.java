@@ -1,11 +1,16 @@
 package dkeep.logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class DoorMechanism {
+public class DoorMechanism implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8961286346021737109L;
 	protected int pos[];
 	protected ArrayList< ArrayList<Integer> >doors;
 	protected char symbol;
@@ -71,4 +76,5 @@ public class DoorMechanism {
 		return "Mechanism " + Arrays.toString(pos);
 	}
 
+	
 }

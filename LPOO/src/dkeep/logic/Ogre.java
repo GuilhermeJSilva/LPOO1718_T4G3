@@ -3,6 +3,10 @@ package dkeep.logic;
 import java.util.Random;
 
 public class Ogre extends Enemy {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6255598912534679523L;
 	private int clubPos[];
 	private char club;
 	private int stunnedTurns;
@@ -137,7 +141,9 @@ public class Ogre extends Enemy {
 
 	@Override
 	public void print(char[][] map) {
-		// TODO Auto-generated method stub
+		if(map == null || this.getPos()[0] >=  map.length || (this.getPos()[1] >= map[0].length))
+			return;
+		
 		if(map[this.getPos()[0]][this.getPos()[1]] == 'k')
 			map[this.getPos()[0]][this.getPos()[1]] = '$';
 		else
