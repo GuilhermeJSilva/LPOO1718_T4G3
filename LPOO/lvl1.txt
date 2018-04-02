@@ -3,7 +3,7 @@ XXXXXXXXXX
 X   I X  X
 XXX XXX  X
 X I I X  X
-XXX XXX  X
+XXXIXXX  X
 I        X
 I        X
 XXX XXXX X
@@ -11,6 +11,8 @@ X I I X  X
 XXXXXXXXXX
 Guard
 1 8 assssaaaaaasdddddddwwwww
+Key
+1 3 4 3 0
 Lever
 8 7 5 0 1 6 0 1
 Hero

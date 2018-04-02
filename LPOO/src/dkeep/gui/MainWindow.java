@@ -126,7 +126,7 @@ public class MainWindow {
 		gridBagLayout.rowWeights = new double[] { 1.0 };
 
 		frame.getContentPane().setLayout(gridBagLayout);
-
+ 
 		leftSide = new JPanel();
 		GridBagConstraints gbc_leftSide = new GridBagConstraints();
 		gbc_leftSide.insets = new Insets(0, 0, 0, 0);
@@ -274,7 +274,8 @@ public class MainWindow {
 		gbc_panel.gridy = 0;
 		rightSide.add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWeights = new double[] { 1.0, 0.0 };
+		gbl_panel.columnWidths = new int[]{124, 0};
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0 };
 		gbl_panel.rowWeights = new double[] { 0.0, 0.0 };
 		panel.setLayout(gbl_panel);
 
@@ -794,50 +795,16 @@ public class MainWindow {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (btnAddLevel.isEnabled()) {
-					int index = 0;
-					if (editor.getHero() == null) {
-						lblInfo.setText("No hero");
-						return;
-					}
-
-					if (editor.getdMechanism().size() == 0) {
-						lblInfo.setText("No way out");
-						return;
-					}
-
-					boolean exit = false;
-					for (DoorMechanism dMecha : editor.getdMechanism()) {
-
-						for (Door d : dMecha.getDoors()) {
-							if (d.getOpenS() == 'S')
-								exit = true;
-						}
-
-					}
-					if (!exit) {
-						lblInfo.setText("No way out");
-					}
-
+					
 					try {
-						index = Integer.parseInt(txtLevelN.getText());
-					} catch (NumberFormatException e) {
-						lblInfo.setText("Invalid level number");
-						return;
-					}
-
-					if (txtFileName.getText().equals("Filename")) {
-						lblInfo.setText("Invalid filename");
-						return;
-					}
-
-					if (editor == null) {
-						lblInfo.setText("Invalid editor");
-						return;
-					}
-					String fileName;
-					try {
+						String fileName;
+						int index = 0;
+						index = checkLevel(index);
+						if(index == -1)
+							return;
+						
 						fileName = txtFileName.getText();
-						editor.saveLevel(txtFileName.getText());
+						editor.saveLevel(fileName);
 						editor.replaceLvl(index, fileName);
 						editor.saveLevelFiles();
 					} catch (FileNotFoundException e) {
@@ -931,50 +898,16 @@ public class MainWindow {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (btnAddLevel.isEnabled()) {
-					int index = 0;
-					if (editor.getHero() == null) {
-						lblInfo.setText("No hero");
-						return;
-					}
-
-					if (editor.getdMechanism().size() == 0) {
-						lblInfo.setText("No way out");
-						return;
-					}
-
-					boolean exit = false;
-					for (DoorMechanism dMecha : editor.getdMechanism()) {
-
-						for (Door d : dMecha.getDoors()) {
-							if (d.getOpenS() == 'S')
-								exit = true;
-						}
-
-					}
-					if (!exit) {
-						lblInfo.setText("No way out");
-					}
-
+					
 					try {
-						index = Integer.parseInt(txtLevelN.getText());
-					} catch (NumberFormatException e) {
-						lblInfo.setText("Invalid level number");
-						return;
-					}
-
-					if (txtFileName.getText().equals("Filename")) {
-						lblInfo.setText("Invalid filename");
-						return;
-					}
-
-					if (editor == null) {
-						lblInfo.setText("Invalid editor");
-						return;
-					}
-					String fileName;
-					try {
+						String fileName;
+						int index = 0;
+						
+						index = checkLevel(index);
+						if(index == -1)
+							return;
 						fileName = txtFileName.getText();
-						editor.saveLevel(txtFileName.getText());
+						editor.saveLevel(fileName);
 						editor.insertLvl(index, fileName);
 						editor.saveLevelFiles();
 					} catch (FileNotFoundException e) {
@@ -1040,7 +973,7 @@ public class MainWindow {
 	}
 
 	public void enableChanges(boolean value) {
-		newGameBt.setEnabled(value);
+		//newGameBt.setEnabled(value);
 		textField.setEditable(value);
 		comboBox.setEnabled(value);
 
@@ -1112,6 +1045,50 @@ public class MainWindow {
 				guard_CB.addItem((Guard) enemy);
 			}
 		}
+	}
+
+	protected int checkLevel(int index) {
+		if (editor == null) {
+			lblInfo.setText("Invalid editor");
+			return -1;
+		}
+		
+		
+		if (editor.getHero() == null) {
+			lblInfo.setText("No hero");
+			return -1;
+		}
+
+		if (editor.getdMechanism().size() == 0) {
+			lblInfo.setText("No way out");
+			return -1;
+		}
+
+		boolean exit = false;
+		for (DoorMechanism dMecha : editor.getdMechanism()) {
+
+			for (Door d : dMecha.getDoors()) {
+				if (d.getOpenS() == 'S')
+					exit = true;
+			}
+
+		}
+		if (!exit) {
+			lblInfo.setText("No way out");
+		}
+
+		try {
+			index = Integer.parseInt(txtLevelN.getText());
+		} catch (NumberFormatException e) {
+			lblInfo.setText("Invalid level number");
+			return -1;
+		}
+
+		if (txtFileName.getText().equals("Filename")) {
+			lblInfo.setText("Invalid filename");
+			return -1;
+		}
+		return index;
 	}
 
 }

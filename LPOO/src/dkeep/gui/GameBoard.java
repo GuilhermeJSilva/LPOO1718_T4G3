@@ -16,8 +16,6 @@ public class GameBoard extends JPanel {
 	private static final long serialVersionUID = 8172821655077352557L;
 	private char[][] map;
 	private String guardType = "";
-	private int gameSize = 0;
-	private int maxSize = 0;
 	private int deltaX = 0;
 	private int deltaY = 0;
 	private int deltaD = 0;
@@ -65,51 +63,11 @@ public class GameBoard extends JPanel {
 
 	}
 
-	public void paintComponent1(Graphics g) {
-		super.paintComponent(g);
-		if (map == null)
-			return;
-		int x = 0, y = 0;
-
-		gameSize = super.getHeight();
-		maxSize = super.getWidth();
-
-		if (gameSize > super.getWidth()) {
-			gameSize = super.getWidth();
-			maxSize = super.getHeight();
-		}
-
-		x = (maxSize - super.getHeight()) / 2;
-		y = (maxSize - super.getWidth()) / 2;
-
-		deltaY = gameSize / map.length;
-		deltaX = gameSize / map.length;
-
-		for (char[] cs : map) {
-			x = (maxSize - super.getHeight()) / 2;
-			for (char c : cs) {
-
-				g.drawImage(getImage(c), x, y, deltaX, deltaY, null);
-				x += deltaX;
-			}
-			// System.out.println("");
-			y += deltaY;
-		}
-	}
-
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (map == null)
 			return;
 		int x = 0, y = 0;
-
-		gameSize = super.getHeight();
-		maxSize = super.getWidth();
-
-		if (gameSize > super.getWidth()) {
-			gameSize = super.getWidth();
-			maxSize = super.getHeight();
-		}
 
 		deltaD = Integer.min(super.getWidth() / map[0].length, super.getHeight() / map.length);
 

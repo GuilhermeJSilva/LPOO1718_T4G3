@@ -41,7 +41,7 @@ public class Drunken extends Suspicious {
 			char command = this.getPath()[this.getCounter()];
 			super.movement(map, command);
 		}
-
+		fixCounter();
 	}
 
 

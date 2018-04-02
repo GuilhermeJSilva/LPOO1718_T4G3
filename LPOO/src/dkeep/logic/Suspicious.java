@@ -20,13 +20,17 @@ public class Suspicious extends Guard {
 	public void move(char[][] map) {
 		Random generator = new Random();	
 		this.setBackwards(generator.nextInt(2));
-
+		
 		char command = this.getPath()[this.getCounter()];
 		movement(map, command);
+		fixCounter();
+
+	}
+
+	protected void fixCounter() {
 		if(this.getCounter() < 0)
 			this.setCounter(this.getCounter() + this.getPath().length);
 		this.setCounter(this.getCounter() % this.getPath().length);
-
 	}
 
 	protected void movement(char[][] map, char command) {
@@ -82,7 +86,7 @@ public class Suspicious extends Guard {
 		oldBackwards = this.backwards;
 		this.backwards = backwards;
 		if(oldBackwards != this.backwards) {
-			if(this.backwards == 1)
+			if(this.backwards != 0)
 				this.setCounter((this.getCounter() - 1 + this.getPath().length) % this.getPath().length);
 			else 
 				this.setCounter((this.getCounter() + 1) % this.getPath().length);
