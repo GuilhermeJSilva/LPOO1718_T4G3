@@ -84,10 +84,6 @@ public class MainWindow {
 	final JFileChooser fc = new JFileChooser();
 	private JComboBox<Guard> guard_CB;
 	private JLabel lblGuardPath;
-	/**
-	 * @wbp.nonvisual location=-38,289
-	 */
-	private final JTextField textField_1 = new JTextField();
 	private JTextField txtSizex;
 	private JTextField txtSizey;
 
@@ -122,7 +118,6 @@ public class MainWindow {
 	 * @throws IOException
 	 */
 	private void initialize() throws IOException {
-		textField_1.setColumns(10);
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1 * (1024 - (256 + 32)), 1 * (512));
 		// frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -724,7 +719,7 @@ public class MainWindow {
 		gbc_btnNewLevel.gridx = 0;
 		gbc_btnNewLevel.gridy = 1;
 		editing.add(btnNewLevel, gbc_btnNewLevel);
-		
+
 		txtSizex = new JTextField();
 		txtSizex.setText("10");
 		GridBagConstraints gbc_txtSizex = new GridBagConstraints();
@@ -734,7 +729,7 @@ public class MainWindow {
 		gbc_txtSizex.gridy = 1;
 		editing.add(txtSizex, gbc_txtSizex);
 		txtSizex.setColumns(10);
-		
+
 		txtSizey = new JTextField();
 		txtSizey.setText("10");
 		GridBagConstraints gbc_txtSizey = new GridBagConstraints();
@@ -1093,7 +1088,7 @@ public class MainWindow {
 				path += c;
 			}
 			textField_Path.setText(path);
-			//System.out.println(path);
+			// System.out.println(path);
 		} else
 			textField_Path.setText("");
 	}

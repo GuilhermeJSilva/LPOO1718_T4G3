@@ -13,13 +13,14 @@ public class GameBoard extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 8172821655077352557L;
 	private char[][] map;
 	private String guardType = "";
 	private int gameSize = 0;
 	private int maxSize = 0;
 	private int deltaX = 0;
 	private int deltaY = 0;
+	private int deltaD = 0;
 
 	public void setGuardType(String guardType) {
 		this.guardType = guardType;
@@ -61,10 +62,10 @@ public class GameBoard extends JPanel {
 		herowithkey = ImageIO.read(new File("images/herowithkey.png"));
 		ogrekey = ImageIO.read(new File("images/ogre2key.png"));
 		ogrestunned = ImageIO.read(new File("images/ogre2stunned.png"));
-		
+
 	}
 
-	public void paintComponent(Graphics g) {
+	public void paintComponent1(Graphics g) {
 		super.paintComponent(g);
 		if (map == null)
 			return;
@@ -93,6 +94,37 @@ public class GameBoard extends JPanel {
 			}
 			// System.out.println("");
 			y += deltaY;
+		}
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (map == null)
+			return;
+		int x = 0, y = 0;
+
+		gameSize = super.getHeight();
+		maxSize = super.getWidth();
+
+		if (gameSize > super.getWidth()) {
+			gameSize = super.getWidth();
+			maxSize = super.getHeight();
+		}
+
+		deltaD = Integer.min(super.getWidth() / map[0].length, super.getHeight() / map.length);
+
+		deltaY = (super.getHeight() - deltaD * map.length) / 2;
+		deltaX = (super.getWidth() - deltaD * map[0].length) / 2;
+
+		y = deltaY;
+		for (char[] cs : map) {
+			x = deltaX;
+			for (char c : cs) {
+
+				g.drawImage(getImage(c), x, y, deltaD, deltaD, null);
+				x += deltaD;
+			}
+			y += deltaD;
 		}
 	}
 
@@ -162,21 +194,21 @@ public class GameBoard extends JPanel {
 
 		}
 	}
-	
+
 	public int[] getMapCoords(int x, int y) throws InvalidClick {
-		if(map == null)
+		if (map == null)
 			throw new InvalidClick();
-		int coords[] =  new int[2];
-		x -= (maxSize - super.getHeight()) / 2;
-		y -= (maxSize - super.getWidth()) / 2;
-		
-		coords[1] = x / deltaX;
-		coords[0] = y / deltaY;
-		
-		if(coords[0] >= map.length || coords[1] >= map[0].length)
+		int coords[] = new int[2];
+		x -= deltaX;
+		y -= deltaY;
+
+		coords[1] = x / deltaD;
+		coords[0] = y / deltaD;
+
+		if (coords[0] >= map.length || coords[1] >= map[0].length)
 			throw new InvalidClick();
-		
+
 		return coords;
-		
+
 	}
 }
