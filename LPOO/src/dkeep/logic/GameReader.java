@@ -22,16 +22,7 @@ public class GameReader implements Serializable {
 	protected Hero hero;
 	protected ArrayList<DoorMechanism> dMechanism = new ArrayList<DoorMechanism>();;
 	protected char map[][];
-	protected Guard guard;
-	protected Ogre ogre;
-
-	public Ogre getOgre() {
-		return ogre;
-	}
-
-	public void setOgre(Ogre ogre) {
-		this.ogre = ogre;
-	}
+	protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
 	public Hero getHero() {
 		return hero;
@@ -39,14 +30,6 @@ public class GameReader implements Serializable {
 
 	public void setHero(Hero hero) {
 		this.hero = hero;
-	}
-
-	public Guard getGuard() {
-		return guard;
-	}
-
-	public void setGuard(Guard guard) {
-		this.guard = guard;
 	}
 
 	public char[][] getMap() {
@@ -100,8 +83,7 @@ public class GameReader implements Serializable {
 	public void readLevel(String fileName) throws IOException {
 		Scanner sc = new Scanner(new File(fileName));
 		try {
-			this.guard = null;
-			this.ogre = null;
+			this.enemies.clear();
 			this.dMechanism.clear();
 			String line = new String();
 			this.map = readMap(sc, line);
@@ -128,6 +110,14 @@ public class GameReader implements Serializable {
 
 	public void setCurr_level(int curr_level) {
 		this.curr_level = curr_level;
+	}
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
+	public void setEnemies(ArrayList<Enemy> enemies) {
+		this.enemies = enemies;
 	}
 
 	protected void readCharacters(Scanner sc) {
@@ -171,7 +161,7 @@ public class GameReader implements Serializable {
 		if (guardScanner.hasNext())
 			path = guardScanner.nextLine().toCharArray();
 
-		this.guard = new Guard(guardPos, Arrays.copyOfRange(path, 1, path.length));
+		this.enemies.add(new Guard(guardPos, Arrays.copyOfRange(path, 1, path.length)));
 
 		guardScanner.close();
 	}
@@ -183,7 +173,7 @@ public class GameReader implements Serializable {
 			ogrePos[0] = ogreScanner.nextInt();
 		if (ogreScanner.hasNextInt())
 			ogrePos[1] = ogreScanner.nextInt();
-		this.ogre = new Ogre(ogrePos.clone());
+		this.enemies.add(new Ogre(ogrePos.clone()));
 		ogreScanner.close();
 	}
 
@@ -210,7 +200,6 @@ public class GameReader implements Serializable {
 			}
 		}
 
-		// System.out.println(Arrays.toString(line.toCharArray()));
 		if (line.equals("Lever")) {
 			this.dMechanism.add(new LeverDoor(keyPos, doors));
 		} else {
@@ -236,9 +225,7 @@ public class GameReader implements Serializable {
 	protected char[][] readMap(Scanner sc, String line) {
 		int x, y;
 		x = sc.nextInt();
-		// System.out.println(x);
 		y = sc.nextInt();
-		// System.out.println(y);
 		if (sc.hasNext())
 			line = sc.nextLine();
 		char map[][] = new char[x][y];
@@ -282,15 +269,11 @@ public class GameReader implements Serializable {
 			}
 			writer.println();
 		}
-		saveGuard(writer);
-
-		saveOgre(writer);
-
+		saveEnemies(writer);
 		saveKey(writer);
-
 		saveLever(writer);
-
 		saveHero(writer);
+
 		writer.close();
 
 	}
@@ -335,15 +318,25 @@ public class GameReader implements Serializable {
 		}
 	}
 
-	protected void saveOgre(PrintWriter writer) {
-		if (this.ogre != null) {
+	protected void saveEnemies(PrintWriter writer) {
+		for (Enemy enemy : enemies) {
+			if (enemy instanceof Guard) {
+				saveGuard((Guard) enemy, writer);
+			} else if (enemy instanceof Ogre) {
+				saveOgre((Ogre) enemy, writer);
+			}
+		}
+	}
+
+	protected void saveOgre(Ogre ogre, PrintWriter writer) {
+		if (ogre != null) {
 			writer.println("Ogre");
 			writer.println(ogre.getPos()[0] + " " + ogre.getPos()[1]);
 		}
 	}
 
-	protected void saveGuard(PrintWriter writer) {
-		if (this.guard != null) {
+	protected void saveGuard(Guard guard, PrintWriter writer) {
+		if (guard != null) {
 			writer.println("Guard");
 			writer.print(guard.getPos()[0] + " " + guard.getPos()[1] + " ");
 			for (char c : guard.getPath())
@@ -371,10 +364,9 @@ public class GameReader implements Serializable {
 		if (hero != null)
 			mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
 
-		if (this.guard != null)
-			this.guard.print(mapWChar);
-		if (this.ogre != null)
-			this.ogre.print(mapWChar);
+		for (Enemy enemy : enemies) {
+			enemy.print(mapWChar);
+		}
 		return mapWChar;
 	}
 }

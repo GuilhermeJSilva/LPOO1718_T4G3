@@ -11,26 +11,25 @@ import java.util.Scanner;
 public class Game extends GameReader implements Serializable {
 
 	private static final long serialVersionUID = 8322748650867056100L;
-	private ArrayList<Enemy> enemy;
+
 
 	public Game(Hero hero, char map[][]) {
 		super();
 		this.hero = hero;
 		this.map = deepCopyCharMatrix(map);
-		enemy = new ArrayList<Enemy>();
 	}
 
 	public Game() throws IOException {
-		enemy = new ArrayList<Enemy>();
+		enemies = new ArrayList<Enemy>();
 		this.readLevelNames();
 	}
 
 	public void addEnemy(Guard guard) {
-		enemy.add(guard);
+		enemies.add(guard);
 	}
 
 	public void addEnemy(Ogre guard) {
-		enemy.add(guard);
+		enemies.add(guard);
 	}
 
 	public int endLevel() {
@@ -38,8 +37,8 @@ public class Game extends GameReader implements Serializable {
 			return 0;
 		}
 
-		for (int i = 0; i < enemy.size(); i++) {
-			if (enemy.get(i).killedHero(hero)) {
+		for (int i = 0; i < enemies.size(); i++) {
+			if (enemies.get(i).killedHero(hero)) {
 				return 2;
 			}
 		}
@@ -58,9 +57,9 @@ public class Game extends GameReader implements Serializable {
 		if (hero != null)
 			mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
 
-		for (int i = 0; i < enemy.size(); i++) {
-			if (enemy.get(i) != null)
-				enemy.get(i).print(mapWChar);
+		for (int i = 0; i < enemies.size(); i++) {
+			if (enemies.get(i) != null)
+				enemies.get(i).print(mapWChar);
 		}
 
 		return mapWChar;
@@ -69,8 +68,8 @@ public class Game extends GameReader implements Serializable {
 	public void movement(char command) {
 		if (!hero.move(command, map))
 			return;
-		for (int i = 0; i < enemy.size(); i++) {
-			enemy.get(i).move(map);
+		for (int i = 0; i < enemies.size(); i++) {
+			enemies.get(i).move(map);
 		}
 		
 		for (Iterator<DoorMechanism> iterator = dMechanism.iterator(); iterator.hasNext();) {
@@ -79,14 +78,6 @@ public class Game extends GameReader implements Serializable {
 				if(dMecha.activateMechanism(hero, map) && dMecha instanceof KeyDoor)
 					iterator.remove();
 		}
-	}
-
-	public ArrayList<Enemy> getEnemy() {
-		return enemy;
-	}
-
-	public void setEnemy(ArrayList<Enemy> enemy) {
-		this.enemy = enemy;
 	}
 
 	public boolean nextLevel(int numberOfOgres, String guardType) {
@@ -107,7 +98,7 @@ public class Game extends GameReader implements Serializable {
 	public void readLevel(String fileName, int numberOfOgres, String guardType) throws IOException {
 		Scanner sc = new Scanner(new File(fileName));
 		try {
-			this.enemy.clear();
+			this.enemies.clear();
 			this.dMechanism.clear();
 			String line = new String();
 			this.map = readMap(sc, line);
@@ -185,7 +176,7 @@ public class Game extends GameReader implements Serializable {
 		if (ogreScanner.hasNextInt())
 			ogrePos[1] = ogreScanner.nextInt();
 		for (int i = 0; i < numberOfOgres; i++)
-			this.enemy.add(new Ogre(ogrePos.clone()));
+			this.enemies.add(new Ogre(ogrePos.clone()));
 		ogreScanner.close();
 	}
 

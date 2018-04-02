@@ -82,7 +82,7 @@ public class GameBoard extends JPanel {
 		y = (maxSize - super.getWidth()) / 2;
 
 		deltaY = gameSize / map.length;
-		deltaX = gameSize / map[0].length;
+		deltaX = gameSize / map.length;
 
 		for (char[] cs : map) {
 			x = (maxSize - super.getHeight()) / 2;

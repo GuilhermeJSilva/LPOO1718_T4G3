@@ -122,13 +122,13 @@ public class TestDungeonOgre {
 		int counter = 0;
 		while (!up || !down || !left || !right || !upC || !downC || !leftC || !rightC) {
 			Cli.printChar(level.getMapWCharacter());
-			Ogre ogre = (Ogre) level.getEnemy().get(0);
+			Ogre ogre = (Ogre) level.getEnemies().get(0);
 			int prevPos[] = ogre.getPos().clone();
 			level.endLevel(); // System.out.println(Arrays.toString(prevPos));
 			level.movement(path[counter]);
 
-			ogre = (Ogre) level.getEnemy().get(0);
-			int newPos[] = level.getEnemy().get(0).getPos();
+			ogre = (Ogre) level.getEnemies().get(0);
+			int newPos[] = level.getEnemies().get(0).getPos();
 			// System.out.println(Arrays.toString(newPos));
 			int newCPos[] = ogre.getClubPos();
 

@@ -18,7 +18,7 @@ public class Guard extends Enemy {
 	
 	@Override
 	public String toString() {
-		return "Guard [path=" + Arrays.toString(path) + ", pos=" + Arrays.toString(pos) + "]";
+		return "Guard [" + Arrays.toString(pos) + "]";
 	}
 
 	public char[] getPath() {

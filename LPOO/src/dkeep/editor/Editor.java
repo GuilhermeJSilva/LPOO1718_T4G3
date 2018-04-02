@@ -1,8 +1,10 @@
 package dkeep.editor;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import dkeep.logic.DoorMechanism;
+import dkeep.logic.Enemy;
 import dkeep.logic.GameReader;
 import dkeep.logic.Guard;
 import dkeep.logic.Hero;
@@ -16,20 +18,18 @@ public class Editor extends GameReader {
 	 * 
 	 */
 	private static final long serialVersionUID = 5762702670337539602L;
-
+	
 	public Editor(int sizeX, int sizeY) {
 		super();
 		this.map = new char[sizeX][sizeY];
 		this.resetMap();
 		this.hero = null;
-		this.guard = null;
-		this.ogre = null;
 	}
 
 	public void resetMap() {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
-				if (i == map.length - 1 || i == 0 || j == map.length - 1 || j == 0) {
+				if (i == map.length - 1 || i == 0 || j == map[i].length - 1 || j == 0) {
 					map[i][j] = 'X';
 				} else
 					map[i][j] = ' ';
@@ -60,7 +60,7 @@ public class Editor extends GameReader {
 		}
 	}
 
-	public void editCoords(int[] coords, String tileName, String path) {
+	public void editCoords(int[] coords, String tileName) {
 		if (coords.length < 2)
 			return;
 
@@ -83,11 +83,11 @@ public class Editor extends GameReader {
 			break;
 		case "Ogre Spawn":
 			eliminateCharacter(coords);
-			this.ogre = new Ogre(coords.clone());
+			this.enemies.add(new Ogre(coords.clone()));
 			break;
 		case "Guard":
 			eliminateCharacter(coords);
-			this.guard = new Guard(coords.clone(), path.toCharArray());
+			this.enemies.add(new Guard(coords.clone(), new char[0]));
 			break;
 		case "Key":
 			eliminateCharacter(coords);
@@ -113,14 +113,15 @@ public class Editor extends GameReader {
 			dMecha.rmDoor(coords);
 		}
 
-		if (this.ogre != null && Arrays.equals(coords, ogre.getPos()))
-			this.ogre = null;
-
+		for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();) {
+			Enemy enemy = (Enemy) iterator.next();
+			if(Arrays.equals(enemy.getPos(), coords)) {
+				iterator.remove();
+			}
+		}
+		
 		if (this.hero != null && Arrays.equals(coords, hero.getPos()))
 			this.hero = null;
-
-		if (this.guard != null && Arrays.equals(coords, guard.getPos()))
-			this.guard = null;
 
 		for (DoorMechanism dMecha : dMechanism) {
 			if (Arrays.equals(coords, dMecha.getPos())) {

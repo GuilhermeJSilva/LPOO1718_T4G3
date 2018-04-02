@@ -33,7 +33,11 @@ import javax.swing.event.DocumentListener;
 import dkeep.editor.Editor;
 import dkeep.logic.Door;
 import dkeep.logic.DoorMechanism;
+import dkeep.logic.Enemy;
 import dkeep.logic.Game;
+import dkeep.logic.Guard;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class MainWindow {
 
@@ -62,7 +66,6 @@ public class MainWindow {
 	private JPanel editing;
 	private JLabel tileChoser;
 	private JComboBox<String> tileChoser_CB;
-	private JLabel guardPath;
 	private JTextField textField_Path;
 	private JButton btnStartEdit;
 	private JButton btnNxtLevel;
@@ -79,6 +82,14 @@ public class MainWindow {
 	private JButton btnSaveGame;
 
 	final JFileChooser fc = new JFileChooser();
+	private JComboBox<Guard> guard_CB;
+	private JLabel lblGuardPath;
+	/**
+	 * @wbp.nonvisual location=-38,289
+	 */
+	private final JTextField textField_1 = new JTextField();
+	private JTextField txtSizex;
+	private JTextField txtSizey;
 
 	/**
 	 * Launch the application.
@@ -111,6 +122,7 @@ public class MainWindow {
 	 * @throws IOException
 	 */
 	private void initialize() throws IOException {
+		textField_1.setColumns(10);
 		frame = new JFrame();
 		frame.setBounds(10, 10, 1 * (1024 - (256 + 32)), 1 * (512));
 		// frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -159,14 +171,15 @@ public class MainWindow {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				DoorMechanism dm = null;
-				if (game != null)
+				if (game != null) {
+					gameArea.requestFocusInWindow();
 					return;
+				}
 				try {
 					int coords[] = gameArea.getMapCoords(e.getX(), e.getY());
 					String tile = (String) tileChoser_CB.getSelectedItem();
-					String path = (String) textField_Path.getText();
 					System.out.println(Arrays.toString(coords));
-					editor.editCoords(coords, tile, path);
+					editor.editCoords(coords, tile);
 					if (editor != null) {
 						switch (tile) {
 						case "Door":
@@ -188,14 +201,14 @@ public class MainWindow {
 						default:
 							break;
 						}
-
-						updateKeysCB();
+						updateEditFields();
 					}
 					gameArea.setMap(editor.getMapWCharacter());
 					gameArea.repaint();
 				} catch (InvalidClick ex) {
 					System.err.println("Invalid click");
 				}
+				gameArea.requestFocusInWindow();
 			}
 		});
 		gameArea.addKeyListener(new KeyAdapter() {
@@ -568,7 +581,7 @@ public class MainWindow {
 		gbl_settings_panel.rowWeights = new double[] { 0.0, 0.0 };
 		settings_panel.setLayout(gbl_settings_panel);
 
-		lblNewLabel_1 = new JLabel("Number of Ogres");
+		lblNewLabel_1 = new JLabel("Ogres per Spawn");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 0;
@@ -622,7 +635,7 @@ public class MainWindow {
 		tabbedPane.addTab("Editing", null, editing, null);
 		GridBagLayout gbl_editing = new GridBagLayout();
 		gbl_editing.columnWeights = new double[] { 1.0, 1.0 };
-		gbl_editing.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		gbl_editing.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		editing.setLayout(gbl_editing);
 
 		btnStartEdit = new JButton("Start Edit");
@@ -643,6 +656,7 @@ public class MainWindow {
 					updateEditFields();
 					setLevelParam();
 					gameArea.repaint();
+					updateGuardCB();
 				}
 				gameArea.requestFocusInWindow();
 			}
@@ -667,6 +681,7 @@ public class MainWindow {
 						updateKeysCB();
 						setLevelParam();
 						gameArea.repaint();
+						updateGuardCB();
 					}
 				}
 				gameArea.requestFocusInWindow();
@@ -682,29 +697,60 @@ public class MainWindow {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (btnNewLevel.isEnabled()) {
-					editor = new Editor(10, 10);
+					int sizeX = 10;
+					int sizeY = 10;
+					try {
+						sizeX = Integer.parseInt(txtSizex.getText());
+						sizeY = Integer.parseInt(txtSizey.getText());
+					} catch (NumberFormatException e) {
+						lblInfo.setText("Invalid level number");
+						return;
+					}
+					editor = new Editor(sizeX, sizeY);
 					updateEditFields();
 					updateKeysCB();
 					txtLevelN.setText("Lvl order");
 					txtFileName.setText("Filename");
 					gameArea.repaint();
+					updateGuardCB();
 				}
+
 				gameArea.requestFocusInWindow();
 			}
 		});
 		GridBagConstraints gbc_btnNewLevel = new GridBagConstraints();
-		gbc_btnNewLevel.gridwidth = 2;
-		gbc_btnNewLevel.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewLevel.gridheight = 2;
+		gbc_btnNewLevel.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewLevel.gridx = 0;
 		gbc_btnNewLevel.gridy = 1;
 		editing.add(btnNewLevel, gbc_btnNewLevel);
+		
+		txtSizex = new JTextField();
+		txtSizex.setText("10");
+		GridBagConstraints gbc_txtSizex = new GridBagConstraints();
+		gbc_txtSizex.insets = new Insets(0, 0, 5, 0);
+		gbc_txtSizex.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSizex.gridx = 1;
+		gbc_txtSizex.gridy = 1;
+		editing.add(txtSizex, gbc_txtSizex);
+		txtSizex.setColumns(10);
+		
+		txtSizey = new JTextField();
+		txtSizey.setText("10");
+		GridBagConstraints gbc_txtSizey = new GridBagConstraints();
+		gbc_txtSizey.insets = new Insets(0, 0, 5, 0);
+		gbc_txtSizey.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSizey.gridx = 1;
+		gbc_txtSizey.gridy = 2;
+		editing.add(txtSizey, gbc_txtSizey);
+		txtSizey.setColumns(10);
 
 		lblKeyToOpen = new JLabel("Key To Open");
 		lblKeyToOpen.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblKeyToOpen = new GridBagConstraints();
 		gbc_lblKeyToOpen.insets = new Insets(0, 0, 5, 5);
 		gbc_lblKeyToOpen.gridx = 0;
-		gbc_lblKeyToOpen.gridy = 3;
+		gbc_lblKeyToOpen.gridy = 4;
 		editing.add(lblKeyToOpen, gbc_lblKeyToOpen);
 
 		keysCB = new JComboBox<DoorMechanism>();
@@ -712,8 +758,31 @@ public class MainWindow {
 		gbc_keysCB.insets = new Insets(0, 0, 5, 0);
 		gbc_keysCB.fill = GridBagConstraints.HORIZONTAL;
 		gbc_keysCB.gridx = 1;
-		gbc_keysCB.gridy = 3;
+		gbc_keysCB.gridy = 4;
 		editing.add(keysCB, gbc_keysCB);
+
+		lblGuardPath = new JLabel("Guard Path");
+		GridBagConstraints gbc_lblGuardPath = new GridBagConstraints();
+		gbc_lblGuardPath.gridwidth = 2;
+		gbc_lblGuardPath.insets = new Insets(0, 0, 5, 0);
+		gbc_lblGuardPath.gridx = 0;
+		gbc_lblGuardPath.gridy = 5;
+		editing.add(lblGuardPath, gbc_lblGuardPath);
+
+		guard_CB = new JComboBox<Guard>();
+		guard_CB.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent event) {
+				if (event.getStateChange() == ItemEvent.SELECTED) {
+					updateGuardPathText();
+				}
+			}
+		});
+		GridBagConstraints gbc_guard_CB = new GridBagConstraints();
+		gbc_guard_CB.insets = new Insets(0, 0, 5, 5);
+		gbc_guard_CB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_guard_CB.gridx = 0;
+		gbc_guard_CB.gridy = 6;
+		editing.add(guard_CB, gbc_guard_CB);
 
 		txtLevelN = new JTextField();
 		txtLevelN.setText("Level n\u00BA");
@@ -721,7 +790,7 @@ public class MainWindow {
 		gbc_txtLevelN.insets = new Insets(0, 0, 5, 0);
 		gbc_txtLevelN.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtLevelN.gridx = 1;
-		gbc_txtLevelN.gridy = 5;
+		gbc_txtLevelN.gridy = 7;
 		editing.add(txtLevelN, gbc_txtLevelN);
 		txtLevelN.setColumns(10);
 
@@ -791,7 +860,7 @@ public class MainWindow {
 		GridBagConstraints gbc_btnReplaceLevel = new GridBagConstraints();
 		gbc_btnReplaceLevel.insets = new Insets(0, 0, 5, 5);
 		gbc_btnReplaceLevel.gridx = 0;
-		gbc_btnReplaceLevel.gridy = 6;
+		gbc_btnReplaceLevel.gridy = 8;
 		editing.add(btnReplaceLevel, gbc_btnReplaceLevel);
 
 		txtFileName = new JTextField();
@@ -800,7 +869,7 @@ public class MainWindow {
 		gbc_txtFileName.insets = new Insets(0, 0, 5, 0);
 		gbc_txtFileName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtFileName.gridx = 1;
-		gbc_txtFileName.gridy = 6;
+		gbc_txtFileName.gridy = 8;
 		editing.add(txtFileName, gbc_txtFileName);
 		txtFileName.setColumns(10);
 
@@ -808,7 +877,7 @@ public class MainWindow {
 		GridBagConstraints gbc_tileChoser = new GridBagConstraints();
 		gbc_tileChoser.insets = new Insets(0, 0, 5, 5);
 		gbc_tileChoser.gridx = 0;
-		gbc_tileChoser.gridy = 2;
+		gbc_tileChoser.gridy = 3;
 		editing.add(tileChoser, gbc_tileChoser);
 
 		tileChoser_CB = new JComboBox<String>();
@@ -816,7 +885,7 @@ public class MainWindow {
 		gbc_tileChoser_CB.insets = new Insets(0, 0, 5, 0);
 		gbc_tileChoser_CB.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tileChoser_CB.gridx = 1;
-		gbc_tileChoser_CB.gridy = 2;
+		gbc_tileChoser_CB.gridy = 3;
 		editing.add(tileChoser_CB, gbc_tileChoser_CB);
 		tileChoser_CB.addItem("Wall");
 		tileChoser_CB.addItem("Floor");
@@ -828,14 +897,6 @@ public class MainWindow {
 		tileChoser_CB.addItem("Hero");
 		tileChoser_CB.addItem("Ogre Spawn");
 		tileChoser_CB.addItem("Guard");
-
-		guardPath = new JLabel("Path");
-		guardPath.setToolTipText("");
-		GridBagConstraints gbc_guardPath = new GridBagConstraints();
-		gbc_guardPath.insets = new Insets(0, 0, 5, 5);
-		gbc_guardPath.gridx = 0;
-		gbc_guardPath.gridy = 4;
-		editing.add(guardPath, gbc_guardPath);
 
 		textField_Path = new JTextField();
 		textField_Path.getDocument().addDocumentListener(new DocumentListener() {
@@ -853,8 +914,9 @@ public class MainWindow {
 
 			public void updatePath() {
 				String path = textField_Path.getText();
-				if (editor.getGuard() != null) {
-					if (!editor.getGuard().setPath(path.toCharArray())) {
+				Guard guard = (Guard) guard_CB.getSelectedItem();
+				if (guard != null) {
+					if (!guard.setPath(path.toCharArray())) {
 						lblInfo.setText("Wrong guard path");
 					}
 				}
@@ -865,7 +927,7 @@ public class MainWindow {
 		gbc_textField_Path.insets = new Insets(0, 0, 5, 0);
 		gbc_textField_Path.fill = GridBagConstraints.BOTH;
 		gbc_textField_Path.gridx = 1;
-		gbc_textField_Path.gridy = 4;
+		gbc_textField_Path.gridy = 6;
 		editing.add(textField_Path, gbc_textField_Path);
 		textField_Path.setColumns(10);
 
@@ -935,14 +997,14 @@ public class MainWindow {
 		GridBagConstraints gbc_btnAddLevel = new GridBagConstraints();
 		gbc_btnAddLevel.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAddLevel.gridx = 0;
-		gbc_btnAddLevel.gridy = 5;
+		gbc_btnAddLevel.gridy = 7;
 		editing.add(btnAddLevel, gbc_btnAddLevel);
 
 		lblInfo = new JLabel("Info");
 		GridBagConstraints gbc_lblInfo = new GridBagConstraints();
 		gbc_lblInfo.gridwidth = 2;
 		gbc_lblInfo.gridx = 0;
-		gbc_lblInfo.gridy = 7;
+		gbc_lblInfo.gridy = 9;
 		editing.add(lblInfo, gbc_lblInfo);
 		comboBox.addItem("Drunken");
 		comboBox.addItem("Rookie");
@@ -989,7 +1051,6 @@ public class MainWindow {
 
 		tileChoser.setEnabled(value);
 		tileChoser_CB.setEnabled(value);
-		guardPath.setEnabled(value);
 		textField_Path.setEnabled(value);
 		btnStartEdit.setEnabled(value);
 		btnNxtLevel.setEnabled(value);
@@ -1018,15 +1079,23 @@ public class MainWindow {
 
 	protected void updateEditFields() {
 		gameArea.setMap(editor.getMapWCharacter());
-		if (editor.getGuard() != null) {
+		updateKeysCB();
+		updateGuardCB();
+		updateGuardPathText();
+
+	}
+
+	protected void updateGuardPathText() {
+		Guard guard = (Guard) guard_CB.getSelectedItem();
+		if (guard != null) {
 			String path = new String();
-			for (char c : editor.getGuard().getPath()) {
+			for (char c : guard.getPath()) {
 				path += c;
 			}
 			textField_Path.setText(path);
+			//System.out.println(path);
 		} else
 			textField_Path.setText("");
-
 	}
 
 	protected void updateKeysCB() {
@@ -1036,6 +1105,17 @@ public class MainWindow {
 		keysCB.addItem(null);
 		for (DoorMechanism dMecha : editor.getdMechanism()) {
 			keysCB.addItem(dMecha);
+		}
+	}
+
+	protected void updateGuardCB() {
+		guard_CB.removeAllItems();
+		if (editor == null)
+			return;
+		for (Enemy enemy : editor.getEnemies()) {
+			if (enemy instanceof Guard) {
+				guard_CB.addItem((Guard) enemy);
+			}
 		}
 	}
 
