@@ -794,7 +794,7 @@ public class MainWindow {
 		btnReplaceLevel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (btnAddLevel.isEnabled()) {
+				if (btnReplaceLevel.isEnabled()) {
 					
 					try {
 						String fileName;
