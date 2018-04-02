@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import dkeep.editor.GameReader;
+
 public class Game extends GameReader implements Serializable {
 
 	private static final long serialVersionUID = 8322748650867056100L;
@@ -44,25 +46,6 @@ public class Game extends GameReader implements Serializable {
 		}
 
 		return 1;
-	}
-
-	@Override
-	public char[][] getMapWCharacter() {
-		char mapWChar[][] = deepCopyCharMatrix(map);
-		
-		for (DoorMechanism dMecha : dMechanism) {
-			mapWChar[dMecha.getPos()[0]][dMecha.getPos()[1]] = dMecha.getSymbol();
-		}
-
-		if (hero != null)
-			mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
-
-		for (int i = 0; i < enemies.size(); i++) {
-			if (enemies.get(i) != null)
-				enemies.get(i).print(mapWChar);
-		}
-
-		return mapWChar;
 	}
 
 	public void movement(char command) {

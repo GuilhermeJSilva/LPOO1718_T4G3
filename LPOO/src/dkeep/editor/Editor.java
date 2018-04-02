@@ -5,7 +5,6 @@ import java.util.Iterator;
 
 import dkeep.logic.DoorMechanism;
 import dkeep.logic.Enemy;
-import dkeep.logic.GameReader;
 import dkeep.logic.Guard;
 import dkeep.logic.Hero;
 import dkeep.logic.KeyDoor;

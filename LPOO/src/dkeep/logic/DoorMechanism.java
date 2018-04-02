@@ -62,11 +62,6 @@ public abstract class DoorMechanism implements Serializable{
 			}
 		}
 	}
-
-	@Override
-	public String toString() {
-		return "Mechanism " + Arrays.toString(pos);
-	}
 	
 	public abstract boolean activateMechanism(Hero hero, char map[][]);
 

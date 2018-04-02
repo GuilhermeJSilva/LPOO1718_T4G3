@@ -1,4 +1,4 @@
-package dkeep.logic;
+package dkeep.editor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,6 +11,15 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import dkeep.logic.Door;
+import dkeep.logic.DoorMechanism;
+import dkeep.logic.Enemy;
+import dkeep.logic.Guard;
+import dkeep.logic.Hero;
+import dkeep.logic.KeyDoor;
+import dkeep.logic.LeverDoor;
+import dkeep.logic.Ogre;
 
 public class GameReader implements Serializable {
 	/**
@@ -26,10 +35,6 @@ public class GameReader implements Serializable {
 
 	public Hero getHero() {
 		return hero;
-	}
-
-	public void setHero(Hero hero) {
-		this.hero = hero;
 	}
 
 	public char[][] getMap() {
@@ -100,25 +105,15 @@ public class GameReader implements Serializable {
 		return levels;
 	}
 
-	public void setLevels(ArrayList<String> levels) {
-		this.levels = levels;
-	}
 
 	public int getCurr_level() {
 		return curr_level;
-	}
-
-	public void setCurr_level(int curr_level) {
-		this.curr_level = curr_level;
 	}
 
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
 	}
 
-	public void setEnemies(ArrayList<Enemy> enemies) {
-		this.enemies = enemies;
-	}
 
 	protected void readCharacters(Scanner sc) {
 		String line;
