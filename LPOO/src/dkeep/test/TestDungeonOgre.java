@@ -4,11 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
 
 import dkeep.cli.Cli;
+import dkeep.logic.Door;
 import dkeep.logic.Game;
 import dkeep.logic.Hero;
 import dkeep.logic.KeyDoor;
@@ -23,7 +25,10 @@ public class TestDungeonOgre {
 	public void testMoveHeroCapturedByOgre() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, false), map);
 		level.addEnemy(new Ogre(new int[] { 1, 3 }));
-		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new KeyDoor(new int[] {3,1},doors));
 		assertTrue(Arrays.equals(new int[] { 1, 1 }, level.getHero().getPos()));
 		level.getHero().move('d', level.getMap());
 		assertTrue(Arrays.equals(new int[] { 1, 2 }, level.getHero().getPos()));
@@ -34,10 +39,13 @@ public class TestDungeonOgre {
 	public void testMoveHeroPicksUpKey() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, false), map);
 		level.addEnemy(new Ogre(new int[] { 1, 3 }));
-		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new KeyDoor(new int[] {3,1},doors));
 		level.getHero().move('s', level.getMap());
 		level.getHero().move('s', level.getMap());
-		level.getKey().pickKey(level.getHero(), level.getMap());
+		level.getMechanism(level.getHero().getPos()).activateMechanism(level.getHero(), level.getMap());
 		assertEquals(level.getHero().getSymbol(), 'K');
 	}
 
@@ -45,12 +53,17 @@ public class TestDungeonOgre {
 	public void testMoveHeroRunsIntoDoor() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, false), map);
 		level.addEnemy(new Ogre(new int[] { 1, 3 }));
-		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new KeyDoor(new int[] {3,1},doors));
 		level.getHero().move('s', level.getMap());
-		level.getKey().pickKey(level.getHero(), level.getMap());
+		if (level.getMechanism(level.getHero().getPos()) != null)
+			level.getMechanism(level.getHero().getPos()).activateMechanism(level.getHero(), level.getMap());
 		assertTrue(Arrays.equals(new int[] { 2, 1 }, level.getHero().getPos()));
 		level.getHero().move('a', level.getMap());
-		level.getKey().pickKey(level.getHero(), level.getMap());
+		if (level.getMechanism(level.getHero().getPos()) != null)
+			level.getMechanism(level.getHero().getPos()).activateMechanism(level.getHero(), level.getMap());
 		assertTrue(Arrays.equals(new int[] { 2, 1 }, level.getHero().getPos()));
 		assertEquals(level.getMapWCharacter()[2][0], 'I');
 	}
@@ -59,14 +72,20 @@ public class TestDungeonOgre {
 	public void testMoveHeroOpensDoor() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, false), map);
 		level.addEnemy(new Ogre(new int[] { 1, 3 }));
-		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new KeyDoor(new int[] {3,1},doors));
 		level.getHero().move('s', level.getMap());
-		level.getKey().pickKey(level.getHero(), level.getMap());
+		if (level.getMechanism(level.getHero().getPos()) != null)
+		level.getMechanism(level.getHero().getPos()).activateMechanism(level.getHero(), level.getMap());
 		level.getHero().move('s', level.getMap());
-		level.getKey().pickKey(level.getHero(), level.getMap());
+		if (level.getMechanism(level.getHero().getPos()) != null)
+		level.getMechanism(level.getHero().getPos()).activateMechanism(level.getHero(), level.getMap());
 		assertTrue(Arrays.equals(new int[] { 3, 1 }, level.getHero().getPos()));
 		level.getHero().move('a', level.getMap());
-		level.getKey().pickKey(level.getHero(), level.getMap());
+		if (level.getMechanism(level.getHero().getPos()) != null)
+		level.getMechanism(level.getHero().getPos()).activateMechanism(level.getHero(), level.getMap());
 		assertTrue(Arrays.equals(new int[] { 3, 1 }, level.getHero().getPos()));
 		assertEquals(level.getMapWCharacter()[3][0], 'S');
 	}
@@ -75,22 +94,28 @@ public class TestDungeonOgre {
 	public void testMoveHeroWins() {
 		Game level = new Game(new Hero(new int[] { 1, 1 }, false), map);
 		level.addEnemy(new Ogre(new int[] { 1, 3 }));
-		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new KeyDoor(new int[] {3,1},doors));
 		level.getHero().move('s', level.getMap());
 		level.getHero().move('s', level.getMap());
-		level.getKey().pickKey(level.getHero(), level.getMap());
+		level.getMechanism(level.getHero().getPos()).activateMechanism(level.getHero(), level.getMap());
 		level.getHero().move('a', level.getMap());
 		level.getHero().move('a', level.getMap());
 		assertEquals(level.endLevel(), 0);
 
 	}
 
-	@Test(timeout=1000)
+	@Test(timeout = 1000)
 	public void testMoveOgre() {
 
 		Game level = new Game(new Hero(new int[] { 1, 1 }, false), map);
 		level.addEnemy(new Ogre(new int[] { 1, 3 }));
-		level.setKey(new KeyDoor(new int[] { 3, 1 }, new int[][] { { 2, 0 }, { 3, 0 } }));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new KeyDoor(new int[] {3,1},doors));
 		boolean up = false, down = false, left = false, right = false;
 		boolean upC = false, downC = false, leftC = false, rightC = false;
 		char path[] = new char[] { 's', 's', 'd', 'd', 'w', 'w', 'a', 'a' };
@@ -117,7 +142,8 @@ public class TestDungeonOgre {
 				left = true;
 			else if (Arrays.equals(newPos, prevPos))
 				;
-			else fail("Wrong Movement");
+			else
+				fail("Wrong Movement");
 
 			if (Arrays.equals(newCPos, new int[] { newPos[0] + 1, newPos[1] }))
 				downC = true;

@@ -31,6 +31,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import dkeep.editor.Editor;
+import dkeep.logic.Door;
 import dkeep.logic.DoorMechanism;
 import dkeep.logic.Game;
 
@@ -157,7 +158,8 @@ public class MainWindow {
 		gameArea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(game != null)
+				DoorMechanism dm = null;
+				if (game != null)
 					return;
 				try {
 					int coords[] = gameArea.getMapCoords(e.getX(), e.getY());
@@ -168,16 +170,20 @@ public class MainWindow {
 					if (editor != null) {
 						switch (tile) {
 						case "Door":
-							DoorMechanism dm = (DoorMechanism) keysCB.getSelectedItem();
+							dm = (DoorMechanism) keysCB.getSelectedItem();
 							if (dm != null) {
-								dm.addDoor(coords.clone());
+								dm.addDoor(coords.clone(), ' ');
+							}
+							break;
+						case "Exit":
+							dm = (DoorMechanism) keysCB.getSelectedItem();
+							if (dm != null) {
+								dm.addDoor(coords.clone(), 'S');
 							}
 							break;
 						case "Key":
-							keysCB.addItem(editor.getKey());
-							break;
 						case "Lever":
-							keysCB.addItem(editor.getLever());
+							updateKeysCB();
 							break;
 						default:
 							break;
@@ -317,7 +323,8 @@ public class MainWindow {
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fc.getSelectedFile();
 					// This is where a real application would open the file.
-					//System.out.println("Opening: " + file.getAbsolutePath() + "\\t1.ser" + ".\n");
+					// System.out.println("Opening: " + file.getAbsolutePath() + "\\t1.ser" +
+					// ".\n");
 					ObjectOutputStream oos = null;
 					FileOutputStream fout = null;
 					try {
@@ -729,9 +736,22 @@ public class MainWindow {
 						return;
 					}
 
-					if (editor.getKey() == null && editor.getLever() == null) {
+					if (editor.getdMechanism().size() == 0) {
 						lblInfo.setText("No way out");
 						return;
+					}
+
+					boolean exit = false;
+					for (DoorMechanism dMecha : editor.getdMechanism()) {
+
+						for (Door d : dMecha.getDoors()) {
+							if (d.getOpenS() == 'S')
+								exit = true;
+						}
+
+					}
+					if (!exit) {
+						lblInfo.setText("No way out");
 					}
 
 					try {
@@ -798,15 +818,16 @@ public class MainWindow {
 		gbc_tileChoser_CB.gridx = 1;
 		gbc_tileChoser_CB.gridy = 2;
 		editing.add(tileChoser_CB, gbc_tileChoser_CB);
+		tileChoser_CB.addItem("Wall");
+		tileChoser_CB.addItem("Floor");
+		tileChoser_CB.addItem("Door");
+		tileChoser_CB.addItem("Exit");
+		tileChoser_CB.addItem("Key");
+		tileChoser_CB.addItem("Lever");
 		tileChoser_CB.addItem("Hero Armed");
 		tileChoser_CB.addItem("Hero");
 		tileChoser_CB.addItem("Ogre Spawn");
 		tileChoser_CB.addItem("Guard");
-		tileChoser_CB.addItem("Key");
-		tileChoser_CB.addItem("Lever");
-		tileChoser_CB.addItem("Door");
-		tileChoser_CB.addItem("Wall");
-		tileChoser_CB.addItem("Floor");
 
 		guardPath = new JLabel("Path");
 		guardPath.setToolTipText("");
@@ -859,9 +880,22 @@ public class MainWindow {
 						return;
 					}
 
-					if (editor.getKey() == null && editor.getLever() == null) {
+					if (editor.getdMechanism().size() == 0) {
 						lblInfo.setText("No way out");
 						return;
+					}
+
+					boolean exit = false;
+					for (DoorMechanism dMecha : editor.getdMechanism()) {
+
+						for (Door d : dMecha.getDoors()) {
+							if (d.getOpenS() == 'S')
+								exit = true;
+						}
+
+					}
+					if (!exit) {
+						lblInfo.setText("No way out");
 					}
 
 					try {
@@ -917,6 +951,7 @@ public class MainWindow {
 		gbc_quitBt.gridx = 0;
 		gbc_quitBt.gridy = 2;
 		rightSide.add(quitBt, gbc_quitBt);
+		enableChanges(true);
 	}
 
 	public void updateScreen() throws NumberFormatException, IOException {
@@ -996,11 +1031,12 @@ public class MainWindow {
 
 	protected void updateKeysCB() {
 		keysCB.removeAllItems();
+		if (editor == null)
+			return;
 		keysCB.addItem(null);
-		if (editor.getKey() != null)
-			keysCB.addItem(editor.getKey());
-		if (editor.getLever() != null)
-			keysCB.addItem(editor.getLever());
+		for (DoorMechanism dMecha : editor.getdMechanism()) {
+			keysCB.addItem(dMecha);
+		}
 	}
 
 }

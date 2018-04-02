@@ -12,6 +12,6 @@ XXXXXXXXXX
 Ogre
 1 4
 Key
-1 8 1 0
+1 8 1 0 1
 Hero
 8 1 1

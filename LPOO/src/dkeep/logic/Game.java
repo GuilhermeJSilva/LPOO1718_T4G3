@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Game extends GameReader implements Serializable {
@@ -13,17 +14,15 @@ public class Game extends GameReader implements Serializable {
 	private ArrayList<Enemy> enemy;
 
 	public Game(Hero hero, char map[][]) {
+		super();
 		this.hero = hero;
 		this.map = deepCopyCharMatrix(map);
 		enemy = new ArrayList<Enemy>();
-		key = null;
-		lever = null;
 	}
 
 	public Game() throws IOException {
 		enemy = new ArrayList<Enemy>();
 		this.readLevelNames();
-
 	}
 
 	public void addEnemy(Guard guard) {
@@ -51,11 +50,10 @@ public class Game extends GameReader implements Serializable {
 	@Override
 	public char[][] getMapWCharacter() {
 		char mapWChar[][] = deepCopyCharMatrix(map);
-		if (lever != null)
-			mapWChar[lever.getPos()[0]][lever.getPos()[1]] = lever.getSymbol();
-
-		if (key != null && !key.isPicked())
-			mapWChar[key.getPos()[0]][key.getPos()[1]] = key.getSymbol();
+		
+		for (DoorMechanism dMecha : dMechanism) {
+			mapWChar[dMecha.getPos()[0]][dMecha.getPos()[1]] = dMecha.getSymbol();
+		}
 
 		if (hero != null)
 			mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
@@ -74,12 +72,13 @@ public class Game extends GameReader implements Serializable {
 		for (int i = 0; i < enemy.size(); i++) {
 			enemy.get(i).move(map);
 		}
-
-		if (lever != null)
-			lever.pullLever(hero, map);
-
-		if (key != null)
-			key.pickKey(hero, map);
+		
+		for (Iterator<DoorMechanism> iterator = dMechanism.iterator(); iterator.hasNext();) {
+			DoorMechanism dMecha = (DoorMechanism) iterator.next();
+			if(dMecha != null)
+				if(dMecha.activateMechanism(hero, map) && dMecha instanceof KeyDoor)
+					iterator.remove();
+		}
 	}
 
 	public ArrayList<Enemy> getEnemy() {
@@ -109,6 +108,7 @@ public class Game extends GameReader implements Serializable {
 		Scanner sc = new Scanner(new File(fileName));
 		try {
 			this.enemy.clear();
+			this.dMechanism.clear();
 			String line = new String();
 			this.map = readMap(sc, line);
 

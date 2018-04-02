@@ -10,6 +10,6 @@ X        X
 X        X
 XXXXXXXXXX
 Key
-5 1 5 0 4 1
+5 1 5 0 1 4 1 0
 Hero
 1 1 1

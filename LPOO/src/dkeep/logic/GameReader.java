@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class GameReader implements Serializable{
+public class GameReader implements Serializable {
 	/**
 	 * 
 	 */
@@ -20,8 +20,7 @@ public class GameReader implements Serializable{
 	protected ArrayList<String> levels = new ArrayList<String>();
 	protected int curr_level = 0;
 	protected Hero hero;
-	protected LeverDoor lever;
-	protected KeyDoor key;
+	protected ArrayList<DoorMechanism> dMechanism = new ArrayList<DoorMechanism>();;
 	protected char map[][];
 	protected Guard guard;
 	protected Ogre ogre;
@@ -42,22 +41,6 @@ public class GameReader implements Serializable{
 		this.hero = hero;
 	}
 
-	public LeverDoor getLever() {
-		return lever;
-	}
-
-	public void setLever(LeverDoor lever) {
-		this.lever = lever;
-	}
-
-	public KeyDoor getKey() {
-		return key;
-	}
-
-	public void setKey(KeyDoor key) {
-		this.key = key;
-	}
-
 	public Guard getGuard() {
 		return guard;
 	}
@@ -72,6 +55,31 @@ public class GameReader implements Serializable{
 
 	public GameReader() {
 		super();
+	}
+
+	public void addMechanism(DoorMechanism mecha) {
+		if (dMechanism != null)
+			dMechanism.add(mecha);
+	}
+
+	public DoorMechanism getMechanism(int coords[]) {
+		if (coords.length < 2) {
+			return null;
+		}
+		for (DoorMechanism dMecha : dMechanism) {
+			if (Arrays.equals(coords, dMecha.getPos())) {
+				return dMecha;
+			}
+		}
+		return null;
+	}
+
+	public ArrayList<DoorMechanism> getdMechanism() {
+		return dMechanism;
+	}
+
+	public void setdMechanism(ArrayList<DoorMechanism> dMechanism) {
+		this.dMechanism = dMechanism;
 	}
 
 	public boolean nextLevel() {
@@ -94,8 +102,7 @@ public class GameReader implements Serializable{
 		try {
 			this.guard = null;
 			this.ogre = null;
-			this.key  = null;
-			this.lever = null;
+			this.dMechanism.clear();
 			String line = new String();
 			this.map = readMap(sc, line);
 
@@ -188,27 +195,26 @@ public class GameReader implements Serializable{
 		if (keyScanner.hasNextInt())
 			keyPos[1] = keyScanner.nextInt();
 
-		ArrayList<int[]> doors = new ArrayList<int[]>();
+		ArrayList<Door> doors = new ArrayList<Door>();
 		while (keyScanner.hasNextInt()) {
 			int door[] = new int[2];
 			if (keyScanner.hasNextInt()) {
 				door[0] = keyScanner.nextInt();
 				if (keyScanner.hasNextInt()) {
 					door[1] = keyScanner.nextInt();
-					doors.add(door);
+					if (keyScanner.hasNextInt()) {
+						int exit = keyScanner.nextInt();
+						doors.add(new Door(door, exit != 0 ? 'S' : ' '));
+					}
 				}
 			}
 		}
 
-		int aDoors[][] = new int[doors.size()][2];
-		aDoors = doors.toArray(aDoors);
 		// System.out.println(Arrays.toString(line.toCharArray()));
 		if (line.equals("Lever")) {
-			this.lever = new LeverDoor(keyPos, aDoors);
-			this.key = null;
+			this.dMechanism.add(new LeverDoor(keyPos, doors));
 		} else {
-			this.key = new KeyDoor(keyPos, aDoors);
-			this.lever = null;
+			this.dMechanism.add(new KeyDoor(keyPos, doors));
 		}
 		keyScanner.close();
 	}
@@ -266,7 +272,7 @@ public class GameReader implements Serializable{
 		writer.close();
 
 	}
-	
+
 	public void saveLevel(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 		writer.println(map.length + " " + map[0].length);
@@ -277,13 +283,13 @@ public class GameReader implements Serializable{
 			writer.println();
 		}
 		saveGuard(writer);
-		
+
 		saveOgre(writer);
-		
+
 		saveKey(writer);
-		
+
 		saveLever(writer);
-		
+
 		saveHero(writer);
 		writer.close();
 
@@ -297,39 +303,50 @@ public class GameReader implements Serializable{
 	}
 
 	protected void saveLever(PrintWriter writer) {
-		if(this.lever != null) {
-			writer.println("Lever");
-			writer.print(lever.getPos()[0] + " " + lever.getPos()[1]);
-			for(ArrayList<Integer> intA: this.lever.getDoors()) {
-				writer.print(" " + intA.get(0) + " " + intA.get(1));
+		if (this.dMechanism != null) {
+			for (DoorMechanism lever : dMechanism) {
+				if (lever instanceof LeverDoor) {
+					writer.println("Lever");
+					writer.print(lever.getPos()[0] + " " + lever.getPos()[1]);
+					for (Door door : lever.getDoors()) {
+						writer.print(" " + door.getPos()[0] + " " + door.getPos()[1] + " "
+								+ (door.getOpenS() == 'S' ? 1 : 0));
+					}
+					writer.println();
+				}
 			}
-			writer.println();
+
 		}
 	}
 
 	protected void saveKey(PrintWriter writer) {
-		if(this.key != null) {
-			writer.println("Key");
-			writer.print(key.getPos()[0] + " " + key.getPos()[1]);
-			for(ArrayList<Integer> intA: this.key.getDoors()) {
-				writer.print(" " + intA.get(0) + " " + intA.get(1));
+		if (this.dMechanism != null) {
+			for (DoorMechanism key : dMechanism) {
+				if (key instanceof KeyDoor) {
+					writer.println("Key");
+					writer.print(key.getPos()[0] + " " + key.getPos()[1]);
+					for (Door door : key.getDoors()) {
+						writer.print(" " + door.getPos()[0] + " " + door.getPos()[1] + " "
+								+ (door.getOpenS() == 'S' ? 1 : 0));
+					}
+					writer.println();
+				}
 			}
-			writer.println();
 		}
 	}
 
 	protected void saveOgre(PrintWriter writer) {
-		if(this.ogre != null) {
+		if (this.ogre != null) {
 			writer.println("Ogre");
 			writer.println(ogre.getPos()[0] + " " + ogre.getPos()[1]);
 		}
 	}
 
 	protected void saveGuard(PrintWriter writer) {
-		if(this.guard != null) {
+		if (this.guard != null) {
 			writer.println("Guard");
 			writer.print(guard.getPos()[0] + " " + guard.getPos()[1] + " ");
-			for(char c: guard.getPath())
+			for (char c : guard.getPath())
 				writer.print(c);
 			writer.println();
 		}
@@ -347,12 +364,10 @@ public class GameReader implements Serializable{
 
 	public char[][] getMapWCharacter() {
 		char mapWChar[][] = deepCopyCharMatrix(map);
-		if (lever != null)
-			mapWChar[lever.getPos()[0]][lever.getPos()[1]] = lever.getSymbol();
 
-		if (key != null && !key.isPicked())
-			mapWChar[key.getPos()[0]][key.getPos()[1]] = key.getSymbol();
-
+		for (DoorMechanism dMecha : dMechanism) {
+			mapWChar[dMecha.getPos()[0]][dMecha.getPos()[1]] = dMecha.getSymbol();
+		}
 		if (hero != null)
 			mapWChar[this.getHero().getPos()[0]][this.getHero().getPos()[1]] = this.getHero().getSymbol();
 

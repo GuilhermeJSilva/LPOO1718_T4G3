@@ -2,6 +2,7 @@ package dkeep.editor;
 
 import java.util.Arrays;
 
+import dkeep.logic.DoorMechanism;
 import dkeep.logic.GameReader;
 import dkeep.logic.Guard;
 import dkeep.logic.Hero;
@@ -11,6 +12,11 @@ import dkeep.logic.Ogre;
 
 public class Editor extends GameReader {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5762702670337539602L;
+
 	public Editor(int sizeX, int sizeY) {
 		super();
 		this.map = new char[sizeX][sizeY];
@@ -18,8 +24,6 @@ public class Editor extends GameReader {
 		this.hero = null;
 		this.guard = null;
 		this.ogre = null;
-		this.key = null;
-		this.lever = null;
 	}
 
 	public void resetMap() {
@@ -56,7 +60,6 @@ public class Editor extends GameReader {
 		}
 	}
 
-	
 	public void editCoords(int[] coords, String tileName, String path) {
 		if (coords.length < 2)
 			return;
@@ -88,12 +91,13 @@ public class Editor extends GameReader {
 			break;
 		case "Key":
 			eliminateCharacter(coords);
-			this.key = new KeyDoor(coords.clone());
+			this.addMechanism(new KeyDoor(coords.clone()));
 			break;
 		case "Lever":
 			eliminateCharacter(coords);
-			this.lever = new LeverDoor(coords.clone());
+			this.addMechanism(new LeverDoor(coords.clone()));
 			break;
+
 		case "Door":
 			eliminateCharacter(coords);
 			setTile('I', coords[0], coords[1]);
@@ -102,30 +106,28 @@ public class Editor extends GameReader {
 	}
 
 	public void eliminateCharacter(int[] coords) {
-		if(coords[0] >=  map.length && coords[1] >= map[coords[0]].length )
+		if (coords[0] >= map.length && coords[1] >= map[coords[0]].length)
 			return;
-		
-		if(key != null)
-			this.key.rmDoor(coords);
-		if(lever !=  null)
-			this.lever.rmDoor(coords);
-			
+
+		for (DoorMechanism dMecha : dMechanism) {
+			dMecha.rmDoor(coords);
+		}
+
 		if (this.ogre != null && Arrays.equals(coords, ogre.getPos()))
 			this.ogre = null;
-		
+
 		if (this.hero != null && Arrays.equals(coords, hero.getPos()))
 			this.hero = null;
-			
+
 		if (this.guard != null && Arrays.equals(coords, guard.getPos()))
 			this.guard = null;
-		
-		if (this.key != null && Arrays.equals(coords, key.getPos())) {
-			this.key = null;
+
+		for (DoorMechanism dMecha : dMechanism) {
+			if (Arrays.equals(coords, dMecha.getPos())) {
+				dMechanism.remove(dMecha);
+				break;
+			}
 		}
-		
-		if (this.lever != null && Arrays.equals(coords, lever.getPos())) {
-			this.lever = null;
-		}
-			
+
 	}
 }

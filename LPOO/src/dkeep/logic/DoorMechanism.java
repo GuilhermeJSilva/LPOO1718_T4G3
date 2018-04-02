@@ -5,31 +5,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class DoorMechanism implements Serializable{
+public abstract class DoorMechanism implements Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8961286346021737109L;
 	protected int pos[];
-	protected ArrayList< ArrayList<Integer> >doors;
+	protected ArrayList< Door >doors;
 	protected char symbol;
-	protected char openSymbol;
 
 	public DoorMechanism() {
 		super();
 	}
 
-	public  ArrayList< ArrayList<Integer> > getDoors() {
+	public  ArrayList< Door > getDoors() {
 		return doors;
-	}
-
-	public char getOpenSymbol() {
-		return openSymbol;
-	}
-
-	public void setOpenSymbol(char openSymbol) {
-		this.openSymbol = openSymbol;
 	}
 
 	public int[] getPos() {
@@ -48,23 +39,24 @@ public class DoorMechanism implements Serializable{
 		this.symbol = symbol;
 	}
 	
-	public void addDoor(int[] door) {
+	public void addDoor(int[] door, char openS) {
 		if(door.length < 2)
 			return;
 		
-		ArrayList<Integer> d = new ArrayList<Integer>();
-		d.add(door[0]);
-		d.add(door[1]);
-		doors.add(d);
+		doors.add(new Door(new int[] {door[0],  door[1]}, openS));
+	}
+	
+	public void addDoor(Door door) {
+		doors.add(door);
 	}
 	
 	public void rmDoor(int[] door) {
 		if(door.length < 2)
 			return;
 		
-		for (Iterator<ArrayList<Integer>> iterator = doors.iterator(); iterator.hasNext(); ) {
-			ArrayList<Integer> d1 = iterator.next();
-			if(d1.get(0) == door[0] && d1.get(1) == door[1]) {
+		for (Iterator<Door> iterator = doors.iterator(); iterator.hasNext(); ) {
+			Door d1 = iterator.next();
+			if(d1.getPos()[0] == door[0] && d1.getPos()[0] == door[1]) {
 				iterator.remove();
 				System.out.println("Removing door " + Arrays.toString(door));
 			}
@@ -75,6 +67,8 @@ public class DoorMechanism implements Serializable{
 	public String toString() {
 		return "Mechanism " + Arrays.toString(pos);
 	}
+	
+	public abstract boolean activateMechanism(Hero hero, char map[][]);
 
 	
 }

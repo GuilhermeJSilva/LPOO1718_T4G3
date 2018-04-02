@@ -1,24 +1,24 @@
 package dkeep.logic;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Hero extends Character {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2037315788131079148L;
-	private DoorMechanism key;
+	private ArrayList<KeyDoor> keys = new ArrayList<KeyDoor>();
 	private boolean armed;
 
 	@Override
 	public char getSymbol() {
 
-		if(key == null)
-			if(armed)
+		if (keys.size() == 0)
+			if (armed)
 				return 'A';
 			else
 				return super.getSymbol();
-		else 
+		else
 			return 'K';
 	}
 
@@ -35,79 +35,65 @@ public class Hero extends Character {
 		this.armed = armed;
 	}
 
-	public DoorMechanism getKey() {
-		return key;
-	}
-
-	@Override
-	public String toString() {
-		return "Hero [key=" + key + ", armed=" + armed + ", pos=" + Arrays.toString(pos) + "]";
-	}
-
 	public boolean move(char command, char[][] map) {
 		switch (command) {
 		case 'w':
-			if(map[this.getPos()[0] - 1][this.getPos()[1]] == ' ' || map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
-			{
+			if (map[this.getPos()[0] - 1][this.getPos()[1]] == ' '
+					|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S') {
 				this.getPos()[0]--;
 				return true;
 			}
 
-			if(map[this.getPos()[0] - 1][this.getPos()[1]] == 'I' && key != null)
-			{
-				map[this.getPos()[0] - 1][this.getPos()[1]] = 'S';
-				return true;
-			}
-			break;
+			return openDoor(map, new int[] { this.getPos()[0] - 1, this.getPos()[1] });
 
 		case 'a':
-			if(map[this.getPos()[0]][this.getPos()[1] - 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] - 1] == 'S')
-			{
+			if (map[this.getPos()[0]][this.getPos()[1] - 1] == ' '
+					|| map[this.getPos()[0]][this.getPos()[1] - 1] == 'S') {
 				this.getPos()[1]--;
 				return true;
 			}
 
-			if(map[this.getPos()[0]][this.getPos()[1] - 1] == 'I' && key != null)
-			{
-				map[this.getPos()[0]][this.getPos()[1] - 1] = 'S';
-				return true;
-			}
-			break;
+			return openDoor(map, new int[] { this.getPos()[0], this.getPos()[1] - 1 });
 
 		case 's':
-			if(map[this.getPos()[0] + 1][this.getPos()[1]] == ' '|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
-			{
+			if (map[this.getPos()[0] + 1][this.getPos()[1]] == ' '
+					|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S') {
 				this.getPos()[0]++;
 				return true;
 			}
-
-			if(map[this.getPos()[0] + 1][this.getPos()[1]] == 'I' && key != null)
-			{
-				map[this.getPos()[0] + 1][this.getPos()[1]] = 'S';
-				return true;
-			}
-			break;
+			return openDoor(map, new int[] { this.getPos()[0] + 1, this.getPos()[1] });
 		case 'd':
-			if(map[this.getPos()[0]][this.getPos()[1] + 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] + 1] == 'S')
-			{
+			if (map[this.getPos()[0]][this.getPos()[1] + 1] == ' '
+					|| map[this.getPos()[0]][this.getPos()[1] + 1] == 'S') {
 				this.getPos()[1]++;
 				return true;
 			}
 
-			if(map[this.getPos()[0]][this.getPos()[1] + 1] == 'I' && key != null)
-			{
-				map[this.getPos()[0]][this.getPos()[1] + 1] = 'S';
-				return true;
-			}
-			break;
+			return openDoor(map, new int[] { this.getPos()[0], this.getPos()[1] + 1 });
 		default:
 			break;
 		}
 		return false;
 	}
 
-	public void setKey(DoorMechanism key) {
-		this.key = key;
+	protected boolean openDoor(char map[][], int pos[]) {
+		if (map[pos[0]][pos[1]] == 'I') {
+			if (keys.size() != 0) {
+				for (KeyDoor key : keys) {
+					Door dToOpen = null;
+					if ((dToOpen = key.isADoor(pos)) != null) {
+						map[pos[0]][pos[1]] = dToOpen.getOpenS();
+						return true;
+					}
+				}
+
+			}
+		}
+		return false;
+	}
+
+	public void addKey(KeyDoor key) {
+		this.keys.add(key);
 	}
 
 }

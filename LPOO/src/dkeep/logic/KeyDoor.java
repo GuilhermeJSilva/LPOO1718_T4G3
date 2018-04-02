@@ -10,43 +10,21 @@ public class KeyDoor extends DoorMechanism {
 	private static final long serialVersionUID = -1025689212098839298L;
 	private boolean picked;
 	
-	public KeyDoor(int[] pos, int[][] is) {
+	public KeyDoor(int[] pos, ArrayList<Door> is) {
 		this.pos = pos;
-		this.doors = new ArrayList< ArrayList<Integer> >();
-		for (int[] is2 : is) {
+		this.doors = new ArrayList< Door >();
+		for (Door is2 : is) {
 			this.addDoor(is2);
 		}
 		
 		this.symbol = 'k';
-		this.openSymbol = 'S';
-		this.picked = false;
-	}
-	
-	public KeyDoor(int[] pos, int[][] is, char openS) {
-		this.pos = pos;
-		this.doors = new ArrayList< ArrayList<Integer> >();
-		for (int[] is2 : is) {
-			this.addDoor(is2);
-		}
-		
-		this.symbol = 'k';
-		this.openSymbol = openS;
 		this.picked = false;
 	}
 	
 	public KeyDoor(int[] pos) {
 		this.pos = pos;
-		this.doors = new ArrayList< ArrayList<Integer> >();
+		this.doors = new ArrayList< Door >();
 		this.symbol = 'k';
-		this.openSymbol = 'S';
-		this.picked = false;
-	}
-	
-	public KeyDoor(int[] pos, char openS) {
-		this.pos = pos;
-		this.doors = new ArrayList< ArrayList<Integer> >();
-		this.symbol = 'k';
-		this.openSymbol = openS;
 		this.picked = false;
 	}
 
@@ -58,23 +36,27 @@ public class KeyDoor extends DoorMechanism {
 		this.picked = picked;
 	}
 
-	public void pickKey(Hero hero, char map[][])
+	public boolean activateMechanism(Hero hero, char map[][])
 	{
 		if(hero.getPos()[0] ==  pos[0] && hero.getPos()[1] == pos[1])
 		{
-			hero.setKey(this);
+			hero.addKey(this);
 			picked = true;
-		}
-	}
-
-	//NOT YET USED 
-	public boolean isADoor(int door[])
-	{
-		for (int i = 0; i < doors.size(); i++) {
-			if(doors.get(i).get(0) == door[0] && doors.get(i).get(1) == door[1])
-				return true;
+			return true;
 		}
 		return false;
+	}
+
+	public Door isADoor(int door[])
+	{
+		if(door.length < 2)
+			return null;
+		
+		for (int i = 0; i < doors.size(); i++) {
+			if(doors.get(i).getPos()[0] == door[0] && doors.get(i).getPos()[1] == door[1])
+				return doors.get(i);
+		}
+		return null;
 	}
 
 	@Override

@@ -3,13 +3,15 @@ package dkeep.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
 
+import dkeep.logic.Door;
+import dkeep.logic.Game;
 import dkeep.logic.Guard;
 import dkeep.logic.Hero;
-import dkeep.logic.Game;
 import dkeep.logic.LeverDoor;
 
 public class TestDungeonGameLogic {
@@ -25,7 +27,10 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroIntoFreeCell() {
 		Game level = new Game(new Hero(new int[] {1,1}, false), map);
 		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
-		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new LeverDoor(new int[] {3,1},doors));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('s');
 		assertTrue(Arrays.equals(new int[] {2,1}, level.getHero().getPos()));
@@ -35,7 +40,10 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroIntoWall() {
 		Game level = new Game(new Hero(new int[] {1,1}, false), map);
 		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
-		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new LeverDoor(new int[] {3,1},doors));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('w');
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
@@ -45,7 +53,10 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroIntoDoor() {
 		Game level = new Game(new Hero(new int[] {1,1}, false), map);
 		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
-		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new LeverDoor(new int[] {3,1},doors));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('s');
 		level.movement('a');
@@ -56,7 +67,10 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroOpensDoor() {
 		Game level = new Game(new Hero(new int[] {1,1}, false), map);
 		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
-		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new LeverDoor(new int[] {3,1},doors));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('s');
 		level.movement('s');
@@ -69,7 +83,10 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroMovesToStairs() {
 		Game level = new Game(new Hero(new int[] {1,1}, false), map);
 		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
-		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new LeverDoor(new int[] {3,1},doors));
 		level.movement('s');
 		level.movement('s');
 		level.movement('a');
@@ -81,7 +98,10 @@ public class TestDungeonGameLogic {
 	public void testMoveHeroIsCapturedByGuard() {
 		Game level = new Game(new Hero(new int[] {1,1}, false), map);
 		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
-		level.setLever(new LeverDoor(new int[] {3,1}, new int[][] {{2,0}, {3,0}}));
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new LeverDoor(new int[] {3,1},doors));
 		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
 		level.movement('d');
 		assertTrue(Arrays.equals(new int[] {1,2}, level.getHero().getPos()));
