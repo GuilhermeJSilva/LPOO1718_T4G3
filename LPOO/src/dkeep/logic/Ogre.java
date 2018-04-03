@@ -85,25 +85,23 @@ public class Ogre extends Enemy {
 		
 		Random generator = new Random();
 		int command = generator.nextInt(4); 
+		int newPos[] = null;
 		switch (command) {
 		case 0:
-			if(map[this.getPos()[0] - 1][this.getPos()[1]] == ' ' )
-				this.getPos()[0]--;
-
+			newPos =  new int[] {this.getPos()[0] - 1 ,this.getPos()[1]};
+			moveInto(newPos, map);
 			break;
 		case 1:
-			if(map[this.getPos()[0]][this.getPos()[1] - 1] == ' ')
-				this.getPos()[1]--;
-
+			newPos =  new int[] {this.getPos()[0] ,this.getPos()[1] -1};
+			moveInto(newPos, map);
 			break;
 		case 2:
-			if(map[this.getPos()[0] + 1][this.getPos()[1]] == ' ')
-				this.getPos()[0]++;
-
+			newPos =  new int[] {this.getPos()[0] + 1 ,this.getPos()[1]};
+			moveInto(newPos, map);
 			break;
 		case 3:
-			if(map[this.getPos()[0]][this.getPos()[1] + 1] == ' ')
-				this.getPos()[1]++;
+			newPos =  new int[] {this.getPos()[0] ,this.getPos()[1] + 1};
+			moveInto(newPos, map);
 
 			break;
 

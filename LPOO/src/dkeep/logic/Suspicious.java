@@ -34,39 +34,32 @@ public class Suspicious extends Guard {
 	}
 
 	protected void movement(char[][] map, char command) {
+		int newPos[] =  null;
 		if(backwards == 1)
 		{
 			switch (command) {
-			case 's':
-				if(map[this.getPos()[0] - 1][this.getPos()[1]] == ' ' || map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
-				{
-					this.getPos()[0]--;
-					this.setCounter(this.getCounter() - 1);
-				}
-				break;
-
-			case 'd':
-				if(map[this.getPos()[0]][this.getPos()[1] - 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] - 1] == 'S')
-				{
-					this.getPos()[1]--;
-					this.setCounter(this.getCounter() - 1);
-				}
-				break;
-
 			case 'w':
-				if(map[this.getPos()[0] + 1][this.getPos()[1]] == ' '|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S')
-				{
-					this.getPos()[0]++;
-					this.setCounter(this.getCounter() - 1);
-				}
+				newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
+				if (moveInto(newPos, map))
+					counter--;
 				break;
 
 			case 'a':
-				if(map[this.getPos()[0]][this.getPos()[1] + 1] == ' '|| map[this.getPos()[0]][this.getPos()[1] + 1] == 'S')
-				{
-					this.getPos()[1]++;
-					this.setCounter(this.getCounter() - 1);
-				}
+				newPos = new int[] { this.getPos()[0] , this.getPos()[1] + 1 };
+				if (moveInto(newPos, map))
+					counter--;
+				break;
+
+			case 's':
+				newPos = new int[] { this.getPos()[0] - 1, this.getPos()[1] };
+				if (moveInto(newPos, map))
+					counter--;
+				break;
+
+			case 'd':
+				newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
+				if (moveInto(newPos, map))
+					counter--;
 				break;
 
 			default:

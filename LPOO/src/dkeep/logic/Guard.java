@@ -8,14 +8,14 @@ public class Guard extends Enemy {
 	 */
 	private static final long serialVersionUID = 9167529585915531192L;
 	protected char path[];
-	private int counter;
-	
+	protected int counter;
+
 	public Guard(int[] pos, char path[]) {
 		super(pos, 'G');
 		this.path = path;
 		this.counter = 0;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Guard [" + Arrays.toString(pos) + "]";
@@ -26,15 +26,15 @@ public class Guard extends Enemy {
 	}
 
 	public boolean setPath(char[] path) {
-		if(!checkPath(path))
+		if (!checkPath(path))
 			return false;
 		this.path = path;
 		return true;
 	}
-	
+
 	public boolean checkPath(char[] path) {
 		for (char c : path) {
-			if(c != 'a' && c != 's' && c != 'd' && c != 'w')
+			if (c != 'a' && c != 's' && c != 'd' && c != 'w')
 				return false;
 		}
 		return true;
@@ -50,57 +50,47 @@ public class Guard extends Enemy {
 
 	@Override
 	public void move(char[][] map) {
-		if(path.length == 0)
+		if (path.length == 0)
 			return;
 		counter %= this.path.length;
 		char command = path[counter];
+		int newPos[] = null;
 		switch (command) {
+
 		case 'w':
-			if(map[this.getPos()[0] - 1][this.getPos()[1]] == ' ' )
-			{
-				this.getPos()[0]--;
+			newPos = new int[] { this.getPos()[0] - 1, this.getPos()[1] };
+			if (moveInto(newPos, map))
 				counter++;
-			}
 			break;
 
 		case 'a':
-			if(map[this.getPos()[0]][this.getPos()[1] - 1] == ' ')
-			{
-				this.getPos()[1]--;
+			newPos = new int[] { this.getPos()[0] , this.getPos()[1] - 1 };
+			if (moveInto(newPos, map))
 				counter++;
-			}
 			break;
-				
+
 		case 's':
-			if(map[this.getPos()[0] + 1][this.getPos()[1]] == ' ')
-			{
-				this.getPos()[0]++;
+			newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
+			if (moveInto(newPos, map))
 				counter++;
-			}
 			break;
 
 		case 'd':
-			if(map[this.getPos()[0]][this.getPos()[1] + 1] == ' ')
-			{
-				this.getPos()[1]++;
+			newPos = new int[] { this.getPos()[0], this.getPos()[1] + 1 };
+			if (moveInto(newPos, map))
 				counter++;
-			}
 			break;
-			
+
 		default:
-			counter++;
-			this.move(map);
 			break;
 		}
 		counter %= this.path.length;
 	}
-	
+
 	@Override
-	public boolean killedHero(Hero hero)
-	{
-		if ((Math.abs(hero.getPos()[0] - this.getPos()[0]) <= 1 && hero.getPos()[1] == this.getPos()[1]) ||
-				(Math.abs(hero.getPos()[1] - this.getPos()[1]) <= 1 && hero.getPos()[0] == this.getPos()[0]))
-		{
+	public boolean killedHero(Hero hero) {
+		if ((Math.abs(hero.getPos()[0] - this.getPos()[0]) <= 1 && hero.getPos()[1] == this.getPos()[1])
+				|| (Math.abs(hero.getPos()[1] - this.getPos()[1]) <= 1 && hero.getPos()[0] == this.getPos()[0])) {
 			return true;
 		}
 		return false;
@@ -110,6 +100,5 @@ public class Guard extends Enemy {
 	public void print(char[][] map) {
 		map[this.getPos()[0]][this.getPos()[1]] = this.getSymbol();
 	}
-
 
 }

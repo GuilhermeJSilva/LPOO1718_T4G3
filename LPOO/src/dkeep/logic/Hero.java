@@ -36,40 +36,35 @@ public class Hero extends Character {
 	}
 
 	public boolean move(char command, char[][] map) {
+		int newPos[] =  null;
 		switch (command) {
 		case 'w':
-			if (map[this.getPos()[0] - 1][this.getPos()[1]] == ' '
-					|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S') {
-				this.getPos()[0]--;
+			newPos =  new int[] {this.getPos()[0] - 1 ,this.getPos()[1]};
+			if(moveInto(newPos, map))
 				return true;
-			}
 
-			return openDoor(map, new int[] { this.getPos()[0] - 1, this.getPos()[1] });
+			return openDoor(map, newPos);
 
 		case 'a':
-			if (map[this.getPos()[0]][this.getPos()[1] - 1] == ' '
-					|| map[this.getPos()[0]][this.getPos()[1] - 1] == 'S') {
-				this.getPos()[1]--;
+			newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
+			if( moveInto(newPos, map))
 				return true;
-			}
 
-			return openDoor(map, new int[] { this.getPos()[0], this.getPos()[1] - 1 });
+			return openDoor(map, newPos);
 
 		case 's':
-			if (map[this.getPos()[0] + 1][this.getPos()[1]] == ' '
-					|| map[this.getPos()[0] - 1][this.getPos()[1]] == 'S') {
-				this.getPos()[0]++;
+			newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
+			if( moveInto(newPos, map))
 				return true;
-			}
-			return openDoor(map, new int[] { this.getPos()[0] + 1, this.getPos()[1] });
-		case 'd':
-			if (map[this.getPos()[0]][this.getPos()[1] + 1] == ' '
-					|| map[this.getPos()[0]][this.getPos()[1] + 1] == 'S') {
-				this.getPos()[1]++;
-				return true;
-			}
 
-			return openDoor(map, new int[] { this.getPos()[0], this.getPos()[1] + 1 });
+			return openDoor(map, newPos);
+		case 'd':
+			newPos = new int[] { this.getPos()[0], this.getPos()[1] + 1 };
+			if( moveInto(newPos, map))
+				return true;
+
+			return openDoor(map, newPos);
+
 		default:
 			break;
 		}
