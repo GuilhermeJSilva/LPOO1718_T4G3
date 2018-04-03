@@ -900,6 +900,57 @@ public class MainWindow {
 
 	protected void initializeGameArea() throws IOException {
 		gameArea = new GameBoard();
+		gameAreaAddListeners();
+		GridBagConstraints gbc_gameArea = new GridBagConstraints();
+		gbc_gameArea.weighty = 40.0;
+		gbc_gameArea.weightx = 1.0;
+		gbc_gameArea.gridheight = 15;
+		gbc_gameArea.insets = new Insets(0, 0, 5, 0);
+		gbc_gameArea.fill = GridBagConstraints.BOTH;
+		gbc_gameArea.gridx = 0;
+		gbc_gameArea.gridy = 1;
+		leftSide.add(gameArea, gbc_gameArea);
+	}
+
+	protected void gameAreaAddListeners() {
+		gameAreaAddMouseListener();
+		gameAreaAddKeyListener();
+	}
+
+	protected void gameAreaAddKeyListener() {
+		gameArea.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (KeyEvent.VK_W == arg0.getKeyCode()) {
+					if (game == null)
+						return;
+					game.movement('w');
+
+				} else if (KeyEvent.VK_S == arg0.getKeyCode()) {
+					if (game == null)
+						return;
+					game.movement('s');
+
+				} else if (KeyEvent.VK_A == arg0.getKeyCode()) {
+					if (game == null)
+						return;
+					game.movement('a');
+
+				} else if (KeyEvent.VK_D == arg0.getKeyCode()) {
+					if (game == null)
+						return;
+					game.movement('d');
+
+				} else {
+					return;
+				}
+
+				updateGame();
+			}
+		});
+	}
+
+	protected void gameAreaAddMouseListener() {
 		gameArea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -944,45 +995,6 @@ public class MainWindow {
 				gameArea.requestFocusInWindow();
 			}
 		});
-		gameArea.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if (KeyEvent.VK_W == arg0.getKeyCode()) {
-					if (game == null)
-						return;
-					game.movement('w');
-
-				} else if (KeyEvent.VK_S == arg0.getKeyCode()) {
-					if (game == null)
-						return;
-					game.movement('s');
-
-				} else if (KeyEvent.VK_A == arg0.getKeyCode()) {
-					if (game == null)
-						return;
-					game.movement('a');
-
-				} else if (KeyEvent.VK_D == arg0.getKeyCode()) {
-					if (game == null)
-						return;
-					game.movement('d');
-
-				} else {
-					return;
-				}
-
-				updateGame();
-			}
-		});
-		GridBagConstraints gbc_gameArea = new GridBagConstraints();
-		gbc_gameArea.weighty = 40.0;
-		gbc_gameArea.weightx = 1.0;
-		gbc_gameArea.gridheight = 15;
-		gbc_gameArea.insets = new Insets(0, 0, 5, 0);
-		gbc_gameArea.fill = GridBagConstraints.BOTH;
-		gbc_gameArea.gridx = 0;
-		gbc_gameArea.gridy = 1;
-		leftSide.add(gameArea, gbc_gameArea);
 	}
 
 	public void updateScreen() throws NumberFormatException, IOException {
