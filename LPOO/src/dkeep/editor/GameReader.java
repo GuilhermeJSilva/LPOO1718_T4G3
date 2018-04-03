@@ -147,18 +147,29 @@ public class GameReader implements Serializable {
 
 	protected void readGuard(String charInfo) {
 		Scanner guardScanner = new Scanner(charInfo);
+		
+		int[] guardPos = readGuardPos(guardScanner);
+		char[] path = readPath(guardScanner);
+
+		this.enemies.add(new Guard(guardPos, Arrays.copyOfRange(path, 1, path.length)));
+
+		guardScanner.close();
+	}
+
+	protected char[] readPath(Scanner guardScanner) {
 		char path[] = new char[0];
+		if (guardScanner.hasNext())
+			path = guardScanner.nextLine().toCharArray();
+		return path;
+	}
+
+	protected int[] readGuardPos(Scanner guardScanner) {
 		int guardPos[] = new int[2];
 		if (guardScanner.hasNextInt())
 			guardPos[0] = guardScanner.nextInt();
 		if (guardScanner.hasNextInt())
 			guardPos[1] = guardScanner.nextInt();
-		if (guardScanner.hasNext())
-			path = guardScanner.nextLine().toCharArray();
-
-		this.enemies.add(new Guard(guardPos, Arrays.copyOfRange(path, 1, path.length)));
-
-		guardScanner.close();
+		return guardPos;
 	}
 
 	protected void readOgre(String charInfo) {

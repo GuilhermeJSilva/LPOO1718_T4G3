@@ -9,6 +9,8 @@ X        X
 X        X
 X        X
 XXXXXXXXXX
+Ogre
+1 8
 Key
 5 1 5 0 1 4 1 0
 Hero

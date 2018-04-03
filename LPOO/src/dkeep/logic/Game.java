@@ -126,14 +126,8 @@ public class Game extends GameReader implements Serializable {
 
 	protected void readGuard(String guardType, String charInfo) {
 		Scanner guardScanner = new Scanner(charInfo);
-		char path[] = new char[0];
-		int guardPos[] = new int[2];
-		if (guardScanner.hasNextInt())
-			guardPos[0] = guardScanner.nextInt();
-		if (guardScanner.hasNextInt())
-			guardPos[1] = guardScanner.nextInt();
-		if (guardScanner.hasNext())
-			path = guardScanner.nextLine().toCharArray();
+		int[] guardPos = readGuardPos(guardScanner);
+		char[] path = readPath(guardScanner);
 		switch (guardType) {
 		case "Rookie":
 			// System.out.println(guardType);

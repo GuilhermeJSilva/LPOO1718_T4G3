@@ -97,10 +97,11 @@ public class Editor extends GameReader {
 			this.addMechanism(new LeverDoor(coords.clone()));
 			break;
 
-		case "Door":
+		case "Door": case "Exit":
 			eliminateCharacter(coords);
 			setTile('I', coords[0], coords[1]);
 			break;
+		
 		}
 	}
 

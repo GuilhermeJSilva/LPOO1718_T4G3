@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -31,13 +33,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import dkeep.editor.Editor;
+import dkeep.editor.saveFunction;
 import dkeep.logic.Door;
 import dkeep.logic.DoorMechanism;
 import dkeep.logic.Enemy;
 import dkeep.logic.Game;
 import dkeep.logic.Guard;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class MainWindow {
 
@@ -233,15 +234,7 @@ public class MainWindow {
 					return;
 				}
 
-				try {
-					updateScreen();
-				} catch (NumberFormatException e1) {
-
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				gameArea.requestFocusInWindow();
+				updateGame();
 			}
 		});
 		GridBagConstraints gbc_gameArea = new GridBagConstraints();
@@ -398,15 +391,7 @@ public class MainWindow {
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					}
-					try {
-						updateScreen();
-					} catch (NumberFormatException e1) {
-
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					gameArea.requestFocusInWindow();
+					updateGame();
 					enableChanges(false);
 
 				}
@@ -457,15 +442,7 @@ public class MainWindow {
 					return;
 				game.movement('w');
 
-				try {
-					updateScreen();
-				} catch (NumberFormatException e1) {
-
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				gameArea.requestFocusInWindow();
+				updateGame();
 
 			}
 		});
@@ -490,15 +467,7 @@ public class MainWindow {
 					return;
 				game.movement('a');
 
-				try {
-					updateScreen();
-				} catch (NumberFormatException e1) {
-
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				gameArea.requestFocusInWindow();
+				updateGame();
 			}
 		});
 		GridBagConstraints gbc_leftBt = new GridBagConstraints();
@@ -521,15 +490,7 @@ public class MainWindow {
 					return;
 				game.movement('d');
 
-				try {
-					updateScreen();
-				} catch (NumberFormatException e1) {
-
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				gameArea.requestFocusInWindow();
+				updateGame();
 			}
 		});
 		GridBagConstraints gbc_rightBt = new GridBagConstraints();
@@ -552,15 +513,7 @@ public class MainWindow {
 					return;
 				game.movement('s');
 
-				try {
-					updateScreen();
-				} catch (NumberFormatException e1) {
-
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				gameArea.requestFocusInWindow();
+				updateGame();
 			}
 		});
 		GridBagConstraints gbc_downBt = new GridBagConstraints();
@@ -795,27 +748,12 @@ public class MainWindow {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (btnReplaceLevel.isEnabled()) {
-					
 					try {
-						String fileName;
-						int index = 0;
-						index = checkLevel(index);
-						if(index == -1)
-							return;
-						
-						fileName = txtFileName.getText();
-						editor.saveLevel(fileName);
-						editor.replaceLvl(index, fileName);
-						editor.saveLevelFiles();
-					} catch (FileNotFoundException e) {
-						lblInfo.setText("Invalid filename");
-						return;
-					} catch (UnsupportedEncodingException e) {
-						lblInfo.setText("Invalid ecoding");
-						return;
+						saveFile((index, fileName) -> editor.replaceLvl(index, fileName));
+					} catch (SecurityException e1) {
+						System.err.println("Method not found");
+						System.exit(-2);
 					}
-
-					lblInfo.setText("File Saved");
 				}
 			}
 		});
@@ -898,27 +836,12 @@ public class MainWindow {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (btnAddLevel.isEnabled()) {
-					
 					try {
-						String fileName;
-						int index = 0;
-						
-						index = checkLevel(index);
-						if(index == -1)
-							return;
-						fileName = txtFileName.getText();
-						editor.saveLevel(fileName);
-						editor.insertLvl(index, fileName);
-						editor.saveLevelFiles();
-					} catch (FileNotFoundException e) {
-						lblInfo.setText("Invalid filename");
-						return;
-					} catch (UnsupportedEncodingException e) {
-						lblInfo.setText("Invalid ecoding");
-						return;
+						saveFile((index, fileName) -> editor.insertLvl(index, fileName));
+					} catch (SecurityException e1) {
+						System.err.println("Method not found");
+						System.exit(-2);
 					}
-
-					lblInfo.setText("File Saved");
 				}
 			}
 		});
@@ -1090,5 +1013,41 @@ public class MainWindow {
 		}
 		return index;
 	}
+	
+	public void saveFile(saveFunction saveMethod) {
+		try {
+			String fileName;
+			Integer index = 0;
+			index = checkLevel(index);
+			if(index == -1)
+				return;
+			
+			fileName = txtFileName.getText();
+			editor.saveLevel(fileName);
+			saveMethod.save(index, fileName);
+			editor.saveLevelFiles();
+		} catch (FileNotFoundException e) {
+			lblInfo.setText("Invalid filename");
+			return;
+		} catch (UnsupportedEncodingException e) {
+			lblInfo.setText("Invalid ecoding");
+			return;
+		} catch (IllegalArgumentException e) {
+			lblInfo.setText("Wrong save method");
+			return;
+		} 
 
+		lblInfo.setText("File Saved");
+	}
+
+	protected void updateGame() {
+		try {
+			updateScreen();
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		gameArea.requestFocusInWindow();
+	}
 }
