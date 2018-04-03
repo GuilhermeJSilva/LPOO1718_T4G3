@@ -197,6 +197,17 @@ public class MainWindow {
 
 	protected void initializeGuardPathModif() {
 		textField_Path = new JTextField();
+		addListenersToPathField();
+		GridBagConstraints gbc_textField_Path = new GridBagConstraints();
+		gbc_textField_Path.insets = new Insets(0, 0, 5, 0);
+		gbc_textField_Path.fill = GridBagConstraints.BOTH;
+		gbc_textField_Path.gridx = 1;
+		gbc_textField_Path.gridy = 6;
+		editing.add(textField_Path, gbc_textField_Path);
+		textField_Path.setColumns(10);
+	}
+
+	protected void addListenersToPathField() {
 		textField_Path.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
 				updatePath();
@@ -220,13 +231,6 @@ public class MainWindow {
 				}
 			}
 		});
-		GridBagConstraints gbc_textField_Path = new GridBagConstraints();
-		gbc_textField_Path.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_Path.fill = GridBagConstraints.BOTH;
-		gbc_textField_Path.gridx = 1;
-		gbc_textField_Path.gridy = 6;
-		editing.add(textField_Path, gbc_textField_Path);
-		textField_Path.setColumns(10);
 	}
 
 	protected void initializeTileChoser() {
@@ -244,6 +248,10 @@ public class MainWindow {
 		gbc_tileChoser_CB.gridx = 1;
 		gbc_tileChoser_CB.gridy = 3;
 		editing.add(tileChoser_CB, gbc_tileChoser_CB);
+		populateTileChoser();
+	}
+
+	protected void populateTileChoser() {
 		tileChoser_CB.addItem("Wall");
 		tileChoser_CB.addItem("Floor");
 		tileChoser_CB.addItem("Door");
@@ -309,6 +317,12 @@ public class MainWindow {
 		gbc_lblGuardPath.gridy = 5;
 		editing.add(lblGuardPath, gbc_lblGuardPath);
 
+		initializeGuardCB();
+
+		initializeGuardPathModif();
+	}
+
+	protected void initializeGuardCB() {
 		guard_CB = new JComboBox<Guard>();
 		guard_CB.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
@@ -323,8 +337,6 @@ public class MainWindow {
 		gbc_guard_CB.gridx = 0;
 		gbc_guard_CB.gridy = 6;
 		editing.add(guard_CB, gbc_guard_CB);
-
-		initializeGuardPathModif();
 	}
 
 	protected void initializeKeyToOpen() {
@@ -405,6 +417,14 @@ public class MainWindow {
 	protected void initializeNLButton() {
 		btnNxtLevel = new JButton("Next Level");
 		GridBagConstraints gbc_btnNxtLevel = new GridBagConstraints();
+		addListenerNL();
+		gbc_btnNxtLevel.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNxtLevel.gridx = 1;
+		gbc_btnNxtLevel.gridy = 0;
+		editing.add(btnNxtLevel, gbc_btnNxtLevel);
+	}
+
+	protected void addListenerNL() {
 		btnNxtLevel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -421,14 +441,20 @@ public class MainWindow {
 				gameArea.requestFocusInWindow();
 			}
 		});
-		gbc_btnNxtLevel.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNxtLevel.gridx = 1;
-		gbc_btnNxtLevel.gridy = 0;
-		editing.add(btnNxtLevel, gbc_btnNxtLevel);
 	}
 
 	protected void initiazeSEButtton() {
 		btnStartEdit = new JButton("Start Edit");
+		addListenerStartEdit();
+
+		GridBagConstraints gbc_btnStartEdit = new GridBagConstraints();
+		gbc_btnStartEdit.insets = new Insets(0, 0, 5, 5);
+		gbc_btnStartEdit.gridx = 0;
+		gbc_btnStartEdit.gridy = 0;
+		editing.add(btnStartEdit, gbc_btnStartEdit);
+	}
+
+	protected void addListenerStartEdit() {
 		btnStartEdit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -452,12 +478,6 @@ public class MainWindow {
 			}
 
 		});
-
-		GridBagConstraints gbc_btnStartEdit = new GridBagConstraints();
-		gbc_btnStartEdit.insets = new Insets(0, 0, 5, 5);
-		gbc_btnStartEdit.gridx = 0;
-		gbc_btnStartEdit.gridy = 0;
-		editing.add(btnStartEdit, gbc_btnStartEdit);
 	}
 
 	protected void initializeGuardType() {
