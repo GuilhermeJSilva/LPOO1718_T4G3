@@ -959,29 +959,7 @@ public class MainWindow {
 					String tile = (String) tileChoser_CB.getSelectedItem();
 					System.out.println(Arrays.toString(coords));
 					editor.editCoords(coords, tile);
-					if (editor != null) {
-						switch (tile) {
-						case "Door":
-							dm = (DoorMechanism) keysCB.getSelectedItem();
-							if (dm != null) {
-								dm.addDoor(coords.clone(), ' ');
-							}
-							break;
-						case "Exit":
-							dm = (DoorMechanism) keysCB.getSelectedItem();
-							if (dm != null) {
-								dm.addDoor(coords.clone(), 'S');
-							}
-							break;
-						case "Key":
-						case "Lever":
-							updateKeysCB();
-							break;
-						default:
-							break;
-						}
-						updateEditFields();
-					}
+					updateDoorMechanism(coords, tile);
 					gameArea.setMap(editor.getMapWCharacter());
 					gameArea.repaint();
 				} catch (InvalidClick ex) {
@@ -1188,5 +1166,32 @@ public class MainWindow {
 			return -1;
 		}
 		return nOgres;
+	}
+
+	protected void updateDoorMechanism(int[] coords, String tile) {
+		DoorMechanism dm;
+		if (editor != null) {
+			switch (tile) {
+			case "Door":
+				dm = (DoorMechanism) keysCB.getSelectedItem();
+				if (dm != null) {
+					dm.addDoor(coords.clone(), ' ');
+				}
+				break;
+			case "Exit":
+				dm = (DoorMechanism) keysCB.getSelectedItem();
+				if (dm != null) {
+					dm.addDoor(coords.clone(), 'S');
+				}
+				break;
+			case "Key":
+			case "Lever":
+				updateKeysCB();
+				break;
+			default:
+				break;
+			}
+			updateEditFields();
+		}
 	}
 }

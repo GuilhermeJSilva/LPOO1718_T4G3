@@ -25,6 +25,8 @@ public abstract class Character implements Serializable{
 	}
 
 	public boolean moveInto(int newPos[], char map[][]) {
+		if(newPos == null || map == null)
+			return false;
 		
 		if(newPos.length < 2)
 			return false;

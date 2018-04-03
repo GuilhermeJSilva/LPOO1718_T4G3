@@ -85,6 +85,12 @@ public class Ogre extends Enemy {
 		
 		Random generator = new Random();
 		int command = generator.nextInt(4); 
+		
+		movement(map, command);
+		this.swing();
+	}
+
+	protected void movement(char[][] map, int command) {
 		int newPos[] = null;
 		switch (command) {
 		case 0:
@@ -102,13 +108,11 @@ public class Ogre extends Enemy {
 		case 3:
 			newPos =  new int[] {this.getPos()[0] ,this.getPos()[1] + 1};
 			moveInto(newPos, map);
-
 			break;
 
 		default:
 			break;
 		}
-		this.swing();
 	}
 
 	@Override
