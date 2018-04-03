@@ -32,8 +32,8 @@ import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import dkeep.editor.Editor;
-import dkeep.editor.saveFunction;
+import dkeep.gameManipulator.Editor;
+import dkeep.gameManipulator.saveFunction;
 import dkeep.logic.Door;
 import dkeep.logic.DoorMechanism;
 import dkeep.logic.Enemy;

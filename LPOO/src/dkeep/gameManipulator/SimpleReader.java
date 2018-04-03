@@ -1,4 +1,4 @@
-package dkeep.editor;
+package dkeep.gameManipulator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,7 +21,7 @@ import dkeep.logic.KeyDoor;
 import dkeep.logic.LeverDoor;
 import dkeep.logic.Ogre;
 
-public class GameReader implements Serializable {
+public abstract class SimpleReader implements Serializable {
 	/**
 	 * 
 	 */
@@ -41,7 +41,7 @@ public class GameReader implements Serializable {
 		return map;
 	}
 
-	public GameReader() {
+	public SimpleReader() {
 		super();
 	}
 

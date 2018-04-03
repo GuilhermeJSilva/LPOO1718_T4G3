@@ -1,4 +1,4 @@
-package dkeep.editor;
+package dkeep.gameManipulator;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -11,7 +11,7 @@ import dkeep.logic.KeyDoor;
 import dkeep.logic.LeverDoor;
 import dkeep.logic.Ogre;
 
-public class Editor extends GameReader {
+public class Editor extends SimpleReader {
 
 	/**
 	 * 
