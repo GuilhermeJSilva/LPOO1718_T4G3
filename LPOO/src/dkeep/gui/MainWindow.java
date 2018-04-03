@@ -19,7 +19,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -387,7 +386,7 @@ public class MainWindow {
 					ArrayList<Integer> size = new ArrayList<Integer>();
 					boolean parse = getEditorSize(size);
 
-					if(!parse)
+					if (!parse)
 						return;
 					editor = new Editor(size.get(0), size.get(1));
 					updateEditFields();
@@ -696,25 +695,16 @@ public class MainWindow {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (newGameBt.isEnabled()) {
-					int nOgres = 1;
-					nOgres = getNOgres(nOgres);
+
+					int nOgres = getNOgres();
 					if (nOgres == -1)
 						return;
-					gameInfo.setText("Playing");
 
-					try {
-						game = new Game();
-						editor = null;
-					} catch (IOException e2) {
-						e2.printStackTrace();
-						System.exit(-1);
-					}
+					game = new Game();
+					editor = null;
+
 					gameArea.setGuardType((String) guardTypeCB.getSelectedItem());
-					try {
-						game.nextLevel(nOgres, (String) guardTypeCB.getSelectedItem());
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					}
+					game.nextLevel(nOgres, (String) guardTypeCB.getSelectedItem());
 					updateGame();
 					enableChanges(false);
 
@@ -727,6 +717,15 @@ public class MainWindow {
 
 	protected void initializeSGButton() {
 		btnSaveGame = new JButton("Save Game");
+		addListenerSGButtom();
+		GridBagConstraints gbc_btnSaveGame = new GridBagConstraints();
+		gbc_btnSaveGame.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSaveGame.gridx = 1;
+		gbc_btnSaveGame.gridy = 0;
+		buttonPanel.add(btnSaveGame, gbc_btnSaveGame);
+	}
+
+	protected void addListenerSGButtom() {
 		btnSaveGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -754,11 +753,6 @@ public class MainWindow {
 
 			}
 		});
-		GridBagConstraints gbc_btnSaveGame = new GridBagConstraints();
-		gbc_btnSaveGame.insets = new Insets(0, 0, 5, 0);
-		gbc_btnSaveGame.gridx = 1;
-		gbc_btnSaveGame.gridy = 0;
-		buttonPanel.add(btnSaveGame, gbc_btnSaveGame);
 	}
 
 	protected void initializeLGButton() {
@@ -775,31 +769,21 @@ public class MainWindow {
 		btnLoadGame.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				try {
-					fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-					int returnVal = fc.showOpenDialog(btnSaveGame);
-
-					if (returnVal == JFileChooser.APPROVE_OPTION) {
-						File file = fc.getSelectedFile();
-						FileInputStream fout = new FileInputStream(file);
-						ObjectInputStream oos = new ObjectInputStream(fout);
-						game = (Game) oos.readObject();
-						oos.close();
-						updateScreen();
-						gameArea.requestFocusInWindow();
-						enableChanges(false);
-					} else {
-						System.err.println("Open command cancelled by user.\n");
-					}
+					File file = getLoadFile();
+					FileInputStream fout = new FileInputStream(file);
+					ObjectInputStream oos = new ObjectInputStream(fout);
+					game = (Game) oos.readObject();
+					oos.close();
+					gameArea.setGuardType(game.getGuardType());
+					updateScreen();
+					enableChanges(false);
 				} catch (IOException ex) {
 					gameInfo.setText("Load failed (IO)");
 					ex.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					gameInfo.setText("Load failed (Class)");
-				} finally {
 				}
-
 				gameArea.requestFocusInWindow();
 
 			}
@@ -1091,8 +1075,6 @@ public class MainWindow {
 		return index;
 	}
 
-
-
 	public void saveFile(saveFunction saveMethod) {
 		try {
 			String fileName;
@@ -1130,7 +1112,8 @@ public class MainWindow {
 		gameArea.requestFocusInWindow();
 	}
 
-	protected int getNOgres(int nOgres) {
+	protected int getNOgres() {
+		int nOgres;
 		try {
 			nOgres = Integer.parseInt(nOgresTF.getText());
 			if (nOgres <= 0 || nOgres > 5) {
@@ -1181,5 +1164,18 @@ public class MainWindow {
 			return false;
 		}
 		return true;
+	}
+
+	protected File getLoadFile() {
+		File file = null;
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int returnVal = fc.showOpenDialog(btnSaveGame);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = fc.getSelectedFile();
+		} else {
+			System.err.println("Open command cancelled by user.\n");
+		}
+		return file;
 	}
 }

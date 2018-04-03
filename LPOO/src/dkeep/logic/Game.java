@@ -18,9 +18,14 @@ public class Game extends GameReader implements Serializable {
 		this.map = deepCopyCharMatrix(map);
 	}
 
-	public Game() throws IOException {
+	public Game() {
 		enemies = new ArrayList<Enemy>();
-		this.readLevelNames();
+		try {
+			this.readLevelNames();
+		} catch (IOException e) {
+			System.err.println("Error accessing levels.txt");
+			System.exit(-3);
+		}
 	}
 
 
@@ -51,6 +56,21 @@ public class Game extends GameReader implements Serializable {
 				if(dMecha.activateMechanism(hero, map) && dMecha instanceof KeyDoor)
 					iterator.remove();
 		}
+	}
+
+	public String getGuardType() {
+		for (Enemy enemy : enemies) {
+			if(enemy instanceof Drunken) {
+				return "Drunken";
+			}
+			if(enemy instanceof Suspicious) {
+				return "Suspicious";
+			}
+			if(enemy instanceof Guard) {
+				return "Rookie";
+			}
+		}
+		return "Rookie";
 	}
 
 	

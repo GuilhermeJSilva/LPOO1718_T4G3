@@ -54,6 +54,11 @@ public class Guard extends Enemy {
 			return;
 		counter %= this.path.length;
 		char command = path[counter];
+		movement(map, command);
+		counter %= this.path.length;
+	}
+
+	protected void movement(char[][] map, char command) {
 		int newPos[] = null;
 		switch (command) {
 
@@ -84,7 +89,6 @@ public class Guard extends Enemy {
 		default:
 			break;
 		}
-		counter %= this.path.length;
 	}
 
 	@Override

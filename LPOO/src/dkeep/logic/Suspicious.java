@@ -22,7 +22,7 @@ public class Suspicious extends Guard {
 		this.setBackwards(generator.nextInt(2));
 		
 		char command = this.getPath()[this.getCounter()];
-		movement(map, command);
+		choseMovement(map, command);
 		fixCounter();
 
 	}
@@ -33,42 +33,46 @@ public class Suspicious extends Guard {
 		this.setCounter(this.getCounter() % this.getPath().length);
 	}
 
-	protected void movement(char[][] map, char command) {
-		int newPos[] =  null;
+	protected void choseMovement(char[][] map, char command) {
 		if(backwards == 1)
 		{
-			switch (command) {
-			case 'w':
-				newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
-				if (moveInto(newPos, map))
-					counter--;
-				break;
-
-			case 'a':
-				newPos = new int[] { this.getPos()[0] , this.getPos()[1] + 1 };
-				if (moveInto(newPos, map))
-					counter--;
-				break;
-
-			case 's':
-				newPos = new int[] { this.getPos()[0] - 1, this.getPos()[1] };
-				if (moveInto(newPos, map))
-					counter--;
-				break;
-
-			case 'd':
-				newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
-				if (moveInto(newPos, map))
-					counter--;
-				break;
-
-			default:
-				break;
-			}
+			movementBack(map, command);
 
 		}
 		else
 			super.move(map);
+	}
+
+	protected void movementBack(char[][] map, char command) {
+		int[] newPos = null;
+		switch (command) {
+		case 'w':
+			newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
+			if (moveInto(newPos, map))
+				counter--;
+			break;
+
+		case 'a':
+			newPos = new int[] { this.getPos()[0] , this.getPos()[1] + 1 };
+			if (moveInto(newPos, map))
+				counter--;
+			break;
+
+		case 's':
+			newPos = new int[] { this.getPos()[0] - 1, this.getPos()[1] };
+			if (moveInto(newPos, map))
+				counter--;
+			break;
+
+		case 'd':
+			newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
+			if (moveInto(newPos, map))
+				counter--;
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	public int getBackwards() {
