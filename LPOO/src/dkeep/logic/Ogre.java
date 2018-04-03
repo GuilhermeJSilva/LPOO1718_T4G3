@@ -10,6 +10,11 @@ public class Ogre extends Enemy {
 	private int clubPos[];
 	private char club;
 	private int stunnedTurns;
+	
+	public int getStunnedTurns() {
+		return stunnedTurns;
+	}
+
 	private char sSymbol;
 
 	public char getClub() {
@@ -90,7 +95,7 @@ public class Ogre extends Enemy {
 		this.swing();
 	}
 
-	protected void movement(char[][] map, int command) {
+	public void movement(char[][] map, int command) {
 		int newPos[] = null;
 		switch (command) {
 		case 0:

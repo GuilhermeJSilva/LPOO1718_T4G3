@@ -33,8 +33,8 @@ public class Suspicious extends Guard {
 		this.setCounter(this.getCounter() % this.getPath().length);
 	}
 
-	protected void choseMovement(char[][] map, char command) {
-		if(backwards == 1)
+	public void choseMovement(char[][] map, char command) {
+		if(backwards != 0)
 		{
 			movementBack(map, command);
 
@@ -43,7 +43,7 @@ public class Suspicious extends Guard {
 			super.move(map);
 	}
 
-	protected void movementBack(char[][] map, char command) {
+	public void movementBack(char[][] map, char command) {
 		int[] newPos = null;
 		switch (command) {
 		case 'w':

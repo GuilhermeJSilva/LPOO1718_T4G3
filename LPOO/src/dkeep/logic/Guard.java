@@ -18,7 +18,7 @@ public class Guard extends Enemy {
 
 	@Override
 	public String toString() {
-		return "Guard [" + Arrays.toString(pos) + "]";
+		return "Guard " + Arrays.toString(pos);
 	}
 
 	public char[] getPath() {
@@ -58,7 +58,7 @@ public class Guard extends Enemy {
 		counter %= this.path.length;
 	}
 
-	protected void movement(char[][] map, char command) {
+	public void movement(char[][] map, char command) {
 		int newPos[] = null;
 		switch (command) {
 

@@ -12,6 +12,7 @@ import dkeep.logic.Door;
 import dkeep.logic.Game;
 import dkeep.logic.Guard;
 import dkeep.logic.Hero;
+import dkeep.logic.KeyDoor;
 import dkeep.logic.LeverDoor;
 
 public class TestDungeonGameLogic {
@@ -106,6 +107,41 @@ public class TestDungeonGameLogic {
 		level.movement('d');
 		assertTrue(Arrays.equals(new int[] {1,2}, level.getHero().getPos()));
 		assertEquals(level.endLevel(), 2);
+	}
+	
+	@Test
+	public void testMoveHeroOpensDoorKey() {
+		Game level = new Game(new Hero(new int[] {1,1}, false), map);
+		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new KeyDoor(new int[] {3,1},doors));
+		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
+		level.movement('s');
+		level.movement('s');
+		level.movement('a');
+		assertTrue(Arrays.equals(new int[] {3,1}, level.getHero().getPos()));
+		assertEquals(level.getMapWCharacter()[3][0], 'S');
+	}
+	
+	@Test
+	public void testMoveHeroMovesToStairsKey() {
+		Game level = new Game(new Hero(new int[] {1,1}, false), map);
+		level.addEnemy(new Guard(new int[] {1,3}, new char[0]) ); 
+		ArrayList<Door> doors = new ArrayList<Door>();
+		doors.add(new Door(new int[] {2, 0}, 'S'));
+		doors.add(new Door(new int[] {3, 0}, 'S'));
+		level.addMechanism(new KeyDoor(new int[] {3,1},doors));
+		assertTrue(Arrays.equals(new int[] {1,1}, level.getHero().getPos()));
+		level.movement('s');
+		level.movement('s');
+		level.movement('a');
+		assertTrue(Arrays.equals(new int[] {3,1}, level.getHero().getPos()));
+		assertEquals(level.getMapWCharacter()[3][0], 'S');
+		level.movement('a');
+		assertTrue(Arrays.equals(new int[] {3,0}, level.getHero().getPos()));
+		
 	}
 	
 }
