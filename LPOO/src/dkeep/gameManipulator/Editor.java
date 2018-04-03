@@ -3,6 +3,7 @@ package dkeep.gameManipulator;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import dkeep.logic.Door;
 import dkeep.logic.DoorMechanism;
 import dkeep.logic.Enemy;
 import dkeep.logic.Guard;
@@ -130,5 +131,26 @@ public class Editor extends SimpleReader {
 			}
 		}
 
+	}
+	
+	public boolean checkLevel() {
+		if (this.getHero() == null) {
+			return false;
+		}
+
+		if (this.getdMechanism().size() == 0) {
+			return false;
+		}
+
+		boolean exit = false;
+		for (DoorMechanism dMecha : this.getdMechanism()) {
+
+			for (Door d : dMecha.getDoors()) {
+				if (d.getOpenS() == 'S')
+					exit = true;
+			}
+
+		}
+		return exit;
 	}
 }

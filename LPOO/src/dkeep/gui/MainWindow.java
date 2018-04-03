@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JButton;
@@ -34,7 +35,6 @@ import javax.swing.event.DocumentListener;
 
 import dkeep.gameManipulator.Editor;
 import dkeep.gameManipulator.saveFunction;
-import dkeep.logic.Door;
 import dkeep.logic.DoorMechanism;
 import dkeep.logic.Enemy;
 import dkeep.logic.Game;
@@ -370,20 +370,26 @@ public class MainWindow {
 
 	protected void initializeNewLButton() {
 		btnNewLevel = new JButton("New Level");
+		addListenerNewL();
+		GridBagConstraints gbc_btnNewLevel = new GridBagConstraints();
+		gbc_btnNewLevel.gridheight = 2;
+		gbc_btnNewLevel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewLevel.gridx = 0;
+		gbc_btnNewLevel.gridy = 1;
+		editing.add(btnNewLevel, gbc_btnNewLevel);
+	}
+
+	protected void addListenerNewL() {
 		btnNewLevel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (btnNewLevel.isEnabled()) {
-					int sizeX = 10;
-					int sizeY = 10;
-					try {
-						sizeX = Integer.parseInt(txtSizex.getText());
-						sizeY = Integer.parseInt(txtSizey.getText());
-					} catch (NumberFormatException e) {
-						lblInfo.setText("Invalid level number");
+					ArrayList<Integer> size = new ArrayList<Integer>();
+					boolean parse = getEditorSize(size);
+
+					if(!parse)
 						return;
-					}
-					editor = new Editor(sizeX, sizeY);
+					editor = new Editor(size.get(0), size.get(1));
 					updateEditFields();
 					updateKeysCB();
 					txtLevelN.setText("Lvl order");
@@ -395,12 +401,6 @@ public class MainWindow {
 				gameArea.requestFocusInWindow();
 			}
 		});
-		GridBagConstraints gbc_btnNewLevel = new GridBagConstraints();
-		gbc_btnNewLevel.gridheight = 2;
-		gbc_btnNewLevel.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewLevel.gridx = 0;
-		gbc_btnNewLevel.gridy = 1;
-		editing.add(btnNewLevel, gbc_btnNewLevel);
 	}
 
 	protected void initializeNLButton() {
@@ -748,7 +748,7 @@ public class MainWindow {
 					}
 
 				} else {
-					System.out.println("Open command cancelled by user.\n");
+					System.err.println("Open command cancelled by user.\n");
 				}
 				gameArea.requestFocusInWindow();
 
@@ -790,7 +790,7 @@ public class MainWindow {
 						gameArea.requestFocusInWindow();
 						enableChanges(false);
 					} else {
-						System.out.println("Open command cancelled by user.\n");
+						System.err.println("Open command cancelled by user.\n");
 					}
 				} catch (IOException ex) {
 					gameInfo.setText("Load failed (IO)");
@@ -952,7 +952,6 @@ public class MainWindow {
 				try {
 					int coords[] = gameArea.getMapCoords(e.getX(), e.getY());
 					String tile = (String) tileChoser_CB.getSelectedItem();
-					System.out.println(Arrays.toString(coords));
 					editor.editCoords(coords, tile);
 					updateDoorMechanism(coords, tile);
 					gameArea.setMap(editor.getMapWCharacter());
@@ -1042,7 +1041,6 @@ public class MainWindow {
 				path += c;
 			}
 			textField_Path.setText(path);
-			// System.out.println(path);
 		} else
 			textField_Path.setText("");
 	}
@@ -1068,31 +1066,13 @@ public class MainWindow {
 		}
 	}
 
-	protected int checkLevel(int index) {
+	protected int checkSave(int index) {
 		if (editor == null) {
 			lblInfo.setText("Invalid editor");
 			return -1;
 		}
 
-		if (editor.getHero() == null) {
-			lblInfo.setText("No hero");
-			return -1;
-		}
-
-		if (editor.getdMechanism().size() == 0) {
-			lblInfo.setText("No way out");
-			return -1;
-		}
-
-		boolean exit = false;
-		for (DoorMechanism dMecha : editor.getdMechanism()) {
-
-			for (Door d : dMecha.getDoors()) {
-				if (d.getOpenS() == 'S')
-					exit = true;
-			}
-
-		}
+		boolean exit = editor.checkLevel();
 		if (!exit) {
 			lblInfo.setText("No way out");
 		}
@@ -1111,11 +1091,13 @@ public class MainWindow {
 		return index;
 	}
 
+
+
 	public void saveFile(saveFunction saveMethod) {
 		try {
 			String fileName;
 			Integer index = 0;
-			index = checkLevel(index);
+			index = checkSave(index);
 			if (index == -1)
 				return;
 
@@ -1188,5 +1170,16 @@ public class MainWindow {
 			}
 			updateEditFields();
 		}
+	}
+
+	protected boolean getEditorSize(ArrayList<Integer> editorSize) {
+		try {
+			editorSize.add(Integer.parseInt(txtSizex.getText()));
+			editorSize.add(Integer.parseInt(txtSizey.getText()));
+		} catch (NumberFormatException e) {
+			lblInfo.setText("Invalid level number");
+			return false;
+		}
+		return true;
 	}
 }
