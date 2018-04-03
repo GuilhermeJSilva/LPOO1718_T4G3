@@ -698,7 +698,7 @@ public class MainWindow {
 				if (newGameBt.isEnabled()) {
 					int nOgres = 1;
 					nOgres = getNOgres(nOgres);
-					if(nOgres == -1)
+					if (nOgres == -1)
 						return;
 					gameInfo.setText("Playing");
 
@@ -736,14 +736,9 @@ public class MainWindow {
 
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					File file = fc.getSelectedFile();
-					// This is where a real application would open the file.
-					// System.out.println("Opening: " + file.getAbsolutePath() + "\\t1.ser" +
-					// ".\n");
-					ObjectOutputStream oos = null;
-					FileOutputStream fout = null;
 					try {
-						fout = new FileOutputStream(file.getAbsolutePath(), true);
-						oos = new ObjectOutputStream(fout);
+						FileOutputStream fout = new FileOutputStream(file.getAbsolutePath(), true);
+						ObjectOutputStream oos = new ObjectOutputStream(fout);
 						oos.writeObject(game);
 						oos.close();
 					} catch (IOException ex) {
@@ -768,46 +763,47 @@ public class MainWindow {
 
 	protected void initializeLGButton() {
 		btnLoadGame = new JButton("Load Game");
-		btnLoadGame.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-				int returnVal = fc.showOpenDialog(btnSaveGame);
-
-				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					File file = fc.getSelectedFile();
-					// This is where a real application would open the file.
-					System.out.println("Opening: " + file.getAbsolutePath() + ".\n");
-					ObjectInputStream oos = null;
-					FileInputStream fout = null;
-					try {
-						fout = new FileInputStream(file);
-						oos = new ObjectInputStream(fout);
-						game = (Game) oos.readObject();
-						oos.close();
-						gameArea.setMap(game.getMapWCharacter());
-						gameArea.repaint();
-						gameArea.requestFocusInWindow();
-						enableChanges(false);
-					} catch (IOException ex) {
-						gameInfo.setText("Load failed (IO)");
-					} catch (ClassNotFoundException e1) {
-						gameInfo.setText("Load failed (Class)");
-					} finally {
-					}
-
-				} else {
-					System.out.println("Open command cancelled by user.\n");
-				}
-				gameArea.requestFocusInWindow();
-
-			}
-		});
+		addLGButtonListener();
 		GridBagConstraints gbc_btnLoadGame = new GridBagConstraints();
 		gbc_btnLoadGame.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLoadGame.gridx = 0;
 		gbc_btnLoadGame.gridy = 0;
 		buttonPanel.add(btnLoadGame, gbc_btnLoadGame);
+	}
+
+	protected void addLGButtonListener() {
+		btnLoadGame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				try {
+					fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+					int returnVal = fc.showOpenDialog(btnSaveGame);
+
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
+						FileInputStream fout = new FileInputStream(file);
+						ObjectInputStream oos = new ObjectInputStream(fout);
+						game = (Game) oos.readObject();
+						oos.close();
+						updateScreen();
+						gameArea.requestFocusInWindow();
+						enableChanges(false);
+					} else {
+						System.out.println("Open command cancelled by user.\n");
+					}
+				} catch (IOException ex) {
+					gameInfo.setText("Load failed (IO)");
+					ex.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					gameInfo.setText("Load failed (Class)");
+				} finally {
+				}
+
+				gameArea.requestFocusInWindow();
+
+			}
+		});
 	}
 
 	protected void initializeButtonPanel() {
@@ -949,7 +945,6 @@ public class MainWindow {
 		gameArea.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				DoorMechanism dm = null;
 				if (game != null) {
 					gameArea.requestFocusInWindow();
 					return;

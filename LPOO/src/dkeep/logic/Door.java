@@ -1,6 +1,12 @@
 package dkeep.logic;
 
-public class Door {
+import java.io.Serializable;
+
+public class Door implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -428123756815578585L;
 	private int pos[];
 	private char openS;
 	
