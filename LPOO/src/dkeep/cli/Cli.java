@@ -7,13 +7,26 @@ import dkeep.logic.Game;
 
 public class Cli {
 
+	/**
+	 * Main function for a console game
+	 * 
+	 * @param args
+	 *            Comand line arguments
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		Game game = new Game();
-		//game.readLevel("lvl1.txt", 1, "Rookie");
 		game.nextLevel(1, "Rookie");
 		mainLoop(game);
 	}
 
+	/**
+	 * Retrieves command from the user and updates the game
+	 * 
+	 * @param g
+	 *            Game to interact over
+	 * @throws IOException
+	 */
 	private static void mainLoop(Game g) throws IOException {
 		while (true) {
 			while (g.endLevel() == 1) {
@@ -31,6 +44,11 @@ public class Cli {
 		}
 	}
 
+	/**
+	 * Retrieves a character from System.in
+	 * 
+	 * @return Retrieved character
+	 */
 	public static char getChar() {
 		char c;
 		Scanner sc = new Scanner(System.in);
@@ -39,6 +57,12 @@ public class Cli {
 
 	}
 
+	/**
+	 * Prints a matrix of char to the string
+	 * 
+	 * @param map
+	 *            Matrix
+	 */
 	public static void printChar(char map[][]) {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
