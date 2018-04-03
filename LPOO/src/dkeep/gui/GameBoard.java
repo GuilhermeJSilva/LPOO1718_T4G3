@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -24,42 +25,27 @@ public class GameBoard extends JPanel {
 		this.guardType = guardType;
 	}
 
-	Image door;
-	Image drukenawake;
-	Image drukensleep;
-	Image floor;
-	Image hero;
-	Image key;
-	Image maul;
-	Image ogre;
-	Image rookie;
-	Image suspicious;
-	Image swordedHero;
-	Image wall;
-	Image stairs;
-	Image herowithkey;
-	Image ogrekey;
-	Image ogrestunned;
+	HashMap<String, Image> images = new HashMap<String, Image>();
 
 	public GameBoard() throws IOException {
 		super();
 		map = null;
-		door = ImageIO.read(new File("images/door.png"));
-		drukenawake = ImageIO.read(new File("images/drunkenawake.png"));
-		drukensleep = ImageIO.read(new File("images/drunkensleep.png"));
-		floor = ImageIO.read(new File("images/floor.png"));
-		hero = ImageIO.read(new File("images/hero2.png"));
-		key = ImageIO.read(new File("images/key.png"));
-		maul = ImageIO.read(new File("images/maul.png"));
-		ogre = ImageIO.read(new File("images/ogre2.png"));
-		rookie = ImageIO.read(new File("images/rookie.png"));
-		suspicious = ImageIO.read(new File("images/suspicious2.png"));
-		swordedHero = ImageIO.read(new File("images/swordedhero.png"));
-		wall = ImageIO.read(new File("images/wall.png"));
-		stairs = ImageIO.read(new File("images/stairs1.png"));
-		herowithkey = ImageIO.read(new File("images/herowithkey.png"));
-		ogrekey = ImageIO.read(new File("images/ogre2key.png"));
-		ogrestunned = ImageIO.read(new File("images/ogre2stunned.png"));
+		images.put("I", ImageIO.read(new File("images/door.png")));
+		images.put("GD", ImageIO.read(new File("images/drunkenawake.png")));
+		images.put("g", ImageIO.read(new File("images/drunkensleep.png")));
+		images.put(" ", ImageIO.read(new File("images/floor.png")));
+		images.put("H", ImageIO.read(new File("images/hero2.png")));
+		images.put("k", ImageIO.read(new File("images/key.png")));
+		images.put("*", ImageIO.read(new File("images/maul.png")));
+		images.put("O", ImageIO.read(new File("images/ogre2.png")));
+		images.put("GR", ImageIO.read(new File("images/rookie.png")));
+		images.put("GS", ImageIO.read(new File("images/suspicious2.png")));
+		images.put("A", ImageIO.read(new File("images/swordedhero.png")));
+		images.put("X", ImageIO.read(new File("images/wall.png")));
+		images.put("S", ImageIO.read(new File("images/stairs1.png")));
+		images.put("K", ImageIO.read(new File("images/herowithkey.png")));
+		images.put("$", ImageIO.read(new File("images/ogre2key.png")));
+		images.put("8", ImageIO.read(new File("images/ogre2stunned.png")));
 
 	}
 
@@ -95,62 +81,26 @@ public class GameBoard extends JPanel {
 	}
 
 	public Image getImage(char ch) {
-		switch (ch) {
-		case 'X':
-			return wall;
-
-		case 'I':
-			return door;
-
-		case 'S':
-			return stairs;
-
-		case 'H':
-			return hero;
-
-		case 'K':
-			return herowithkey;
-
-		case 'A':
-			return swordedHero;
-
-		case 'G':
+		String key = "" + ch;
+		if (ch == 'G')
 			switch (guardType) {
 			case "Drunken":
-				return drukenawake;
+				key += 'D';
+				break;
 
 			case "Suspicious":
-				return suspicious;
+				key += 'S';
+				break;
 
 			default:
-				return rookie;
+				key += 'R';
+				break;
 			}
-
-		case 'g':
-			return drukensleep;
-
-		case 'O':
-			return ogre;
-
-		case '*':
-			return maul;
-
-		case ' ':
-			return floor;
-
-		case 'k':
-			return key;
-
-		case '$':
-			return ogrekey;
-
-		case '8':
-			return ogrestunned;
-
-		default:
+		if (images.containsKey(key))
+			return images.get(key);
+		else
 			return null;
 
-		}
 	}
 
 	public int[] getMapCoords(int x, int y) throws InvalidClick {

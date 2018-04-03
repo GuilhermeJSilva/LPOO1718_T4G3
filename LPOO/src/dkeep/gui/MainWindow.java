@@ -688,23 +688,18 @@ public class MainWindow {
 		gbc_newGameBt.gridx = 0;
 		gbc_newGameBt.gridy = 1;
 		buttonPanel.add(newGameBt, gbc_newGameBt);
+		nGButtonAddListeners();
+	}
+
+	protected void nGButtonAddListeners() {
 		newGameBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (newGameBt.isEnabled()) {
 					int nOgres = 1;
-					try {
-						nOgres = Integer.parseInt(nOgresTF.getText());
-						if (nOgres <= 0 || nOgres > 5) {
-							gameInfo.setText("Invalid Number of ogres");
-							return;
-						}
-
-					} catch (NumberFormatException e) {
-						gameInfo.setText("Invalid Number of ogres");
+					nOgres = getNOgres(nOgres);
+					if(nOgres == -1)
 						return;
-					}
-
 					gameInfo.setText("Playing");
 
 					try {
@@ -1178,5 +1173,20 @@ public class MainWindow {
 			e1.printStackTrace();
 		}
 		gameArea.requestFocusInWindow();
+	}
+
+	protected int getNOgres(int nOgres) {
+		try {
+			nOgres = Integer.parseInt(nOgresTF.getText());
+			if (nOgres <= 0 || nOgres > 5) {
+				gameInfo.setText("Invalid Number of ogres");
+				return -1;
+			}
+
+		} catch (NumberFormatException e) {
+			gameInfo.setText("Invalid Number of ogres");
+			return -1;
+		}
+		return nOgres;
 	}
 }

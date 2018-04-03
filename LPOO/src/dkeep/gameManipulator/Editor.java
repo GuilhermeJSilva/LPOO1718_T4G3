@@ -67,9 +67,9 @@ public class Editor extends SimpleReader {
 		case "Floor":
 			eliminateCharacter(coords);
 			setTile(' ', coords[0], coords[1]);
-			eliminateCharacter(coords);
 			break;
 		case "Wall":
+			eliminateCharacter(coords);
 			setTile('X', coords[0], coords[1]);
 			break;
 		case "Hero Armed":
