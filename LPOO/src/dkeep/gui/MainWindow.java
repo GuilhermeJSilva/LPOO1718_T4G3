@@ -93,6 +93,9 @@ public class MainWindow {
 
 	/**
 	 * Launch the application.
+	 * 
+	 * @param args
+	 *            Command line arguments.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -110,7 +113,7 @@ public class MainWindow {
 	/**
 	 * Create the application.
 	 * 
-	 * @throws IOException
+	 * @throws IOException File reading errors.
 	 */
 	public MainWindow() throws IOException {
 		initialize();
@@ -119,7 +122,7 @@ public class MainWindow {
 	/**
 	 * Initialize the contents of the frame.
 	 * 
-	 * @throws IOException
+	 * @throws IOException  File reading errors.
 	 */
 	private void initialize() throws IOException {
 		frame = new JFrame();
@@ -1228,7 +1231,9 @@ public class MainWindow {
 	 * Updates the game area.
 	 * 
 	 * @throws NumberFormatException
+	 *             Number with invalid formatting.
 	 * @throws IOException
+	 *             Reading level.
 	 */
 	public void updateScreen() throws NumberFormatException, IOException {
 		char[][] gameText = game.getMapWCharacter();
@@ -1387,6 +1392,7 @@ public class MainWindow {
 	 * Saves a level to a file.
 	 * 
 	 * @param saveMethod
+	 *            Method to save the filename in the array of levels.
 	 */
 	public void saveFile(saveFunction saveMethod) {
 		try {
@@ -1431,6 +1437,7 @@ public class MainWindow {
 
 	/**
 	 * Gets the number of ogres on the text field.
+	 * 
 	 * @return Number of ogres, -1 if an error ocurred.
 	 */
 	protected int getNOgres() {
@@ -1451,8 +1458,11 @@ public class MainWindow {
 
 	/**
 	 * Updates door mechanism related properties (doors, keys, levers).
-	 * @param coords Coordinates of the new element.
-	 * @param tile Type of tile.
+	 * 
+	 * @param coords
+	 *            Coordinates of the new element.
+	 * @param tile
+	 *            Type of tile.
 	 */
 	protected void updateDoorMechanism(int[] coords, String tile) {
 		DoorMechanism dm;
@@ -1483,7 +1493,9 @@ public class MainWindow {
 
 	/**
 	 * Adds the selected size to an array.
-	 * @param editorSize Array to add to.
+	 * 
+	 * @param editorSize
+	 *            Array to add to.
 	 * @return True if the retrieval was successful.
 	 */
 	protected boolean getEditorSize(ArrayList<Integer> editorSize) {
@@ -1499,6 +1511,7 @@ public class MainWindow {
 
 	/**
 	 * Retrieves a file to load.
+	 * 
 	 * @return Loaded file, it returns null if it fails.
 	 */
 	protected File getLoadFile() {

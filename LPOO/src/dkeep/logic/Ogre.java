@@ -76,7 +76,7 @@ public class Ogre extends Enemy {
 
 	/**
 	 * Changes the club position.
-	 * @param clubPos
+	 * @param clubPos Position of the club.
 	 */
 	public void setClubPos(int[] clubPos) {
 		this.clubPos = clubPos;

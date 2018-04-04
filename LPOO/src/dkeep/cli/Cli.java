@@ -17,6 +17,7 @@ public class Cli {
 	 * @param args
 	 *            Comand line arguments
 	 * @throws IOException
+	 *             File reading errors.
 	 */
 	public static void main(String[] args) throws IOException {
 		Game game = new Game();

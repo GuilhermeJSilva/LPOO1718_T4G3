@@ -136,7 +136,7 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 
 	/**
 	 * Reads the level filenames from
-	 * @throws IOException
+	 * @throws IOException Error reading from BufferedReader.
 	 */
 	public void readLevelNames() throws IOException {
 		BufferedReader br = null;
@@ -160,8 +160,8 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 
 	/**
 	 * Saves file names to the levels.txt file.
-	 * @throws FileNotFoundException
-	 * @throws UnsupportedEncodingException
+	 * @throws FileNotFoundException Didn't find the file levels.txt.
+	 * @throws UnsupportedEncodingException Using unsupported encoding.
 	 */
 	public void saveLevelFiles() throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter("levels.txt", "UTF-8");
@@ -175,8 +175,8 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 	/**
 	 * Saves a level to a file.
 	 * @param fileName Filename of the save destination.
-	 * @throws FileNotFoundException
-	 * @throws UnsupportedEncodingException
+	 * @throws FileNotFoundException File not found.
+	 * @throws UnsupportedEncodingException Encoding not supported.
 	 */
 	public void saveLevel(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter(fileName, "UTF-8");

@@ -74,6 +74,7 @@ public abstract class GameReader extends SimpleReader {
 	 * @param guardType
 	 *            Type of Guards.
 	 * @throws IOException
+	 *             File not found.
 	 */
 	public void readLevel(String fileName, int numberOfOgres, String guardType) throws IOException {
 		Scanner sc = new Scanner(new File(fileName));

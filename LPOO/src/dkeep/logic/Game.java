@@ -75,7 +75,7 @@ public class Game extends GameReader implements Serializable {
 
 	/**
 	 * Changes the guard type of the game.
-	 * @return
+	 * @return Guard type.
 	 */
 	public String getGuardType() {
 		if(enemies == null)

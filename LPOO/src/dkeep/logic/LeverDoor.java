@@ -39,7 +39,7 @@ public class LeverDoor extends DoorMechanism{
 	/**
 	 * Activates the lever mechanism (opens doors associated with it).
 	 * @param hero Hero to activate the mechanism.
-	 * @map map Map to make the changes over.
+	 * @param map Map to make the changes over.
 	 */
 	public boolean activateMechanism(Hero hero, char map[][])
 	{

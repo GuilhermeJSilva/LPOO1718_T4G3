@@ -62,7 +62,7 @@ public class GameBoard extends JPanel {
 	/**
 	 * Initializes the image container.
 	 * 
-	 * @throws IOException
+	 * @throws IOException File not found.
 	 */
 	public GameBoard() throws IOException {
 		super();
@@ -178,7 +178,7 @@ public class GameBoard extends JPanel {
 	 * @param x X coordinate of the click.
 	 * @param y Y coordinate of the click.
 	 * @return Coordinates on the map.
-	 * @throws InvalidClick
+	 * @throws InvalidClick Click not on the game board.
 	 */
 	public int[] getMapCoords(int x, int y) throws InvalidClick {
 		if (map == null)
