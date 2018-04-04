@@ -59,28 +59,7 @@ public class Guard extends Enemy {
 	}
 
 	public void movement(char[][] map, char command) {
-		int newPos[] = null;
-		switch (command) {
-
-		case 'w':
-			newPos = new int[] { this.getPos()[0] - 1, this.getPos()[1] };
-			break;
-
-		case 'a':
-			newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
-			break;
-
-		case 's':
-			newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
-			break;
-
-		case 'd':
-			newPos = new int[] { this.getPos()[0], this.getPos()[1] + 1 };
-			break;
-
-		default:
-			break;
-		}
+		int newPos[] = getNewPos(command);
 		if (newPos == null)
 			return;
 		if (moveInto(newPos, map))
