@@ -206,6 +206,15 @@ public class TestDungeonOgre {
 				assertTrue(o.killedHero(h));
 			}
 		}
-		//Add movement
+		 h = new Hero(new int[] { 2, 2 }, false);
+		 o = new Ogre(new int[] { 2, 3 });
+		 int path[] = new int[] {2,1,1,0,0,3,3,2};
+		 o.stun(100);
+		 boolean kill = true;
+		 for (int i : path) {
+			assertEquals(kill, o.killedHero(h));
+			kill = !kill;
+			o.movement(map, i);
+		}
 	}
 }

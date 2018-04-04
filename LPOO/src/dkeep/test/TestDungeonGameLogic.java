@@ -144,4 +144,17 @@ public class TestDungeonGameLogic {
 		
 	}
 	
+	@Test
+	public void testHeroMovement() {
+		Hero h = new Hero(new int[] {2,2}, false);
+		h.move('w', map);
+		assertTrue(Arrays.equals(new int[] {1,2}, h.getPos()));
+		h.move('s', map);
+		assertTrue(Arrays.equals(new int[] {2,2}, h.getPos()));
+		h.move('a', map);
+		assertTrue(Arrays.equals(new int[] {2,1}, h.getPos()));
+		h.move('d', map);
+		assertTrue(Arrays.equals(new int[] {2,2}, h.getPos()));
+	}
+	
 }
