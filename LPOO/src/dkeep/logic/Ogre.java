@@ -7,32 +7,31 @@ public class Ogre extends Enemy {
 	 * 
 	 */
 	private static final long serialVersionUID = 6255598912534679523L;
+	
+	/**
+	 * Position of the ogres club.
+	 */
 	private int clubPos[];
+	
+	/**
+	 * Symbol of the club.
+	 */
 	private char club;
+	
+	/**
+	 * Turns that the ogre is still stunned for.
+	 */
 	private int stunnedTurns;
 	
-	public int getStunnedTurns() {
-		return stunnedTurns;
-	}
-
+	/**
+	 * Symbol of a stunned ogre.
+	 */
 	private char sSymbol;
-
-	public char getClub() {
-		return club;
-	}
-
-	public void setClub(char club) {
-		this.club = club;
-	}
-
-	public int[] getClubPos() {
-		return clubPos;
-	}
-
-	public void setClubPos(int[] clubPos) {
-		this.clubPos = clubPos;
-	}
-
+	
+	/**
+	 * Creates an ogre in a certain position.
+	 * @param pos Position of the ogre.
+	 */
 	public Ogre(int[] pos) {
 		super(pos, 'O');
 		clubPos = new int[2];
@@ -41,7 +40,53 @@ public class Ogre extends Enemy {
 		this.sSymbol = '8';
 		this.stunnedTurns = 0;
 	}
+	
+	/**
+	 * Retuns the number of stunned turns left.
+	 * @return Number of stunned turns left.
+	 */
+	public int getStunnedTurns() {
+		return stunnedTurns;
+	}
 
+	
+	/**
+	 * Returns the symbol of the club.
+	 * @return Club symbol.
+	 */
+	public char getClub() {
+		return club;
+	}
+
+	/**
+	 * Changes the club symbol.
+	 * @param club New club symbol.
+	 */
+	public void setClub(char club) {
+		this.club = club;
+	}
+
+	/**
+	 * Returns the club position.
+	 * @return Club position.
+	 */
+	public int[] getClubPos() {
+		return clubPos;
+	}
+
+	/**
+	 * Changes the club position.
+	 * @param clubPos
+	 */
+	public void setClubPos(int[] clubPos) {
+		this.clubPos = clubPos;
+	}
+
+	
+	/**
+	 * Returns the active symbol.
+	 * @return Active symbol.
+	 */
 	@Override
 	public char getSymbol() {
 		if(this.stunnedTurns == 0)
@@ -50,6 +95,9 @@ public class Ogre extends Enemy {
 			return this.sSymbol;
 	}
 
+	/**
+	 * Changes randomly the position of the club in accordance with the position ogre.
+	 */
 	public void swing()
 	{
 		Random generator = new Random();
@@ -79,6 +127,10 @@ public class Ogre extends Enemy {
 		}
 	}
 
+	/**
+	 * Move the ogre in relation with a given map.
+	 * @param map Map.
+	 */
 	@Override
 	public void move(char map[][])
 	{
@@ -95,18 +147,27 @@ public class Ogre extends Enemy {
 		this.swing();
 	}
 
+	/**
+	 * Moves the ogre randomly in accordance with a map and a command.
+	 * @param map Map.
+	 * @param command Command.
+	 */
 	public void movement(char[][] map, int command) {
-		int[] newPos = getNewPosBack(command);
+		int[] newPos = getNewPosOgre(command);
 		if(newPos != null)
 			moveInto(newPos, map);
 	}
 
-	protected int[] getNewPosBack(int command) {
+	/**
+	 * Gets a new position for the ogre.
+	 * @param command Command that determines the new position.
+	 * @return New position.
+	 */
+	protected int[] getNewPosOgre(int command) {
 		int newPos[] = null;
 		switch (command) {
 		case 0:
 			newPos =  new int[] {this.getPos()[0] - 1 ,this.getPos()[1]};
-			
 			break;
 		case 1:
 			newPos =  new int[] {this.getPos()[0] ,this.getPos()[1] -1};
@@ -123,6 +184,7 @@ public class Ogre extends Enemy {
 		}
 		return newPos;
 	}
+
 
 	@Override
 	public boolean killedHero(Hero hero)
@@ -168,6 +230,10 @@ public class Ogre extends Enemy {
 		}
 	}
 
+	/**
+	 * Changes the number of stunned turns left.
+	 * @param turns New number of stunned turns left.
+	 */
 	public void stun(int turns)
 	{
 		this.stunnedTurns = turns;

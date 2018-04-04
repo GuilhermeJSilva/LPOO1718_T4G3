@@ -12,12 +12,20 @@ public class Game extends GameReader implements Serializable {
 	private static final long serialVersionUID = 8322748650867056100L;
 
 
+	/**
+	 * Constructs a custom game.
+	 * @param hero Hero of the game.
+	 * @param map Map of the game.
+	 */
 	public Game(Hero hero, char map[][]) {
 		super();
 		this.hero = hero;
 		this.map = deepCopyCharMatrix(map);
 	}
 
+	/**
+	 * Constructs a game based on the level stored in the files.
+	 */
 	public Game() {
 		enemies = new ArrayList<Enemy>();
 		try {
@@ -28,7 +36,10 @@ public class Game extends GameReader implements Serializable {
 		}
 	}
 
-
+	/**
+	 * Checks if the current level as ended.
+	 * @return 0 if won, 1 if the level is ongoing, 2 if lost.
+	 */
 	public int endLevel() {
 		if (this.getMap()[this.getHero().getPos()[0]][this.getHero().getPos()[1]] == 'S') {
 			return 0;
@@ -43,6 +54,10 @@ public class Game extends GameReader implements Serializable {
 		return 1;
 	}
 
+	/**
+	 * Movement based on a hero command.
+	 * @param command Command for the hero.
+	 */
 	public void movement(char command) {
 		if (!hero.move(command, map))
 			return;
@@ -58,6 +73,10 @@ public class Game extends GameReader implements Serializable {
 		}
 	}
 
+	/**
+	 * Changes the guard type of the game.
+	 * @return
+	 */
 	public String getGuardType() {
 		if(enemies == null)
 			return "Rookie";
