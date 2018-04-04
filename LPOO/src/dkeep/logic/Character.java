@@ -42,6 +42,29 @@ public abstract class Character implements Serializable{
 		return false;
 	}
 
+	protected int[] getNewPos(char command) {
+		int newPos[] =  null;
+		switch (command) {
+		case 'w':
+			newPos =  new int[] {this.getPos()[0] - 1 ,this.getPos()[1]};
+			break;
+
+		case 'a':
+			newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
+			break;
+
+		case 's':
+			newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
+			break;
+		case 'd':
+			newPos = new int[] { this.getPos()[0], this.getPos()[1] + 1 };
+			break;
+
+		default:
+			break;
+		}
+		return newPos;
+	}
 }
 
 

@@ -64,31 +64,27 @@ public class Guard extends Enemy {
 
 		case 'w':
 			newPos = new int[] { this.getPos()[0] - 1, this.getPos()[1] };
-			if (moveInto(newPos, map))
-				counter++;
 			break;
 
 		case 'a':
-			newPos = new int[] { this.getPos()[0] , this.getPos()[1] - 1 };
-			if (moveInto(newPos, map))
-				counter++;
+			newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
 			break;
 
 		case 's':
 			newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
-			if (moveInto(newPos, map))
-				counter++;
 			break;
 
 		case 'd':
 			newPos = new int[] { this.getPos()[0], this.getPos()[1] + 1 };
-			if (moveInto(newPos, map))
-				counter++;
 			break;
 
 		default:
 			break;
 		}
+		if (newPos == null)
+			return;
+		if (moveInto(newPos, map))
+			counter++;
 	}
 
 	@Override

@@ -36,40 +36,16 @@ public class Hero extends Character {
 	}
 
 	public boolean move(char command, char[][] map) {
-		int newPos[] =  null;
-		switch (command) {
-		case 'w':
-			newPos =  new int[] {this.getPos()[0] - 1 ,this.getPos()[1]};
-			if(moveInto(newPos, map))
-				return true;
+		int[] newPos = getNewPos(command);
+		if(newPos == null)
+			return false;
+		
+		if(moveInto(newPos, map))
+			return true;
 
-			return openDoor(map, newPos);
-
-		case 'a':
-			newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
-			if( moveInto(newPos, map))
-				return true;
-
-			return openDoor(map, newPos);
-
-		case 's':
-			newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
-			if( moveInto(newPos, map))
-				return true;
-
-			return openDoor(map, newPos);
-		case 'd':
-			newPos = new int[] { this.getPos()[0], this.getPos()[1] + 1 };
-			if( moveInto(newPos, map))
-				return true;
-
-			return openDoor(map, newPos);
-
-		default:
-			break;
-		}
-		return false;
+		return openDoor(map, newPos);
 	}
+
 
 	protected boolean openDoor(char map[][], int pos[]) {
 		if (map[pos[0]][pos[1]] == 'I') {
