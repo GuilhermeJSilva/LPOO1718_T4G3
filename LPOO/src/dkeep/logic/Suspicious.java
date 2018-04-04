@@ -44,35 +44,35 @@ public class Suspicious extends Guard {
 	}
 
 	public void movementBack(char[][] map, char command) {
+		int[] newPos = getNewPosBack(command);
+		
+		if (newPos != null && moveInto(newPos, map))
+			counter--;
+	}
+
+	protected int[] getNewPosBack(char command) {
 		int[] newPos = null;
 		switch (command) {
 		case 'w':
 			newPos = new int[] { this.getPos()[0] + 1, this.getPos()[1] };
-			if (moveInto(newPos, map))
-				counter--;
 			break;
 
 		case 'a':
 			newPos = new int[] { this.getPos()[0] , this.getPos()[1] + 1 };
-			if (moveInto(newPos, map))
-				counter--;
 			break;
 
 		case 's':
 			newPos = new int[] { this.getPos()[0] - 1, this.getPos()[1] };
-			if (moveInto(newPos, map))
-				counter--;
 			break;
 
 		case 'd':
 			newPos = new int[] { this.getPos()[0], this.getPos()[1] - 1 };
-			if (moveInto(newPos, map))
-				counter--;
 			break;
 
 		default:
 			break;
 		}
+		return newPos;
 	}
 
 	public int getBackwards() {

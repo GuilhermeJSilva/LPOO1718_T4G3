@@ -96,28 +96,32 @@ public class Ogre extends Enemy {
 	}
 
 	public void movement(char[][] map, int command) {
+		int[] newPos = getNewPosBack(command);
+		if(newPos != null)
+			moveInto(newPos, map);
+	}
+
+	protected int[] getNewPosBack(int command) {
 		int newPos[] = null;
 		switch (command) {
 		case 0:
 			newPos =  new int[] {this.getPos()[0] - 1 ,this.getPos()[1]};
-			moveInto(newPos, map);
+			
 			break;
 		case 1:
 			newPos =  new int[] {this.getPos()[0] ,this.getPos()[1] -1};
-			moveInto(newPos, map);
 			break;
 		case 2:
 			newPos =  new int[] {this.getPos()[0] + 1 ,this.getPos()[1]};
-			moveInto(newPos, map);
 			break;
 		case 3:
 			newPos =  new int[] {this.getPos()[0] ,this.getPos()[1] + 1};
-			moveInto(newPos, map);
 			break;
 
 		default:
 			break;
 		}
+		return newPos;
 	}
 
 	@Override
