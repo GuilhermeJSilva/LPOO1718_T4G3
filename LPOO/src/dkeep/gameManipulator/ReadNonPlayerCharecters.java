@@ -10,33 +10,58 @@ import dkeep.logic.Enemy;
 import dkeep.logic.Guard;
 import dkeep.logic.Ogre;
 
-public class ReadNonPlayerCharecters extends ReadMechanisms implements Serializable{
+/**
+ * Reads all non player characters from a file.
+ *
+ */
+public class ReadNonPlayerCharecters extends ReadMechanisms implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2498792618306375240L;
+
+	/**
+	 * Array of enemies (Guards/Ogres)
+	 */
 	protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
+	/**
+	 * Empty constructor.
+	 */
 	public ReadNonPlayerCharecters() {
 		super();
 	}
 
+	/**
+	 * Returns the enemy array.
+	 * 
+	 * @return Enemy array.
+	 */
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
 	}
 
+	/**
+	 * Reads a guard from a string.
+	 * @param charInfo String to read from.
+	 */
 	protected void readGuard(String charInfo) {
 		Scanner guardScanner = new Scanner(charInfo);
-		
-		int[] guardPos = readGuardPos(guardScanner);
+
+		int[] guardPos = readPos(guardScanner);
 		char[] path = readPath(guardScanner);
-	
+
 		this.enemies.add(new Guard(guardPos, Arrays.copyOfRange(path, 1, path.length)));
-	
+
 		guardScanner.close();
 	}
 
+	/**
+	 * Reads a guard path.
+	 * @param guardScanner Scanner to read from.
+	 * @return Read path.
+	 */
 	protected char[] readPath(Scanner guardScanner) {
 		char path[] = new char[0];
 		if (guardScanner.hasNext())
@@ -44,26 +69,36 @@ public class ReadNonPlayerCharecters extends ReadMechanisms implements Serializa
 		return path;
 	}
 
-	protected int[] readGuardPos(Scanner guardScanner) {
-		int guardPos[] = new int[2];
+
+	/**
+	 * Reads the coordinates from a scanner.
+	 * @param guardScanner Scanner to read from.
+	 * @return Coordinates read.
+	 */
+	protected int[] readPos(Scanner guardScanner) {
+		int pos[] = new int[2];
 		if (guardScanner.hasNextInt())
-			guardPos[0] = guardScanner.nextInt();
+			pos[0] = guardScanner.nextInt();
 		if (guardScanner.hasNextInt())
-			guardPos[1] = guardScanner.nextInt();
-		return guardPos;
+			pos[1] = guardScanner.nextInt();
+		return pos;
 	}
 
+	/**
+	 * Reads an ogre from a string.
+	 * @param charInfo String to read from.
+	 */
 	protected void readOgre(String charInfo) {
 		Scanner ogreScanner = new Scanner(charInfo);
-		int ogrePos[] = new int[2];
-		if (ogreScanner.hasNextInt())
-			ogrePos[0] = ogreScanner.nextInt();
-		if (ogreScanner.hasNextInt())
-			ogrePos[1] = ogreScanner.nextInt();
+		int ogrePos[] = readPos(ogreScanner);
 		this.enemies.add(new Ogre(ogrePos.clone()));
 		ogreScanner.close();
 	}
 
+	/**
+	 * Saves all enemies to a file.
+	 * @param writer Save destination.
+	 */
 	protected void saveEnemies(PrintWriter writer) {
 		for (Enemy enemy : enemies) {
 			if (enemy instanceof Guard) {
@@ -74,6 +109,11 @@ public class ReadNonPlayerCharecters extends ReadMechanisms implements Serializa
 		}
 	}
 
+	/**
+	 * Saves an ogre to a file.
+	 * @param ogre Ogre to save.
+	 * @param writer Save destination.
+	 */
 	protected void saveOgre(Ogre ogre, PrintWriter writer) {
 		if (ogre != null) {
 			writer.println("Ogre");
@@ -81,6 +121,11 @@ public class ReadNonPlayerCharecters extends ReadMechanisms implements Serializa
 		}
 	}
 
+	/**
+	 * Saves an guard to a file.
+	 * @param guard Guard to save.
+	 * @param writer Save destination.
+	 */
 	protected void saveGuard(Guard guard, PrintWriter writer) {
 		if (guard != null) {
 			writer.println("Guard");

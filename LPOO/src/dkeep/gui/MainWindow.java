@@ -39,6 +39,10 @@ import dkeep.logic.Enemy;
 import dkeep.logic.Game;
 import dkeep.logic.Guard;
 
+/**
+ * Main window of the game.
+ *
+ */
 public class MainWindow {
 
 	private JFrame frame;
@@ -133,6 +137,9 @@ public class MainWindow {
 
 	}
 
+	/**
+	 * Initializes all editing elements of the tab.
+	 */
 	protected void initializeEditingTab() {
 		editing = new JPanel();
 		tabbedPane.addTab("Editing", null, editing, null);
@@ -141,29 +148,29 @@ public class MainWindow {
 		gbl_editing.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		editing.setLayout(gbl_editing);
 
-		initiazeSEButtton();
-
-		initializeNLButton();
-
-		initializeNewLButton();
-
-		initializeRLButton();
-
-		initializeALButton();
-
+		initializeEditingButons();
 		initializeEditorSizeLabels();
-
 		initializeKeyToOpen();
-
 		initializeGuardPath();
-
 		initializeSaveParameters();
-
 		initializeTileChoser();
-
 		initializeEditingInfo();
 	}
 
+	/**
+	 * Initializes all editing buttons.
+	 */
+	protected void initializeEditingButons() {
+		initiazeSEButtton();
+		initializeNLButton();
+		initializeNewLButton();
+		initializeRLButton();
+		initializeALButton();
+	}
+
+	/**
+	 * Initializes the info field for editing.
+	 */
 	protected void initializeEditingInfo() {
 		lblInfo = new JLabel("Info");
 		GridBagConstraints gbc_lblInfo = new GridBagConstraints();
@@ -173,8 +180,23 @@ public class MainWindow {
 		editing.add(lblInfo, gbc_lblInfo);
 	}
 
+	/**
+	 * Initializes the add level button.
+	 */
 	protected void initializeALButton() {
 		btnAddLevel = new JButton("Add Level");
+		addListernerToALButton();
+		GridBagConstraints gbc_btnAddLevel = new GridBagConstraints();
+		gbc_btnAddLevel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddLevel.gridx = 0;
+		gbc_btnAddLevel.gridy = 7;
+		editing.add(btnAddLevel, gbc_btnAddLevel);
+	}
+
+	/**
+	 * Adds the listener to the add level button.
+	 */
+	protected void addListernerToALButton() {
 		btnAddLevel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -188,13 +210,11 @@ public class MainWindow {
 				}
 			}
 		});
-		GridBagConstraints gbc_btnAddLevel = new GridBagConstraints();
-		gbc_btnAddLevel.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAddLevel.gridx = 0;
-		gbc_btnAddLevel.gridy = 7;
-		editing.add(btnAddLevel, gbc_btnAddLevel);
 	}
 
+	/**
+	 * Initializes the text field to change guard paths.
+	 */
 	protected void initializeGuardPathModif() {
 		textField_Path = new JTextField();
 		addListenersToPathField();
@@ -207,6 +227,9 @@ public class MainWindow {
 		textField_Path.setColumns(10);
 	}
 
+	/**
+	 * Adds listeners to the guard path text field.
+	 */
 	protected void addListenersToPathField() {
 		textField_Path.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -221,18 +244,25 @@ public class MainWindow {
 				updatePath();
 			}
 
-			public void updatePath() {
-				String path = textField_Path.getText();
-				Guard guard = (Guard) guard_CB.getSelectedItem();
-				if (guard != null) {
-					if (!guard.setPath(path.toCharArray())) {
-						lblInfo.setText("Wrong guard path");
-					}
-				}
-			}
 		});
 	}
 
+	/**
+	 * Updates the path of the selected guard.
+	 */
+	public void updatePath() {
+		String path = textField_Path.getText();
+		Guard guard = (Guard) guard_CB.getSelectedItem();
+		if (guard != null) {
+			if (!guard.setPath(path.toCharArray())) {
+				lblInfo.setText("Wrong guard path");
+			}
+		}
+	}
+
+	/**
+	 * Initializes the tile chooser.
+	 */
 	protected void initializeTileChoser() {
 		tileChoser = new JLabel("Tile");
 		GridBagConstraints gbc_tileChoser = new GridBagConstraints();
@@ -251,6 +281,9 @@ public class MainWindow {
 		populateTileChoser();
 	}
 
+	/**
+	 * Populate the tile chooser combo box.
+	 */
 	protected void populateTileChoser() {
 		tileChoser_CB.addItem("Wall");
 		tileChoser_CB.addItem("Floor");
@@ -264,8 +297,23 @@ public class MainWindow {
 		tileChoser_CB.addItem("Guard");
 	}
 
+	/**
+	 * Initialize the Replace Level button.
+	 */
 	protected void initializeRLButton() {
 		btnReplaceLevel = new JButton("Replace Level");
+		addListenerRLButton();
+		GridBagConstraints gbc_btnReplaceLevel = new GridBagConstraints();
+		gbc_btnReplaceLevel.insets = new Insets(0, 0, 5, 5);
+		gbc_btnReplaceLevel.gridx = 0;
+		gbc_btnReplaceLevel.gridy = 8;
+		editing.add(btnReplaceLevel, gbc_btnReplaceLevel);
+	}
+
+	/**
+	 * Adds a listener to the replace level button.
+	 */
+	protected void addListenerRLButton() {
 		btnReplaceLevel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -279,13 +327,11 @@ public class MainWindow {
 				}
 			}
 		});
-		GridBagConstraints gbc_btnReplaceLevel = new GridBagConstraints();
-		gbc_btnReplaceLevel.insets = new Insets(0, 0, 5, 5);
-		gbc_btnReplaceLevel.gridx = 0;
-		gbc_btnReplaceLevel.gridy = 8;
-		editing.add(btnReplaceLevel, gbc_btnReplaceLevel);
 	}
 
+	/**
+	 * Initializes the text fields that store the saving information.
+	 */
 	protected void initializeSaveParameters() {
 		txtLevelN = new JTextField();
 		txtLevelN.setText("Level n\u00BA");
@@ -297,6 +343,13 @@ public class MainWindow {
 		editing.add(txtLevelN, gbc_txtLevelN);
 		txtLevelN.setColumns(10);
 
+		initializeSaveTextField();
+	}
+
+	/**
+	 * Initializes the text field that contains the filename to save a level.
+	 */
+	protected void initializeSaveTextField() {
 		txtFileName = new JTextField();
 		txtFileName.setText("File Name");
 		GridBagConstraints gbc_txtFileName = new GridBagConstraints();
@@ -308,6 +361,9 @@ public class MainWindow {
 		txtFileName.setColumns(10);
 	}
 
+	/**
+	 * Initializes the elements to change guard paths.
+	 */
 	protected void initializeGuardPath() {
 		lblGuardPath = new JLabel("Guard Path");
 		GridBagConstraints gbc_lblGuardPath = new GridBagConstraints();
@@ -322,6 +378,9 @@ public class MainWindow {
 		initializeGuardPathModif();
 	}
 
+	/**
+	 * Initializes the combo box of guards.
+	 */
 	protected void initializeGuardCB() {
 		guard_CB = new JComboBox<Guard>();
 		guard_CB.addItemListener(new ItemListener() {
@@ -339,6 +398,9 @@ public class MainWindow {
 		editing.add(guard_CB, gbc_guard_CB);
 	}
 
+	/**
+	 * Initializes the key chooser.
+	 */
 	protected void initializeKeyToOpen() {
 		lblKeyToOpen = new JLabel("Key To Open");
 		lblKeyToOpen.setHorizontalAlignment(SwingConstants.CENTER);
@@ -348,6 +410,13 @@ public class MainWindow {
 		gbc_lblKeyToOpen.gridy = 4;
 		editing.add(lblKeyToOpen, gbc_lblKeyToOpen);
 
+		initializeDM_CB();
+	}
+
+	/**
+	 * Initializes the key combo box.
+	 */
+	protected void initializeDM_CB() {
 		keysCB = new JComboBox<DoorMechanism>();
 		GridBagConstraints gbc_keysCB = new GridBagConstraints();
 		gbc_keysCB.insets = new Insets(0, 0, 5, 0);
@@ -357,7 +426,19 @@ public class MainWindow {
 		editing.add(keysCB, gbc_keysCB);
 	}
 
+	/**
+	 * Initialize the editor size chooser.
+	 */
 	protected void initializeEditorSizeLabels() {
+		initializeVerticalSizeTF();
+
+		initializeHorizontalSizeTF();
+	}
+
+	/**
+	 * Initialize the vertical size chooser.
+	 */
+	protected void initializeVerticalSizeTF() {
 		txtSizex = new JTextField();
 		txtSizex.setText("10");
 		GridBagConstraints gbc_txtSizex = new GridBagConstraints();
@@ -367,7 +448,12 @@ public class MainWindow {
 		gbc_txtSizex.gridy = 1;
 		editing.add(txtSizex, gbc_txtSizex);
 		txtSizex.setColumns(10);
+	}
 
+	/**
+	 * Initialize the horizontal size chooser.
+	 */
+	protected void initializeHorizontalSizeTF() {
 		txtSizey = new JTextField();
 		txtSizey.setText("10");
 		GridBagConstraints gbc_txtSizey = new GridBagConstraints();
@@ -379,6 +465,9 @@ public class MainWindow {
 		txtSizey.setColumns(10);
 	}
 
+	/**
+	 * Initialize new level button.
+	 */
 	protected void initializeNewLButton() {
 		btnNewLevel = new JButton("New Level");
 		addListenerNewL();
@@ -390,6 +479,9 @@ public class MainWindow {
 		editing.add(btnNewLevel, gbc_btnNewLevel);
 	}
 
+	/**
+	 * Add listeners to the new level button.
+	 */
 	protected void addListenerNewL() {
 		btnNewLevel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -402,7 +494,6 @@ public class MainWindow {
 						return;
 					editor = new Editor(size.get(0), size.get(1));
 					updateEditFields();
-					updateKeysCB();
 					txtLevelN.setText("Lvl order");
 					txtFileName.setText("Filename");
 					gameArea.repaint();
@@ -414,6 +505,9 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * Initializes next level button.
+	 */
 	protected void initializeNLButton() {
 		btnNxtLevel = new JButton("Next Level");
 		GridBagConstraints gbc_btnNxtLevel = new GridBagConstraints();
@@ -424,6 +518,9 @@ public class MainWindow {
 		editing.add(btnNxtLevel, gbc_btnNxtLevel);
 	}
 
+	/**
+	 * Adds listener to next level button.
+	 */
 	protected void addListenerNL() {
 		btnNxtLevel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -432,7 +529,6 @@ public class MainWindow {
 					if (editor != null) {
 						editor.nextLevel();
 						updateEditFields();
-						updateKeysCB();
 						setLevelParam();
 						gameArea.repaint();
 						updateGuardCB();
@@ -443,6 +539,9 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * Initializes start edit button.
+	 */
 	protected void initiazeSEButtton() {
 		btnStartEdit = new JButton("Start Edit");
 		addListenerStartEdit();
@@ -454,6 +553,9 @@ public class MainWindow {
 		editing.add(btnStartEdit, gbc_btnStartEdit);
 	}
 
+	/**
+	 * Add listener to start edit button.
+	 */
 	protected void addListenerStartEdit() {
 		btnStartEdit.addMouseListener(new MouseAdapter() {
 			@Override
@@ -467,12 +569,10 @@ public class MainWindow {
 						System.err.println("List of level not found");
 						System.exit(-1);
 					}
-					updateKeysCB();
 					editor.nextLevel();
 					updateEditFields();
 					setLevelParam();
 					gameArea.repaint();
-					updateGuardCB();
 				}
 				gameArea.requestFocusInWindow();
 			}
@@ -480,6 +580,9 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * Initialize guard type selector.
+	 */
 	protected void initializeGuardType() {
 		guardType = new JLabel("Guard Type");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -489,7 +592,36 @@ public class MainWindow {
 		settings_panel.add(guardType, gbc_lblNewLabel_2);
 		guardType.setHorizontalAlignment(SwingConstants.CENTER);
 
+		initializeGuardTCB();
+	}
+
+	/**
+	 * Initializes combo box for guard type selector.
+	 */
+	protected void initializeGuardTCB() {
 		guardTypeCB = new JComboBox<String>();
+		addListenerGTCB();
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.fill = GridBagConstraints.BOTH;
+		gbc_comboBox.gridx = 1;
+		gbc_comboBox.gridy = 1;
+		settings_panel.add(guardTypeCB, gbc_comboBox);
+		populateGTCB();
+	}
+
+	/**
+	 * Populates the guard type combo box.
+	 */
+	protected void populateGTCB() {
+		guardTypeCB.addItem("Drunken");
+		guardTypeCB.addItem("Rookie");
+		guardTypeCB.addItem("Suspicious");
+	}
+
+	/**
+	 * Adds listener to guard type selector.
+	 */
+	protected void addListenerGTCB() {
 		guardTypeCB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -499,16 +631,11 @@ public class MainWindow {
 					super.mouseClicked(e);
 			}
 		});
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.fill = GridBagConstraints.BOTH;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 1;
-		settings_panel.add(guardTypeCB, gbc_comboBox);
-		guardTypeCB.addItem("Drunken");
-		guardTypeCB.addItem("Rookie");
-		guardTypeCB.addItem("Suspicious");
 	}
 
+	/**
+	 * Initializes number of ogres selection.
+	 */
 	protected void initializeNOgres() {
 		nOgres = new JLabel("Ogres per Spawn");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -518,16 +645,15 @@ public class MainWindow {
 		settings_panel.add(nOgres, gbc_lblNewLabel_1);
 		nOgres.setHorizontalAlignment(SwingConstants.CENTER);
 
+		initializeNOTF();
+	}
+
+	/**
+	 * Initializes number of ogres text field.
+	 */
+	protected void initializeNOTF() {
 		nOgresTF = new JTextField();
-		nOgresTF.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (!nOgresTF.isEnabled() || !nOgresTF.isEditable())
-					gameArea.requestFocusInWindow();
-				else
-					super.mouseClicked(e);
-			}
-		});
+		addListenerNOTF();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.gridx = 1;
@@ -537,6 +663,24 @@ public class MainWindow {
 		nOgresTF.setColumns(10);
 	}
 
+	/**
+	 * Adds listener to number of ogres text field.
+	 */
+	protected void addListenerNOTF() {
+		nOgresTF.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (!nOgresTF.isEnabled() || !nOgresTF.isEditable())
+					gameArea.requestFocusInWindow();
+				else
+					super.mouseClicked(e);
+			}
+		});
+	}
+
+	/**
+	 * Initializes settings panel.
+	 */
 	protected void initializeSettingsPanel() {
 		settings_panel = new JPanel();
 		tabbedPane.addTab("Settings", null, settings_panel, null);
@@ -548,9 +692,25 @@ public class MainWindow {
 		initializeGuardType();
 	}
 
+	/**
+	 * Initializes down button.
+	 */
 	protected void initializeDownButton() {
 		downBt = new JButton("DOWN");
 		downBt.setEnabled(false);
+		addListenerDB();
+		GridBagConstraints gbc_downBt = new GridBagConstraints();
+		gbc_downBt.insets = new Insets(0, 0, 0, 5);
+		gbc_downBt.anchor = GridBagConstraints.NORTHWEST;
+		gbc_downBt.gridx = 1;
+		gbc_downBt.gridy = 2;
+		controls.add(downBt, gbc_downBt);
+	}
+
+	/**
+	 * Adds listener to down button.
+	 */
+	protected void addListenerDB() {
 		downBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -565,17 +725,27 @@ public class MainWindow {
 				updateGame();
 			}
 		});
-		GridBagConstraints gbc_downBt = new GridBagConstraints();
-		gbc_downBt.insets = new Insets(0, 0, 0, 5);
-		gbc_downBt.anchor = GridBagConstraints.NORTHWEST;
-		gbc_downBt.gridx = 1;
-		gbc_downBt.gridy = 2;
-		controls.add(downBt, gbc_downBt);
 	}
 
+	/**
+	 * Initializes right button.
+	 */
 	protected void initializeRightButton() {
 		rightBt = new JButton("RIGHT");
 		rightBt.setEnabled(false);
+		addListenerRB();
+		GridBagConstraints gbc_rightBt = new GridBagConstraints();
+		gbc_rightBt.anchor = GridBagConstraints.NORTHWEST;
+		gbc_rightBt.insets = new Insets(0, 0, 5, 5);
+		gbc_rightBt.gridx = 2;
+		gbc_rightBt.gridy = 1;
+		controls.add(rightBt, gbc_rightBt);
+	}
+
+	/**
+	 * Add listener to right button.
+	 */
+	protected void addListenerRB() {
 		rightBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -590,17 +760,27 @@ public class MainWindow {
 				updateGame();
 			}
 		});
-		GridBagConstraints gbc_rightBt = new GridBagConstraints();
-		gbc_rightBt.anchor = GridBagConstraints.NORTHWEST;
-		gbc_rightBt.insets = new Insets(0, 0, 5, 5);
-		gbc_rightBt.gridx = 2;
-		gbc_rightBt.gridy = 1;
-		controls.add(rightBt, gbc_rightBt);
 	}
 
+	/**
+	 * Initializes left button.
+	 */
 	protected void intializeLeftButton() {
 		leftBt = new JButton("LEFT");
 		leftBt.setEnabled(false);
+		addListenerLB();
+		GridBagConstraints gbc_leftBt = new GridBagConstraints();
+		gbc_leftBt.anchor = GridBagConstraints.NORTHWEST;
+		gbc_leftBt.insets = new Insets(0, 0, 5, 5);
+		gbc_leftBt.gridx = 0;
+		gbc_leftBt.gridy = 1;
+		controls.add(leftBt, gbc_leftBt);
+	}
+
+	/**
+	 * Adds a listener to the left button.
+	 */
+	protected void addListenerLB() {
 		leftBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -615,17 +795,28 @@ public class MainWindow {
 				updateGame();
 			}
 		});
-		GridBagConstraints gbc_leftBt = new GridBagConstraints();
-		gbc_leftBt.anchor = GridBagConstraints.NORTHWEST;
-		gbc_leftBt.insets = new Insets(0, 0, 5, 5);
-		gbc_leftBt.gridx = 0;
-		gbc_leftBt.gridy = 1;
-		controls.add(leftBt, gbc_leftBt);
 	}
 
+	/**
+	 * Initializes up button.
+	 */
 	protected void initializeUpButton() {
 		upBt = new JButton("UP");
 		upBt.setEnabled(false);
+		addListenerUB();
+		GridBagConstraints gbc_upBt = new GridBagConstraints();
+		gbc_upBt.fill = GridBagConstraints.BOTH;
+		gbc_upBt.anchor = GridBagConstraints.NORTHWEST;
+		gbc_upBt.insets = new Insets(0, 0, 5, 5);
+		gbc_upBt.gridx = 1;
+		gbc_upBt.gridy = 0;
+		controls.add(upBt, gbc_upBt);
+	}
+
+	/**
+	 * Adds listener to up button.
+	 */
+	protected void addListenerUB() {
 		upBt.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -641,15 +832,11 @@ public class MainWindow {
 
 			}
 		});
-		GridBagConstraints gbc_upBt = new GridBagConstraints();
-		gbc_upBt.fill = GridBagConstraints.BOTH;
-		gbc_upBt.anchor = GridBagConstraints.NORTHWEST;
-		gbc_upBt.insets = new Insets(0, 0, 5, 5);
-		gbc_upBt.gridx = 1;
-		gbc_upBt.gridy = 0;
-		controls.add(upBt, gbc_upBt);
 	}
 
+	/**
+	 * Initializes the controls tab.
+	 */
 	protected void initializeControlsTab() {
 		controls = new JPanel();
 		tabbedPane.addTab("Controls", null, controls, null);
@@ -663,14 +850,11 @@ public class MainWindow {
 		initializeDownButton();
 	}
 
+	/**
+	 * Initialize tab panel.
+	 */
 	protected void initializeTabbedPanel() {
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				gameArea.requestFocusInWindow();
-			}
-		});
+		addListenerTabPanel();
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
 		gbc_tabbedPane.insets = new Insets(0, 0, 5, 0);
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
@@ -684,14 +868,25 @@ public class MainWindow {
 		initializeEditingTab();
 	}
 
-	protected void initializeQuitButton() {
-		quitBt = new JButton("Exit");
-		quitBt.addMouseListener(new MouseAdapter() {
+	/**
+	 * Adds listener to tab panel.
+	 */
+	protected void addListenerTabPanel() {
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.exit(0);
+				gameArea.requestFocusInWindow();
 			}
 		});
+	}
+
+	/**
+	 * Initialize quit button.
+	 */
+	protected void initializeQuitButton() {
+		quitBt = new JButton("Exit");
+		addListenerQB();
 
 		GridBagConstraints gbc_quitBt = new GridBagConstraints();
 		gbc_quitBt.gridx = 0;
@@ -700,6 +895,21 @@ public class MainWindow {
 		enableChanges(true);
 	}
 
+	/**
+	 * Add listener to quit button.
+	 */
+	protected void addListenerQB() {
+		quitBt.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				System.exit(0);
+			}
+		});
+	}
+
+	/**
+	 * Initialize new game button.
+	 */
 	protected void initializeNGButton() {
 		newGameBt = new JButton("New Game");
 		GridBagConstraints gbc_newGameBt = new GridBagConstraints();
@@ -710,6 +920,9 @@ public class MainWindow {
 		nGButtonAddListeners();
 	}
 
+	/**
+	 * Adds listener to new game button.
+	 */
 	protected void nGButtonAddListeners() {
 		newGameBt.addMouseListener(new MouseAdapter() {
 			@Override
@@ -735,6 +948,9 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * Initializes save game button.
+	 */
 	protected void initializeSGButton() {
 		btnSaveGame = new JButton("Save Game");
 		addListenerSGButtom();
@@ -745,6 +961,9 @@ public class MainWindow {
 		buttonPanel.add(btnSaveGame, gbc_btnSaveGame);
 	}
 
+	/**
+	 * Add listener to save game button.
+	 */
 	protected void addListenerSGButtom() {
 		btnSaveGame.addMouseListener(new MouseAdapter() {
 			@Override
@@ -775,6 +994,9 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * Initialize left game button.
+	 */
 	protected void initializeLGButton() {
 		btnLoadGame = new JButton("Load Game");
 		addLGButtonListener();
@@ -785,6 +1007,9 @@ public class MainWindow {
 		buttonPanel.add(btnLoadGame, gbc_btnLoadGame);
 	}
 
+	/**
+	 * Add listeners to left game.
+	 */
 	protected void addLGButtonListener() {
 		btnLoadGame.addMouseListener(new MouseAdapter() {
 			@Override
@@ -810,6 +1035,9 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * Initializes the button panel.
+	 */
 	protected void initializeButtonPanel() {
 		buttonPanel = new JPanel();
 		GridBagConstraints gbc_buttonPanel = new GridBagConstraints();
@@ -828,6 +1056,11 @@ public class MainWindow {
 		initializeNGButton();
 	}
 
+	/**
+	 * Initializes the left side of the window.
+	 * 
+	 * @throws IOException
+	 */
 	protected void initializeLeftSide() throws IOException {
 		leftSide = new JPanel();
 		GridBagConstraints gbc_leftSide = new GridBagConstraints();
@@ -845,6 +1078,9 @@ public class MainWindow {
 		initializeGameArea();
 	}
 
+	/**
+	 * Initializes info label.
+	 */
 	protected void initializeInfo() {
 		gameInfo = new JLabel("Press New Game to start the game!");
 		GridBagConstraints gbc_gameInfo = new GridBagConstraints();
@@ -856,6 +1092,9 @@ public class MainWindow {
 		leftSide.add(gameInfo, gbc_gameInfo);
 	}
 
+	/**
+	 * Initialize options panel.
+	 */
 	protected void initializeOptions() {
 		options = new JPanel();
 		GridBagConstraints gbc_options = new GridBagConstraints();
@@ -873,6 +1112,9 @@ public class MainWindow {
 
 	}
 
+	/**
+	 * Initializes the right side of the window.
+	 */
 	protected void initializeRightSide() {
 		rightSide = new JPanel();
 		GridBagConstraints gbc_rightSide = new GridBagConstraints();
@@ -893,6 +1135,11 @@ public class MainWindow {
 		initializeQuitButton();
 	}
 
+	/**
+	 * Initializes the game area.
+	 * 
+	 * @throws IOException
+	 */
 	protected void initializeGameArea() throws IOException {
 		gameArea = new GameBoard();
 		gameAreaAddListeners();
@@ -907,11 +1154,17 @@ public class MainWindow {
 		leftSide.add(gameArea, gbc_gameArea);
 	}
 
+	/**
+	 * Add listeners to game area.
+	 */
 	protected void gameAreaAddListeners() {
 		gameAreaAddMouseListener();
 		gameAreaAddKeyListener();
 	}
 
+	/**
+	 * Add key listener to game area.
+	 */
 	protected void gameAreaAddKeyListener() {
 		gameArea.addKeyListener(new KeyAdapter() {
 			@Override
@@ -945,6 +1198,9 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * Add mouse listener to game area.
+	 */
 	protected void gameAreaAddMouseListener() {
 		gameArea.addMouseListener(new MouseAdapter() {
 			@Override
@@ -968,6 +1224,12 @@ public class MainWindow {
 		});
 	}
 
+	/**
+	 * Updates the game area.
+	 * 
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
 	public void updateScreen() throws NumberFormatException, IOException {
 		char[][] gameText = game.getMapWCharacter();
 		gameArea.setMap(gameText);
@@ -996,6 +1258,12 @@ public class MainWindow {
 		gameArea.requestFocusInWindow();
 	}
 
+	/**
+	 * Enables you to make changes to the game.
+	 * 
+	 * @param value
+	 *            True to enable the capability to edit the game.
+	 */
 	public void enableChanges(boolean value) {
 		// newGameBt.setEnabled(value);
 		nOgresTF.setEditable(value);
@@ -1024,11 +1292,17 @@ public class MainWindow {
 		rightBt.setEnabled(!value);
 	}
 
+	/**
+	 * Changes the saving parameters.
+	 */
 	protected void setLevelParam() {
-		txtLevelN.setText(Integer.toString(editor.getCurr_level() - 1));
-		txtFileName.setText(editor.getLevels().get(editor.getCurr_level() - 1));
+		txtLevelN.setText(Integer.toString(editor.getNext_level() - 1));
+		txtFileName.setText(editor.getLevels().get(editor.getNext_level() - 1));
 	}
 
+	/**
+	 * Updates the fields on the editing panel.
+	 */
 	protected void updateEditFields() {
 		gameArea.setMap(editor.getMapWCharacter());
 		updateKeysCB();
@@ -1037,6 +1311,9 @@ public class MainWindow {
 
 	}
 
+	/**
+	 * Updates the guard path displayed.
+	 */
 	protected void updateGuardPathText() {
 		Guard guard = (Guard) guard_CB.getSelectedItem();
 		if (guard != null) {
@@ -1049,6 +1326,9 @@ public class MainWindow {
 			textField_Path.setText("");
 	}
 
+	/**
+	 * Updates the combo box of door mechanisms.
+	 */
 	protected void updateKeysCB() {
 		keysCB.removeAllItems();
 		if (editor == null)
@@ -1059,6 +1339,9 @@ public class MainWindow {
 		}
 	}
 
+	/**
+	 * Updates the guards combo box.
+	 */
 	protected void updateGuardCB() {
 		guard_CB.removeAllItems();
 		if (editor == null)
@@ -1070,15 +1353,20 @@ public class MainWindow {
 		}
 	}
 
-	protected int checkSave(int index) {
+	/**
+	 * Checks the level to save.
+	 * 
+	 * @return Index to save the filename.
+	 */
+	protected int checkSave() {
 		if (editor == null) {
 			lblInfo.setText("Invalid editor");
 			return -1;
 		}
-
+		int index = -1;
 		boolean exit = editor.checkLevel();
 		if (!exit) {
-			lblInfo.setText("No way out");
+			lblInfo.setText("Invalid Level");
 		}
 
 		try {
@@ -1095,11 +1383,15 @@ public class MainWindow {
 		return index;
 	}
 
+	/**
+	 * Saves a level to a file.
+	 * 
+	 * @param saveMethod
+	 */
 	public void saveFile(saveFunction saveMethod) {
 		try {
 			String fileName;
-			Integer index = 0;
-			index = checkSave(index);
+			Integer index = checkSave();
 			if (index == -1)
 				return;
 
@@ -1121,17 +1413,26 @@ public class MainWindow {
 		lblInfo.setText("File Saved");
 	}
 
+	/**
+	 * Updates the game and handles the exceptions.
+	 */
 	protected void updateGame() {
 		try {
 			updateScreen();
 		} catch (NumberFormatException e1) {
-			e1.printStackTrace();
+			System.err.println("Number conversion error");
+			System.exit(-5);
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			System.err.println("IO error");
+			System.exit(-5);
 		}
 		gameArea.requestFocusInWindow();
 	}
 
+	/**
+	 * Gets the number of ogres on the text field.
+	 * @return Number of ogres, -1 if an error ocurred.
+	 */
 	protected int getNOgres() {
 		int nOgres;
 		try {
@@ -1148,6 +1449,11 @@ public class MainWindow {
 		return nOgres;
 	}
 
+	/**
+	 * Updates door mechanism related properties (doors, keys, levers).
+	 * @param coords Coordinates of the new element.
+	 * @param tile Type of tile.
+	 */
 	protected void updateDoorMechanism(int[] coords, String tile) {
 		DoorMechanism dm;
 		if (editor != null) {
@@ -1175,6 +1481,11 @@ public class MainWindow {
 		}
 	}
 
+	/**
+	 * Adds the selected size to an array.
+	 * @param editorSize Array to add to.
+	 * @return True if the retrieval was successful.
+	 */
 	protected boolean getEditorSize(ArrayList<Integer> editorSize) {
 		try {
 			editorSize.add(Integer.parseInt(txtSizex.getText()));
@@ -1186,6 +1497,10 @@ public class MainWindow {
 		return true;
 	}
 
+	/**
+	 * Retrieves a file to load.
+	 * @return Loaded file, it returns null if it fails.
+	 */
 	protected File getLoadFile() {
 		File file = null;
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -1195,6 +1510,7 @@ public class MainWindow {
 			file = fc.getSelectedFile();
 		} else {
 			System.err.println("Open command cancelled by user.\n");
+			return null;
 		}
 		return file;
 	}

@@ -5,6 +5,10 @@ import java.util.Scanner;
 
 import dkeep.logic.Game;
 
+/**
+ * Console line interface.
+ *
+ */
 public class Cli {
 
 	/**

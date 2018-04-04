@@ -14,44 +14,80 @@ import java.util.Scanner;
 import dkeep.logic.DoorMechanism;
 import dkeep.logic.Enemy;
 
+/**
+ * Reads all elements to form an editor.
+ *
+ */
 public abstract class SimpleReader extends ReadElements implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3952642826484349830L;
+	/**
+	 * Array of filenames that contain levels.
+	 */
 	protected ArrayList<String> levels = new ArrayList<String>();
-	protected int curr_level = 0;
+
+	/**
+	 * Index of the next level.
+	 */
+	protected int next_level = 0;
+
+	/**
+	 * Map of the level.
+	 */
 	protected char map[][];
+
+	/**
+	 * Returns the current Map.
+	 * 
+	 * @return Current map.
+	 */
 	public char[][] getMap() {
 		return map;
 	}
 
+	/**
+	 * Empty constructor.
+	 */
 	public SimpleReader() {
 		super();
 	}
 
+	/**
+	 * Advances to the next level.
+	 * 
+	 * @return True if there is a next level.
+	 */
 	public boolean nextLevel() {
-		if (curr_level < levels.size()) {
+		if (next_level < levels.size()) {
 			try {
-				this.readLevel(levels.get(curr_level));
+				this.readLevel(levels.get(next_level));
 			} catch (IOException e) {
-				System.out.println("File " + levels.get(curr_level) + " missing: passing to the next level.");
-				curr_level++;
+				System.err.println("File " + levels.get(next_level) + " missing: passing to the next level.");
+				next_level++;
 				return this.nextLevel();
 			}
-			curr_level++;
+			next_level++;
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Reads a level from a file.
+	 * 
+	 * @param fileName
+	 *            Level filename.
+	 * @throws IOException
+	 *             The file does not exist.
+	 */
 	public void readLevel(String fileName) throws IOException {
 		Scanner sc = new Scanner(new File(fileName));
 		try {
 			this.enemies.clear();
 			this.dMechanism.clear();
-			String line = new String();
-			this.map = readMap(sc, line);
+			this.map = readMap(sc);
 
 			readCharacters(sc);
 
@@ -61,16 +97,29 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 
 	}
 
+	/**
+	 * Returns the array of levels.
+	 * @return Array of levels.
+	 */
 	public ArrayList<String> getLevels() {
 		return levels;
 	}
 
-
-	public int getCurr_level() {
-		return curr_level;
+	/**
+	 * Returns the index of the next level.
+	 * @return Index of the next level.
+	 */
+	public int getNext_level() {
+		return next_level;
 	}
 
-	protected char[][] readMap(Scanner sc, String line) {
+	/**
+	 * Reads a map from a given scanner.
+	 * @param sc Source of the map.
+	 * @return Map.
+	 */
+	protected char[][] readMap(Scanner sc) {
+		String line =  new String();
 		int x, y;
 		x = sc.nextInt();
 		y = sc.nextInt();
@@ -85,8 +134,18 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 		return map;
 	}
 
+	/**
+	 * Reads the level filenames from
+	 * @throws IOException
+	 */
 	public void readLevelNames() throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader("levels.txt"));
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader("levels.txt"));
+		} catch (FileNotFoundException e) {
+			System.err.println("File levels.txt not found.");
+			System.exit(-4);
+		}
 		try {
 			String line = br.readLine();
 
@@ -99,6 +158,11 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 		}
 	}
 
+	/**
+	 * Saves file names to the levels.txt file.
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
 	public void saveLevelFiles() throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter("levels.txt", "UTF-8");
 		for (String file : levels) {
@@ -108,6 +172,12 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 
 	}
 
+	/**
+	 * Saves a level to a file.
+	 * @param fileName Filename of the save destination.
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 */
 	public void saveLevel(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
 		PrintWriter writer = new PrintWriter(fileName, "UTF-8");
 		writer.println(map.length + " " + map[0].length);
@@ -126,6 +196,11 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 
 	}
 
+	/**
+	 * Clones a two dimensional array.
+	 * @param input Matrix to clone.
+	 * @return Cloned matrix.
+	 */
 	public static char[][] deepCopyCharMatrix(char[][] input) {
 		if (input == null)
 			return null;
@@ -136,6 +211,10 @@ public abstract class SimpleReader extends ReadElements implements Serializable 
 		return result;
 	}
 
+	/**
+	 * Returns the map with the characters inserted.
+	 * @return Map with the characters.
+	 */
 	public char[][] getMapWCharacter() {
 		char mapWChar[][] = deepCopyCharMatrix(map);
 

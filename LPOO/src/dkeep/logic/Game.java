@@ -59,6 +59,8 @@ public class Game extends GameReader implements Serializable {
 	}
 
 	public String getGuardType() {
+		if(enemies == null)
+			return "Rookie";
 		for (Enemy enemy : enemies) {
 			if(enemy instanceof Drunken) {
 				return "Drunken";
