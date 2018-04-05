@@ -135,7 +135,7 @@ public class Suspicious extends Guard {
 		this.backwards = backwards;
 		if (oldBackwards != this.backwards) {
 			if (this.backwards != 0)
-				this.setCounter((this.getCounter() - 1 + this.getPath().length) % this.getPath().length);
+				this.setCounter((this.getCounter() - 1 + (this.getCounter() == 0 ? this.getPath().length : 0)) % this.getPath().length);
 			else
 				this.setCounter((this.getCounter() + 1) % this.getPath().length);
 		}
