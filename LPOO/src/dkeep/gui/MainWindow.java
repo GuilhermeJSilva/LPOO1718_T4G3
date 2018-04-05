@@ -998,7 +998,7 @@ public class MainWindow {
 	}
 
 	/**
-	 * Initialize left game button.
+	 * Initialize load game button.
 	 */
 	protected void initializeLGButton() {
 		btnLoadGame = new JButton("Load Game");
@@ -1011,7 +1011,7 @@ public class MainWindow {
 	}
 
 	/**
-	 * Add listeners to left game.
+	 * Add listeners to load game.
 	 */
 	protected void addLGButtonListener() {
 		btnLoadGame.addMouseListener(new MouseAdapter() {
@@ -1019,6 +1019,8 @@ public class MainWindow {
 			public void mouseClicked(MouseEvent e) {
 				try {
 					File file = getLoadFile();
+					if(file ==  null)
+						return;
 					FileInputStream fout = new FileInputStream(file);
 					ObjectInputStream oos = new ObjectInputStream(fout);
 					game = (Game) oos.readObject();
