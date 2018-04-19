@@ -128,6 +128,10 @@ public class GameController {
 	 */
 	public void moveElevatorTarget(int floor) {
 		this.elevator.setTarget_floor(floor);
+		if(floor >= this.elevator.getX())
+			this.elevator.setLinearVelocity(0, 1);
+		else
+			this.elevator.setLinearVelocity(0, -1);
 	}
 
 }

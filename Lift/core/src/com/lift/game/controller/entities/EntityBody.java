@@ -78,5 +78,8 @@ public class EntityBody {
         return body.getPosition().y;
     }
 
+    public void setLinearVelocity(float vx, float vy) {
+    	this.body.setLinearVelocity(vx, vy);
+    }
 
 }
