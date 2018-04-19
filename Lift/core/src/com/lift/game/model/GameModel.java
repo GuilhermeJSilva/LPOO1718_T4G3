@@ -51,7 +51,6 @@ public class GameModel {
 		return instance;
 	}
 	
-	
 	/**
 	 * Number of floors in the game.
 	 */

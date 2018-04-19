@@ -50,6 +50,14 @@ public class GameController {
 			instance = new GameController();
 		return instance;
 	}
+
+	/**
+	 * Returns the controller's elevator.
+	 * @return Controller's elevator.
+	 */
+	public ElevatorBody getElevator() {
+		return elevator;
+	}
 	
 
 }

@@ -14,6 +14,7 @@ public class EntityBody {
 	 */
 	private Double x;
 
+
 	/**
 	 * Creates an entity Body.
 	 * @param model Entity model.

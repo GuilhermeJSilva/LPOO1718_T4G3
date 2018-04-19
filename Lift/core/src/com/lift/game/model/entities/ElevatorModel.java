@@ -20,11 +20,6 @@ public class ElevatorModel extends EntityModel {
 	private ArrayList<List<PersonModel>> passengers;
 
 	/**
-	 * True if the elevator is not moving.
-	 */
-	private Boolean stopped;
-
-	/**
 	 * Default constructor.
 	 */
 	public ElevatorModel(Integer capacity) {
@@ -50,14 +45,5 @@ public class ElevatorModel extends EntityModel {
 	 */
 	public ArrayList<List<PersonModel>> getPassengers() {
 		return passengers;
-	}
-
-	/**
-	 * Returns true if the elevator is stopped.
-	 * 
-	 * @return True if the elevator is stopped, false otherwise.
-	 */
-	public Boolean getStopped() {
-		return stopped;
 	}
 }
