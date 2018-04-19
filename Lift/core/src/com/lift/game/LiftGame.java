@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class LiftGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	int x = 0, y = 0;
 	
 	@Override
 	public void create () {
@@ -21,8 +22,10 @@ public class LiftGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(img, 0, 0);
+		batch.draw(img, x, y);
 		batch.end();
+		x+=2;
+		y+=2;
 	}
 	
 	@Override
