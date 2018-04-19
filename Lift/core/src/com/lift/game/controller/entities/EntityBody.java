@@ -1,6 +1,9 @@
-package com.lift.game.model.entities;
+package com.lift.game.controller.entities;
 
-public class EntityModel {
+import com.lift.game.model.entities.EntityModel;
+
+public class EntityBody {
+	
 	/**
 	 * Position in the y axis.
 	 */
@@ -12,17 +15,13 @@ public class EntityModel {
 	private Double x;
 
 	/**
-	 * Default entity constructor.
-	 * 
-	 * @param X
-	 *            position.
-	 * @param Y
-	 *            position.
+	 * Creates an entity Body.
+	 * @param model Entity model.
 	 */
-	public EntityModel(Double x, Double y) {
+	public EntityBody(EntityModel model) {
 		super();
-		this.y = y;
-		this.x = x;
+		this.y = model.getY();
+		this.x = model.getX();
 	}
 
 	/**
@@ -42,4 +41,5 @@ public class EntityModel {
 	public Double getX() {
 		return x;
 	}
+
 }

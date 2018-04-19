@@ -1,5 +1,11 @@
 package com.lift.game.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.entities.PersonModel;
+
 /**
  * Represents the current state of the game.
  * Implements a singleton.
@@ -15,8 +21,17 @@ public class GameModel {
 	/**
 	 * Stores the singleton.
 	 */
-	public static GameModel model;
+	public static GameModel instance;
 	
+	/**
+	 * Game's elevator.
+	 */
+	private ElevatorModel elevator;
+	
+	/**
+	 * People waiting for the elevator.
+	 */
+	private ArrayList<List<PersonModel>> waiting_people;
 	
 	/**
 	 * Constructs the model.
@@ -31,9 +46,9 @@ public class GameModel {
 	 * @return Game model instance.
 	 */
 	public static GameModel getInstance() {
-		if(model == null)
-			model = new GameModel();
-		return model;
+		if(instance == null)
+			instance = new GameModel();
+		return instance;
 	}
 	
 	
@@ -48,5 +63,21 @@ public class GameModel {
 	 */
 	public Integer getN_levels() {
 		return n_levels;
+	}
+
+	/**
+	 * Returns the elevator.
+	 * @return Game's elevator.
+	 */
+	public ElevatorModel getElevator() {
+		return elevator;
+	}
+
+	/**
+	 * Returns the people waiting for the elevator.
+	 * @return People waiting for the elevator.
+	 */
+	public ArrayList<List<PersonModel>> getWaiting_people() {
+		return waiting_people;
 	}
 }
