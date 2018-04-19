@@ -79,4 +79,20 @@ public class GameModel {
 	public ArrayList<List<PersonModel>> getWaiting_people() {
 		return waiting_people;
 	}
+	
+	public void update(float delta) {
+		for (List<PersonModel> list : waiting_people) {
+			for (PersonModel person : list) {
+				person.update(delta);
+			}
+		}
+		
+		ArrayList<List<PersonModel>> passengers = this.elevator.getPassengers();
+		
+		for (List<PersonModel> list : passengers) {
+			for (PersonModel person : list) {
+				person.update(delta);
+			}
+		}
+	}
 }

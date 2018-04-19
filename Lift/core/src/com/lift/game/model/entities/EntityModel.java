@@ -4,12 +4,12 @@ public class EntityModel {
 	/**
 	 * Position in the y axis.
 	 */
-	private Double y;
+	private float y;
 
 	/**
 	 * Position in the x axis.
 	 */
-	private Double x;
+	private float x;
 
 	/**
 	 * Default entity constructor.
@@ -19,7 +19,7 @@ public class EntityModel {
 	 * @param Y
 	 *            position.
 	 */
-	public EntityModel(Double x, Double y) {
+	public EntityModel(float x, float y) {
 		super();
 		this.y = y;
 		this.x = x;
@@ -30,7 +30,7 @@ public class EntityModel {
 	 * 
 	 * @return Y position of the entity.
 	 */
-	public Double getY() {
+	public float getY() {
 		return y;
 	}
 
@@ -39,7 +39,12 @@ public class EntityModel {
 	 * 
 	 * @return X position of the entity.
 	 */
-	public Double getX() {
+	public float getX() {
 		return x;
+	}
+
+	public void setPosition(float x, float y) {
+		this.x = x;
+		this.y = y;
 	}
 }
