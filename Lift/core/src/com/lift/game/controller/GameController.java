@@ -3,6 +3,7 @@ package com.lift.game.controller;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -98,6 +99,7 @@ public class GameController {
 
 	/**
 	 * Updates the game.
+	 * @param delta Time passed.
 	 */
 	public void update(float delta) {
 		GameModel.getInstance().update(delta);
@@ -132,6 +134,35 @@ public class GameController {
 			this.elevator.setLinearVelocity(0, 1);
 		else
 			this.elevator.setLinearVelocity(0, -1);
+	}
+	
+	/**
+	 * Generates new people in the game.
+	 * @param n_people Number of people to generate.
+	 */
+	public void generatePeople(int n_people) {
+		if(n_people < 0)
+			return;
+		Random generator = new Random();
+		for(int i = 0; i < n_people; ++i) {
+			int floor = generator.nextInt(GameModel.getInstance().getN_levels());
+			generatePerson(floor);
+		}
+	}
+
+	/**
+	 * Generates a person in a certain floor.
+	 * @param floor Floor to generate in.
+	 */
+	private void generatePerson(int floor) {
+		Random generator = new Random();
+		int dest;
+		do {
+			dest = generator.nextInt(GameModel.getInstance().getN_levels());
+		} while (dest == floor);
+		PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 0, 1, dest);
+		waiting_people.get(floor).add(new PersonBody(world, p_model));
+		
 	}
 
 }

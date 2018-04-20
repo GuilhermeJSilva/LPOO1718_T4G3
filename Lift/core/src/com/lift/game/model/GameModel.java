@@ -80,6 +80,10 @@ public class GameModel {
 		return waiting_people;
 	}
 	
+	/**
+	 * Updates the parameters of the people, base don the time that passed.
+	 * @param delta Time that passed.
+	 */
 	public void update(float delta) {
 		for (List<PersonModel> list : waiting_people) {
 			for (PersonModel person : list) {
@@ -94,5 +98,18 @@ public class GameModel {
 				person.update(delta);
 			}
 		}
+	}
+	
+	/**
+	 * Adds a new person to waiting for the elevator.
+	 * @param floor Floor the person is currently in.
+	 * @param x X axis position of the person.
+	 * @param satisfaction_factor Rate that the satisfaction decreases.
+	 * @return The person model that was added.
+	 */
+	public PersonModel add_waiting_person(int floor, float x, float satisfaction_factor, int dest) {
+		PersonModel new_p = new PersonModel(x,(float)floor, satisfaction_factor, dest);
+		waiting_people.get(floor).add(new_p);
+		return new_p;
 	}
 }

@@ -13,6 +13,11 @@ public class PersonModel extends EntityModel{
 	 * Satisfaction.
 	 */
 	private Float satisfaction;
+	
+	/**
+	 * Person's destination.
+	 */
+	private Integer destination;
 
 	/**
 	 * Default person constructor.
@@ -22,10 +27,11 @@ public class PersonModel extends EntityModel{
 	 * @param Y
 	 *            position.
 	 */
-	public PersonModel(Float x, Float y, Float satisfaction_factor) {
+	public PersonModel(Float x, Float y, Float satisfaction_factor, int destination) {
 		super(x, y);
 		this.satisfaction = STARTING_SATISFACTION;
 		this.satisfaction_factor = satisfaction_factor;
+		this.destination = destination;
 	}
 	
 	/**
@@ -42,5 +48,13 @@ public class PersonModel extends EntityModel{
 	 */
 	public void update(float delta) {
 		this.satisfaction -= delta / satisfaction_factor;
+	}
+
+	/**
+	 * Returns the person's destination.
+	 * @return Person's destination.
+	 */
+	public Integer getDestination() {
+		return destination;
 	}
 }
