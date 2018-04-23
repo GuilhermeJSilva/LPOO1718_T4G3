@@ -59,7 +59,10 @@ public class ElevatorBody extends EntityBody{
 		this.target_floor = target_floor;
 	}
 	
-	
+	/**
+	 * Verifies if  it reached the target floor.
+	 * @return Returns true if the elevator stopped.
+	 */
 	public boolean reached_floor() {
 		float x = this.body.getPosition().x;
 		

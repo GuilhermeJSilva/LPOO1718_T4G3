@@ -25,12 +25,12 @@ public class GameController {
 	/**
 	 * The buildings height in meters.
 	 */
-	public static final Integer BUILDING_HEIGHT = 160;
+	public static final Integer BUILDING_HEIGHT = 80;
 
 	/**
 	 * The buildings width in meters.
 	 */
-	public static final Integer BUILDING_WIDTH = 90;
+	public static final Integer BUILDING_WIDTH = 45;
 
 	/**
 	 * Physic's world.
@@ -140,7 +140,7 @@ public class GameController {
 	 * Generates new people in the game.
 	 * @param n_people Number of people to generate.
 	 */
-	public void generatePeople(int n_people) {
+	private void generatePeople(int n_people) {
 		if(n_people < 0)
 			return;
 		Random generator = new Random();
@@ -163,6 +163,22 @@ public class GameController {
 		PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 0, 1, dest);
 		waiting_people.get(floor).add(new PersonBody(world, p_model));
 		
+	}
+
+	/**
+	 * Generates new people bases on the level of difficulty.
+	 * 
+	 */
+	public void generateNewPeople() {
+		generatePeople(1);
+	}
+	
+	/**
+	 * Returns the world.
+	 * @return World;
+	 */
+	public World getWorld() {
+		return this.world;
 	}
 
 }
