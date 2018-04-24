@@ -1,5 +1,7 @@
 package com.lift.game.model;
 
+import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -116,7 +118,8 @@ public class GameModel {
 	 * @return The person model that was added.
 	 */
 	public PersonModel add_waiting_person(int floor, float x, float satisfaction_factor, int dest) {
-		PersonModel new_p = new PersonModel(x,(float)floor, satisfaction_factor, dest);
+		System.out.println((float)floor*METERS_PER_FLOOR);
+		PersonModel new_p = new PersonModel(x,(float)floor*METERS_PER_FLOOR + 6.1f, satisfaction_factor, dest);
 		waiting_people.get(floor).add(new_p);
 		return new_p;
 	}

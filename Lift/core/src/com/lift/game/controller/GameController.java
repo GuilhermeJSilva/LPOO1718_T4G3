@@ -79,6 +79,7 @@ public class GameController {
 			}
 			waiting_people.add(people_in_a_floor);
 		}
+		
 
 	}
 
@@ -155,14 +156,14 @@ public class GameController {
 		do {
 			dest = generator.nextInt(GameModel.getInstance().getN_levels());
 		} while (dest == floor);
-		PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 0, floor*METERS_PER_FLOOR, dest);
+		PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 0, 1, dest);
 		waiting_people.get(floor).add(new PersonBody(world, p_model));
 		
 	}
 
 	/**
 	 * Generates new people bases on the level of difficulty.
-	 * 
+	 * TODO : Add difficulty level
 	 */
 	public void generateNewPeople() {
 		generatePeople(1);
