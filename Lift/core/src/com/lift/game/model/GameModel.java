@@ -41,10 +41,12 @@ public class GameModel {
 		super();
 		n_levels = DEFAULT_LEVEL;
 		elevator = new ElevatorModel(14f, 0, this.n_levels);
-		this.waiting_people = new ArrayList<List<PersonModel>>(n_levels);
-		for (int i = 0; i < waiting_people.size(); i++) {
-			waiting_people.set(i, new LinkedList<PersonModel>());
+		this.waiting_people = new ArrayList<List<PersonModel>>();
+
+		for (int i = 0; i < n_levels; i++) {
+			waiting_people.add(new LinkedList<PersonModel>());
 		}
+		System.out.println(this.waiting_people.size());
 	}
 	
 	/**

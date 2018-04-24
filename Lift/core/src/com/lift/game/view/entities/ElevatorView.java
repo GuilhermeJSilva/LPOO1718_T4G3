@@ -1,5 +1,4 @@
 package com.lift.game.view.entities;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -42,7 +41,8 @@ public class ElevatorView extends EntityView{
      */
 	private TextureRegion create_elevator_region(LiftGame game) {
 		  Texture elevatorTexture = game.getAssetManager().get("elevator.png");
-	      return new TextureRegion(elevatorTexture,(int) (elevatorTexture.getWidth()), (int)(elevatorTexture.getHeight()));
+		  //System.out.println(elevatorTexture.getWidth()*PIXEL_TO_METER + " "+ elevatorTexture.getHeight()*PIXEL_TO_METER);
+	      return new TextureRegion(elevatorTexture,elevatorTexture.getWidth(), elevatorTexture.getHeight());
 	}
 
 }

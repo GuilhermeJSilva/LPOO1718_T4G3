@@ -8,6 +8,12 @@ import java.util.List;
  * Model representing an elevator.
  */
 public class ElevatorModel extends EntityModel {
+	
+	/**
+	 * Elevator start position.
+	 */
+	public static final float STARTING_Y = 9.1f;
+	
 	/**
 	 * Maximum capacity of the elevator.
 	 */
@@ -24,7 +30,7 @@ public class ElevatorModel extends EntityModel {
 	 * Default constructor.
 	 */
 	public ElevatorModel(Float x, Integer capacity, Integer levels) {
-		super(x, 5.0f);
+		super(x, STARTING_Y);
 		this.capacity = capacity;
 		this.passengers = new ArrayList<List<PersonModel>>(levels);
 		for (int i = 0; i < passengers.size(); i++) {

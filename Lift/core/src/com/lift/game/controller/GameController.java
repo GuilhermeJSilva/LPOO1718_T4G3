@@ -35,7 +35,7 @@ public class GameController {
 	/**
 	 * Meters per floor
 	 */
-	public static final Integer METERS_PER_FLOOR = 10;
+	public static final Float METERS_PER_FLOOR = 10.6f;
 	
 	/**
 	 * Physic's world.
@@ -69,7 +69,7 @@ public class GameController {
 		super();
 		this.world = new World(new Vector2(0, 0), false);
 		this.elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator());
-		
+		this.waiting_people =  new ArrayList<List<PersonBody>>();
 		ArrayList<List<PersonModel>> w_people = GameModel.getInstance().getWaiting_people();
 
 		for (List<PersonModel> list : w_people) {
@@ -118,6 +118,8 @@ public class GameController {
 			
 			world.step(1 / 60f, 6, 2);
 			accumulator -= 1 / 60f;
+			
+	        this.generateNewPeople();
 		}
 
 		Array<Body> bodies = new Array<Body>();
@@ -153,7 +155,7 @@ public class GameController {
 		do {
 			dest = generator.nextInt(GameModel.getInstance().getN_levels());
 		} while (dest == floor);
-		PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 0, 1, dest);
+		PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 0, floor*METERS_PER_FLOOR, dest);
 		waiting_people.get(floor).add(new PersonBody(world, p_model));
 		
 	}

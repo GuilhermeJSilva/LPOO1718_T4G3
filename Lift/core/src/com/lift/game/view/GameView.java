@@ -110,7 +110,7 @@ public class GameView extends ScreenAdapter {
     @Override
     public void render(float delta) {
         //GameController.getInstance().removeFlagged();
-        //GameController.getInstance().generateNewPeople();
+
 
         handleInputs(delta);
 
@@ -132,7 +132,7 @@ public class GameView extends ScreenAdapter {
     }
     
     /**
-     * Draws the background
+     * Draws the background.
      */
     private void drawBackground() {
         Texture background = game.getAssetManager().get("background.png", Texture.class);
@@ -159,8 +159,12 @@ public class GameView extends ScreenAdapter {
      */
     private void handleInputs(float delta) {
         if (Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-        	int floor = (int)( (Gdx.graphics.getHeight() - Gdx.input.getY())/(Gdx.graphics.getHeight()/GameModel.getInstance().getN_levels())); 
-        	System.out.println("Button pressed, target: "+ floor);
+        	float tmp = Gdx.graphics.getHeight() * 4f / VIEWPORT_HEIGHT;
+        	//System.out.println((Gdx.graphics.getHeight() - Gdx.input.getY() - tmp));
+        	if((Gdx.graphics.getHeight() - Gdx.input.getY() - tmp) < 0)
+        		return;
+        	int floor = (int)( (Gdx.graphics.getHeight() - Gdx.input.getY() - tmp)/((Gdx.graphics.getHeight() - tmp)/GameModel.getInstance().getN_levels())); 
+        	//System.out.println("Button pressed, target: "+ floor);
 			GameController.getInstance().getElevator().setTarget_floor(floor);
         }
     }

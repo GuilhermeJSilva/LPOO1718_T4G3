@@ -1,24 +1,29 @@
 package com.lift.game.controller.entities;
 import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
+
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.ElevatorModel;
 
 public class ElevatorBody extends EntityBody{
-	
+	/**
+	 * Elevator's vertical speed.
+	 */
+	private static int vy = 20;
+
 	/**
 	 * Margin to stop in a certain floor.
 	 */
-	private final float FLOOR_MARGIN = 0.1f;
+	private final float FLOOR_MARGIN = 0.5f;
 
-	/**
-	 * Height of the elevator.
-	 */
-	private final int height = 16;
-	
 	/**
 	 * True if the elevator is not moving.
 	 */
 	private Boolean stopped;
+	
+	/**
+	 * HEight of the elevator-
+	 */
+	private int height = 16;
 	
 	/**
 	 * The elevator is heading towards this elevator.
@@ -43,9 +48,9 @@ public class ElevatorBody extends EntityBody{
 		this.stopped = true;
 		
 		float density = 1f, friction = 0.5f, restitution = 0f;
-		int width = 10;
+		int width = 9;
 		
-		this.add_fixture(body, new float[] {0, 0, 0, 16, 10, 0, 10, 16}
+		this.add_fixture(body, new float[] {0, 0, 0, height, width, 0, width, height}
 		, width, height, density, friction, restitution, (short)0, (short)0);
 	}
 
@@ -62,14 +67,19 @@ public class ElevatorBody extends EntityBody{
 	 * @param target_floor New target floor.
 	 */
 	public void setTarget_floor(Integer floor) {
+		float y = (this.getY() - this.height/2);
+		if(this.stopped && this.target_floor == floor)
+			return;
 		this.target_floor = floor;
-		if(floor * METERS_PER_FLOOR >= this.getY()) {
-			System.out.println("GOING DOWN");
-			this.setLinearVelocity(0, 10);
+		if(floor * METERS_PER_FLOOR > y) {
+			this.setLinearVelocity(0, vy);
+			this.stopped = false;
 		}
-		else
-			this.setLinearVelocity(0, -10);
-		this.stopped = false;
+		else if(floor * METERS_PER_FLOOR < y) {
+			this.setLinearVelocity(0, -vy);
+			this.stopped = false;
+		}
+			
 	}
 	
 	/**
@@ -77,12 +87,13 @@ public class ElevatorBody extends EntityBody{
 	 * @return Returns true if the elevator stopped.
 	 */
 	public boolean reached_floor() {
-		float y = (this.body.getPosition().y + this.height/2)/10;
-		System.out.println(y + " WITH TARGET " + target_floor );
-		if(y >= target_floor - FLOOR_MARGIN && y <= target_floor + FLOOR_MARGIN) {
+		float y = (this.body.getPosition().y);
+		//System.out.println(y + " WITH TARGET " + (target_floor*METERS_PER_FLOOR + ElevatorModel.STARTING_Y));
+		if(y >= target_floor*METERS_PER_FLOOR + ElevatorModel.STARTING_Y - FLOOR_MARGIN && y <= target_floor*METERS_PER_FLOOR + ElevatorModel.STARTING_Y + FLOOR_MARGIN) {
 			this.stopped = true;
 			this.body.setLinearVelocity(0, 0);
-			this.body.setTransform((float) this.body.getPosition().x,(float) target_floor * METERS_PER_FLOOR + this.height/2, 0);
+			//System.out.println((target_floor * METERS_PER_FLOOR + ElevatorModel.STARTING_Y));
+			this.body.setTransform((float) this.body.getPosition().x,(float) target_floor * METERS_PER_FLOOR + ElevatorModel.STARTING_Y, 0);
 			return true;
 		}
 		return false;
