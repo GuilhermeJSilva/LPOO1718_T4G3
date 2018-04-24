@@ -31,7 +31,12 @@ public class GameController {
 	 * The buildings width in meters.
 	 */
 	public static final Integer BUILDING_WIDTH = 45;
-
+	
+	/**
+	 * Meters per floor
+	 */
+	public static final Integer METERS_PER_FLOOR = 10;
+	
 	/**
 	 * Physic's world.
 	 */
@@ -64,7 +69,7 @@ public class GameController {
 		super();
 		this.world = new World(new Vector2(0, 0), false);
 		this.elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator());
-
+		
 		ArrayList<List<PersonModel>> w_people = GameModel.getInstance().getWaiting_people();
 
 		for (List<PersonModel> list : w_people) {
@@ -108,7 +113,6 @@ public class GameController {
 		accumulator += frameTime;
 		
 		while (accumulator >= 1 / 60f) {
-			
 			if(!this.elevator.isStopped())
 				this.elevator.reached_floor();
 			
@@ -124,17 +128,6 @@ public class GameController {
 		}
 	}
 	
-	/**
-	 * Gets the elevator moving.
-	 * @param floor Floor the elevator is moving towards.
-	 */
-	public void moveElevatorTarget(int floor) {
-		this.elevator.setTarget_floor(floor);
-		if(floor >= this.elevator.getX())
-			this.elevator.setLinearVelocity(0, 1);
-		else
-			this.elevator.setLinearVelocity(0, -1);
-	}
 	
 	/**
 	 * Generates new people in the game.

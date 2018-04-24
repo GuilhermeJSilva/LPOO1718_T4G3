@@ -1,13 +1,8 @@
 package com.lift.game.view;
 
-import static com.lift.game.controller.GameController.BUILDING_HEIGHT;
-import static com.lift.game.controller.GameController.BUILDING_WIDTH;
-
-import javax.swing.text.ViewFactory;
-
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Matrix4;
@@ -16,23 +11,29 @@ import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.view.entities.ElevatorView;
+import com.lift.game.view.entities.EntityView;
 
 public class GameView extends ScreenAdapter {
 	/**
 	 * Used to debug the position of the physics fixtures
 	 */
-	private static final boolean DEBUG_PHYSICS = false;
+	private static final boolean DEBUG_PHYSICS = true;
 
 	/**
 	 * How much meters does a pixel represent.
 	 */
-	public final static float PIXEL_TO_METER = 0.04f;
+	public final static float PIXEL_TO_METER = 0.0417f;
 
 	/**
-	 * The width of the viewport in meters. The height is automatically calculated
-	 * using the screen ratio.
+	 * The width of the viewport in meters.
 	 */
 	private static final float VIEWPORT_WIDTH = 45;
+	
+	/**
+	 * The height of the viewport in meters.
+	 */
+	private static final float VIEWPORT_HEIGHT = 80;
 
 	/**
 	 * The game this screen belongs to.
@@ -75,8 +76,10 @@ public class GameView extends ScreenAdapter {
      * @return the camera
      */
     private OrthographicCamera createCamera() {
-        OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, VIEWPORT_WIDTH / PIXEL_TO_METER * ((float) Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
-
+        //OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, (VIEWPORT_HEIGHT_PER_FLOOR * GameModel.getInstance().getN_levels() + 5) / PIXEL_TO_METER);
+    	System.out.println(VIEWPORT_WIDTH/PIXEL_TO_METER);
+    	System.out.println(VIEWPORT_HEIGHT/PIXEL_TO_METER);
+        OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH/PIXEL_TO_METER, VIEWPORT_HEIGHT/PIXEL_TO_METER);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
@@ -109,19 +112,16 @@ public class GameView extends ScreenAdapter {
         //GameController.getInstance().removeFlagged();
         //GameController.getInstance().generateNewPeople();
 
-        //handleInputs(delta);
+        handleInputs(delta);
 
-        //GameController.getInstance().update(delta);
+        GameController.getInstance().update(delta);
     	camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
         game.getBatch().setProjectionMatrix(camera.combined);
-        
-        Gdx.gl.glClearColor( 103/255f, 69/255f, 117/255f, 1 );
-        Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
         game.getBatch().begin();
         drawBackground();
-        //drawEntities();
+        drawEntities();
         game.getBatch().end();
 
         if (DEBUG_PHYSICS) {
@@ -137,18 +137,31 @@ public class GameView extends ScreenAdapter {
     private void drawBackground() {
         Texture background = game.getAssetManager().get("background.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
-        game.getBatch().draw(background, 0, 0, 0, 0, (int)(BUILDING_WIDTH / PIXEL_TO_METER), (int) (BUILDING_HEIGHT / PIXEL_TO_METER));
+        game.getBatch().draw(background, 0, 0, 0, 0, (int)(VIEWPORT_WIDTH/PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT/PIXEL_TO_METER));
     }
     
     /**
      * Draws the entities to the screen.
      */
-    /*
+    
     private void drawEntities() {
 
-        ElevatorModel ship = GameModel.getInstance().getElevator();
-        EntityView view = ViewFactory.makeView(game, ship);
-        view.update(ship);
+        ElevatorModel elevator = GameModel.getInstance().getElevator();
+        EntityView view = new ElevatorView(game);
+        view.update(elevator);
         view.draw(game.getBatch());
-    }*/
+    }
+    
+    /**
+     * Handles any inputs and passes them to the controller.
+     *
+     * @param delta time since last time inputs where handled in seconds
+     */
+    private void handleInputs(float delta) {
+        if (Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+        	int floor = (int)( (Gdx.graphics.getHeight() - Gdx.input.getY())/(Gdx.graphics.getHeight()/GameModel.getInstance().getN_levels())); 
+        	System.out.println("Button pressed, target: "+ floor);
+			GameController.getInstance().getElevator().setTarget_floor(floor);
+        }
+    }
 }

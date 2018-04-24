@@ -1,6 +1,7 @@
 package com.lift.game.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.lift.game.model.entities.ElevatorModel;
@@ -15,7 +16,7 @@ public class GameModel {
 	/**
 	 * Default number of floors.
 	 */
-	private static final Integer DEFAULT_LEVEL = 5;
+	private static final Integer DEFAULT_LEVEL = 7;
 	
 	
 	/**
@@ -39,6 +40,11 @@ public class GameModel {
 	private GameModel() {
 		super();
 		n_levels = DEFAULT_LEVEL;
+		elevator = new ElevatorModel(14f, 0, this.n_levels);
+		this.waiting_people = new ArrayList<List<PersonModel>>(n_levels);
+		for (int i = 0; i < waiting_people.size(); i++) {
+			waiting_people.set(i, new LinkedList<PersonModel>());
+		}
 	}
 	
 	/**

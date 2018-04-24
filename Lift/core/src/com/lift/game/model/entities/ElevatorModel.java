@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.lift.game.model.GameModel;
-
 /**
  * Model representing an elevator.
  */
@@ -25,11 +23,10 @@ public class ElevatorModel extends EntityModel {
 	/**
 	 * Default constructor.
 	 */
-	public ElevatorModel(Integer capacity) {
-		//TODO: change X depending on the view.
-		super(0.0f, 0.0f);
+	public ElevatorModel(Float x, Integer capacity, Integer levels) {
+		super(x, 5.0f);
 		this.capacity = capacity;
-		this.passengers = new ArrayList<List<PersonModel>>(GameModel.getInstance().getN_levels());
+		this.passengers = new ArrayList<List<PersonModel>>(levels);
 		for (int i = 0; i < passengers.size(); i++) {
 			passengers.set(i, new LinkedList<PersonModel>());
 		}
