@@ -7,12 +7,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.view.entities.ElevatorView;
 import com.lift.game.view.entities.EntityView;
+import com.lift.game.view.entities.PlatormView;
+
+import java.util.ArrayList;
 
 public class GameView extends ScreenAdapter {
 	/**
@@ -59,7 +64,7 @@ public class GameView extends ScreenAdapter {
 	/**
 	 * Creates this screen.
 	 *
-	 * @param game
+	 * @param liftGame
 	 *            The game this screen belongs to
 	 */
 	public GameView(LiftGame liftGame) {
@@ -77,9 +82,9 @@ public class GameView extends ScreenAdapter {
      */
     private OrthographicCamera createCamera() {
         //OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH / PIXEL_TO_METER, (VIEWPORT_HEIGHT_PER_FLOOR * GameModel.getInstance().getN_levels() + 5) / PIXEL_TO_METER);
-    	System.out.println(VIEWPORT_WIDTH/PIXEL_TO_METER);
-    	System.out.println(VIEWPORT_HEIGHT/PIXEL_TO_METER);
         OrthographicCamera camera = new OrthographicCamera(VIEWPORT_WIDTH/PIXEL_TO_METER, VIEWPORT_HEIGHT/PIXEL_TO_METER);
+        FitViewport view =  new FitViewport(VIEWPORT_WIDTH/PIXEL_TO_METER, VIEWPORT_HEIGHT/PIXEL_TO_METER, camera);
+        view.apply();
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
@@ -150,6 +155,13 @@ public class GameView extends ScreenAdapter {
         EntityView view = new ElevatorView(game);
         view.update(elevator);
         view.draw(game.getBatch());
+
+        ArrayList<PlatformModel> platformModels = GameModel.getInstance().getFloors();
+        for (PlatformModel pm :  platformModels) {
+            view = new PlatormView(game);
+            view.update(pm);
+            view.draw(game.getBatch());
+        }
     }
     
     /**
@@ -160,11 +172,9 @@ public class GameView extends ScreenAdapter {
     private void handleInputs(float delta) {
         if (Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
         	float tmp = Gdx.graphics.getHeight() * 4f / VIEWPORT_HEIGHT;
-        	//System.out.println((Gdx.graphics.getHeight() - Gdx.input.getY() - tmp));
         	if((Gdx.graphics.getHeight() - Gdx.input.getY() - tmp) < 0)
         		return;
-        	int floor = (int)( (Gdx.graphics.getHeight() - Gdx.input.getY() - tmp)/((Gdx.graphics.getHeight() - tmp)/GameModel.getInstance().getN_levels())); 
-        	//System.out.println("Button pressed, target: "+ floor);
+        	int floor = (int)( (Gdx.graphics.getHeight() - Gdx.input.getY() - tmp)/((Gdx.graphics.getHeight() - tmp)/GameModel.getInstance().getN_levels()));
 			GameController.getInstance().getElevator().setTarget_floor(floor);
         }
     }

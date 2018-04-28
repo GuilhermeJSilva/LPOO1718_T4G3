@@ -3,6 +3,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.lift.game.LiftGame;
+import com.lift.game.controller.entities.ElevatorBody;
+
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 /**
  * A view representing an elevator.
@@ -30,7 +33,6 @@ public class ElevatorView extends EntityView{
     @Override
     public Sprite createSprite(LiftGame game) {
         elevatorRegion = create_elevator_region(game);
-
         return new Sprite(elevatorRegion);
     }
 
@@ -41,8 +43,7 @@ public class ElevatorView extends EntityView{
      */
 	private TextureRegion create_elevator_region(LiftGame game) {
 		  Texture elevatorTexture = game.getAssetManager().get("elevator.png");
-		  //System.out.println(elevatorTexture.getWidth()*PIXEL_TO_METER + " "+ elevatorTexture.getHeight()*PIXEL_TO_METER);
-	      return new TextureRegion(elevatorTexture,elevatorTexture.getWidth(), elevatorTexture.getHeight());
+	      return new TextureRegion(elevatorTexture,(int)(ElevatorBody.width /2/PIXEL_TO_METER), (int)(ElevatorBody.height/2/PIXEL_TO_METER));
 	}
 
 }

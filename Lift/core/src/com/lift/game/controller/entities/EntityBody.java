@@ -78,6 +78,12 @@ public class EntityBody {
         return body.getPosition().y;
     }
 
+
+    /**
+     * Changes the linear velocity of a body.
+     * @param vx Velocity in the x axis.
+     * @param vy Velocity in the y axis.
+     */
     public void setLinearVelocity(float vx, float vy) {
     	this.body.setLinearVelocity(vx, vy);
     }

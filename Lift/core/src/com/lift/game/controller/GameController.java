@@ -11,9 +11,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PersonModel;
+import com.lift.game.model.entities.PlatformModel;
 
 /**
  * 
@@ -25,7 +27,7 @@ public class GameController {
 	/**
 	 * The buildings height in meters.
 	 */
-	public static final Integer BUILDING_HEIGHT = 80;
+	public static final Integer BUILDING_HEIGHT = 70;
 
 	/**
 	 * The buildings width in meters.
@@ -35,7 +37,7 @@ public class GameController {
 	/**
 	 * Meters per floor
 	 */
-	public static final Float METERS_PER_FLOOR = 10.6f;
+	public static final Integer METERS_PER_FLOOR = 12;
 	
 	/**
 	 * Physic's world.
@@ -54,10 +56,17 @@ public class GameController {
 
 	/**
 	 * People waiting for the elevator;
+     * TODO: REMOVE
 	 */
 	private ArrayList<List<PersonBody>> waiting_people;
 
-	/**
+
+    /**
+     * Floors of the game.
+     */
+    private ArrayList<PlatformBody> floors;
+
+    /**
 	 * Stores the singleton.
 	 */
 	public static GameController instance;
@@ -69,18 +78,13 @@ public class GameController {
 		super();
 		this.world = new World(new Vector2(0, 0), false);
 		this.elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator());
-		this.waiting_people =  new ArrayList<List<PersonBody>>();
-		ArrayList<List<PersonModel>> w_people = GameModel.getInstance().getWaiting_people();
+		this.floors = new ArrayList<PlatformBody>();
 
-		for (List<PersonModel> list : w_people) {
-			List<PersonBody> people_in_a_floor = new LinkedList<PersonBody>();
-			for (PersonModel personModel : list) {
-				people_in_a_floor.add(new PersonBody(this.world, personModel));
-			}
-			waiting_people.add(people_in_a_floor);
-		}
-		
+		ArrayList<PlatformModel> fm = GameModel.getInstance().getFloors();
 
+		for (PlatformModel pm: fm) {
+		    floors.add(new PlatformBody(this.world, pm));
+        }
 	}
 
 	/**
@@ -166,7 +170,7 @@ public class GameController {
 	 * TODO : Add difficulty level
 	 */
 	public void generateNewPeople() {
-		generatePeople(1);
+		//generatePeople(1);
 	}
 	
 	/**

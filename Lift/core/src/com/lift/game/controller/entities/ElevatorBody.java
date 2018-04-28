@@ -21,10 +21,16 @@ public class ElevatorBody extends EntityBody{
 	private Boolean stopped;
 	
 	/**
-	 * HEight of the elevator-
+	 * Height of the elevator.
 	 */
-	private int height = 16;
-	
+	public static final int height = 16;
+
+
+	/**
+	 * Width oh the elevator.
+	 */
+	public static final int width = 10;
+
 	/**
 	 * The elevator is heading towards this elevator.
 	 */
@@ -48,8 +54,6 @@ public class ElevatorBody extends EntityBody{
 		this.stopped = true;
 		
 		float density = 1f, friction = 0.5f, restitution = 0f;
-		int width = 9;
-		
 		this.add_fixture(body, new float[] {0, 0, 0, height, width, 0, width, height}
 		, width, height, density, friction, restitution, (short)0, (short)0);
 	}
