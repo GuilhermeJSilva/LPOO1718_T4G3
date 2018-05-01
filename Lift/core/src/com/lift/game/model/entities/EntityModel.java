@@ -14,9 +14,9 @@ public class EntityModel {
 	/**
 	 * Default entity constructor.
 	 * 
-	 * @param X
+	 * @param x
 	 *            position.
-	 * @param Y
+	 * @param y
 	 *            position.
 	 */
 	public EntityModel(float x, float y) {

@@ -1,4 +1,0 @@
-lvl1.txt
-lvl2.txt
-testFail.txt
-lvl3.txt

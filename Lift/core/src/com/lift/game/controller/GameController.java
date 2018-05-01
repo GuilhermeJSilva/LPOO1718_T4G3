@@ -11,9 +11,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PersonModel;
+import com.lift.game.model.entities.PlatformModel;
 
 /**
  * 
@@ -25,13 +27,18 @@ public class GameController {
 	/**
 	 * The buildings height in meters.
 	 */
-	public static final Integer BUILDING_HEIGHT = 160;
+	public static final Integer BUILDING_HEIGHT = 80;
 
 	/**
 	 * The buildings width in meters.
 	 */
-	public static final Integer BUILDING_WIDTH = 90;
-
+	public static final Integer BUILDING_WIDTH = 45;
+	
+	/**
+	 * Meters per floor
+	 */
+	public static final Integer METERS_PER_FLOOR = 12;
+	
 	/**
 	 * Physic's world.
 	 */
@@ -49,10 +56,18 @@ public class GameController {
 
 	/**
 	 * People waiting for the elevator;
+     * TODO: REMOVE
 	 */
 	private ArrayList<List<PersonBody>> waiting_people;
 
-	/**
+
+
+    /**
+     * Floors of the game.
+     */
+    private ArrayList<PlatformBody> floors;
+
+    /**
 	 * Stores the singleton.
 	 */
 	public static GameController instance;
@@ -64,17 +79,13 @@ public class GameController {
 		super();
 		this.world = new World(new Vector2(0, 0), false);
 		this.elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator());
+		this.floors = new ArrayList<PlatformBody>();
 
-		ArrayList<List<PersonModel>> w_people = GameModel.getInstance().getWaiting_people();
+		ArrayList<PlatformModel> fm = GameModel.getInstance().getFloors();
 
-		for (List<PersonModel> list : w_people) {
-			List<PersonBody> people_in_a_floor = new LinkedList<PersonBody>();
-			for (PersonModel personModel : list) {
-				people_in_a_floor.add(new PersonBody(this.world, personModel));
-			}
-			waiting_people.add(people_in_a_floor);
-		}
-
+		for (PlatformModel pm: fm) {
+		    floors.add(new PlatformBody(this.world, pm));
+        }
 	}
 
 	/**
@@ -108,12 +119,13 @@ public class GameController {
 		accumulator += frameTime;
 		
 		while (accumulator >= 1 / 60f) {
-			
 			if(!this.elevator.isStopped())
 				this.elevator.reached_floor();
 			
 			world.step(1 / 60f, 6, 2);
 			accumulator -= 1 / 60f;
+			
+	        this.generateNewPeople();
 		}
 
 		Array<Body> bodies = new Array<Body>();
@@ -124,23 +136,12 @@ public class GameController {
 		}
 	}
 	
-	/**
-	 * Gets the elevator moving.
-	 * @param floor Floor the elevator is moving towards.
-	 */
-	public void moveElevatorTarget(int floor) {
-		this.elevator.setTarget_floor(floor);
-		if(floor >= this.elevator.getX())
-			this.elevator.setLinearVelocity(0, 1);
-		else
-			this.elevator.setLinearVelocity(0, -1);
-	}
 	
 	/**
 	 * Generates new people in the game.
 	 * @param n_people Number of people to generate.
 	 */
-	public void generatePeople(int n_people) {
+	private void generatePeople(int n_people) {
 		if(n_people < 0)
 			return;
 		Random generator = new Random();
@@ -164,5 +165,29 @@ public class GameController {
 		waiting_people.get(floor).add(new PersonBody(world, p_model));
 		
 	}
+
+	/**
+	 * Generates new people bases on the level of difficulty.
+	 * TODO : Add difficulty level
+	 */
+	public void generateNewPeople() {
+		//generatePeople(1);
+	}
+	
+	/**
+	 * Returns the world.
+	 * @return World;
+	 */
+	public World getWorld() {
+		return this.world;
+	}
+
+    /**
+     * Returns the floors of the game.
+     * @return Floors of the game.
+     */
+    public ArrayList<PlatformBody> getFloors() {
+        return floors;
+    }
 
 }
