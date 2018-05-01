@@ -176,8 +176,11 @@ public class GameView extends ScreenAdapter {
                 if(Math.abs(pm.getY() -  y_pos) < distance & y_pos > pm.getY())
                     floor = GameModel.getInstance().getFloors().indexOf(pm);
             }
-            if(floor != -1)
+            if(floor != -1) {
                 GameController.getInstance().getElevator().setTarget_floor(floor);
+                GameModel.getInstance().getElevator().setTarget_floor(floor);
+            }
+
         }
     }
 }

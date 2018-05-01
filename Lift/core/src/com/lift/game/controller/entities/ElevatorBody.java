@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities;
 
 import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
@@ -27,6 +28,10 @@ public class ElevatorBody extends EntityBody {
      */
     public static final int height = 16;
 
+    /**
+     *  Collision mask of the elevator.
+     */
+    public static  final short ELEVATOR_MASK = 1 << 1;
 
     /**
      * Width oh the elevator.
@@ -55,13 +60,12 @@ public class ElevatorBody extends EntityBody {
     public ElevatorBody(World world, ElevatorModel model) {
         super(world, model);
         this.stopped = true;
+        this.target_floor = model.getTarget_floor();
 
         float density = 1f, friction = 0.5f, restitution = 0f;
-        this.add_fixture(body, new float[]{0, 0, 0, height - PlatformBody.PLATFORM_HEIGHT, width, 0, width, height - PlatformBody.PLATFORM_HEIGHT}
-                , width, height, density, friction, restitution, (short) 0, (short) 0);
+        this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
+                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_MASK, true);
 
-        this.add_fixture(body, new float[]{0, height - PlatformBody.PLATFORM_HEIGHT, 0, height, width,  height - PlatformBody.PLATFORM_HEIGHT, width, height}
-                , width, height, density, friction, restitution, (short) 0, (short) 0);
     }
 
     /**

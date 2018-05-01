@@ -23,10 +23,29 @@ public class ElevatorModel extends EntityModel {
 	 * People in the elevator.
 	 */
 	private ArrayList<List<PersonModel>> passengers;
-	
 
+    /**
+     * Target model.
+     */
+    private int target_floor;
 
-	/**
+    /**
+     * Changes the target floor;
+     * @param target_floor
+     */
+    public void setTarget_floor(int target_floor) {
+        this.target_floor = target_floor;
+    }
+
+    /**
+     * Returns the target floor.
+     * @return Target floor.
+     */
+    public int getTarget_floor() {
+        return target_floor;
+    }
+
+    /**
 	 * Default constructor.
 	 */
 	public ElevatorModel(Float x, Integer capacity, Integer levels) {

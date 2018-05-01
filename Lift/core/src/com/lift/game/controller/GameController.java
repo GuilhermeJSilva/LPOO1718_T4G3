@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
+import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
@@ -22,7 +22,7 @@ import com.lift.game.model.entities.PlatformModel;
  * Controls the game.
  *
  */
-public class GameController {
+public class GameController implements ContactListener {
 
 	/**
 	 * The buildings height in meters.
@@ -86,6 +86,8 @@ public class GameController {
 		for (PlatformModel pm: fm) {
 		    floors.add(new PlatformBody(this.world, pm));
         }
+
+        world.setContactListener(this);
 	}
 
 	/**
@@ -120,7 +122,7 @@ public class GameController {
 		
 		while (accumulator >= 1 / 60f) {
 			if(!this.elevator.isStopped())
-				this.elevator.reached_floor();
+				//this.elevator.reached_floor();
 			
 			world.step(1 / 60f, 6, 2);
 			accumulator -= 1 / 60f;
@@ -190,4 +192,55 @@ public class GameController {
         return floors;
     }
 
+    @Override
+    public void beginContact(Contact contact) {
+        System.out.println("Contact");
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+
+        if(bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
+            handlePlatformCollision(bodyA, bodyB, bodyB.getLinearVelocity().y < 0);
+
+        }
+        else if(bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
+            handlePlatformCollision(bodyB, bodyA, bodyA.getLinearVelocity().y < 0);
+        }
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+        System.out.println("Contact");
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+
+        if(bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
+            handlePlatformCollision(bodyA, bodyB, bodyB.getLinearVelocity().y > 0);
+
+        }
+        else if(bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
+            handlePlatformCollision(bodyB, bodyA, bodyA.getLinearVelocity().y > 0);
+        }
+    }
+
+    private void handlePlatformCollision(Body bodyA, Body bodyB, boolean b) {
+        PlatformModel pm = (PlatformModel) bodyA.getUserData();
+        ElevatorModel em = (ElevatorModel) bodyB.getUserData();
+        System.out.println(em.getTarget_floor());
+        System.out.println(GameModel.getInstance().getFloors().indexOf(pm));
+
+        if (em.getTarget_floor() == GameModel.getInstance().getFloors().indexOf(pm) && b) {
+            System.out.println("Stopping");
+            bodyB.setLinearVelocity(0, 0);
+        }
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+
+    }
 }
