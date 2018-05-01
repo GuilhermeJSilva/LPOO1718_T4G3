@@ -64,7 +64,7 @@ public class ElevatorBody extends EntityBody {
 
         float density = 1f, friction = 0.5f, restitution = 0f;
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_MASK, true);
+                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_MASK, false);
 
     }
 
@@ -95,27 +95,6 @@ public class ElevatorBody extends EntityBody {
             this.stopped = false;
         }
 
-    }
-
-    /**
-     * Verifies if  it reached the target floor.
-     *
-     * @return Returns true if the elevator stopped.
-     */
-    public boolean reached_floor() {
-        float y = (this.body.getPosition().y);
-        //TODO: Include in the class to reduce calculation time ???
-
-        float stop_height = GameController.getInstance().getFloors().get(target_floor).getY() + height/4 + PlatformBody.PLATFORM_HEIGHT/2f;
-        System.out.println("Platform Height:" + GameController.getInstance().getFloors().get(target_floor).getY());
-        System.out.println("Stop height: " + stop_height);
-        if (y >= stop_height - FLOOR_MARGIN && y <= stop_height + FLOOR_MARGIN) {
-            this.stopped = true;
-            this.body.setLinearVelocity(0, 0);
-            //this.body.setTransform(this.body.getPosition().x, stop_height + height/2, 0);
-            return true;
-        }
-        return false;
     }
 
 

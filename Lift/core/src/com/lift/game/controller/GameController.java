@@ -121,8 +121,6 @@ public class GameController implements ContactListener {
 		accumulator += frameTime;
 		
 		while (accumulator >= 1 / 60f) {
-			if(!this.elevator.isStopped())
-				//this.elevator.reached_floor();
 			
 			world.step(1 / 60f, 6, 2);
 			accumulator -= 1 / 60f;
