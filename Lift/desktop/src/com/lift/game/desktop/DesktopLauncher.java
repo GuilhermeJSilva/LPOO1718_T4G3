@@ -8,6 +8,9 @@ import com.lift.game.LiftGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		int grade = 50;
+		config.height = 16 * grade;
+		config.width = 9 * grade;
 		new LwjglApplication(new LiftGame(), config);
 	}
 }

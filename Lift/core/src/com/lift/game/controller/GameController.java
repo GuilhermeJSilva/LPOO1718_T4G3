@@ -27,7 +27,7 @@ public class GameController {
 	/**
 	 * The buildings height in meters.
 	 */
-	public static final Integer BUILDING_HEIGHT = 70;
+	public static final Integer BUILDING_HEIGHT = 80;
 
 	/**
 	 * The buildings width in meters.
@@ -59,6 +59,7 @@ public class GameController {
      * TODO: REMOVE
 	 */
 	private ArrayList<List<PersonBody>> waiting_people;
+
 
 
     /**
@@ -180,5 +181,13 @@ public class GameController {
 	public World getWorld() {
 		return this.world;
 	}
+
+    /**
+     * Returns the floors of the game.
+     * @return Floors of the game.
+     */
+    public ArrayList<PlatformBody> getFloors() {
+        return floors;
+    }
 
 }
