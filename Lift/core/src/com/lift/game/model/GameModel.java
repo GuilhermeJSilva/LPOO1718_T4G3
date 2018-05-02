@@ -57,7 +57,6 @@ public class GameModel {
 		for (int i = 1; i <= n_levels; i++) {
             floors.add(new PlatformModel(0,i * METERS_PER_FLOOR - METERS_PER_FLOOR/2f));
 		}
-		System.out.println(this.floors.size());
 	}
 	
 	/**

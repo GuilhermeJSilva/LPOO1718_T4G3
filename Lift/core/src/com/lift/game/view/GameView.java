@@ -178,7 +178,6 @@ public class GameView extends ScreenAdapter {
             }
             if(floor != -1) {
                 GameController.getInstance().getElevator().setTarget_floor(floor);
-                GameModel.getInstance().getElevator().setTarget_floor(floor);
             }
 
         }

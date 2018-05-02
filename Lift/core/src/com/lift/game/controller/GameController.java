@@ -37,7 +37,7 @@ public class GameController implements ContactListener {
 	/**
 	 * Meters per floor
 	 */
-	public static final Integer METERS_PER_FLOOR = 12;
+	public static final Integer METERS_PER_FLOOR = 13;
 	
 	/**
 	 * Physic's world.
@@ -133,6 +133,9 @@ public class GameController implements ContactListener {
 
 		for (Body body : bodies) {
 			((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y);
+			if(body.getUserData() instanceof ElevatorModel) {
+                ((ElevatorModel) body.getUserData()).setTarget_floor(elevator.getTarget_floor());
+            }
 		}
 	}
 	
@@ -192,7 +195,6 @@ public class GameController implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        System.out.println("Contact");
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
 
@@ -207,7 +209,6 @@ public class GameController implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        System.out.println("Contact");
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
 
@@ -223,11 +224,9 @@ public class GameController implements ContactListener {
     private void handlePlatformCollision(Body bodyA, Body bodyB, boolean b) {
         PlatformModel pm = (PlatformModel) bodyA.getUserData();
         ElevatorModel em = (ElevatorModel) bodyB.getUserData();
-        System.out.println(em.getTarget_floor());
-        System.out.println(GameModel.getInstance().getFloors().indexOf(pm));
+
 
         if (em.getTarget_floor() == GameModel.getInstance().getFloors().indexOf(pm) && b) {
-            System.out.println("Stopping");
             bodyB.setLinearVelocity(0, 0);
         }
     }
