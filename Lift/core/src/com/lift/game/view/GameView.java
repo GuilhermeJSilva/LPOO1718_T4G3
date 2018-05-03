@@ -89,7 +89,7 @@ public class GameView extends ScreenAdapter {
      * @return the camera
      */
     private OrthographicCamera createCamera() {
-        OrthographicCamera camera = new OrthographicCamera( VIEWPORT_HEIGHT / PIXEL_TO_METER * ((float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight()), VIEWPORT_HEIGHT / PIXEL_TO_METER);
+        OrthographicCamera camera = new OrthographicCamera(VIEWPORT_HEIGHT / PIXEL_TO_METER * ((float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight()), VIEWPORT_HEIGHT / PIXEL_TO_METER);
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
 
@@ -157,26 +157,25 @@ public class GameView extends ScreenAdapter {
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
         game.getBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH / PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
     }
+
     /**
      * Draws the score.
      */
-    private void drawScore(){
+    private void drawScore() {
 
         fonte.setColor(Color.BLACK);
         int width = 130;
-        fonte.draw(game.getBatch(), "30.0", Gdx.graphics.getWidth()/2 - width, Gdx.graphics.getHeight()-20);
+        fonte.draw(game.getBatch(), "30.0", Gdx.graphics.getWidth() / 2 - width, Gdx.graphics.getHeight() - 20);
 
     }
 
-    private void drawCoins(){
+    private void drawCoins() {
 
         fonte.setColor(Color.WHITE);
         int width = 130;
-        fonte.draw(game.getBatch(), "1000", Gdx.graphics.getWidth()/2 - width, 100);
+        fonte.draw(game.getBatch(), "1000", Gdx.graphics.getWidth() / 2 - width, 100);
 
     }
-
-
 
 
     /**
@@ -187,6 +186,11 @@ public class GameView extends ScreenAdapter {
 
         ElevatorModel elevator = GameModel.getInstance().getLeft_elevator();
         EntityView view = new ElevatorView(game);
+        view.update(elevator);
+        view.draw(game.getBatch());
+
+        elevator = GameModel.getInstance().getRight_elevator();
+        view = new ElevatorView(game);
         view.update(elevator);
         view.draw(game.getBatch());
 
@@ -212,17 +216,33 @@ public class GameView extends ScreenAdapter {
      */
     private void handleInputs(float delta) {
         if (Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            float y_pos = (Gdx.graphics.getHeight() - Gdx.input.getY())*VIEWPORT_HEIGHT / Gdx.graphics.getHeight();
-            int floor = -1;
-            float distance = Float.MAX_VALUE;
-            for (PlatformModel pm : GameModel.getInstance().getLeft_floors()){
-                if(Math.abs(pm.getY() -  y_pos) < distance & y_pos > pm.getY())
-                    floor = GameModel.getInstance().getLeft_floors().indexOf(pm);
+
+            ArrayList<PlatformModel> floors = GameModel.getInstance().getLeft_floors();
+            if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
+                floors = GameModel.getInstance().getRight_floors();
             }
-            if(floor != -1) {
-                GameController.getInstance().getElevator().setTarget_floor(floor);
+            int floor = determine_floor_number(floors);
+
+            if (floor != -1) {
+                if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
+                    if (GameController.getInstance().getRight_elevator().getTarget_floor() != floor)
+                        GameController.getInstance().getRight_elevator().setTarget_floor(floor);
+                } else if (GameController.getInstance().getLeft_elevator().getTarget_floor() != floor)
+                    GameController.getInstance().getLeft_elevator().setTarget_floor(floor);
             }
 
         }
+    }
+
+    private int determine_floor_number(ArrayList<PlatformModel> floors) {
+        float y_pos = (Gdx.graphics.getHeight() - Gdx.input.getY()) * VIEWPORT_HEIGHT / Gdx.graphics.getHeight();
+        int floor = -1;
+        float distance = Float.MAX_VALUE;
+        for (PlatformModel pm : floors) {
+            if (Math.abs(pm.getY() - y_pos) < distance & y_pos > pm.getY())
+                floor = floors.indexOf(pm);
+        }
+        System.out.println(floor);
+        return floor;
     }
 }

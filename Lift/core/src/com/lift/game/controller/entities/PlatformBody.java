@@ -20,7 +20,7 @@ public class PlatformBody extends EntityBody {
     /**
      * Platform height.
      */
-    public static int PLATFORM_HEIGHT = 2;
+    public static float PLATFORM_HEIGHT = 1.5f;
 
     /**
      * Collision bit mask.
@@ -47,7 +47,7 @@ public class PlatformBody extends EntityBody {
             waiting_people.add(new PersonBody(world, pm));
         }
         float density = 1f, friction = 0.5f, restitution = 0f;
-        int width = PLATFORM_LENGTH, height = PLATFORM_HEIGHT;
+        float width = PLATFORM_LENGTH, height = PLATFORM_HEIGHT;
 
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
                 , width, height, density, friction, restitution, PLATFORM_MASK, ELEVATOR_MASK, false

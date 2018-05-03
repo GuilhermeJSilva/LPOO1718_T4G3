@@ -56,10 +56,15 @@ public class GameController {
     private Integer p_per_second = 1;
 
     /**
-     * Game's elevator.
+     * Game's left_elevator.
      */
-    private ElevatorBody elevator;
+    private ElevatorBody left_elevator;
 
+
+    /**
+     * Game's right_elevator.
+     */
+    private ElevatorBody right_elevator;
 
     /**
      * Left floors of the game.
@@ -84,7 +89,9 @@ public class GameController {
     private GameController() {
         super();
         this.world = new World(new Vector2(0, 0), false);
-        this.elevator = new ElevatorBody(this.world, GameModel.getInstance().getLeft_elevator());
+        this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getLeft_elevator());
+        this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getRight_elevator());
+
         this.left_floors = new ArrayList<PlatformBody>();
         this.right_floors = new ArrayList<PlatformBody>();
 
@@ -99,7 +106,7 @@ public class GameController {
         for (PlatformModel pm : fm) {
             right_floors.add(new PlatformBody(this.world, pm));
         }
-        this.generatePeople(2);
+        //this.generatePeople(2);
         world.setContactListener(new GameCollisionHandler());
     }
 
@@ -115,13 +122,23 @@ public class GameController {
     }
 
     /**
-     * Returns the controller's elevator.
+     * Returns the controller's left_elevator.
      *
-     * @return Controller's elevator.
+     * @return Controller's left_elevator.
      */
-    public ElevatorBody getElevator() {
-        return elevator;
+    public ElevatorBody getLeft_elevator() {
+        return left_elevator;
     }
+
+    /**
+     * Returns the controller's right_elevator.
+     *
+     * @return Controller's right_elevator.
+     */
+    public ElevatorBody getRight_elevator() {
+        return right_elevator;
+    }
+
 
     /**
      * Updates the game.
@@ -139,7 +156,7 @@ public class GameController {
             world.step(1 / 60f, 6, 2);
             accumulator -= 1 / 60f;
 
-            this.generateNewPeople(1 / 60f);
+            //this.generateNewPeople(1 / 60f);
         }
 
         Array<Body> bodies = new Array<Body>();
@@ -148,7 +165,7 @@ public class GameController {
         for (Body body : bodies) {
             ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y);
             if (body.getUserData() instanceof ElevatorModel) {
-                ((ElevatorModel) body.getUserData()).setTarget_floor(elevator.getTarget_floor());
+                ((ElevatorModel) body.getUserData()).setTarget_floor(left_elevator.getTarget_floor());
             }
         }
     }

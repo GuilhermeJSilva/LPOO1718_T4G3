@@ -11,7 +11,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Elevator's vertical speed.
      */
-    private static int vy = 20;
+    private static int vy = 50;
 
     /**
      * True if the elevator is not moving.
@@ -31,7 +31,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Width oh the elevator.
      */
-    public static final int width = 10;
+    public static final int width = 8;
 
     /**
      * The elevator is heading towards this elevator.

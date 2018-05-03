@@ -12,7 +12,7 @@ public class ElevatorModel extends EntityModel {
 	/**
 	 * Elevator start position.
 	 */
-	public static final float STARTING_Y = 9.1f;
+	public static final float STARTING_Y = 15f;
 	
 	/**
 	 * Maximum capacity of the elevator.

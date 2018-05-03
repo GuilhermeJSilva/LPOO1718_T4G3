@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
@@ -56,7 +57,7 @@ public class GameModel {
     private GameModel() {
         super();
         n_levels = DEFAULT_N_LEVEL;
-        left_elevator = new ElevatorModel(15f, 0, this.n_levels);
+        left_elevator = new ElevatorModel(14.5f, 0, this.n_levels);
         right_elevator = new ElevatorModel(30f, 0, this.n_levels);
 
         this.left_floors = new ArrayList<PlatformModel>();
@@ -67,7 +68,7 @@ public class GameModel {
         }
 
         for (int i = 1; i <= n_levels; i++) {
-            right_floors.add(new PlatformModel(39, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f));
+            right_floors.add(new PlatformModel(38.5f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f));
         }
     }
 
