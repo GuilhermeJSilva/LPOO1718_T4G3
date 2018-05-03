@@ -1,7 +1,10 @@
 package com.lift.game.model.entities;
 
 public class PersonModel extends EntityModel{
-	
+
+    /**
+     * Starting satisfaction.
+     */
 	public static Float STARTING_SATISFACTION = 25f;
 	
 	/**

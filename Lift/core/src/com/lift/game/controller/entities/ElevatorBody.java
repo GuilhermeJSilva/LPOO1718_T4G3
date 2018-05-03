@@ -3,6 +3,7 @@ package com.lift.game.controller.entities;
 import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.ElevatorModel;
 
@@ -58,7 +59,9 @@ public class ElevatorBody extends EntityBody {
 
         float density = 1f, friction = 0.5f, restitution = 0f;
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_MASK, false);
+                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_MASK, true);
+        this.body.setGravityScale(0);
+
 
     }
 

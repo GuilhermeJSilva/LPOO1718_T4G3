@@ -54,7 +54,7 @@ public class EntityBody {
         fixtureDef.restitution = restitution;
         fixtureDef.filter.categoryBits = category;
         fixtureDef.filter.maskBits = mask;
-        fixtureDef.isSensor = true;
+        fixtureDef.isSensor = sensor;
         body.createFixture(fixtureDef);
 
         polygon.dispose();

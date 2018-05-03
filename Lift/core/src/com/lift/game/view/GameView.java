@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
@@ -149,12 +148,19 @@ public class GameView extends ScreenAdapter {
 
     private void drawEntities() {
 
-        ElevatorModel elevator = GameModel.getInstance().getElevator();
+        ElevatorModel elevator = GameModel.getInstance().getLeft_elevator();
         EntityView view = new ElevatorView(game);
         view.update(elevator);
         view.draw(game.getBatch());
 
-        ArrayList<PlatformModel> platformModels = GameModel.getInstance().getFloors();
+        ArrayList<PlatformModel> platformModels = GameModel.getInstance().getLeft_floors();
+        for (PlatformModel pm : platformModels) {
+            PlatormView pview = new PlatormView(game);
+            pview.update(pm);
+            pview.draw(game.getBatch());
+        }
+
+        platformModels = GameModel.getInstance().getRight_floors();
         for (PlatformModel pm : platformModels) {
             PlatormView pview = new PlatormView(game);
             pview.update(pm);
@@ -172,9 +178,9 @@ public class GameView extends ScreenAdapter {
             float y_pos = (Gdx.graphics.getHeight() - Gdx.input.getY())*VIEWPORT_HEIGHT / Gdx.graphics.getHeight();
             int floor = -1;
             float distance = Float.MAX_VALUE;
-            for (PlatformModel pm : GameModel.getInstance().getFloors()){
+            for (PlatformModel pm : GameModel.getInstance().getLeft_floors()){
                 if(Math.abs(pm.getY() -  y_pos) < distance & y_pos > pm.getY())
-                    floor = GameModel.getInstance().getFloors().indexOf(pm);
+                    floor = GameModel.getInstance().getLeft_floors().indexOf(pm);
             }
             if(floor != -1) {
                 GameController.getInstance().getElevator().setTarget_floor(floor);

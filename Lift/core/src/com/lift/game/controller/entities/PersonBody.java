@@ -3,9 +3,15 @@ package com.lift.game.controller.entities;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.PersonModel;
 
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
+
 public class PersonBody extends EntityBody {
 
-	/**
+    public static final int WIDTH = 5;
+    public static final int HEIGHT = 5;
+    public static final short PERSON_MASK = 1 << 2;
+
+    /**
 	 * Creates an Person body.
 	 * @param model Person model.
 	 */
@@ -13,10 +19,10 @@ public class PersonBody extends EntityBody {
 		super(world, model);
 		
 		float density = 1f, friction = 0.5f, restitution = 0f;
-		int width = 5, height = 5;
-		
-		this.add_fixture(body, new float[] {0, 0, 0, height, width, 0, width, height}
-		, width, height, density, friction, restitution, (short)0, (short)0, true);
+		int width = WIDTH;
+
+        this.add_fixture(body, new float[] {0, 0, 0, HEIGHT, width, 0, width, HEIGHT}
+		, width, HEIGHT, density, friction, restitution, PERSON_MASK , (short)0, false);
 	}
 
 }
