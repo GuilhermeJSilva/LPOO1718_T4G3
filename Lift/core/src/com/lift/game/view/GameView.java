@@ -98,7 +98,7 @@ public class GameView extends ScreenAdapter {
      */
     private void createLabels() {
         Label.LabelStyle label1Style = new Label.LabelStyle();
-        label1Style.font = this.game.getAssetManager().get("fonts/font.ttf", BitmapFont.class);
+        label1Style.font = this.game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
         label1Style.fontColor = Color.BLACK;
 
         this.score_label = new Label("30", label1Style);
@@ -108,7 +108,7 @@ public class GameView extends ScreenAdapter {
         this.score_label.setPosition(x, y);
 
         Label.LabelStyle label2Style = new Label.LabelStyle();
-        label2Style.font = this.game.getAssetManager().get("fonts/font2.ttf", BitmapFont.class);
+        label2Style.font = this.game.getAssetManager().get("fonts/font.ttf", BitmapFont.class);
         label2Style.fontColor = Color.WHITE;
         this.coin_label =  new Label("1000",label2Style );
         x = camera.viewportWidth / 2 - this.coin_label.getWidth() / 2;
@@ -152,13 +152,14 @@ public class GameView extends ScreenAdapter {
     private void loadFonts(AssetManager manager) {
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        mySmallFont.fontFileName = "fonts/font.ttf";
+        mySmallFont.fontFileName = "fonts/font2.otf";
         mySmallFont.fontParameters.size = 175;
-        manager.load("fonts/font.ttf", BitmapFont.class, mySmallFont);
+        manager.load("fonts/font2.otf", BitmapFont.class, mySmallFont);
 
+        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
         FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         myBigFont.fontFileName = "fonts/font.ttf";
         myBigFont.fontParameters.size = 100;
