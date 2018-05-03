@@ -3,14 +3,20 @@ package com.lift.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
@@ -26,7 +32,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures
      */
-    private static final boolean DEBUG_PHYSICS = true;
+    private static final boolean DEBUG_PHYSICS = false;
 
     /**
      * How much meters does a pixel represent.
@@ -49,10 +55,14 @@ public class GameView extends ScreenAdapter {
     private final LiftGame game;
 
     /**
-     * The font used.
+     * Score label.
      */
+    private Label score_label;
 
-    private BitmapFont fonte;
+    /**
+     * Coin label.
+     */
+    private Label coin_label;
 
     /**
      * The camera used to show the viewport.
@@ -77,10 +87,33 @@ public class GameView extends ScreenAdapter {
      */
     public GameView(LiftGame liftGame) {
         this.game = liftGame;
-
         loadAssets();
 
         camera = createCamera();
+        createLabels();
+    }
+
+    /**
+     * Creates the game's label's.
+     */
+    private void createLabels() {
+        Label.LabelStyle label1Style = new Label.LabelStyle();
+        label1Style.font = this.game.getAssetManager().get("fonts/font.ttf", BitmapFont.class);
+        label1Style.fontColor = Color.BLACK;
+
+        this.score_label = new Label("30", label1Style);
+
+        float x = camera.viewportWidth / 2 - this.score_label.getWidth() / 2;
+        float y = camera.viewportHeight - this.score_label.getHeight();
+        this.score_label.setPosition(x, y);
+
+        Label.LabelStyle label2Style = new Label.LabelStyle();
+        label2Style.font = this.game.getAssetManager().get("fonts/font2.ttf", BitmapFont.class);
+        label2Style.fontColor = Color.WHITE;
+        this.coin_label =  new Label("1000",label2Style );
+        x = camera.viewportWidth / 2 - this.coin_label.getWidth() / 2;
+        y = this.coin_label.getHeight() / 4;
+        this.coin_label.setPosition(x, y);
     }
 
     /**
@@ -106,15 +139,30 @@ public class GameView extends ScreenAdapter {
      * Loads the assets needed by this screen.
      */
     private void loadAssets() {
-        this.game.getAssetManager().load("lift4.png", Texture.class);
-        this.game.getAssetManager().load("elevator.png", Texture.class);
+        AssetManager manager = this.game.getAssetManager();
+        manager.load("lift4.png", Texture.class);
+        manager.load("elevator.png", Texture.class);
 
-        this.game.getAssetManager().finishLoading();
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/font.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 175;
-        fonte = generator.generateFont(parameter); // font size 12 pixels
+        loadFonts(manager);
 
+        manager.finishLoading();
+
+    }
+
+    private void loadFonts(AssetManager manager) {
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        mySmallFont.fontFileName = "fonts/font.ttf";
+        mySmallFont.fontParameters.size = 175;
+        manager.load("fonts/font.ttf", BitmapFont.class, mySmallFont);
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        myBigFont.fontFileName = "fonts/font.ttf";
+        myBigFont.fontParameters.size = 100;
+        manager.load("fonts/font2.ttf", BitmapFont.class, myBigFont);
     }
 
     /**
@@ -138,8 +186,7 @@ public class GameView extends ScreenAdapter {
         game.getBatch().begin();
         drawBackground();
         drawEntities();
-        drawScore();
-        drawCoins();
+        drawLabels();
         game.getBatch().end();
 
         if (DEBUG_PHYSICS) {
@@ -159,22 +206,11 @@ public class GameView extends ScreenAdapter {
     }
 
     /**
-     * Draws the score.
+     * Draws the score_label.
      */
-    private void drawScore() {
-
-        fonte.setColor(Color.BLACK);
-        int width = 130;
-        fonte.draw(game.getBatch(), "30.0", Gdx.graphics.getWidth() / 2 - width, Gdx.graphics.getHeight() - 20);
-
-    }
-
-    private void drawCoins() {
-
-        fonte.setColor(Color.WHITE);
-        int width = 130;
-        fonte.draw(game.getBatch(), "1000", Gdx.graphics.getWidth() / 2 - width, 100);
-
+    private void drawLabels() {
+        this.score_label.draw(game.getBatch(), 1);
+        this.coin_label.draw(game.getBatch(), 1);
     }
 
 
