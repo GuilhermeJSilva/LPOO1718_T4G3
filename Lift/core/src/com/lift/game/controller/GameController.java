@@ -165,7 +165,11 @@ public class GameController {
         for (Body body : bodies) {
             ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y);
             if (body.getUserData() instanceof ElevatorModel) {
-                ((ElevatorModel) body.getUserData()).setTarget_floor(left_elevator.getTarget_floor());
+                ElevatorModel em = ((ElevatorModel) body.getUserData());
+                if(em ==  GameModel.getInstance().getLeft_elevator())
+                    ((ElevatorModel) body.getUserData()).setTarget_floor(left_elevator.getTarget_floor());
+                else
+                    ((ElevatorModel) body.getUserData()).setTarget_floor(right_elevator.getTarget_floor());
             }
         }
     }

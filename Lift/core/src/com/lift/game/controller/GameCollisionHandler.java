@@ -41,6 +41,7 @@ public class GameCollisionHandler implements ContactListener {
         PlatformModel pm = (PlatformModel) bodyA.getUserData();
         ElevatorModel em = (ElevatorModel) bodyB.getUserData();
 
+
         if(em == GameModel.getInstance().getLeft_elevator()) {
             if (em.getTarget_floor() == GameModel.getInstance().getLeft_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);

@@ -242,7 +242,6 @@ public class GameView extends ScreenAdapter {
             if (Math.abs(pm.getY() - y_pos) < distance & y_pos > pm.getY())
                 floor = floors.indexOf(pm);
         }
-        System.out.println(floor);
         return floor;
     }
 }
