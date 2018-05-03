@@ -51,13 +51,12 @@ public class GameModel {
 	private GameModel() {
 		super();
 		n_levels = DEFAULT_N_LEVEL;
-		elevator = new ElevatorModel(14f, 0, this.n_levels);
+		elevator = new ElevatorModel(15f, 0, this.n_levels);
 		this.floors = new ArrayList<PlatformModel>();
 
 		for (int i = 1; i <= n_levels; i++) {
             floors.add(new PlatformModel(0,i * METERS_PER_FLOOR - METERS_PER_FLOOR/2f));
 		}
-		System.out.println(this.floors.size());
 	}
 	
 	/**

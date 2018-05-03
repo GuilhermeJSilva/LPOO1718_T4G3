@@ -30,9 +30,10 @@ public class EntityBody {
 	
 	/**
 	 * Adds a fixture to a given body.
-	 * @param body
-	 */
-	protected final void add_fixture(Body body, float[] vertexes, int width, int height, float density, float friction, float restitution, short category, short mask) {
+     * @param body
+     * @param sensor
+     */
+	protected final void add_fixture(Body body, float[] vertexes, int width, int height, float density, float friction, float restitution, short category, short mask, boolean sensor) {
         for (int i = 0; i < vertexes.length; i++) {
             if (i % 2 == 0) vertexes[i] -= width / 2;
             if (i % 2 != 0) vertexes[i] -= height / 2;
@@ -53,7 +54,7 @@ public class EntityBody {
         fixtureDef.restitution = restitution;
         fixtureDef.filter.categoryBits = category;
         fixtureDef.filter.maskBits = mask;
-
+        fixtureDef.isSensor = true;
         body.createFixture(fixtureDef);
 
         polygon.dispose();

@@ -16,7 +16,7 @@ public class PersonBody extends EntityBody {
 		int width = 5, height = 5;
 		
 		this.add_fixture(body, new float[] {0, 0, 0, height, width, 0, width, height}
-		, width, height, density, friction, restitution, (short)0, (short)0);
+		, width, height, density, friction, restitution, (short)0, (short)0, true);
 	}
 
 }
