@@ -3,9 +3,12 @@ package com.lift.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lift.game.LiftGame;
@@ -44,6 +47,12 @@ public class GameView extends ScreenAdapter {
      * The game this screen belongs to.
      */
     private final LiftGame game;
+
+    /**
+     * The font used.
+     */
+
+    private BitmapFont fonte;
 
     /**
      * The camera used to show the viewport.
@@ -97,10 +106,15 @@ public class GameView extends ScreenAdapter {
      * Loads the assets needed by this screen.
      */
     private void loadAssets() {
-        this.game.getAssetManager().load("background.png", Texture.class);
+        this.game.getAssetManager().load("lift4.png", Texture.class);
         this.game.getAssetManager().load("elevator.png", Texture.class);
 
         this.game.getAssetManager().finishLoading();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 175;
+        fonte = generator.generateFont(parameter); // font size 12 pixels
+
     }
 
     /**
@@ -124,6 +138,8 @@ public class GameView extends ScreenAdapter {
         game.getBatch().begin();
         drawBackground();
         drawEntities();
+        drawScore();
+        drawCoins();
         game.getBatch().end();
 
         if (DEBUG_PHYSICS) {
@@ -137,10 +153,31 @@ public class GameView extends ScreenAdapter {
      * Draws the background.
      */
     private void drawBackground() {
-        Texture background = game.getAssetManager().get("background.png", Texture.class);
+        Texture background = game.getAssetManager().get("lift4.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
-        //game.getBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH / PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
+        game.getBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH / PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
     }
+    /**
+     * Draws the score.
+     */
+    private void drawScore(){
+
+        fonte.setColor(Color.BLACK);
+        int width = 130;
+        fonte.draw(game.getBatch(), "30.0", Gdx.graphics.getWidth()/2 - width, Gdx.graphics.getHeight()-20);
+
+    }
+
+    private void drawCoins(){
+
+        fonte.setColor(Color.WHITE);
+        int width = 130;
+        fonte.draw(game.getBatch(), "1000", Gdx.graphics.getWidth()/2 - width, 100);
+
+    }
+
+
+
 
     /**
      * Draws the entities to the screen.
