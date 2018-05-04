@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
@@ -101,19 +102,21 @@ public class GameView extends ScreenAdapter {
         label1Style.font = this.game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
         label1Style.fontColor = Color.BLACK;
 
-        this.score_label = new Label("30", label1Style);
-
+        this.score_label = new Label("30.0", label1Style);
         float x = camera.viewportWidth / 2 - this.score_label.getWidth() / 2;
         float y = camera.viewportHeight - this.score_label.getHeight();
         this.score_label.setPosition(x, y);
+        this.score_label.setAlignment(Align.center);
 
         Label.LabelStyle label2Style = new Label.LabelStyle();
         label2Style.font = this.game.getAssetManager().get("fonts/font.ttf", BitmapFont.class);
         label2Style.fontColor = Color.WHITE;
+
         this.coin_label =  new Label("1000",label2Style );
         x = camera.viewportWidth / 2 - this.coin_label.getWidth() / 2;
         y = this.coin_label.getHeight() / 4;
         this.coin_label.setPosition(x, y);
+        this.coin_label.setAlignment(Align.center);
     }
 
     /**
@@ -156,14 +159,14 @@ public class GameView extends ScreenAdapter {
 
         FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         mySmallFont.fontFileName = "fonts/font2.otf";
-        mySmallFont.fontParameters.size = 175;
+        mySmallFont.fontParameters.size = 150;
         manager.load("fonts/font2.otf", BitmapFont.class, mySmallFont);
 
         manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
         FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         myBigFont.fontFileName = "fonts/font.ttf";
         myBigFont.fontParameters.size = 100;
-        manager.load("fonts/font2.ttf", BitmapFont.class, myBigFont);
+        manager.load("fonts/font.ttf", BitmapFont.class, myBigFont);
     }
 
     /**
@@ -210,6 +213,7 @@ public class GameView extends ScreenAdapter {
      * Draws the score_label.
      */
     private void drawLabels() {
+        this.score_label.setText(Double.toString((Math.floor(GameModel.getInstance().getTime_left() * 10) / 10f)));
         this.score_label.draw(game.getBatch(), 1);
         this.coin_label.draw(game.getBatch(), 1);
     }

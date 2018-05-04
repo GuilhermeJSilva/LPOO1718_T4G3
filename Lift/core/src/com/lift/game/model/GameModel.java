@@ -19,6 +19,12 @@ import com.lift.game.model.entities.PlatformModel;
  */
 public class GameModel {
 
+
+    /**
+     * Time left for the game.
+     */
+    private Double time_left;
+
     /**
      * Default number of left_floors.
      */
@@ -56,6 +62,7 @@ public class GameModel {
      */
     private GameModel() {
         super();
+        this.time_left = 30.0;
         n_levels = DEFAULT_N_LEVEL;
         left_elevator = new ElevatorModel(14.5f, 0, this.n_levels);
         right_elevator = new ElevatorModel(30f, 0, this.n_levels);
@@ -134,6 +141,14 @@ public class GameModel {
         return right_floors;
     }
 
+    /**
+     * Return's the time that is left.
+     * @return Time that is left.
+     */
+    public Double getTime_left() {
+        return time_left;
+    }
+
 
     /**
      * Updates the parameters of the people, base don the time that passed.
@@ -141,6 +156,8 @@ public class GameModel {
      * @param delta Time that passed.
      */
     public void update(float delta) {
+        this.time_left -= delta;
+
         ArrayList<List<PersonModel>> passengers = this.left_elevator.getPassengers();
 
         for (List<PersonModel> list : passengers) {
