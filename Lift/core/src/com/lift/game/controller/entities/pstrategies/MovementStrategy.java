@@ -6,4 +6,6 @@ public interface MovementStrategy {
     void collision_we();
 
     void leave_the_elevator();
+
+    void leaving_the_platform();
 }

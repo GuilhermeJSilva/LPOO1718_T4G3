@@ -15,4 +15,9 @@ public class RegularMovement implements MovementStrategy{
     public void leave_the_elevator() {
 
     }
+
+    @Override
+    public void leaving_the_platform() {
+
+    }
 }

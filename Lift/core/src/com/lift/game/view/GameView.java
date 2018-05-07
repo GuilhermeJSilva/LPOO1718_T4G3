@@ -26,8 +26,10 @@ import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.view.actors.game_actors.ElevatorActor;
 import com.lift.game.view.actors.game_actors.PlatformActor;
+import com.lift.game.view.actors.game_actors.person.PersonActor;
 import com.lift.game.view.actors.hub.CoinLabelActor;
 import com.lift.game.view.actors.hub.ScoreLabelActor;
 
@@ -67,7 +69,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Stage for all game entities.
      */
-    private Stage game_stage;
+    private GameStage game_stage;
 
     /**
      * The camera used to show the viewport.
@@ -96,7 +98,7 @@ public class GameView extends ScreenAdapter {
 
         camera = createCamera();
         createHudStage();
-        createGameStage();
+        this.game_stage = new GameStage(this.game,this.camera);
     }
 
     /**
@@ -108,24 +110,6 @@ public class GameView extends ScreenAdapter {
         this.hud.addActor(new CoinLabelActor(this.game, this.camera));
     }
 
-    /**
-     * Creates the game's stage.
-     */
-    private void createGameStage() {
-        this.game_stage = new Stage(new FitViewport(camera.viewportWidth, camera.viewportHeight));
-        this.game_stage.addActor(new ElevatorActor(game, GameModel.getInstance().getLeft_elevator()));
-        this.game_stage.addActor(new ElevatorActor(game,GameModel.getInstance().getRight_elevator()));
-
-        ArrayList<PlatformModel> platformModels = GameModel.getInstance().getLeft_floors();
-        for (PlatformModel pm : platformModels) {
-            this.game_stage.addActor(new PlatformActor(game, pm));
-        }
-
-        platformModels = GameModel.getInstance().getRight_floors();
-        for (PlatformModel pm : platformModels) {
-            this.game_stage.addActor(new PlatformActor(game, pm));
-        }
-    }
 
     /**
      * Creates the camera used to show the viewport.
@@ -185,9 +169,13 @@ public class GameView extends ScreenAdapter {
     @Override
     public void render(float delta) {
         //GameController.getInstance().removeFlagged();
+
+        //Move into the elevator actor
         handleInputs(delta);
 
         GameController.getInstance().update(delta);
+        this.game_stage.updateStage(this.game);
+
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
         game.getBatch().setProjectionMatrix(camera.combined);

@@ -50,11 +50,25 @@ public class PlatformBody extends EntityBody {
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
                 , width, height, density, friction, restitution, PLATFORM_MASK, ELEVATOR_MASK, false
         );
+
         this.add_fixture(body, new float[]{width, 0, width, height, width + 10, 0, width + 10, height}
                 , width, height, density, friction, restitution, PLATFORM_MASK, ELEVATOR_MASK, true
         );
+
         this.add_fixture(body, new float[]{-10, 0, -10, height, 0, 0, 0, height}
                 , width, height, density, friction, restitution, PLATFORM_MASK, ELEVATOR_MASK, true
+        );
+
+        this.add_fixture(body, new float[]{-10, 0, -10, height, 0, 0, 0, height}
+                , width, height, density, friction, restitution, PLATFORM_MASK, ELEVATOR_MASK, true
+        );
+
+        this.add_fixture(body, new float[]{0, 0, 0, - PersonBody.HEIGHT, 2, 0, 2, -PersonBody.HEIGHT}
+                , width, height, density, friction, restitution, (short)0, (short)0, true
+        );
+
+        this.add_fixture(body, new float[]{width - 2, 0, width - 2, - PersonBody.HEIGHT, width, 0, width, -PersonBody.HEIGHT}
+                , width, height, density, friction, restitution, (short)0, (short)0, true
         );
         this.body.setGravityScale(0);
     }

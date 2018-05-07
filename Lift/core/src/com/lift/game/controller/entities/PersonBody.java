@@ -5,8 +5,8 @@ import com.lift.game.model.entities.person.PersonModel;
 
 public class PersonBody extends EntityBody {
 
-    public static final int WIDTH = 5;
-    public static final int HEIGHT = 5;
+    public static final int WIDTH = 6;
+    public static final int HEIGHT = 8;
     public static final short PERSON_MASK = 1 << 2;
 
     /**

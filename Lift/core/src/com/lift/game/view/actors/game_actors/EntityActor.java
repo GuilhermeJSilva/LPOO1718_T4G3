@@ -19,12 +19,12 @@ public abstract class EntityActor extends Actor {
 	/**
 	 * The sprite representing the view.
 	 */
-	Sprite sprite;
+	protected Sprite sprite;
 
     /**
      * The actor represents this model.
      */
-    EntityModel model;
+    private EntityModel model;
 
 	/**
 	 * Constructs an actor in a given game.
@@ -35,6 +35,7 @@ public abstract class EntityActor extends Actor {
 	protected EntityActor(LiftGame game,  EntityModel model) {
 		sprite = createSprite(game);
 		this.model = model;
+		this.update();
 	}
 
 	/**
@@ -49,7 +50,7 @@ public abstract class EntityActor extends Actor {
 	/**
 	 * Updates this view based on a certain model.
 	 */
-	private void update() {
+	protected void update() {
 		sprite.setCenter(model.getX() / PIXEL_TO_METER, model.getY() / PIXEL_TO_METER);
 		sprite.setRotation(0f);
 	}
