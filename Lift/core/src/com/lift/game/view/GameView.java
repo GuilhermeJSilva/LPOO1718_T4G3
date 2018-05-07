@@ -16,16 +16,20 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.view.entities.ElevatorView;
-import com.lift.game.view.entities.EntityView;
-import com.lift.game.view.entities.PlatormView;
+import com.lift.game.view.actors.game_actors.ElevatorActor;
+import com.lift.game.view.actors.game_actors.PlatformActor;
+import com.lift.game.view.actors.hub.CoinLabelActor;
+import com.lift.game.view.actors.hub.ScoreLabelActor;
 
 import java.util.ArrayList;
 
@@ -33,7 +37,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures
      */
-    private static final boolean DEBUG_PHYSICS = false;
+    private static final boolean DEBUG_PHYSICS = true;
 
     /**
      * How much meters does a pixel represent.
@@ -56,14 +60,14 @@ public class GameView extends ScreenAdapter {
     private final LiftGame game;
 
     /**
-     * Score label.
+     * Stage for the hud.
      */
-    private Label score_label;
+    private Stage hud;
 
     /**
-     * Coin label.
+     * Stage for all game entities.
      */
-    private Label coin_label;
+    private Stage game_stage;
 
     /**
      * The camera used to show the viewport.
@@ -91,32 +95,36 @@ public class GameView extends ScreenAdapter {
         loadAssets();
 
         camera = createCamera();
-        createLabels();
+        createHudStage();
+        createGameStage();
     }
 
     /**
-     * Creates the game's label's.
+     * Creates the hud's stage.
      */
-    private void createLabels() {
-        Label.LabelStyle label1Style = new Label.LabelStyle();
-        label1Style.font = this.game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
-        label1Style.fontColor = Color.BLACK;
+    private void createHudStage() {
+        this.hud = new Stage(new FitViewport(camera.viewportWidth, camera.viewportHeight));
+        this.hud.addActor(new ScoreLabelActor(this.game, this.camera));
+        this.hud.addActor(new CoinLabelActor(this.game, this.camera));
+    }
 
-        this.score_label = new Label("30.0", label1Style);
-        float x = camera.viewportWidth / 2 - this.score_label.getWidth() / 2;
-        float y = camera.viewportHeight - this.score_label.getHeight();
-        this.score_label.setPosition(x, y);
-        this.score_label.setAlignment(Align.center);
+    /**
+     * Creates the game's stage.
+     */
+    private void createGameStage() {
+        this.game_stage = new Stage(new FitViewport(camera.viewportWidth, camera.viewportHeight));
+        this.game_stage.addActor(new ElevatorActor(game, GameModel.getInstance().getLeft_elevator()));
+        this.game_stage.addActor(new ElevatorActor(game,GameModel.getInstance().getRight_elevator()));
 
-        Label.LabelStyle label2Style = new Label.LabelStyle();
-        label2Style.font = this.game.getAssetManager().get("fonts/font.ttf", BitmapFont.class);
-        label2Style.fontColor = Color.WHITE;
+        ArrayList<PlatformModel> platformModels = GameModel.getInstance().getLeft_floors();
+        for (PlatformModel pm : platformModels) {
+            this.game_stage.addActor(new PlatformActor(game, pm));
+        }
 
-        this.coin_label =  new Label("1000",label2Style );
-        x = camera.viewportWidth / 2 - this.coin_label.getWidth() / 2;
-        y = this.coin_label.getHeight() / 4;
-        this.coin_label.setPosition(x, y);
-        this.coin_label.setAlignment(Align.center);
+        platformModels = GameModel.getInstance().getRight_floors();
+        for (PlatformModel pm : platformModels) {
+            this.game_stage.addActor(new PlatformActor(game, pm));
+        }
     }
 
     /**
@@ -189,9 +197,11 @@ public class GameView extends ScreenAdapter {
 
         game.getBatch().begin();
         drawBackground();
-        drawEntities();
-        drawLabels();
         game.getBatch().end();
+
+        this.game_stage.draw();
+        this.hud.draw();
+
 
         if (DEBUG_PHYSICS) {
             debugCamera = camera.combined.cpy();
@@ -207,47 +217,6 @@ public class GameView extends ScreenAdapter {
         Texture background = game.getAssetManager().get("lift4.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
         game.getBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH / PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
-    }
-
-    /**
-     * Draws the score_label.
-     */
-    private void drawLabels() {
-        this.score_label.setText(Double.toString((Math.floor(GameModel.getInstance().getTime_left() * 10) / 10f)));
-        this.score_label.draw(game.getBatch(), 1);
-        this.coin_label.draw(game.getBatch(), 1);
-    }
-
-
-    /**
-     * Draws the entities to the screen.
-     */
-
-    private void drawEntities() {
-
-        ElevatorModel elevator = GameModel.getInstance().getLeft_elevator();
-        EntityView view = new ElevatorView(game);
-        view.update(elevator);
-        view.draw(game.getBatch());
-
-        elevator = GameModel.getInstance().getRight_elevator();
-        view = new ElevatorView(game);
-        view.update(elevator);
-        view.draw(game.getBatch());
-
-        ArrayList<PlatformModel> platformModels = GameModel.getInstance().getLeft_floors();
-        for (PlatformModel pm : platformModels) {
-            PlatormView pview = new PlatormView(game);
-            pview.update(pm);
-            pview.draw(game.getBatch());
-        }
-
-        platformModels = GameModel.getInstance().getRight_floors();
-        for (PlatformModel pm : platformModels) {
-            PlatormView pview = new PlatormView(game);
-            pview.update(pm);
-            pview.draw(game.getBatch());
-        }
     }
 
     /**
@@ -275,6 +244,12 @@ public class GameView extends ScreenAdapter {
         }
     }
 
+    /**
+     * Determines the number of the floor.
+     *
+     * @param floors Floors.
+     * @return Number of the floor.
+     */
     private int determine_floor_number(ArrayList<PlatformModel> floors) {
         float y_pos = (Gdx.graphics.getHeight() - Gdx.input.getY()) * VIEWPORT_HEIGHT / Gdx.graphics.getHeight();
         int floor = -1;

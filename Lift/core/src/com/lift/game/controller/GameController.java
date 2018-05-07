@@ -106,7 +106,7 @@ public class GameController {
         for (PlatformModel pm : fm) {
             right_floors.add(new PlatformBody(this.world, pm));
         }
-        //this.generatePeople(2);
+        this.generatePeople(2);
         world.setContactListener(new GameCollisionHandler());
     }
 
@@ -156,7 +156,7 @@ public class GameController {
             world.step(1 / 60f, 6, 2);
             accumulator -= 1 / 60f;
 
-            //this.generateNewPeople(1 / 60f);
+            this.generateNewPeople(1 / 60f);
         }
 
         Array<Body> bodies = new Array<Body>();
@@ -202,15 +202,15 @@ public class GameController {
             dest = generator.nextInt(GameModel.getInstance().getN_levels());
         } while (dest == floor);
 
-        int test = generator.nextInt(1);
+        int test = generator.nextInt(2);
         PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 1, dest, test);
         if (p_model != null)
-            if (test != 0)
+            if (test != 0) {
                 left_floors.get(floor).getWaiting_people().add(new PersonBody(this.world, p_model));
-            else
+            }
+            else {
                 right_floors.get(floor).getWaiting_people().add(new PersonBody(this.world, p_model));
-        else
-            System.out.println("Tried and failed");
+            }
 
     }
 

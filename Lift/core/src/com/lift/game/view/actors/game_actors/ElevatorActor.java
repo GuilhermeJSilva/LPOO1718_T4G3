@@ -1,16 +1,17 @@
-package com.lift.game.view.entities;
+package com.lift.game.view.actors.game_actors;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.ElevatorBody;
+import com.lift.game.model.entities.ElevatorModel;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 /**
  * A view representing an elevator.
  */
-public class ElevatorView extends EntityView{
+public class ElevatorActor extends EntityActor {
 	/**
      * The elevator's texture.
      */
@@ -20,8 +21,8 @@ public class ElevatorView extends EntityView{
      * Constructs a elevator model.
      * @param game Elevator's game.
      */
-    public ElevatorView(LiftGame game) {
-    	super(game);
+    public ElevatorActor(LiftGame game, ElevatorModel model) {
+    	super(game, model);
     }
     
     /**

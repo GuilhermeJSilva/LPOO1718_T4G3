@@ -1,15 +1,15 @@
-package com.lift.game.view.entities;
+package com.lift.game.view.actors.game_actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.lift.game.LiftGame;
-import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.model.entities.PlatformModel;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
-public class PlatormView extends EntityView {
+public class PlatformActor extends EntityActor {
 
     /**
      * The platform's texture.
@@ -20,8 +20,8 @@ public class PlatormView extends EntityView {
      * Constructs a platform model.
      * @param game Platform's game.
      */
-    public PlatormView(LiftGame game) {
-        super(game);
+    public PlatformActor(LiftGame game, PlatformModel model) {
+        super(game, model);
     }
 
     /**
