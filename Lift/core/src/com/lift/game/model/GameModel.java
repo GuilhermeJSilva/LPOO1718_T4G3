@@ -176,21 +176,20 @@ public class GameModel {
      */
     public PersonModel add_waiting_person(int floor, float satisfaction_factor, int dest, int left) {
         ArrayList<PlatformModel> floors;
-        System.out.println("Floors: " + left);
+
         float x;
         if(left !=  0) {
             floors= this.left_floors;
             x = PersonBody.WIDTH / 2f * floors.get(floor).getWaiting_people().size() + PersonBody.WIDTH / 4f;
-
         }
         else {
             floors= this.right_floors;
             x = floors.get(floor).getX() - (PersonBody.WIDTH / 2f * (1/2f + floors.get(floor).getWaiting_people().size()) - PlatformBody.PLATFORM_LENGTH/4f);
         }
-        
+
         if (floors.get(floor).getWaiting_people().size() >= PlatformBody.PLATFORM_LENGTH / PersonBody.WIDTH - 1)
             return null;
-        System.out.println("Added x: " + x);
+
         PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f - PlatformBody.PLATFORM_HEIGHT / 4f, satisfaction_factor, dest);
         floors.get(floor).getWaiting_people().add(new_p);
         return new_p;
