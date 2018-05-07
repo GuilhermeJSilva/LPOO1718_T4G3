@@ -1,9 +1,7 @@
 package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.lift.game.model.entities.PersonModel;
-
-import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
+import com.lift.game.model.entities.person.PersonModel;
 
 public class PersonBody extends EntityBody {
 

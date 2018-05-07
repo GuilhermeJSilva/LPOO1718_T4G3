@@ -4,13 +4,11 @@ import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
-import com.lift.game.model.entities.PersonModel;
+import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
 
 /**

@@ -1,4 +1,4 @@
-package com.lift.game.model.entities;
+package com.lift.game.model.entities.person;
 
 public enum PersonState {
     Waiting,

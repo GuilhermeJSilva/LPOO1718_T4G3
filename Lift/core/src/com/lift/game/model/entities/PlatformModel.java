@@ -1,5 +1,7 @@
 package com.lift.game.model.entities;
 
+import com.lift.game.model.entities.person.PersonModel;
+
 import java.util.LinkedList;
 import java.util.List;
 

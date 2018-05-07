@@ -12,7 +12,7 @@ import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
-import com.lift.game.model.entities.PersonModel;
+import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
 
 /**
