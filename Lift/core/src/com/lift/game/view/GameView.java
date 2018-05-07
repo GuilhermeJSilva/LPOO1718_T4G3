@@ -6,7 +6,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,19 +16,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
-import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.view.actors.game_actors.ElevatorActor;
-import com.lift.game.view.actors.game_actors.PlatformActor;
-import com.lift.game.view.actors.game_actors.person.PersonActor;
 import com.lift.game.view.actors.hub.CoinLabelActor;
 import com.lift.game.view.actors.hub.ScoreLabelActor;
 
@@ -37,15 +28,13 @@ import java.util.ArrayList;
 
 public class GameView extends ScreenAdapter {
     /**
-     * Used to debug the position of the physics fixtures
-     */
-    private static final boolean DEBUG_PHYSICS = true;
-
-    /**
      * How much meters does a pixel represent.
      */
     public final static float PIXEL_TO_METER = 0.0417f;
-
+    /**
+     * Used to debug the position of the physics fixtures
+     */
+    private static final boolean DEBUG_PHYSICS = false;
     /**
      * The width of the viewport in meters.
      */
@@ -60,22 +49,18 @@ public class GameView extends ScreenAdapter {
      * The game this screen belongs to.
      */
     private final LiftGame game;
-
-    /**
-     * Stage for the hud.
-     */
-    private Stage hud;
-
-    /**
-     * Stage for all game entities.
-     */
-    private GameStage game_stage;
-
     /**
      * The camera used to show the viewport.
      */
     private final OrthographicCamera camera;
-
+    /**
+     * Stage for the hud.
+     */
+    private Stage hud;
+    /**
+     * Stage for all game entities.
+     */
+    private GameStage game_stage;
     /**
      * A renderer used to debug the physical fixtures.
      */

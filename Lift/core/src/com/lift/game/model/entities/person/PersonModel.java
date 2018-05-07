@@ -34,6 +34,12 @@ public class PersonModel extends EntityModel {
      */
     private PersonState personState;
 
+
+    /**
+     * New person.
+     */
+    private boolean new_person = true;
+
     /**
 	 * Default person constructor.
 	 * 
@@ -92,4 +98,13 @@ public class PersonModel extends EntityModel {
     public PersonType getPersonType() {
         return personType;
     }
+
+    public boolean isNew_person() {
+        return new_person;
+    }
+
+    public void setNew_person(boolean new_person) {
+        this.new_person = new_person;
+    }
+
 }

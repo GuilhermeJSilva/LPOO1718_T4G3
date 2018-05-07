@@ -19,6 +19,7 @@ import com.lift.game.view.actors.game_actors.person.PersonActor;
 import java.util.ArrayList;
 
 public class GameStage extends Stage {
+    //ADD POOL TO PEOPLE
 
     public GameStage(LiftGame game, Camera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight));
@@ -44,19 +45,14 @@ public class GameStage extends Stage {
 
     private void addPeopleActors(LiftGame game, PlatformModel pm) {
         for(PersonModel personModel : pm.getWaiting_people()) {
-            this.addActor(new PersonActor(game, personModel));
+            if(personModel.isNew_person()) {
+                this.addActor(new PersonActor(game, personModel));
+                personModel.setNew_person(false);
+            }
         }
     }
 
     public void updateStage(LiftGame game) {
-        //Change to be more efficient
-        Array<Actor> actors = this.getActors();
-        for (int i = 0; i > 0 ; i++) {
-            if(actors.get(i) instanceof PersonActor){
-                actors.get(i).remove();
-            }
-        }
-
         for (PlatformModel pm :GameModel.getInstance().getLeft_floors()){
             addPeopleActors(game, pm);
         }
