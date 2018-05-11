@@ -42,7 +42,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures
      */
-    private static final boolean DEBUG_PHYSICS = false;
+    private static final boolean DEBUG_PHYSICS = true;
     /**
      * The width of the viewport in meters.
      */
@@ -211,7 +211,7 @@ public class GameView extends ScreenAdapter {
     private void drawBackground() {
         Texture background = game.getAssetManager().get("lift4.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
-        game.getBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH / PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
+        game.getBatch().draw(background, 0, 0, 0, 0, (int) (camera.viewportWidth), (int) (camera.viewportHeight));
     }
 
     /**

@@ -88,7 +88,7 @@ public class GameController {
      */
     private GameController() {
         super();
-        this.world = new World(new Vector2(0, 0), false);
+        this.world = new World(new Vector2(0, -5), false);
         this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getLeft_elevator());
         this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getRight_elevator());
 
@@ -98,13 +98,13 @@ public class GameController {
         ArrayList<PlatformModel> fm = GameModel.getInstance().getLeft_floors();
 
         for (PlatformModel pm : fm) {
-            left_floors.add(new PlatformBody(this.world, pm));
+            left_floors.add(new PlatformBody(this.world, pm, true));
         }
 
         fm = GameModel.getInstance().getRight_floors();
 
         for (PlatformModel pm : fm) {
-            right_floors.add(new PlatformBody(this.world, pm));
+            right_floors.add(new PlatformBody(this.world, pm, false));
         }
         this.generatePeople(2);
         world.setContactListener(new GameCollisionHandler());
