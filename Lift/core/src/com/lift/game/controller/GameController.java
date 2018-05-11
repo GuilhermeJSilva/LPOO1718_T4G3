@@ -212,11 +212,11 @@ public class GameController {
             PersonBody personBody = new PersonBody(this.world, p_model);
             if (test != 0) {
                 left_floors.get(floor).getWaiting_people().add(personBody);
-                personBody.getBody().setLinearVelocity(5, 0 );
+                personBody.getBody().setLinearVelocity(10, 0 );
             }
             else {
                 right_floors.get(floor).getWaiting_people().add(personBody);
-                personBody.getBody().setLinearVelocity(-5, 0 );
+                personBody.getBody().setLinearVelocity(-10, 0 );
 
             }
         }

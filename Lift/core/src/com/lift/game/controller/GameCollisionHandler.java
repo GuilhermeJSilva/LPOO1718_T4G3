@@ -61,9 +61,9 @@ public class GameCollisionHandler implements ContactListener {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
-            bodyB.setLinearVelocity(0, 0.25f);
+            bodyB.setLinearVelocity(bodyB.getLinearVelocity().x, 0.25f);
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
-            bodyA.setLinearVelocity(0, 0.25f);
+            bodyA.setLinearVelocity(bodyA.getLinearVelocity().x, 0.25f);
         } else  if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
             //bodyB.setLinearVelocity(0, 0);
         }
