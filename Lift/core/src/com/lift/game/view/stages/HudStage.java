@@ -22,8 +22,7 @@ public class HudStage extends Stage {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight));
         this.addActor(new ScoreLabelActor(game, camera));
         this.addActor(new CoinLabelActor(game, camera));
-        System.out.println(camera.viewportWidth/2 + " " +  camera.viewportHeight/2);
-        this.addActor(new DiamondPoly(100,100,25, 30, 0x00ff00ff));
+        //this.addActor(new DiamondPoly(100,100,25, 30, 0x00ff00ff));
     }
 
     public void updateStage(float delta) {
