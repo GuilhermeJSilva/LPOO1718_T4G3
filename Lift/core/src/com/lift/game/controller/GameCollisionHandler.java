@@ -65,7 +65,7 @@ public class GameCollisionHandler implements ContactListener {
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
             bodyA.setLinearVelocity(0, 0.25f);
         } else  if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-            bodyB.setLinearVelocity(0, 0);
+            //bodyB.setLinearVelocity(0, 0);
         }
     }
 

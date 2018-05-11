@@ -208,13 +208,18 @@ public class GameController {
 
         int test = generator.nextInt(2);
         PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 1, dest, test);
-        if (p_model != null)
+        if (p_model != null) {
+            PersonBody personBody = new PersonBody(this.world, p_model);
             if (test != 0) {
-                left_floors.get(floor).getWaiting_people().add(new PersonBody(this.world, p_model));
+                left_floors.get(floor).getWaiting_people().add(personBody);
+                personBody.getBody().setLinearVelocity(5, 0 );
             }
             else {
-                right_floors.get(floor).getWaiting_people().add(new PersonBody(this.world, p_model));
+                right_floors.get(floor).getWaiting_people().add(personBody);
+                personBody.getBody().setLinearVelocity(-5, 0 );
+
             }
+        }
 
     }
 
