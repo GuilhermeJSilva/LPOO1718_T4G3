@@ -7,6 +7,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,6 +31,8 @@ import com.lift.game.view.stages.GameStage;
 import com.lift.game.view.stages.HudStage;
 
 import java.util.ArrayList;
+
+import static com.badlogic.gdx.Input.Keys.R;
 
 public class GameView extends ScreenAdapter {
     /**
@@ -76,6 +80,7 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
 
+   Music music;
 
     /**
      * Creates this screen.
@@ -88,6 +93,9 @@ public class GameView extends ScreenAdapter {
         camera = createCamera();
         this.hud = new HudStage(this.game,this.camera);
         this.game_stage = new GameStage(this.game,this.camera);
+        this.music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
+        music.play();
+
 
     }
 
@@ -157,6 +165,7 @@ public class GameView extends ScreenAdapter {
         resetCamera();
 
         this.game_stage.draw();
+
         this.hud.draw();
 
         if (DEBUG_PHYSICS) {
@@ -246,4 +255,9 @@ public class GameView extends ScreenAdapter {
         }
         return floor;
     }
+
+
+
+
+
 }
