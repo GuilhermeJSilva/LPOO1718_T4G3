@@ -61,12 +61,21 @@ public class GameCollisionHandler implements ContactListener {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
-            bodyB.setLinearVelocity(bodyB.getLinearVelocity().x, 0.25f);
+            solvePersonPlatformCollision(bodyB, bodyB, contact.getFixtureA());
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
-            bodyA.setLinearVelocity(bodyA.getLinearVelocity().x, 0.25f);
+            solvePersonPlatformCollision(bodyA, bodyB, contact.getFixtureB());
         } else  if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-            //bodyB.setLinearVelocity(0, 0);
+            bodyB.setLinearVelocity(0, 0);
         }
+    }
+
+    private void solvePersonPlatformCollision(Body personBody, Body platformBody, Fixture fixtureB) {
+        System.out.println("Collision");
+        if (fixtureB.isSensor()) {
+            System.out.println("Sensor Collision");
+            personBody.setLinearVelocity(0, personBody.getLinearVelocity().y);
+        } else
+            personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0.25f);
     }
 
     public void postSolve(Contact contact, ContactImpulse impulse) {

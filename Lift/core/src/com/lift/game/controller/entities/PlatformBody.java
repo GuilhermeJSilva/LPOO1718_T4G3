@@ -49,7 +49,7 @@ public class PlatformBody extends EntityBody {
         float width = PLATFORM_LENGTH, height = PLATFORM_HEIGHT;
 
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , width, height, density, friction, restitution, PLATFORM_MASK, (short) (ELEVATOR_MASK | PERSON_MASK), false
+                , width, height, density, friction, restitution, PLATFORM_MASK, PERSON_MASK, false
         );
 
         if (right) {
@@ -58,7 +58,7 @@ public class PlatformBody extends EntityBody {
             );
 
             this.add_fixture(body, new float[]{width - 2, 0, width - 2, -PersonBody.HEIGHT, width, 0, width, -PersonBody.HEIGHT}
-                    , width, height, density, friction, restitution, (short) 0, (short) 0, true
+                    , width, height, density, friction, restitution, PLATFORM_MASK, PERSON_MASK, true
             );
 
         } else {
@@ -67,7 +67,7 @@ public class PlatformBody extends EntityBody {
             );
 
             this.add_fixture(body, new float[]{0, 0, 0, -PersonBody.HEIGHT, 2, 0, 2, -PersonBody.HEIGHT}
-                    , width, height, density, friction, restitution, (short) 0, (short) 0, true
+                    , width, height, density, friction, restitution, PLATFORM_MASK, PERSON_MASK, true
             );
 
 

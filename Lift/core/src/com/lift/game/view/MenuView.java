@@ -44,7 +44,7 @@ public class MenuView extends ScreenAdapter {
 
     private void loadAssets() {
         AssetManager manager = this.game.getAssetManager();
-        manager.load("Plano de Fundo1.png", Texture.class);
+        manager.load("Plano de Fundo.png", Texture.class);
         manager.load("PLAY.png", Texture.class);
         manager.load("SCORE.png", Texture.class);
         manager.load("SETTINGS.png", Texture.class);
@@ -84,7 +84,7 @@ public class MenuView extends ScreenAdapter {
      * Draws the background.
      */
     private void drawBackground() {
-        Texture background = game.getAssetManager().get("Plano de Fundo1.png", Texture.class);
+        Texture background = game.getAssetManager().get("Plano de Fundo.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
         game.getBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH/PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
     }
