@@ -3,7 +3,10 @@ package com.lift.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lift.game.controller.GameController;
+import com.lift.game.model.GameModel;
 import com.lift.game.view.GameView;
+import com.lift.game.view.MenuView;
 
 /**
  * The game main class.
@@ -28,7 +31,7 @@ public class LiftGame extends Game {
      * Starts the game.
      */
     private void startGame() {
-        setScreen(new GameView(this));
+        setScreen(new MenuView(this));
     }
 
     /**
@@ -57,4 +60,9 @@ public class LiftGame extends Game {
 	public SpriteBatch getBatch() {
 		return batch;
 	}
+
+	public void resetGame() {
+        GameModel.resetModel();
+        GameController.resetController();
+    }
 }
