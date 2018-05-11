@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lift.game.view.GameView;
+import com.lift.game.view.MenuView;
 
 /**
  * The game main class.
@@ -28,7 +29,7 @@ public class LiftGame extends Game {
      * Starts the game.
      */
     private void startGame() {
-        setScreen(new GameView(this));
+        setScreen(new MenuView(this));
     }
 
     /**

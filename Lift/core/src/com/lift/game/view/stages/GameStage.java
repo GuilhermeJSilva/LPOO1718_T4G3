@@ -15,7 +15,7 @@ import com.lift.game.view.actors.game_actors.person.PersonActor;
 import java.util.ArrayList;
 
 public class GameStage extends Stage {
-    //TODO ADD POOL TO PEOPLE
+    //TODO: ADD POOL TO PEOPLE
 
     public GameStage(LiftGame game, Camera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight));

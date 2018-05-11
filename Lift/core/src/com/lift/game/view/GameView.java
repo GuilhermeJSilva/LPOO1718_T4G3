@@ -124,6 +124,7 @@ public class GameView extends ScreenAdapter {
 
     }
 
+    //TODO: Load fonts in MenuView???
     private void loadFonts(AssetManager manager) {
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
