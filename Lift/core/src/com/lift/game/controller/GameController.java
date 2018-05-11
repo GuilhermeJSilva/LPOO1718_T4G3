@@ -121,6 +121,10 @@ public class GameController {
         return instance;
     }
 
+    public static void resetController() {
+        instance = null;
+    }
+
     /**
      * Returns the controller's left_elevator.
      *

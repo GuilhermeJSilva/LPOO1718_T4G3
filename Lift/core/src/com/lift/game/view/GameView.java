@@ -1,5 +1,6 @@
 package com.lift.game.view;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -152,11 +153,37 @@ public class GameView extends ScreenAdapter {
         //GameController.getInstance().removeFlagged();
 
         //Move into the elevator actor
+        updateGame(delta);
+        resetCamera();
+
+        this.game_stage.draw();
+        this.hud.draw();
+
+        if (DEBUG_PHYSICS) {
+            debugCamera = camera.combined.cpy();
+            debugCamera.scl(1 / PIXEL_TO_METER);
+            debugRenderer.render(GameController.getInstance().getWorld(), debugCamera);
+        }
+
+        if(checkEndGame()) {
+            this.game.setScreen(new MenuView(game));
+            this.game.resetGame();
+        }
+
+    }
+
+    private boolean checkEndGame() {
+        return GameModel.getInstance().getTime_left() <= 0 || GameModel.getInstance().getLives() == 0;
+    }
+
+    private void updateGame(float delta) {
         handleInputs(delta);
         GameController.getInstance().update(delta);
         this.game_stage.updateStage(this.game);
         this.hud.updateStage(delta / 5);
+    }
 
+    private void resetCamera() {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
         game.getBatch().setProjectionMatrix(camera.combined);
@@ -167,15 +194,6 @@ public class GameView extends ScreenAdapter {
         game.getBatch().begin();
         drawBackground();
         game.getBatch().end();
-
-        this.game_stage.draw();
-        this.hud.draw();
-
-        if (DEBUG_PHYSICS) {
-            debugCamera = camera.combined.cpy();
-            debugCamera.scl(1 / PIXEL_TO_METER);
-            debugRenderer.render(GameController.getInstance().getWorld(), debugCamera);
-        }
     }
 
     /**

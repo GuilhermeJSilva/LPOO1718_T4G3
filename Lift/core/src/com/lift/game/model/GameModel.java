@@ -17,11 +17,20 @@ import com.lift.game.model.entities.PlatformModel;
  */
 public class GameModel {
 
+    /**
+     * Lives left.
+     */
+    private Integer lives;
 
     /**
      * Time left for the game.
      */
     private Double time_left;
+
+    /**
+     * Number of left_floors in the game.
+     */
+    private Integer n_levels;
 
     /**
      * Default number of left_floors.
@@ -60,6 +69,7 @@ public class GameModel {
      */
     private GameModel() {
         super();
+        this.lives = 3;
         this.time_left = 30.0;
         n_levels = DEFAULT_N_LEVEL;
         left_elevator = new ElevatorModel(15.2f, 0, this.n_levels);
@@ -88,10 +98,14 @@ public class GameModel {
         return instance;
     }
 
-    /**
-     * Number of left_floors in the game.
-     */
-    private Integer n_levels;
+
+    public static void resetModel() {
+        instance = null;
+    }
+
+    public Integer getLives() {
+        return lives;
+    }
 
     /**
      * Returns the number of levels in the current model.
@@ -155,6 +169,8 @@ public class GameModel {
      */
     public void update(float delta) {
         this.time_left -= delta;
+        if(this.time_left < 0)
+            this.time_left = 0.0;
 
         ArrayList<List<PersonModel>> passengers = this.left_elevator.getPassengers();
 
