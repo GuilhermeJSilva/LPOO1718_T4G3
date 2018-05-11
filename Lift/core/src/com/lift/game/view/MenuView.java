@@ -17,7 +17,10 @@ public class MenuView extends ScreenAdapter {
      * How much meters does a pixel represent.
      */
     public final static float PIXEL_TO_METER = 0.0417f;
-
+    /**
+     * The width of the viewport in meters.
+     */
+    private static final float VIEWPORT_WIDTH = 45;
     /**
      * The height of the viewport in meters.
      */
@@ -41,7 +44,10 @@ public class MenuView extends ScreenAdapter {
 
     private void loadAssets() {
         AssetManager manager = this.game.getAssetManager();
-        manager.load("elevator.png", Texture.class);
+        manager.load("Plano de Fundo.png", Texture.class);
+        manager.load("PLAY.png", Texture.class);
+        manager.load("SCORE.png", Texture.class);
+        manager.load("SETTINGS.png", Texture.class);
         manager.finishLoading();
     }
 
@@ -66,8 +72,10 @@ public class MenuView extends ScreenAdapter {
 
         Gdx.gl.glClearColor(.135f, .206f, .235f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
+        game.getBatch().begin();
         this.drawBackground();
+        game.getBatch().end();
         this.menuStage.draw();
     }
 
@@ -76,9 +84,9 @@ public class MenuView extends ScreenAdapter {
      * Draws the background.
      */
     private void drawBackground() {
-        Texture background = game.getAssetManager().get("lift4.png", Texture.class);
+        Texture background = game.getAssetManager().get("Plano de Fundo.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
-        game.getBatch().draw(background, 0, 0, 0, 0, (int) (camera.viewportWidth), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
+        game.getBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH/PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
     }
 
 }
