@@ -66,7 +66,19 @@ public class MenuView extends ScreenAdapter {
 
         Gdx.gl.glClearColor(.135f, .206f, .235f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        
+        this.drawBackground();
         this.menuStage.draw();
     }
+
+
+    /**
+     * Draws the background.
+     */
+    private void drawBackground() {
+        Texture background = game.getAssetManager().get("lift4.png", Texture.class);
+        background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+        game.getBatch().draw(background, 0, 0, 0, 0, (int) (camera.viewportWidth), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
+    }
+
 }
