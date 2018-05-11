@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.view.actors.EntityActor;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 

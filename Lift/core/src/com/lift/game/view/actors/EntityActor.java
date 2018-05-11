@@ -1,4 +1,4 @@
-package com.lift.game.view.actors.game_actors;
+package com.lift.game.view.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;

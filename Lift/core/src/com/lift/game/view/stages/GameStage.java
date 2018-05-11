@@ -1,25 +1,21 @@
-package com.lift.game.view;
+package com.lift.game.view.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.view.actors.game_actors.ElevatorActor;
-import com.lift.game.view.actors.game_actors.EntityActor;
 import com.lift.game.view.actors.game_actors.PlatformActor;
 import com.lift.game.view.actors.game_actors.person.PersonActor;
 
 import java.util.ArrayList;
 
 public class GameStage extends Stage {
-    //ADD POOL TO PEOPLE
+    //TODO ADD POOL TO PEOPLE
 
     public GameStage(LiftGame game, Camera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight));

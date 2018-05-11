@@ -80,7 +80,7 @@ public class ElevatorBody extends EntityBody {
      * @param floor New target floor.
      */
     public void setTarget_floor(Integer floor) {
-        float y = (this.getY() - this.height / 2);
+        float y = (this.getY() - height / 2);
         if (this.stopped && this.target_floor == floor)
             return;
         this.target_floor = floor;

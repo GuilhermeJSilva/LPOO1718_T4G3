@@ -4,13 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lift.game.LiftGame;
-import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.entities.EntityModel;
-import com.lift.game.view.actors.game_actors.EntityActor;
+import com.lift.game.view.actors.EntityActor;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 

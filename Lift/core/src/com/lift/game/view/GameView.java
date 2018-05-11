@@ -23,6 +23,9 @@ import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.view.actors.hub.CoinLabelActor;
 import com.lift.game.view.actors.hub.ScoreLabelActor;
+import com.lift.game.view.actors.polygon_actor.DiamondPoly;
+import com.lift.game.view.stages.GameStage;
+import com.lift.game.view.stages.HudStage;
 
 import java.util.ArrayList;
 
@@ -56,7 +59,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Stage for the hud.
      */
-    private Stage hud;
+    private HudStage hud;
     /**
      * Stage for all game entities.
      */
@@ -72,6 +75,7 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
 
+
     /**
      * Creates this screen.
      *
@@ -80,19 +84,10 @@ public class GameView extends ScreenAdapter {
     public GameView(LiftGame liftGame) {
         this.game = liftGame;
         loadAssets();
-
         camera = createCamera();
-        createHudStage();
+        this.hud = new HudStage(this.game,this.camera);
         this.game_stage = new GameStage(this.game,this.camera);
-    }
 
-    /**
-     * Creates the hud's stage.
-     */
-    private void createHudStage() {
-        this.hud = new Stage(new FitViewport(camera.viewportWidth, camera.viewportHeight));
-        this.hud.addActor(new ScoreLabelActor(this.game, this.camera));
-        this.hud.addActor(new CoinLabelActor(this.game, this.camera));
     }
 
 
@@ -157,9 +152,9 @@ public class GameView extends ScreenAdapter {
 
         //Move into the elevator actor
         handleInputs(delta);
-
         GameController.getInstance().update(delta);
         this.game_stage.updateStage(this.game);
+        this.hud.updateStage(delta / 5);
 
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
@@ -174,7 +169,6 @@ public class GameView extends ScreenAdapter {
 
         this.game_stage.draw();
         this.hud.draw();
-
 
         if (DEBUG_PHYSICS) {
             debugCamera = camera.combined.cpy();
