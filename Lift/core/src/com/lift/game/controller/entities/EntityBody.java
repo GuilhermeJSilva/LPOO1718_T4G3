@@ -7,9 +7,10 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.EntityModel;
 
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
+
 public class EntityBody {
-	
-	private static final float PIXEL_TO_METER = 0.5f;
+
 	final Body body;
 	/**
 	 * Creates an entity Body.
@@ -40,7 +41,7 @@ public class EntityBody {
 
             if (i % 2 != 0) vertexes[i] *= -1;
 
-            vertexes[i] *= PIXEL_TO_METER;
+            //vertexes[i] *= 1;
         }
 
         PolygonShape polygon = new PolygonShape();

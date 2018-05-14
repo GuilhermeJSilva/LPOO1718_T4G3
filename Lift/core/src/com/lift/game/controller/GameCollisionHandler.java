@@ -1,11 +1,12 @@
 package com.lift.game.controller;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
+
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
 public class GameCollisionHandler implements ContactListener {
     public GameCollisionHandler() {
@@ -21,12 +22,16 @@ public class GameCollisionHandler implements ContactListener {
 
         } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
             handlePlatformCollision(bodyB, bodyA, bodyA.getLinearVelocity().y < 0);
+        } else if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
+            solvePersonPlatformCollision(bodyB, bodyA, contact.getFixtureA().getFilterData().categoryBits);
+        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
+            solvePersonPlatformCollision(bodyA, bodyB, contact.getFixtureB().getFilterData().categoryBits);
+        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
+            bodyB.setLinearVelocity(0, 0);
+            bodyA.setLinearVelocity(0, 0);
         }
 
 
-    }
-
-    private void handlePersonPlatformCollision(Body bodyA, Body bodyB) {
     }
 
     public void endContact(Contact contact) {
@@ -38,6 +43,12 @@ public class GameCollisionHandler implements ContactListener {
 
         } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
             handlePlatformCollision(bodyB, bodyA, bodyA.getLinearVelocity().y > 0);
+        }  else if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
+            bodyB.setGravityScale(1);
+        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
+            bodyA.setGravityScale(1);
+        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
+
         }
     }
 
@@ -58,24 +69,16 @@ public class GameCollisionHandler implements ContactListener {
     }
 
     public void preSolve(Contact contact, Manifold oldManifold) {
-        Body bodyA = contact.getFixtureA().getBody();
-        Body bodyB = contact.getFixtureB().getBody();
-        if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
-            solvePersonPlatformCollision(bodyB, bodyB, contact.getFixtureA());
-        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
-            solvePersonPlatformCollision(bodyA, bodyB, contact.getFixtureB());
-        } else  if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-            bodyB.setLinearVelocity(0, 0);
-        }
+        contact.setEnabled(false);
     }
 
-    private void solvePersonPlatformCollision(Body personBody, Body platformBody, Fixture fixtureB) {
-        System.out.println("Collision");
-        if (fixtureB.isSensor()) {
-            System.out.println("Sensor Collision");
-            personBody.setLinearVelocity(0, personBody.getLinearVelocity().y);
-        } else
-            personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0.25f);
+    private void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
+        if (platformFixture == PLATFORM_END_SENSOR) {
+            personBody.setLinearVelocity(0, 0f);
+        } else {
+            personBody.setGravityScale(0);
+            personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0f);
+        }
     }
 
     public void postSolve(Contact contact, ContactImpulse impulse) {

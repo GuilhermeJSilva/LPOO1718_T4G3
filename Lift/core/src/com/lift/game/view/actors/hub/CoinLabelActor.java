@@ -26,7 +26,7 @@ public class CoinLabelActor extends Actor {
 
         this.coin_label =  new Label("1000",label2Style );
         float x = camera.viewportWidth / 2 - this.coin_label.getWidth() / 2;
-        float y = this.coin_label.getHeight() / 4;
+        float y = this.coin_label.getHeight() / 8;
         this.coin_label.setPosition(x, y);
         this.coin_label.setAlignment(Align.center);
     }

@@ -79,7 +79,7 @@ public class GameModel {
         this.right_floors = new ArrayList<PlatformModel>();
 
         for (int i = 1; i <= n_levels; i++) {
-            left_floors.add(new PlatformModel(PlatformBody.PLATFORM_LENGTH / 4f + 0.1f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f));
+            left_floors.add(new PlatformModel(PlatformBody.PLATFORM_LENGTH / 2f + 0.1f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f));
         }
 
         for (int i = 1; i <= n_levels; i++) {
@@ -194,17 +194,17 @@ public class GameModel {
         float x;
         if(left !=  0) {
             floors= this.left_floors;
-            x = PersonBody.WIDTH / 2f * floors.get(floor).getWaiting_people().size() + PersonBody.WIDTH / 4f + 1.5f;
+            x = 0;
         }
         else {
             floors= this.right_floors;
-            x = floors.get(floor).getX() - 1.5f - (PersonBody.WIDTH / 2f * (1/2f + floors.get(floor).getWaiting_people().size()) - PlatformBody.PLATFORM_LENGTH/4f);
+            x = floors.get(floor).getX() + PlatformBody.PLATFORM_LENGTH/2;
         }
 
         if (floors.get(floor).getWaiting_people().size() >= PlatformBody.PLATFORM_LENGTH / PersonBody.WIDTH - 1)
             return null;
 
-        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f - PlatformBody.PLATFORM_HEIGHT, satisfaction_factor, dest);
+        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT/2, satisfaction_factor, dest);
         floors.get(floor).getWaiting_people().add(new_p);
         return new_p;
     }

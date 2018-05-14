@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities;
 
 import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
 
 import com.badlogic.gdx.math.Vector2;
@@ -21,7 +22,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Height of the elevator.
      */
-    public static final int height = 16;
+    public static final int height = 8;
 
     /**
      *  Collision mask of the elevator.
@@ -31,7 +32,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Width oh the elevator.
      */
-    public static final int width = 8;
+    public static final int width = 4;
 
     /**
      * The elevator is heading towards this elevator.
@@ -59,9 +60,8 @@ public class ElevatorBody extends EntityBody {
 
         float density = 1f, friction = 0.5f, restitution = 0f;
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_MASK, true);
+                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_ELEVATOR_SENSOR, true);
         this.body.setGravityScale(0);
-
 
     }
 

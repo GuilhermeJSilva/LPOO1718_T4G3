@@ -3,13 +3,15 @@ package com.lift.game.controller.entities;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.person.PersonModel;
 
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
 
 public class PersonBody extends EntityBody {
 
-    public static final int WIDTH = 6;
-    public static final int HEIGHT = 8;
+    public static final int WIDTH = 3;
+    public static final int HEIGHT = 4;
     public static final short PERSON_MASK = 1 << 2;
+    public static final short PERSON_SENSOR_MASK = 1 << 5;
 
     /**
 	 * Creates an Person body.
@@ -22,7 +24,15 @@ public class PersonBody extends EntityBody {
 		int width = WIDTH;
 
         this.add_fixture(body, new float[] {0, 0, 0, HEIGHT, width, 0, width, HEIGHT}
-		, width, HEIGHT, density, friction, restitution, PERSON_MASK , PLATFORM_MASK, false);
+		, width, HEIGHT, density, friction, restitution, PERSON_MASK , (short)( PLATFORM_MASK), false);
+
+        float sensor_width = 0.25f;
+
+        this.add_fixture(body, new float[] {0, 0, 0, HEIGHT, -sensor_width, 0, -sensor_width, HEIGHT}
+                , width, HEIGHT, density, friction, restitution, PERSON_SENSOR_MASK , (short)(PLATFORM_END_SENSOR | PERSON_SENSOR_MASK), true);
+
+        this.add_fixture(body, new float[] {width, 0, width, HEIGHT, width + sensor_width, 0, width + sensor_width, HEIGHT}
+                , width, HEIGHT, density, friction, restitution, PERSON_SENSOR_MASK , (short)(PLATFORM_END_SENSOR | PERSON_SENSOR_MASK), true);
 	}
 
 }

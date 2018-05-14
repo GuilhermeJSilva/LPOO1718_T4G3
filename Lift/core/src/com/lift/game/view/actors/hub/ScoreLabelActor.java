@@ -25,7 +25,7 @@ public class ScoreLabelActor extends Actor {
         label1Style.fontColor = Color.BLACK;
 
         this.score_label = new Label("30.0", label1Style);
-        float x = camera.viewportWidth / 2 - this.score_label.getWidth() / 2;
+        float x = camera.viewportWidth / 2 - this.score_label.getWidth() / 2f;
         float y = camera.viewportHeight - this.score_label.getHeight();
         this.score_label.setPosition(x, y);
         this.score_label.setAlignment(Align.center);
