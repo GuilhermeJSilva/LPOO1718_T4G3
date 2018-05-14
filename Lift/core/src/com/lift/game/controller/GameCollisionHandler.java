@@ -27,8 +27,13 @@ public class GameCollisionHandler implements ContactListener {
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
             solvePersonPlatformCollision(bodyA, bodyB, contact.getFixtureB().getFilterData().categoryBits);
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-            bodyB.setLinearVelocity(0, 0);
-            bodyA.setLinearVelocity(0, 0);
+            float x_velocity;
+            if (bodyA.getLinearVelocity().x < 0 || bodyB.getLinearVelocity().x < 0)
+                x_velocity = Math.max(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
+            else
+                x_velocity = Math.min(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
+            bodyB.setLinearVelocity(x_velocity, 0);
+            bodyA.setLinearVelocity(x_velocity, 0);
         }
 
 
@@ -43,7 +48,7 @@ public class GameCollisionHandler implements ContactListener {
 
         } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
             handlePlatformCollision(bodyB, bodyA, bodyA.getLinearVelocity().y > 0);
-        }  else if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
+        } else if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
             bodyB.setGravityScale(1);
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
             bodyA.setGravityScale(1);
