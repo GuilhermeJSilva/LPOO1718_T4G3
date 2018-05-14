@@ -1,6 +1,7 @@
 package com.lift.game.controller;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.pstrategies.DrunkenMovement;
 import com.lift.game.controller.entities.pstrategies.RegularMovement;
 import com.lift.game.model.GameModel;
@@ -68,12 +69,10 @@ public class GameCollisionHandler implements ContactListener {
         if (em == GameModel.getInstance().getLeft_elevator()) {
             if (em.getTarget_floor() == GameModel.getInstance().getLeft_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
-                em.setStopped(true);
             }
         } else {
             if (em.getTarget_floor() == GameModel.getInstance().getRight_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
-                em.setStopped(true);
             }
         }
     }
