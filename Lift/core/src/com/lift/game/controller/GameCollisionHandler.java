@@ -1,6 +1,8 @@
 package com.lift.game.controller;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.lift.game.controller.entities.pstrategies.DrunkenMovement;
+import com.lift.game.controller.entities.pstrategies.RegularMovement;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
@@ -17,51 +19,48 @@ public class GameCollisionHandler implements ContactListener {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
 
-        if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
-            handlePlatformCollision(bodyA, bodyB, bodyB.getLinearVelocity().y < 0);
+        checkIfPlatformElevatorCollision(bodyA, bodyB);
+        checkIfPlatformPersonCollision(contact, bodyA, bodyB);
+        checkIfPersonPersonCollision(bodyA, bodyB);
 
-        } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
-            handlePlatformCollision(bodyB, bodyA, bodyA.getLinearVelocity().y < 0);
-        } else if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
+
+    }
+
+    private void checkIfPersonPersonCollision(Body bodyA, Body bodyB) {
+        if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
+            solvePersonPersonCollision(bodyA, bodyB);
+        }
+    }
+
+    private void solvePersonPersonCollision(Body person1, Body person2) {
+        //TODO chose class based on type of person
+        RegularMovement.getInstance().collisionPersonPersonInPlatform(person1, person2);
+    }
+
+    private void checkIfPlatformPersonCollision(Contact contact, Body bodyA, Body bodyB) {
+        if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
             solvePersonPlatformCollision(bodyB, bodyA, contact.getFixtureA().getFilterData().categoryBits);
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
             solvePersonPlatformCollision(bodyA, bodyB, contact.getFixtureB().getFilterData().categoryBits);
-        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-            solvePersonPersonCollision(bodyA, bodyB);
         }
+    }
 
+    private void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
+        //TODO chose class based on type of person
+        RegularMovement.getInstance().solvePersonPlatformCollision(personBody, platformBody,platformFixture);
 
     }
 
-    private void solvePersonPersonCollision(Body bodyA, Body bodyB) {
-        float x_velocity;
-        if (bodyA.getLinearVelocity().x < 0 || bodyB.getLinearVelocity().x < 0)
-            x_velocity = Math.max(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
-        else
-            x_velocity = Math.min(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
-        bodyB.setLinearVelocity(x_velocity, 0);
-        bodyA.setLinearVelocity(x_velocity, 0);
-    }
 
-    public void endContact(Contact contact) {
-        Body bodyA = contact.getFixtureA().getBody();
-        Body bodyB = contact.getFixtureB().getBody();
-
+    private void checkIfPlatformElevatorCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
-            handlePlatformCollision(bodyA, bodyB, bodyB.getLinearVelocity().y > 0);
-
+            handlePlatformElevatorCollision(bodyA, bodyB, bodyB.getLinearVelocity().y < 0);
         } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
-            handlePlatformCollision(bodyB, bodyA, bodyA.getLinearVelocity().y > 0);
-        } else if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
-            bodyB.setGravityScale(1);
-        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
-            bodyA.setGravityScale(1);
-        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-
+            handlePlatformElevatorCollision(bodyB, bodyA, bodyA.getLinearVelocity().y < 0);
         }
     }
 
-    private void handlePlatformCollision(Body bodyA, Body bodyB, boolean b) {
+    private void handlePlatformElevatorCollision(Body bodyA, Body bodyB, boolean b) {
         PlatformModel pm = (PlatformModel) bodyA.getUserData();
         ElevatorModel em = (ElevatorModel) bodyB.getUserData();
 
@@ -79,18 +78,43 @@ public class GameCollisionHandler implements ContactListener {
         }
     }
 
+
+    public void endContact(Contact contact) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+
+        checkIfEndPlatformElevatorCollision(bodyA, bodyB);
+        checkIfEndPlatformPersonCollision(bodyA, bodyB);
+        checkIfEndPersonPersonCollision(bodyA, bodyB);
+    }
+
+    private void checkIfEndPersonPersonCollision(Body bodyA, Body bodyB) {
+        if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
+
+        }
+    }
+
+    private void checkIfEndPlatformPersonCollision(Body bodyA, Body bodyB) {
+        if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
+            bodyB.setGravityScale(15);
+        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
+            bodyA.setGravityScale(15);
+        }
+    }
+
+    private void checkIfEndPlatformElevatorCollision(Body bodyA, Body bodyB) {
+        if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
+            handlePlatformElevatorCollision(bodyA, bodyB, bodyB.getLinearVelocity().y > 0);
+        } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
+            handlePlatformElevatorCollision(bodyB, bodyA, bodyA.getLinearVelocity().y > 0);
+        }
+    }
+
+
     public void preSolve(Contact contact, Manifold oldManifold) {
         contact.setEnabled(false);
     }
 
-    private void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
-        if (platformFixture == PLATFORM_END_SENSOR) {
-            personBody.setLinearVelocity(0, 0f);
-        } else {
-            personBody.setGravityScale(0);
-            personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0f);
-        }
-    }
 
     public void postSolve(Contact contact, ContactImpulse impulse) {
 

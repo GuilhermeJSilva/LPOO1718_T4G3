@@ -221,23 +221,18 @@ public class GameView extends ScreenAdapter {
      */
     private void handleInputs(float delta) {
         if (Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-
             ArrayList<PlatformModel> floors = GameModel.getInstance().getLeft_floors();
             if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
                 floors = GameModel.getInstance().getRight_floors();
             }
             int floor = determine_floor_number(floors);
-            boolean stopped;
-            System.out.println(floor);
             if (floor != -1) {
                 if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
                     if (GameController.getInstance().getRight_elevator().getTarget_floor() != floor) {
-                        stopped = GameController.getInstance().getRight_elevator().setTarget_floor(floor);
-                        GameModel.getInstance().getRight_elevator().setStopped(stopped);
+                       GameController.getInstance().getRight_elevator().setTarget_floor(floor);
                     }
                 } else if (GameController.getInstance().getLeft_elevator().getTarget_floor() != floor) {
-                    stopped = GameController.getInstance().getLeft_elevator().setTarget_floor(floor);
-                    GameModel.getInstance().getLeft_elevator().setStopped(stopped);
+                    GameController.getInstance().getLeft_elevator().setTarget_floor(floor);
 
                 }
             }
