@@ -4,7 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
-public class RegularMovement extends MovementStrategyAdapter {
+public class RegularMovement implements MovementStrategy {
     private static RegularMovement ourInstance = new RegularMovement();
 
     public static RegularMovement getInstance() {
