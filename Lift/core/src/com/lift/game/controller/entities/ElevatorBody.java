@@ -14,10 +14,6 @@ public class ElevatorBody extends EntityBody {
      */
     private static int vy = 50;
 
-    /**
-     * True if the elevator is not moving.
-     */
-    private Boolean stopped;
 
     /**
      * Height of the elevator.
@@ -39,14 +35,6 @@ public class ElevatorBody extends EntityBody {
      */
     private Integer target_floor;
 
-    /**
-     * Returns true if the elevator is stopped.
-     *
-     * @return True if the elevator is stopped, false otherwise.
-     */
-    public Boolean isStopped() {
-        return stopped;
-    }
 
     /**
      * Creates an elevator Body.
@@ -55,7 +43,6 @@ public class ElevatorBody extends EntityBody {
      */
     public ElevatorBody(World world, ElevatorModel model) {
         super(world, model);
-        this.stopped = true;
         this.target_floor = model.getTarget_floor();
 
         float density = 1f, friction = 0.5f, restitution = 0f;
@@ -79,19 +66,18 @@ public class ElevatorBody extends EntityBody {
      *
      * @param floor New target floor.
      */
-    public void setTarget_floor(Integer floor) {
+    public boolean setTarget_floor(Integer floor) {
         float y = (this.getY() - height / 2);
-        if (this.stopped && this.target_floor == floor)
-            return;
-        this.target_floor = floor;
-        if (floor * METERS_PER_FLOOR > y) {
-            this.setLinearVelocity(0, vy);
-            this.stopped = false;
-        } else if (floor * METERS_PER_FLOOR < y) {
-            this.setLinearVelocity(0, -vy);
-            this.stopped = false;
-        }
+        if (this.target_floor != floor) {
 
+            this.target_floor = floor;
+            if (floor * METERS_PER_FLOOR > y) {
+                this.setLinearVelocity(0, vy);
+            } else if (floor * METERS_PER_FLOOR < y) {
+                this.setLinearVelocity(0, -vy);
+            }
+        }
+        return this.body.getLinearVelocity().y == 0;
     }
 
 

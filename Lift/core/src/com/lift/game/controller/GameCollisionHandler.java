@@ -27,16 +27,20 @@ public class GameCollisionHandler implements ContactListener {
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
             solvePersonPlatformCollision(bodyA, bodyB, contact.getFixtureB().getFilterData().categoryBits);
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-            float x_velocity;
-            if (bodyA.getLinearVelocity().x < 0 || bodyB.getLinearVelocity().x < 0)
-                x_velocity = Math.max(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
-            else
-                x_velocity = Math.min(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
-            bodyB.setLinearVelocity(x_velocity, 0);
-            bodyA.setLinearVelocity(x_velocity, 0);
+            solvePersonPersonCollision(bodyA, bodyB);
         }
 
 
+    }
+
+    private void solvePersonPersonCollision(Body bodyA, Body bodyB) {
+        float x_velocity;
+        if (bodyA.getLinearVelocity().x < 0 || bodyB.getLinearVelocity().x < 0)
+            x_velocity = Math.max(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
+        else
+            x_velocity = Math.min(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
+        bodyB.setLinearVelocity(x_velocity, 0);
+        bodyA.setLinearVelocity(x_velocity, 0);
     }
 
     public void endContact(Contact contact) {
@@ -65,10 +69,12 @@ public class GameCollisionHandler implements ContactListener {
         if (em == GameModel.getInstance().getLeft_elevator()) {
             if (em.getTarget_floor() == GameModel.getInstance().getLeft_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
+                em.setStopped(true);
             }
         } else {
             if (em.getTarget_floor() == GameModel.getInstance().getRight_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
+                em.setStopped(true);
             }
         }
     }
