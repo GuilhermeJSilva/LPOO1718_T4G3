@@ -3,6 +3,7 @@ package com.lift.game.controller;
 import com.badlogic.gdx.Game;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
@@ -77,10 +78,11 @@ public class PeopleGenerator {
             PersonBody personBody = new PersonBody(gameController.getWorld(), p_model);
             if (test != 0) {
                 gameController.getLeft_floors().get(floor).getWaiting_people().add(personBody);
-                personBody.getBody().setLinearVelocity(10, 0);
+                StrategySelector.getStrategy(p_model).initialMovement(personBody.getBody(), true);
             } else {
                 gameController.getRight_floors().get(floor).getWaiting_people().add(personBody);
-                personBody.getBody().setLinearVelocity(-10, 0);
+                gameController.getLeft_floors().get(floor).getWaiting_people().add(personBody);
+                StrategySelector.getStrategy(p_model).initialMovement(personBody.getBody(), false);
 
             }
         }

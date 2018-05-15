@@ -39,14 +39,13 @@ public class GameCollisionHandler implements ContactListener {
     private void solvePersonPersonCollision(Body person1, Body person2) {
         MovementStrategy movementStrategy1 = StrategySelector.getStrategy((PersonModel) person1.getUserData());
         MovementStrategy movementStrategy2 = StrategySelector.getStrategy((PersonModel) person2.getUserData());
-        if (movementStrategy1 != null && movementStrategy2 != null) {
-            MovementStrategy movementStrategy;
-            if(movementStrategy1.getPriority() > movementStrategy2.getPriority())
-                movementStrategy = movementStrategy1;
-            else
-                movementStrategy = movementStrategy2;
-            movementStrategy.collisionPersonPersonInPlatform(person1, person2);
-        }
+        MovementStrategy movementStrategy;
+        if (movementStrategy1.getPriority() > movementStrategy2.getPriority())
+            movementStrategy = movementStrategy1;
+        else
+            movementStrategy = movementStrategy2;
+        movementStrategy.collisionPersonPersonInPlatform(person1, person2);
+
 
     }
 
@@ -60,8 +59,7 @@ public class GameCollisionHandler implements ContactListener {
 
     private void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
         MovementStrategy movementStrategy = StrategySelector.getStrategy((PersonModel) personBody.getUserData());
-        if (movementStrategy != null)
-            movementStrategy.solvePersonPlatformCollision(personBody, platformBody, platformFixture);
+        movementStrategy.solvePersonPlatformCollision(personBody, platformBody, platformFixture);
     }
 
 
@@ -122,7 +120,8 @@ public class GameCollisionHandler implements ContactListener {
     }
 
 
-    public void preSolve(Contact contact, Manifold oldManifold) {    }
+    public void preSolve(Contact contact, Manifold oldManifold) {
+    }
 
 
     public void postSolve(Contact contact, ContactImpulse impulse) {

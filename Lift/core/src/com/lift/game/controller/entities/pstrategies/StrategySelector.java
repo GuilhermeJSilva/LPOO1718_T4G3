@@ -17,6 +17,6 @@ public class StrategySelector {
                 return DrunkenMovement.getInstance();
         }
 
-        return null;
+        return NullStrategy.getInstance();
     }
 }

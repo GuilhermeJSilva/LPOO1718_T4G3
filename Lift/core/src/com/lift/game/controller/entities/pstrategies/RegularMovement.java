@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
 public class RegularMovement implements MovementStrategy {
+    private static final int INITIAL_V_Y = 10;
+
     private final Integer priority = 0;
 
     private static RegularMovement ourInstance = new RegularMovement();
@@ -39,6 +41,15 @@ public class RegularMovement implements MovementStrategy {
         } else {
             personBody.setGravityScale(0);
             personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0f);
+        }
+    }
+
+    @Override
+    public void initialMovement(Body body, boolean b) {
+        if (b) {
+            body.setLinearVelocity(INITIAL_V_Y, 0);
+        } else {
+            body.setLinearVelocity(-INITIAL_V_Y, 0);
         }
     }
 }

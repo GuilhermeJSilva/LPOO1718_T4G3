@@ -12,5 +12,5 @@ public interface MovementStrategy {
 
     void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture);
 
-
+    void initialMovement(Body body, boolean b);
 }
