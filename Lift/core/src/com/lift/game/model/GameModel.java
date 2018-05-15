@@ -155,6 +155,7 @@ public class GameModel {
 
     /**
      * Return's the time that is left.
+     *
      * @return Time that is left.
      */
     public Double getTime_left() {
@@ -169,7 +170,7 @@ public class GameModel {
      */
     public void update(float delta) {
         this.time_left -= delta;
-        if(this.time_left < 0)
+        if (this.time_left < 0)
             this.time_left = 0.0;
 
         ArrayList<List<PersonModel>> passengers = this.left_elevator.getPassengers();
@@ -180,32 +181,6 @@ public class GameModel {
             }
         }
     }
-
-    /**
-     * Adds a new person to waiting for the left_elevator.
-     *
-     * @param floor               Floor the person is currently in.
-     * @param satisfaction_factor Rate that the satisfaction decreases.
-     * @return The person model that was added.
-     */
-    public PersonModel add_waiting_person(int floor, float satisfaction_factor, int dest, int left) {
-        ArrayList<PlatformModel> floors;
-
-        float x;
-        if(left !=  0) {
-            floors= this.left_floors;
-            x = 0;
-        }
-        else {
-            floors= this.right_floors;
-            x = floors.get(floor).getX() + PlatformBody.PLATFORM_LENGTH/2;
-        }
-
-        if (floors.get(floor).getWaiting_people().size() >= PlatformBody.PLATFORM_LENGTH / PersonBody.WIDTH - 1)
-            return null;
-
-        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT/2, satisfaction_factor, dest);
-        floors.get(floor).getWaiting_people().add(new_p);
-        return new_p;
-    }
 }
+
+

@@ -1,34 +1,21 @@
 package com.lift.game.controller;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.lift.game.controller.entities.ElevatorBody;
-import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
-import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
 
 /**
  * Controls the game.
  */
 public class GameController {
-
-    /**
-     * The buildings height in meters.
-     */
-    public static final Integer BUILDING_HEIGHT = 80;
-
-    /**
-     * The buildings width in meters.
-     */
-    public static final Integer BUILDING_WIDTH = 45;
 
     /**
      * Meters per floor
@@ -40,20 +27,13 @@ public class GameController {
      */
     private final World world;
 
+    private final PeopleGenerator peopleGenerator = new PeopleGenerator(this);
+
     /**
      * Time accumulator.
      */
     private Float accumulator = 0.0f;
 
-    /**
-     * Time accumulator for people generation.
-     */
-    private Float t_accumulator = 0.0f;
-
-    /**
-     * People generated per second.
-     */
-    private Integer p_per_second = 1;
 
     /**
      * Game's left_elevator.
@@ -106,7 +86,7 @@ public class GameController {
         for (PlatformModel pm : fm) {
             right_floors.add(new PlatformBody(this.world, pm, false));
         }
-        this.generatePeople(2);
+        peopleGenerator.generatePeople(2);
         world.setContactListener(new GameCollisionHandler());
     }
 
@@ -160,7 +140,7 @@ public class GameController {
             world.step(1 / 60f, 6, 2);
             accumulator -= 1 / 60f;
 
-            this.generateNewPeople(1 / 60f);
+            peopleGenerator.generateNewPeople(1 / 60f);
         }
 
         Array<Body> bodies = new Array<Body>();
@@ -188,13 +168,7 @@ public class GameController {
      * @param n_people Number of people to generate.
      */
     private void generatePeople(int n_people) {
-        if (n_people < 0)
-            return;
-        Random generator = new Random();
-        for (int i = 0; i < n_people; ++i) {
-            int floor = generator.nextInt(GameModel.getInstance().getN_levels());
-            generatePerson(floor);
-        }
+        peopleGenerator.generatePeople(n_people);
     }
 
     /**
@@ -203,39 +177,16 @@ public class GameController {
      * @param floor Floor to generate in.
      */
     private void generatePerson(int floor) {
-        Random generator = new Random();
-        int dest;
-        do {
-            dest = generator.nextInt(GameModel.getInstance().getN_levels());
-        } while (dest == floor);
 
-        int test = generator.nextInt(2);
-        PersonModel p_model = GameModel.getInstance().add_waiting_person(floor, 1, dest, test);
-        if (p_model != null) {
-            PersonBody personBody = new PersonBody(this.world, p_model);
-            if (test != 0) {
-                left_floors.get(floor).getWaiting_people().add(personBody);
-                personBody.getBody().setLinearVelocity(10, 0 );
-            }
-            else {
-                right_floors.get(floor).getWaiting_people().add(personBody);
-                personBody.getBody().setLinearVelocity(-10, 0 );
-
-            }
-        }
-
+        peopleGenerator.generatePerson(floor);
     }
 
     /**
      * Generates new people bases on the level of difficulty.
      */
     public void generateNewPeople(float delta) {
-        t_accumulator += delta;
-        while (t_accumulator > 1) {
-            generatePeople(p_per_second);
-            t_accumulator--;
-        }
 
+        peopleGenerator.generateNewPeople(delta);
     }
 
     /**

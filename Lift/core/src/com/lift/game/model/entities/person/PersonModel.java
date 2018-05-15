@@ -53,18 +53,9 @@ public class PersonModel extends EntityModel {
 		this.satisfaction = STARTING_SATISFACTION;
 		this.satisfaction_factor = satisfaction_factor;
 		this.destination = destination;
-		this.personType = PersonType.Regular;
+		this.personType = RandomTypeGenerator.getRandomType();
 		this.personState = PersonState.Waiting;
 	}
-
-    public PersonModel(Float x, Float y, Float satisfaction_factor, int destination, PersonType personType) {
-        super(x, y);
-        this.satisfaction = STARTING_SATISFACTION;
-        this.satisfaction_factor = satisfaction_factor;
-        this.destination = destination;
-        this.personType = personType;
-        this.personState = PersonState.Waiting;
-    }
 
 
     /**
@@ -106,5 +97,7 @@ public class PersonModel extends EntityModel {
     public void setNew_person(boolean new_person) {
         this.new_person = new_person;
     }
+
+
 
 }

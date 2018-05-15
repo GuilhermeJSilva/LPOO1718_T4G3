@@ -5,6 +5,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
 public class RegularMovement implements MovementStrategy {
+    private final Integer priority = 0;
+
     private static RegularMovement ourInstance = new RegularMovement();
 
     public static RegularMovement getInstance() {
@@ -12,6 +14,11 @@ public class RegularMovement implements MovementStrategy {
     }
 
     private RegularMovement() {
+    }
+
+    @Override
+    public  int getPriority() {
+        return priority;
     }
 
     @Override

@@ -3,7 +3,9 @@ package com.lift.game.controller;
 import com.badlogic.gdx.physics.box2d.*;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.pstrategies.DrunkenMovement;
+import com.lift.game.controller.entities.pstrategies.MovementStrategy;
 import com.lift.game.controller.entities.pstrategies.RegularMovement;
+import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
@@ -35,7 +37,17 @@ public class GameCollisionHandler implements ContactListener {
 
     private void solvePersonPersonCollision(Body person1, Body person2) {
         //TODO chose class based on type of person
-        RegularMovement.getInstance().collisionPersonPersonInPlatform(person1, person2);
+        MovementStrategy movementStrategy1 = StrategySelector.getStrategy((PersonModel) person1.getUserData());
+        MovementStrategy movementStrategy2 = StrategySelector.getStrategy((PersonModel) person2.getUserData());
+        if (movementStrategy1 != null && movementStrategy2 != null) {
+            MovementStrategy movementStrategy;
+            if(movementStrategy1.getPriority() > movementStrategy2.getPriority())
+                movementStrategy = movementStrategy1;
+            else
+                movementStrategy = movementStrategy2;
+            movementStrategy.collisionPersonPersonInPlatform(person1, person2);
+        }
+
     }
 
     private void checkIfPlatformPersonCollision(Contact contact, Body bodyA, Body bodyB) {
@@ -47,9 +59,9 @@ public class GameCollisionHandler implements ContactListener {
     }
 
     private void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
-        //TODO chose class based on type of person
-        RegularMovement.getInstance().solvePersonPlatformCollision(personBody, platformBody,platformFixture);
-
+        MovementStrategy movementStrategy = StrategySelector.getStrategy((PersonModel) personBody.getUserData());
+        if (movementStrategy != null)
+            movementStrategy.solvePersonPlatformCollision(personBody, platformBody, platformFixture);
     }
 
 
