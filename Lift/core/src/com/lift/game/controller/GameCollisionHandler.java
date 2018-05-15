@@ -101,7 +101,7 @@ public class GameCollisionHandler implements ContactListener {
 
     private void checkIfEndPersonPersonCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-
+            //TODO Implement
         }
     }
 

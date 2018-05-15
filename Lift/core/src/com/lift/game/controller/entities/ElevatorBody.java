@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.ElevatorModel;
 
+import java.util.Objects;
+
 public class ElevatorBody extends EntityBody {
     /**
      * Elevator's vertical speed.
@@ -68,7 +70,7 @@ public class ElevatorBody extends EntityBody {
      */
     public boolean setTarget_floor(Integer floor) {
         float y = (this.getY() - height / 2);
-        if (this.target_floor != floor) {
+        if (!Objects.equals(this.target_floor, floor)) {
 
             this.target_floor = floor;
             if (floor * METERS_PER_FLOOR > y) {

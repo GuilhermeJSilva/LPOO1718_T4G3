@@ -24,7 +24,7 @@ public class PersonBody extends EntityBody {
 		int width = WIDTH;
 
         this.add_fixture(body, new float[] {0, 0, 0, HEIGHT, width, 0, width, HEIGHT}
-		, width, HEIGHT, density, friction, restitution, PERSON_MASK , (short)( PLATFORM_MASK), false);
+		, width, HEIGHT, density, friction, restitution, PERSON_MASK , PLATFORM_MASK, false);
 
         float sensor_width = 0.25f;
 
