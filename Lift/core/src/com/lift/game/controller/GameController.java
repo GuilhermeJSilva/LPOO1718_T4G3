@@ -138,7 +138,8 @@ public class GameController {
     public void update(float delta) {
         GameModel.getInstance().update(delta);
 
-        peopleAdministrator.movePeople();
+        peopleAdministrator.run();
+
         float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;
 
@@ -152,7 +153,7 @@ public class GameController {
 
         updateModel();
     }
-    
+
 
 
     private void updateModel() {

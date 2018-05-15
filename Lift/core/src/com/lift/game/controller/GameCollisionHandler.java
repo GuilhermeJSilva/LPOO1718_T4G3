@@ -37,7 +37,6 @@ public class GameCollisionHandler implements ContactListener {
     }
 
     private void solvePersonPersonCollision(Body person1, Body person2) {
-        //TODO chose class based on type of person
         MovementStrategy movementStrategy1 = StrategySelector.getStrategy((PersonModel) person1.getUserData());
         MovementStrategy movementStrategy2 = StrategySelector.getStrategy((PersonModel) person2.getUserData());
         if (movementStrategy1 != null && movementStrategy2 != null) {

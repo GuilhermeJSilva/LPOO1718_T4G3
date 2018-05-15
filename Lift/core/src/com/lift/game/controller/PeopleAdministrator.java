@@ -7,11 +7,22 @@ import java.util.ArrayList;
 public class PeopleAdministrator {
     private final GameController gameController;
 
-    public PeopleAdministrator(GameController gameController) {
+    PeopleAdministrator(GameController gameController) {
         this.gameController = gameController;
     }
 
-    void movePeople() {
+    public void run() {
+        this.movePeople();
+        this.erasePeople();
+    }
+
+    //TODO Implement
+    protected void erasePeople() {
+
+    }
+
+    //TODO Implement
+    protected void movePeople() {
         ArrayList<PlatformBody> floors = gameController.getLeft_floors();
         floors = gameController.getRight_floors();
     }
