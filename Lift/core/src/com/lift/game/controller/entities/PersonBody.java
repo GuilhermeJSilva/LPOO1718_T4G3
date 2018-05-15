@@ -20,7 +20,7 @@ public class PersonBody extends EntityBody {
 	public PersonBody(World world, PersonModel model) {
 		super(world, model);
 		
-		float density = 1f, friction = 0.5f, restitution = 0f;
+		float density = 1f, friction = 0f, restitution = 0f;
 		int width = WIDTH;
 
         this.add_fixture(body, new float[] {0, 0, 0, HEIGHT, width, 0, width, HEIGHT}

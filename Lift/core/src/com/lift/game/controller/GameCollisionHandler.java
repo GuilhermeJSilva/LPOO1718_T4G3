@@ -108,10 +108,8 @@ public class GameCollisionHandler implements ContactListener {
     private void checkIfEndPlatformPersonCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
             ((PersonModel) bodyB.getUserData()).setPersonState(PersonState.FreeFlying);
-            bodyB.setGravityScale(15);
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
             ((PersonModel) bodyA.getUserData()).setPersonState(PersonState.FreeFlying);
-            bodyA.setGravityScale(15);
         }
     }
 

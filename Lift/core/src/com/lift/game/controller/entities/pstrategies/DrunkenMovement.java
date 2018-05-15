@@ -30,8 +30,9 @@ public class DrunkenMovement implements MovementStrategy {
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
         if (platformFixture != PLATFORM_END_SENSOR) {
-            personBody.setGravityScale(0);
-            personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0f);
+            personBody.setGravityScale(15);
+            //Comment to introduce jumping drunks
+            personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0);
         }
     }
 }
