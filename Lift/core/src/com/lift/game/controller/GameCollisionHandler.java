@@ -10,6 +10,7 @@ import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonState;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
@@ -107,8 +108,10 @@ public class GameCollisionHandler implements ContactListener {
 
     private void checkIfEndPlatformPersonCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
+            ((PersonModel) bodyB.getUserData()).setPersonState(PersonState.FreeFlying);
             bodyB.setGravityScale(15);
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
+            ((PersonModel) bodyA.getUserData()).setPersonState(PersonState.FreeFlying);
             bodyA.setGravityScale(15);
         }
     }
@@ -122,9 +125,7 @@ public class GameCollisionHandler implements ContactListener {
     }
 
 
-    public void preSolve(Contact contact, Manifold oldManifold) {
-        contact.setEnabled(false);
-    }
+    public void preSolve(Contact contact, Manifold oldManifold) {    }
 
 
     public void postSolve(Contact contact, ContactImpulse impulse) {

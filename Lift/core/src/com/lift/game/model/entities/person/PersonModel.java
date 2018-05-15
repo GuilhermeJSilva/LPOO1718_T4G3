@@ -98,6 +98,7 @@ public class PersonModel extends EntityModel {
         this.new_person = new_person;
     }
 
-
-
+    public void setPersonState(PersonState personState) {
+        this.personState = personState;
+    }
 }

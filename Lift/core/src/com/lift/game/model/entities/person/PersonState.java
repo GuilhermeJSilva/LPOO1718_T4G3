@@ -4,5 +4,6 @@ public enum PersonState {
     Waiting,
     InElevator,
     Reached,
-    Erased
+    Erase,
+    FreeFlying
 }

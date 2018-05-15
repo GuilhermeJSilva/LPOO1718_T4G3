@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.lift.game.controller.entities.ElevatorBody;
+import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
@@ -28,6 +29,7 @@ public class GameController {
     private final World world;
 
     private final PeopleGenerator peopleGenerator = new PeopleGenerator(this);
+    private final PeopleAdministrator peopleAdministrator = new PeopleAdministrator(this);
 
     /**
      * Time accumulator.
@@ -57,6 +59,10 @@ public class GameController {
      */
     private ArrayList<PlatformBody> right_floors;
 
+    /**
+     * Free flying people.
+     */
+    private ArrayList<PersonBody> free_flying;
 
     /**
      * Stores the singleton.
@@ -132,6 +138,7 @@ public class GameController {
     public void update(float delta) {
         GameModel.getInstance().update(delta);
 
+        peopleAdministrator.movePeople();
         float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;
 
@@ -143,6 +150,12 @@ public class GameController {
             peopleGenerator.generateNewPeople(1 / 60f);
         }
 
+        updateModel();
+    }
+    
+
+
+    private void updateModel() {
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
 
