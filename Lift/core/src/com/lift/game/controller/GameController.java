@@ -161,7 +161,7 @@ public class GameController {
         world.getBodies(bodies);
 
         for (Body body : bodies) {
-            ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y);
+            ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y, body.getAngle());
             if (body.getUserData() instanceof ElevatorModel) {
                 ElevatorModel em = ((ElevatorModel) body.getUserData());
                 if(em ==  GameModel.getInstance().getLeft_elevator()) {

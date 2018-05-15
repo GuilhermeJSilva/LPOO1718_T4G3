@@ -11,6 +11,11 @@ public class EntityModel {
 	 */
 	private float x;
 
+    /**
+     * Rotation of the model.
+     */
+    private float rotation = 0;
+
 	/**
 	 * Default entity constructor.
 	 * 
@@ -43,8 +48,13 @@ public class EntityModel {
 		return x;
 	}
 
-	public void setPosition(float x, float y) {
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setPosition(float x, float y, float rotation) {
 		this.x = x;
 		this.y = y;
+		this.rotation = rotation;
 	}
 }

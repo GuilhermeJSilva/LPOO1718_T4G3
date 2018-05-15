@@ -52,7 +52,7 @@ public abstract class EntityActor extends Actor {
 	 */
 	protected void update() {
 		sprite.setCenter(model.getX() / PIXEL_TO_METER, model.getY() / PIXEL_TO_METER);
-		sprite.setRotation(0f);
+		sprite.setRotation((float)Math.toDegrees(model.getRotation()));
 	}
 
     @Override
