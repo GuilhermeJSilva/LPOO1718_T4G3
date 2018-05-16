@@ -5,7 +5,7 @@ import com.lift.game.model.entities.person.PersonType;
 
 
 public class StrategySelector {
-
+    //TODO pass the strategy priority selection to the selector
     public static MovementStrategy getStrategy(PersonModel personModel) {
         PersonType personType;
         personType = personModel.getPersonType();

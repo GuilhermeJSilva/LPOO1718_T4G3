@@ -38,9 +38,6 @@ public class RegularMovement implements MovementStrategy {
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
         if (platformFixture == PLATFORM_END_SENSOR) {
             personBody.setLinearVelocity(0, 0f);
-        } else {
-            personBody.setGravityScale(0);
-            personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0f);
         }
     }
 
@@ -51,5 +48,10 @@ public class RegularMovement implements MovementStrategy {
         } else {
             body.setLinearVelocity(-INITIAL_V_Y, 0);
         }
+    }
+
+    @Override
+    public float getGravityScale() {
+        return 0;
     }
 }

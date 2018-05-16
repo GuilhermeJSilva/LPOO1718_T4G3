@@ -31,4 +31,9 @@ public class NullStrategy implements MovementStrategy {
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
 
     }
+
+    @Override
+    public float getGravityScale() {
+        return 1;
+    }
 }

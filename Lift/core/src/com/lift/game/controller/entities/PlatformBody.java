@@ -50,7 +50,7 @@ public class PlatformBody extends EntityBody {
         for (PersonModel pm : wp) {
             waiting_people.add(new PersonBody(world, pm));
         }
-        float density = 1000000f, friction = 0f, restitution = 1f;
+        float density = 1000000f, friction = 0f, restitution = 0f;
         float width = PLATFORM_LENGTH, height = PLATFORM_HEIGHT;
 
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}

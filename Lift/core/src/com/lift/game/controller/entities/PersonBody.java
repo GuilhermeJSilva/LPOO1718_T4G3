@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.entities.person.PersonModel;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
@@ -33,6 +34,8 @@ public class PersonBody extends EntityBody {
 
         this.add_fixture(body, new float[] {width, 0, width, HEIGHT, width + sensor_width, 0, width + sensor_width, HEIGHT}
                 , width, HEIGHT, density, friction, restitution, PERSON_SENSOR_MASK , (short)(PLATFORM_END_SENSOR | PERSON_SENSOR_MASK), true);
+
+        this.body.setGravityScale(StrategySelector.getStrategy(model).getGravityScale());
 	}
 
 }

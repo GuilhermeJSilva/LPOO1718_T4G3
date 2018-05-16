@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 //Declared as class because interfaces do not allow static methods.
 public interface MovementStrategy {
-    int priority = 0;
 
     int getPriority();
 
@@ -13,4 +12,6 @@ public interface MovementStrategy {
     void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture);
 
     void initialMovement(Body body, boolean b);
+
+    float getGravityScale();
 }

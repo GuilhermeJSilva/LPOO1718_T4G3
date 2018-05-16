@@ -6,7 +6,7 @@ import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR
 
 public class DrunkenMovement implements MovementStrategy {
 
-    private static final int INITIAL_V_Y = 10;
+    private static final int INITIAL_V_Y = 2;
 
     private final Integer priority = 1;
 
@@ -31,11 +31,7 @@ public class DrunkenMovement implements MovementStrategy {
 
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
-        if (platformFixture != PLATFORM_END_SENSOR) {
-            personBody.setGravityScale(15);
-            //Comment to introduce jumping drunks
-            personBody.setLinearVelocity(personBody.getLinearVelocity().x, 0);
-        }
+
     }
 
     @Override
@@ -45,5 +41,10 @@ public class DrunkenMovement implements MovementStrategy {
         } else {
             body.setLinearVelocity(-INITIAL_V_Y, 0);
         }
+    }
+
+    @Override
+    public float getGravityScale() {
+        return 5;
     }
 }
