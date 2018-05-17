@@ -22,7 +22,7 @@ public class PeopleGenerator {
     /**
      * People generated per second.
      */
-    private Integer seconds_b_person = 1;
+    private Float seconds_b_person = 1f;
 
     public PeopleGenerator(GameController gameController) {
         this.gameController = gameController;
@@ -37,11 +37,11 @@ public class PeopleGenerator {
         this.t_accumulator = t_accumulator;
     }
 
-    public Integer getSeconds_b_person() {
+    public Float getSeconds_b_person() {
         return seconds_b_person;
     }
 
-    public void setSeconds_b_person(Integer seconds_b_person) {
+    public void setSeconds_b_person(Float seconds_b_person) {
         this.seconds_b_person = seconds_b_person;
     }
 
@@ -117,7 +117,7 @@ public class PeopleGenerator {
         if (floors.get(floor).getNumber_of_people() >= PlatformModel.MAX_NUMBER_OF_PEOPLE)
             return null;
 
-        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2, satisfaction_factor, dest);
+        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2, floor, left == 1? 'L':'R', satisfaction_factor, dest);
         GameModel.getInstance().addPerson(new_p);
         floors.get(floor).incrementNPeople();
         return new_p;

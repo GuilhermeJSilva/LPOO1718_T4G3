@@ -34,27 +34,31 @@ public class PersonModel extends EntityModel {
      */
     private PersonState personState;
 
+    /**
+     * Floor of the person.
+     */
+    private int floor;
+
+    /**
+     * Side of the screen the person is on.
+     */
+    private char side;
 
     /**
      * New person.
      */
     private boolean new_person = true;
 
-    /**
-	 * Default person constructor.
-	 * 
-	 * @param x
-	 *            position.
-	 * @param y
-	 *            position.
-	 */
-	public PersonModel(Float x, Float y, Float satisfaction_factor, int destination) {
+
+	public PersonModel(float x, float y, int floor, char side, Float satisfaction_factor, int destination) {
 		super(x, y);
 		this.satisfaction = STARTING_SATISFACTION;
 		this.satisfaction_factor = satisfaction_factor;
 		this.destination = destination;
 		this.personType = RandomTypeGenerator.getRandomType();
 		this.personState = PersonState.Waiting;
+		this.floor =  floor;
+		this.side = side;
 	}
 
 
@@ -104,5 +108,13 @@ public class PersonModel extends EntityModel {
 
     public PersonState getPersonState() {
         return personState;
+    }
+
+    public int getFloor() {
+        return floor;
+    }
+
+    public char getSide() {
+        return side;
     }
 }
