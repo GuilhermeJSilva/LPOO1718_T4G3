@@ -22,9 +22,9 @@ public class LifeActor extends Actor {
 
         heartRegion = create_elevator_region(game);
         this.sprite = new ArrayList<Sprite>();
-        this.sprite.add(createSprite(game, camera.viewportWidth/2 - 4*heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/10));
-        this.sprite.add(createSprite(game, camera.viewportWidth/2 - heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/10));
-        this.sprite.add(createSprite(game, camera.viewportWidth/2 + heartRegion.getRegionWidth(), camera.viewportHeight - camera.viewportHeight/10));
+        this.sprite.add(createSprite(game, camera.viewportWidth/2 - 3.5f*heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
+        this.sprite.add(createSprite(game, camera.viewportWidth/2 - heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
+        this.sprite.add(createSprite(game, camera.viewportWidth/2 + 1.5f*heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
     }
 
 
