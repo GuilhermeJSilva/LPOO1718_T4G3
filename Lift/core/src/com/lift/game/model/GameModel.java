@@ -65,16 +65,22 @@ public class GameModel {
     private ArrayList<PlatformModel> right_floors;
 
     /**
+     * Freeflying people.
+     */
+    private ArrayList<PersonModel>  people;
+
+    /**
      * Constructs the model.
      */
     private GameModel() {
         super();
         this.lives = 3;
-        this.time_left = 30.0;
+        this.time_left = 60.0;
         n_levels = DEFAULT_N_LEVEL;
         left_elevator = new ElevatorModel(15.2f, 0, this.n_levels);
         right_elevator = new ElevatorModel(30f, 0, this.n_levels);
 
+        this.people = new ArrayList<PersonModel>();
         this.left_floors = new ArrayList<PlatformModel>();
         this.right_floors = new ArrayList<PlatformModel>();
 
@@ -173,13 +179,17 @@ public class GameModel {
         if (this.time_left < 0)
             this.time_left = 0.0;
 
-        ArrayList<List<PersonModel>> passengers = this.left_elevator.getPassengers();
-
-        for (List<PersonModel> list : passengers) {
-            for (PersonModel person : list) {
+        for (PersonModel person : people) {
                 person.update(delta);
-            }
         }
+    }
+
+    public ArrayList<PersonModel> getPeople() {
+        return people;
+    }
+
+    public void addPerson(PersonModel new_p) {
+        people.add(new_p);
     }
 }
 

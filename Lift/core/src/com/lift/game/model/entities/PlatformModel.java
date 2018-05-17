@@ -7,11 +7,9 @@ import java.util.List;
 
 public class PlatformModel extends EntityModel{
 
+    private int number_of_people;
 
-    /**
-     * People waiting for the elevator in this platform.
-     */
-    private List<PersonModel> waiting_people;
+    public static final int MAX_NUMBER_OF_PEOPLE = 3;
 
     /**
      * Default entity constructor.
@@ -21,14 +19,18 @@ public class PlatformModel extends EntityModel{
      */
     public PlatformModel(float x, float y) {
         super(x, y);
-        waiting_people = new LinkedList<PersonModel>();
+        number_of_people = 0;
     }
 
-    /**
-     * Returns the people in this platform.
-     * @return People in the platform.
-     */
-    public List<PersonModel> getWaiting_people() {
-        return waiting_people;
+    public int getNumber_of_people() {
+        return number_of_people;
+    }
+
+    public void incrementNPeople() {
+        number_of_people++;
+    }
+
+    public void decrementNPeople() {
+        number_of_people--;
     }
 }

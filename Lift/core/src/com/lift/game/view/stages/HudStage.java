@@ -10,6 +10,7 @@ import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.view.actors.game_actors.ElevatorActor;
 import com.lift.game.view.actors.hub.CoinLabelActor;
+import com.lift.game.view.actors.hub.LifeActor;
 import com.lift.game.view.actors.hub.ScoreLabelActor;
 import com.lift.game.view.actors.polygon_actor.BasePolyActor;
 import com.lift.game.view.actors.polygon_actor.DiamondPoly;
@@ -22,6 +23,7 @@ public class HudStage extends Stage {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight));
         this.addActor(new ScoreLabelActor(game, camera));
         this.addActor(new CoinLabelActor(game, camera));
+        this.addActor(new LifeActor(game,camera));
         //this.addActor(new DiamondPoly(100,100,25, 30, 0x00ff00ff));
     }
 

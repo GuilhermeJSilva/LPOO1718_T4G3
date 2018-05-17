@@ -18,6 +18,8 @@ public class PersonActor extends EntityActor {
      * The person's texture.
      */
     private TextureRegion personRegion;
+
+    private Sprite patientIndicator;
     
     public PersonActor(LiftGame game, EntityModel model) {
         super(game, model);

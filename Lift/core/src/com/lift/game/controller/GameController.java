@@ -1,7 +1,9 @@
 package com.lift.game.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -12,6 +14,7 @@ import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.PersonModel;
 
 /**
  * Controls the game.
@@ -62,7 +65,7 @@ public class GameController {
     /**
      * Free flying people.
      */
-    private ArrayList<PersonBody> free_flying;
+    private ArrayList<PersonBody> people;
 
     /**
      * Stores the singleton.
@@ -78,6 +81,7 @@ public class GameController {
         this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getLeft_elevator());
         this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getRight_elevator());
 
+        this.people = new ArrayList<PersonBody>();
         this.left_floors = new ArrayList<PlatformBody>();
         this.right_floors = new ArrayList<PlatformBody>();
 
@@ -91,6 +95,10 @@ public class GameController {
 
         for (PlatformModel pm : fm) {
             right_floors.add(new PlatformBody(this.world, pm, false));
+        }
+
+        for (PersonModel pm : GameModel.getInstance().getPeople()){
+            this.people.add(new PersonBody(world, pm));
         }
         peopleGenerator.generatePeople(2);
         world.setContactListener(new GameCollisionHandler());
@@ -230,5 +238,8 @@ public class GameController {
         return right_floors;
     }
 
-
+    public void addPerson(PersonBody personBody) {
+        if(personBody != null)
+            people.add(personBody);
+    }
 }

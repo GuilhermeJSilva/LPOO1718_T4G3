@@ -126,7 +126,7 @@ public class GameView extends ScreenAdapter {
         AssetManager manager = this.game.getAssetManager();
         manager.load("lift4.png", Texture.class);
         manager.load("elevator.png", Texture.class);
-
+        manager.load("heart.png", Texture.class);
         loadFonts(manager);
 
         manager.finishLoading();

@@ -31,10 +31,6 @@ public class PlatformBody extends EntityBody {
 
     public static final short PLATFORM_ELEVATOR_SENSOR = 1 << 4;
 
-    /**
-     * People waiting in the platform.
-     */
-    private List<PersonBody> waiting_people;
 
     /**
      * Creates an entity Body.
@@ -45,11 +41,7 @@ public class PlatformBody extends EntityBody {
     public PlatformBody(World world, PlatformModel model, boolean right) {
         super(world, model);
 
-        waiting_people = new LinkedList<PersonBody>();
-        List<PersonModel> wp = model.getWaiting_people();
-        for (PersonModel pm : wp) {
-            waiting_people.add(new PersonBody(world, pm));
-        }
+
         float density = 1000000f, friction = 0f, restitution = 0f;
         float width = PLATFORM_LENGTH, height = PLATFORM_HEIGHT;
 
@@ -82,12 +74,4 @@ public class PlatformBody extends EntityBody {
         this.body.setGravityScale(0);
     }
 
-    /**
-     * Returns people waiting in the platform.
-     *
-     * @return People waiting in the platform.
-     */
-    public List<PersonBody> getWaiting_people() {
-        return this.waiting_people;
-    }
 }
