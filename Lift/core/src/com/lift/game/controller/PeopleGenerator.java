@@ -72,19 +72,13 @@ public class PeopleGenerator {
             dest = generator.nextInt(GameModel.getInstance().getN_levels());
         } while (dest == floor);
 
-        int test = generator.nextInt(2);
-        PersonModel p_model = this.add_waiting_person(floor, 1, dest, test);
+        int left = new Random().nextInt(2);
+        PersonModel p_model = this.add_waiting_person(floor, 1, dest, left);
         if (p_model != null) {
             PersonBody personBody = new PersonBody(gameController.getWorld(), p_model);
-            if (test != 0) {
-                gameController.getLeft_floors().get(floor).getWaiting_people().add(personBody);
-                StrategySelector.getStrategy(p_model).initialMovement(personBody.getBody(), true);
-            } else {
-                gameController.getRight_floors().get(floor).getWaiting_people().add(personBody);
-                gameController.getLeft_floors().get(floor).getWaiting_people().add(personBody);
-                StrategySelector.getStrategy(p_model).initialMovement(personBody.getBody(), false);
 
-            }
+            gameController.addPerson(personBody);
+            StrategySelector.getStrategy(p_model).initialMovement(personBody.getBody(), left == 1);
         }
 
     }
@@ -111,22 +105,21 @@ public class PeopleGenerator {
      */
     public PersonModel add_waiting_person(int floor, float satisfaction_factor, int dest, int left) {
         ArrayList<PlatformModel> floors;
-
         float x;
-        if(left !=  0) {
-            floors= GameModel.getInstance().getLeft_floors();
+        if (left != 0) {
+            floors = GameModel.getInstance().getLeft_floors();
             x = 0;
-        }
-        else {
-            floors= GameModel.getInstance().getRight_floors();
-            x = floors.get(floor).getX() + PlatformBody.PLATFORM_LENGTH/2;
+        } else {
+            floors = GameModel.getInstance().getRight_floors();
+            x = floors.get(floor).getX() + PlatformBody.PLATFORM_LENGTH / 2;
         }
 
-        if (floors.get(floor).getWaiting_people().size() >= PlatformBody.PLATFORM_LENGTH / PersonBody.WIDTH - 1)
+        if (floors.get(floor).getNumber_of_people() >= PlatformModel.MAX_NUMBER_OF_PEOPLE)
             return null;
 
-        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT/2, satisfaction_factor, dest);
-        floors.get(floor).getWaiting_people().add(new_p);
+        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2, satisfaction_factor, dest);
+        GameModel.getInstance().addPerson(new_p);
+        floors.get(floor).incrementNPeople();
         return new_p;
     }
 }

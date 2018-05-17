@@ -29,19 +29,21 @@ public class GameStage extends Stage {
         platformModels = GameModel.getInstance().getRight_floors();
         addPlatforms(game, platformModels);
 
+        addPeopleActors(game);
         Gdx.input.setInputProcessor(this);
     }
 
     private void addPlatforms(LiftGame game, ArrayList<PlatformModel> platformModels) {
         for (PlatformModel pm : platformModels) {
             this.addActor(new PlatformActor(game, pm));
-            addPeopleActors(game, pm);
         }
     }
 
-    private void addPeopleActors(LiftGame game, PlatformModel pm) {
-        for(PersonModel personModel : pm.getWaiting_people()) {
+    private void addPeopleActors(LiftGame game) {
+        System.out.println("Adding new people");
+        for(PersonModel personModel : GameModel.getInstance().getPeople()) {
             if(personModel.isNew_person()) {
+                System.out.println("Person added");
                 this.addActor(new PersonActor(game, personModel));
                 personModel.setNew_person(false);
             }
@@ -49,13 +51,6 @@ public class GameStage extends Stage {
     }
 
     public void updateStage(LiftGame game) {
-        for (PlatformModel pm :GameModel.getInstance().getLeft_floors()){
-            addPeopleActors(game, pm);
-        }
-
-        for (PlatformModel pm :GameModel.getInstance().getRight_floors()){
-            addPeopleActors(game, pm);
-        }
+        addPeopleActors(game);
     }
-
 }

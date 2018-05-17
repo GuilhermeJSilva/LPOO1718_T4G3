@@ -1,6 +1,6 @@
 package com.lift.game.model.entities;
 
-public class EntityModel {
+public abstract class EntityModel {
 	/**
 	 * Position in the y axis.
 	 */
