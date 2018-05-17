@@ -24,7 +24,7 @@ public abstract class EntityActor extends Actor {
     /**
      * The actor represents this model.
      */
-    private EntityModel model;
+    protected EntityModel model;
 
 	/**
 	 * Constructs an actor in a given game.
