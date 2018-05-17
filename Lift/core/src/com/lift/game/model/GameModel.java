@@ -67,7 +67,7 @@ public class GameModel {
     /**
      * Freeflying people.
      */
-    private ArrayList<PersonModel>  people;
+    private ArrayList<PersonModel> people;
 
     /**
      * Constructs the model.
@@ -142,6 +142,16 @@ public class GameModel {
 
 
     /**
+     * Return the elevator according to character.
+     */
+    public ElevatorModel getElevator(char side) {
+        if (side == 'L')
+            return left_elevator;
+        else
+            return right_elevator;
+    }
+
+    /**
      * Returns the left_floors of the game.
      *
      * @return Floors of the game.
@@ -180,7 +190,7 @@ public class GameModel {
             this.time_left = 0.0;
 
         for (PersonModel person : people) {
-                person.update(delta);
+            person.update(delta);
         }
     }
 

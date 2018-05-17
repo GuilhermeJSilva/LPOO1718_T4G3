@@ -35,7 +35,6 @@ public abstract class EntityActor extends Actor {
 	protected EntityActor(LiftGame game,  EntityModel model) {
 		sprite = createSprite(game);
 		this.model = model;
-		this.update();
 	}
 
 	/**

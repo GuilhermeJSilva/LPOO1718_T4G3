@@ -2,26 +2,28 @@ package com.lift.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
-import com.lift.game.view.GameView;
 import com.lift.game.view.MenuView;
 
 /**
  * The game main class.
  */
 public class LiftGame extends Game {
-	private SpriteBatch batch;
+    private PolygonSpriteBatch polygonBatch;
+    private SpriteBatch spriteBatch;
 	private AssetManager assetManager;
 
     /**
-     * Creates the game. Initializes the sprite batch and asset manager.
+     * Creates the game. Initializes the sprite spriteBatch and asset manager.
      * Also starts the game until we have a main menu.
      */
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
+		spriteBatch = new SpriteBatch();
+        polygonBatch = new PolygonSpriteBatch();
 		assetManager = new AssetManager();
 
         startGame();
@@ -39,7 +41,7 @@ public class LiftGame extends Game {
      */
     @Override
 	public void dispose () {
-		batch.dispose();
+		spriteBatch.dispose();
 		assetManager.dispose();
 	}
 
@@ -53,15 +55,19 @@ public class LiftGame extends Game {
 	}
 
     /**
-     * Returns the sprite batch used to improve drawing performance.
+     * Returns the sprite spriteBatch used to improve drawing performance.
      *
-     * @return the sprite batch
+     * @return the sprite spriteBatch
      */
-	public SpriteBatch getBatch() {
-		return batch;
+	public SpriteBatch getSpriteBatch() {
+		return spriteBatch;
 	}
 
-	public void resetGame() {
+    public PolygonSpriteBatch getPolygonBatch() {
+        return polygonBatch;
+    }
+
+    public void resetGame() {
         GameModel.resetModel();
         GameController.resetController();
     }

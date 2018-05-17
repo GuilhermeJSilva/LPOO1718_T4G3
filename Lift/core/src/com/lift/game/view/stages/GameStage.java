@@ -2,6 +2,7 @@ package com.lift.game.view.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
@@ -18,7 +19,7 @@ public class GameStage extends Stage {
     //TODO: ADD POOL TO PEOPLE ????
 
     public GameStage(LiftGame game, Camera camera) {
-        super(new FitViewport(camera.viewportWidth, camera.viewportHeight));
+        super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
 
         this.addActor(new ElevatorActor(game, GameModel.getInstance().getLeft_elevator()));
         this.addActor(new ElevatorActor(game,GameModel.getInstance().getRight_elevator()));

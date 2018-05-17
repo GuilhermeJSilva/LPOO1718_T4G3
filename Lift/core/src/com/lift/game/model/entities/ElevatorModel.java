@@ -91,4 +91,8 @@ public class ElevatorModel extends EntityModel {
 	public ArrayList<List<PersonModel>> getPassengers() {
 		return passengers;
 	}
+
+    public Boolean getStopped() {
+        return stopped;
+    }
 }

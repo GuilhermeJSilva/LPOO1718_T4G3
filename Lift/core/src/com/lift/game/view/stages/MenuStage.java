@@ -3,6 +3,7 @@ package com.lift.game.view.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,7 +19,7 @@ public class MenuStage extends Stage {
     private float GLOBAL_OFFSET;
     private float SPACING_OFFSET;
     public MenuStage(LiftGame game, OrthographicCamera camera) {
-        super(new FitViewport(camera.viewportWidth, camera.viewportHeight));
+        super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
         GLOBAL_OFFSET = -camera.viewportHeight / 6.5f;
         SPACING_OFFSET = camera.viewportHeight / 20f;
         addPlayButton(game, camera);
