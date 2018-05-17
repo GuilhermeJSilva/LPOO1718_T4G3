@@ -1,11 +1,14 @@
 package com.lift.game.controller.entities;
 
 import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.ElevatorModel;
+
+import java.util.Objects;
 
 public class ElevatorBody extends EntityBody {
     /**
@@ -13,15 +16,11 @@ public class ElevatorBody extends EntityBody {
      */
     private static int vy = 50;
 
-    /**
-     * True if the elevator is not moving.
-     */
-    private Boolean stopped;
 
     /**
      * Height of the elevator.
      */
-    public static final int height = 16;
+    public static final int height = 8;
 
     /**
      *  Collision mask of the elevator.
@@ -31,21 +30,13 @@ public class ElevatorBody extends EntityBody {
     /**
      * Width oh the elevator.
      */
-    public static final int width = 8;
+    public static final int width = 4;
 
     /**
      * The elevator is heading towards this elevator.
      */
     private Integer target_floor;
 
-    /**
-     * Returns true if the elevator is stopped.
-     *
-     * @return True if the elevator is stopped, false otherwise.
-     */
-    public Boolean isStopped() {
-        return stopped;
-    }
 
     /**
      * Creates an elevator Body.
@@ -54,14 +45,12 @@ public class ElevatorBody extends EntityBody {
      */
     public ElevatorBody(World world, ElevatorModel model) {
         super(world, model);
-        this.stopped = true;
         this.target_floor = model.getTarget_floor();
 
         float density = 1f, friction = 0.5f, restitution = 0f;
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_MASK, true);
+                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_ELEVATOR_SENSOR, true);
         this.body.setGravityScale(0);
-
 
     }
 
@@ -79,19 +68,18 @@ public class ElevatorBody extends EntityBody {
      *
      * @param floor New target floor.
      */
-    public void setTarget_floor(Integer floor) {
+    public boolean setTarget_floor(Integer floor) {
         float y = (this.getY() - height / 2);
-        if (this.stopped && this.target_floor == floor)
-            return;
-        this.target_floor = floor;
-        if (floor * METERS_PER_FLOOR > y) {
-            this.setLinearVelocity(0, vy);
-            this.stopped = false;
-        } else if (floor * METERS_PER_FLOOR < y) {
-            this.setLinearVelocity(0, -vy);
-            this.stopped = false;
-        }
+        if (!Objects.equals(this.target_floor, floor)) {
 
+            this.target_floor = floor;
+            if (floor * METERS_PER_FLOOR > y) {
+                this.setLinearVelocity(0, vy);
+            } else if (floor * METERS_PER_FLOOR < y) {
+                this.setLinearVelocity(0, -vy);
+            }
+        }
+        return this.body.getLinearVelocity().y == 0;
     }
 
 

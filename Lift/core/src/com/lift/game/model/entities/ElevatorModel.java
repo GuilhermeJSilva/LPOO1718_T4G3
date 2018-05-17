@@ -32,11 +32,24 @@ public class ElevatorModel extends EntityModel {
     private int target_floor;
 
     /**
+     * True if the elevator is not moving.
+     */
+    private Boolean stopped;
+
+    /**
      * Changes the target floor;
      * @param target_floor
      */
     public void setTarget_floor(int target_floor) {
         this.target_floor = target_floor;
+    }
+
+    /**
+     * Changes the stopped variable.
+     * @param stopped New value for the variable stopped.
+     */
+    public void setStopped(Boolean stopped) {
+        this.stopped = stopped;
     }
 
     /**
@@ -54,6 +67,8 @@ public class ElevatorModel extends EntityModel {
 		super(x, STARTING_Y);
 		this.capacity = capacity;
 		this.passengers = new ArrayList<List<PersonModel>>(levels);
+		this.stopped = false;
+		this.target_floor = -1;
 		for (int i = 0; i < passengers.size(); i++) {
 			passengers.set(i, new LinkedList<PersonModel>());
 		}

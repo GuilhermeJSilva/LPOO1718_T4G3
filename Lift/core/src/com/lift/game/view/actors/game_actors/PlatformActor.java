@@ -44,7 +44,7 @@ public class PlatformActor extends EntityActor {
      */
     private TextureRegion create_elevator_region(LiftGame game) {
         Texture elevatorTexture = game.getAssetManager().get("elevator.png");
-        return new TextureRegion(elevatorTexture,(int)(PlatformBody.PLATFORM_LENGTH /2/PIXEL_TO_METER), (int)(PlatformBody.PLATFORM_HEIGHT /2/PIXEL_TO_METER));
+        return new TextureRegion(elevatorTexture,(int)(PlatformBody.PLATFORM_LENGTH/PIXEL_TO_METER), (int)(PlatformBody.PLATFORM_HEIGHT/PIXEL_TO_METER));
     }
 
 }

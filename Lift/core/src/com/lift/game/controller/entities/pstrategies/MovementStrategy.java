@@ -1,11 +1,17 @@
 package com.lift.game.controller.entities.pstrategies;
 
+import com.badlogic.gdx.physics.box2d.Body;
+
+//Declared as class because interfaces do not allow static methods.
 public interface MovementStrategy {
 
-    void wating_for_elevator();
-    void collision_we();
+    int getPriority();
 
-    void leave_the_elevator();
+    void collisionPersonPersonInPlatform(Body bodyA, Body bodyB);
 
-    void leaving_the_platform();
+    void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture);
+
+    void initialMovement(Body body, boolean b);
+
+    float getGravityScale();
 }

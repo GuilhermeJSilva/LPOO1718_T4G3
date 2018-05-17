@@ -16,7 +16,7 @@ import com.lift.game.view.GameView;
 
 public class MenuStage extends Stage {
     private float GLOBAL_OFFSET;
-;   private float SPACING_OFFSET;
+    private float SPACING_OFFSET;
     public MenuStage(LiftGame game, OrthographicCamera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight));
         GLOBAL_OFFSET = -camera.viewportHeight / 6.5f;

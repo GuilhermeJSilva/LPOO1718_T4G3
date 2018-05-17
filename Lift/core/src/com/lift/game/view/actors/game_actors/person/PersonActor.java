@@ -42,7 +42,7 @@ public class PersonActor extends EntityActor {
 
     private TextureRegion create_person_region(LiftGame game) {
         Texture elevatorTexture = game.getAssetManager().get("elevator.png");
-        return new TextureRegion(elevatorTexture,(int)(PersonBody.WIDTH /2/PIXEL_TO_METER), (int)(PersonBody.HEIGHT/2/PIXEL_TO_METER));
+        return new TextureRegion(elevatorTexture,(int)(PersonBody.WIDTH/PIXEL_TO_METER), (int)(PersonBody.HEIGHT/PIXEL_TO_METER));
     }
 
     @Override
