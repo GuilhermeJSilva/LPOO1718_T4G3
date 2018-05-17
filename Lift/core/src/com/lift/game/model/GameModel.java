@@ -75,7 +75,7 @@ public class GameModel {
     private GameModel() {
         super();
         this.lives = 3;
-        this.time_left = 60.0;
+        this.time_left = 30.0;
         n_levels = DEFAULT_N_LEVEL;
         left_elevator = new ElevatorModel(15.2f, 0, this.n_levels);
         right_elevator = new ElevatorModel(30f, 0, this.n_levels);

@@ -40,10 +40,8 @@ public class GameStage extends Stage {
     }
 
     private void addPeopleActors(LiftGame game) {
-        System.out.println("Adding new people");
         for(PersonModel personModel : GameModel.getInstance().getPeople()) {
             if(personModel.isNew_person()) {
-                System.out.println("Person added");
                 this.addActor(new PersonActor(game, personModel));
                 personModel.setNew_person(false);
             }
