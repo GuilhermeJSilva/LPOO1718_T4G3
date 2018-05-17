@@ -78,6 +78,7 @@ public class GameController {
         this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getLeft_elevator());
         this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getRight_elevator());
 
+        this.free_flying = new ArrayList<PersonBody>();
         this.left_floors = new ArrayList<PlatformBody>();
         this.right_floors = new ArrayList<PlatformBody>();
 
@@ -231,4 +232,8 @@ public class GameController {
     }
 
 
+    public void addFreeFlyer(PersonBody element) {
+        System.out.println("Free flyer");
+        free_flying.add(element);
+    }
 }

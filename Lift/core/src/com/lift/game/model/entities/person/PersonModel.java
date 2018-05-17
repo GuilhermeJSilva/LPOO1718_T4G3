@@ -101,4 +101,8 @@ public class PersonModel extends EntityModel {
     public void setPersonState(PersonState personState) {
         this.personState = personState;
     }
+
+    public PersonState getPersonState() {
+        return personState;
+    }
 }

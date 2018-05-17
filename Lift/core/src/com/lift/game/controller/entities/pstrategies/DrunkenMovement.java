@@ -1,6 +1,8 @@
 package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonState;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
@@ -31,6 +33,8 @@ public class DrunkenMovement implements MovementStrategy {
 
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
+        if(personBody.getAngle() != 0)
+            ((PersonModel) personBody.getUserData()).setPersonState(PersonState.FreeFlying);
 
     }
 
