@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.view.actors.EntityActor;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
@@ -21,18 +22,12 @@ public class PersonActor extends EntityActor {
 
     private Sprite patientIndicator;
     
-    public PersonActor(LiftGame game, EntityModel model) {
+    public PersonActor(LiftGame game, PersonModel model) {
         super(game, model);
         this.setBounds(this.sprite.getX(),this.sprite.getY(),personRegion.getRegionWidth(), personRegion.getRegionHeight());
 
-        if( ! this.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                System.out.println("Clicked at: " + x + " " + y);
-            }
-        })) {
-            System.out.println("Failed to install listener");
+        if( ! this.addListener(new PersonClickListener(model))) {
+            System.err.println("Failed to install listener");
         }
     }
 

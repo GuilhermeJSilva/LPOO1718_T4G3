@@ -70,7 +70,7 @@ public class ElevatorBody extends EntityBody {
      */
     public boolean setTarget_floor(Integer floor) {
         float y = (this.getY() - height / 2);
-        if (!Objects.equals(this.target_floor, floor)) {
+        if (this.target_floor != floor) {
 
             this.target_floor = floor;
             if (floor * METERS_PER_FLOOR > y) {
