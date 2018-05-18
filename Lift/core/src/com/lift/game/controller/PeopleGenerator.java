@@ -117,7 +117,8 @@ public class PeopleGenerator {
         if (floors.get(floor).getNumber_of_people() >= PlatformModel.MAX_NUMBER_OF_PEOPLE)
             return null;
 
-        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2, floor, left == 1? 'L':'R', satisfaction_factor, dest);
+        float y = floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2;
+        PersonModel new_p = new PersonModel(x, y, floor, left != 0? 'L':'R', satisfaction_factor, dest);
         GameModel.getInstance().addPerson(new_p);
         floors.get(floor).incrementNPeople();
         return new_p;

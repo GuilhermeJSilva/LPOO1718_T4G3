@@ -21,7 +21,7 @@ public class PersonBody extends EntityBody {
 	public PersonBody(World world, PersonModel model) {
 		super(world, model);
 		
-		float density = 1f, friction = 0f, restitution = 0f;
+		float density = 0.01f, friction = 0f, restitution = 0f;
 		int width = WIDTH;
 
         this.add_fixture(body, new float[] {0, 0, 0, HEIGHT, width, 0, width, HEIGHT}
@@ -35,7 +35,8 @@ public class PersonBody extends EntityBody {
         this.add_fixture(body, new float[] {width, 0, width, HEIGHT, width + sensor_width, 0, width + sensor_width, HEIGHT}
                 , width, HEIGHT, density, friction, restitution, PERSON_SENSOR_MASK , (short)(PLATFORM_END_SENSOR | PERSON_SENSOR_MASK), true);
 
-        this.body.setGravityScale(StrategySelector.getStrategy(model).getGravityScale());
+        float gravityScale = StrategySelector.getStrategy(model).getGravityScale();
+        this.body.setGravityScale(gravityScale);
 	}
 
 }

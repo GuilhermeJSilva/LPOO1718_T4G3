@@ -189,9 +189,6 @@ public class GameModel {
         if (this.time_left < 0)
             this.time_left = 0.0;
 
-        for (PersonModel person : people) {
-            person.update(delta);
-        }
     }
 
     public ArrayList<PersonModel> getPeople() {

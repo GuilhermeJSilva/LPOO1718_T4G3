@@ -45,7 +45,7 @@ public class PersonActor extends EntityActor {
 
     private TextureRegion create_person_region(LiftGame game) {
         Pixmap pix = new Pixmap((int) (PersonBody.WIDTH / PIXEL_TO_METER), (int) (PersonBody.HEIGHT / PIXEL_TO_METER), Pixmap.Format.RGBA8888);
-        pix.setColor(0xaa00aaff); // DE is red, AD is green and BE is blue.
+        pix.setColor(0xa9182aff); // DE is red, AD is green and BE is blue.
         pix.fill();
         Texture textureSolid = new Texture(pix);
         return new TextureRegion(textureSolid, (int) (PersonBody.WIDTH / PIXEL_TO_METER), (int) (PersonBody.HEIGHT / PIXEL_TO_METER));

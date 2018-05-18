@@ -10,11 +10,13 @@ import com.badlogic.gdx.utils.Array;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonState;
 
 /**
  * Controls the game.
@@ -145,6 +147,7 @@ public class GameController {
      */
     public void update(float delta) {
         GameModel.getInstance().update(delta);
+        this.updatePeple(delta);
 
         peopleAdministrator.run();
 
@@ -179,6 +182,15 @@ public class GameController {
                     ((ElevatorModel) body.getUserData()).setTarget_floor(right_elevator.getTarget_floor());
                 }
                 em.setStopped(body.getLinearVelocity().y == 0);
+            }
+        }
+    }
+
+    private void updatePeple(float delta) {
+        for(PersonBody personBody : people) {
+            PersonModel per = (PersonModel) personBody.getBody().getUserData();
+            if(per.update(delta) && per.getPersonState() != PersonState.GiveUP) {
+                StrategySelector.getStrategy(per).giveUp(personBody, per.getSide());
             }
         }
     }

@@ -16,7 +16,6 @@ public class StrategySelector {
             case Drunken:
                 return DrunkenMovement.getInstance();
         }
-
         return NullStrategy.getInstance();
     }
 }

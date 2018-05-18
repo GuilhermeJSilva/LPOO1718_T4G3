@@ -7,7 +7,7 @@ public class PersonModel extends EntityModel {
     /**
      * Starting satisfaction.
      */
-	public static Float STARTING_SATISFACTION = 25f;
+	public static Float STARTING_SATISFACTION = 10f;
 	
 	/**
 	 * Satisfaction decrease factor.
@@ -74,8 +74,9 @@ public class PersonModel extends EntityModel {
 	 * Updates the person's satisfaction based on the time that passed.
 	 * @param delta Time that passed.
 	 */
-	public void update(float delta) {
+	public boolean update(float delta) {
 		this.satisfaction -= delta / satisfaction_factor;
+		return satisfaction < 0;
 	}
 
 	/**

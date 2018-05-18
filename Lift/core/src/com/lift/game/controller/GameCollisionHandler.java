@@ -97,17 +97,24 @@ public class GameCollisionHandler implements ContactListener {
         checkIfEndPersonPersonCollision(bodyA, bodyB);
     }
 
-    private void checkIfEndPersonPersonCollision(Body bodyA, Body bodyB) {
-        if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-            //TODO Implement
+    private void checkIfEndPersonPersonCollision(Body person1, Body person2) {
+        if (person1.getUserData() instanceof PersonModel && person2.getUserData() instanceof PersonModel) {
+            MovementStrategy movementStrategy1 = StrategySelector.getStrategy((PersonModel) person1.getUserData());
+            MovementStrategy movementStrategy2 = StrategySelector.getStrategy((PersonModel) person2.getUserData());
+            MovementStrategy movementStrategy;
+            if (movementStrategy1.getPriority() > movementStrategy2.getPriority())
+                movementStrategy = movementStrategy1;
+            else
+                movementStrategy = movementStrategy2;
+            movementStrategy.collisionEndPersonPersonInPlatform(person1, person2,((PersonModel) person1.getUserData()).getSide());
         }
     }
 
     private void checkIfEndPlatformPersonCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
-            //((PersonModel) bodyB.getUserData()).setPersonState(PersonState.FreeFlying);
+            ((PersonModel) bodyB.getUserData()).setPersonState(PersonState.FreeFlying);
         } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
-            //((PersonModel) bodyA.getUserData()).setPersonState(PersonState.FreeFlying);
+            ((PersonModel) bodyA.getUserData()).setPersonState(PersonState.FreeFlying);
         }
     }
 
@@ -121,6 +128,10 @@ public class GameCollisionHandler implements ContactListener {
 
 
     public void preSolve(Contact contact, Manifold oldManifold) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+
+
     }
 
 
