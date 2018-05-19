@@ -30,7 +30,7 @@ public class PersonActor extends EntityActor {
     public PersonActor(LiftGame game, PersonModel model) {
         super(game, model);
         this.setBounds(this.sprite.getX(), this.sprite.getY(), personRegion.getRegionWidth(), personRegion.getRegionHeight());
-        this.patientIndicator = new DiamondPoly(sprite.getX() +  sprite.getWidth() / 2, sprite.getY() + 3 *sprite.getHeight() / 2, (int) (2.5/ PIXEL_TO_METER), (int) (3/ PIXEL_TO_METER), 0x00ff00ff, game.getPolygonBatch());
+        this.patientIndicator = new DiamondPoly(sprite.getX() +  sprite.getWidth() / 2, sprite.getY() + 3 *sprite.getHeight() / 2, (int) (2.5/ PIXEL_TO_METER), (int) (3/ PIXEL_TO_METER), 0x1254adff, game.getPolygonBatch());
         if (!this.addListener(new PersonClickListener(model))) {
             System.err.println("Failed to install listener");
         }

@@ -48,9 +48,10 @@ public class PersonModel extends EntityModel {
      * New person.
      */
     private boolean new_person = true;
+    private boolean tryingToEnter;
 
 
-	public PersonModel(float x, float y, int floor, Side side, Float satisfaction_factor, int destination) {
+    public PersonModel(float x, float y, int floor, Side side, Float satisfaction_factor, int destination) {
 		super(x, y);
 		this.satisfaction = STARTING_SATISFACTION;
 		this.satisfaction_factor = satisfaction_factor;
@@ -59,6 +60,7 @@ public class PersonModel extends EntityModel {
 		this.personState = PersonState.Waiting;
 		this.floor =  floor;
 		this.side = side;
+		this.tryingToEnter = false;
 	}
 
 
@@ -117,5 +119,13 @@ public class PersonModel extends EntityModel {
 
     public Side getSide() {
         return side;
+    }
+
+    public boolean isTryingToEnter() {
+        return tryingToEnter;
+    }
+
+    public void setTryingToEnter(boolean tryingToEnter) {
+        this.tryingToEnter = tryingToEnter;
     }
 }

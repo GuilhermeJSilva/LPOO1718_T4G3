@@ -267,4 +267,8 @@ public class GameController {
     public PeopleAdministrator getPeopleAdministrator() {
         return peopleAdministrator;
     }
+
+    public ArrayList<PersonBody> getPeople() {
+        return people;
+    }
 }

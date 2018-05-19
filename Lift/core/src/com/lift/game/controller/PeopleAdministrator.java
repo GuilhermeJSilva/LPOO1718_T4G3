@@ -1,5 +1,7 @@
 package com.lift.game.controller;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
@@ -32,25 +34,37 @@ public class PeopleAdministrator {
 
     //TODO Implement
     protected void movePeople() {
-        for (PersonModel personModel:
-             GameModel.getInstance().getPeople()) {
-            if(personModel.getPersonState() == PersonState.TryToEnter) {
+        for (PersonBody personBody : gameController.getPeople()) {
+            Body body = personBody.getBody();
+            PersonModel personModel = ((PersonModel) body.getUserData());
+
+            if (personModel.isTryingToEnter() && personModel.getPersonState() != PersonState.InElevator) {
                 ElevatorModel elevator = GameModel.getInstance().getElevator(personModel.getSide());
-                if(elevator.getTarget_floor() == personModel.getFloor() && elevator.getStopped()) {
+                if ((elevator.getTarget_floor() == personModel.getFloor() && elevator.getStopped()) || personModel.getPersonState() == PersonState.FreeFlying) {
                     personModel.setPersonState(PersonState.InElevator);
+                    freeSpaceInPlatform(personModel);
+                    body.setTransform(20,90,0);
+                    body.setLinearVelocity(0,0);
+                    body.setGravityScale(0);
+
                 }
+                personModel.setTryingToEnter(false);
             }
         }
     }
 
     public void moveToFreeFly(PersonModel personModel) {
-        if(personModel.getPersonState() == PersonState.Waiting || personModel.getPersonState() == PersonState.GiveUP) {
+        if (personModel.getPersonState() == PersonState.Waiting || personModel.getPersonState() == PersonState.GiveUP) {
             personModel.setPersonState(PersonState.FreeFlying);
-            if (personModel.getSide() == Side.Left) {
-                GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
-            } else {
-                GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
-            }
+            freeSpaceInPlatform(personModel);
+        }
+    }
+
+    private void freeSpaceInPlatform(PersonModel personModel) {
+        if (personModel.getSide() == Side.Left) {
+            GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
+        } else {
+            GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
         }
     }
 

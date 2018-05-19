@@ -19,6 +19,6 @@ public class PersonClickListener extends ClickListener {
     @Override
     public void clicked(InputEvent event, float x, float y) {
         super.clicked(event, x, y);
-        personModel.setPersonState(PersonState.TryToEnter);
+        personModel.setTryingToEnter(true);
     }
 }
