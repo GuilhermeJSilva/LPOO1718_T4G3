@@ -5,6 +5,9 @@ import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
+
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 
 public class DrunkenMovement extends NullStrategy implements MovementStrategy {
 
@@ -27,13 +30,15 @@ public class DrunkenMovement extends NullStrategy implements MovementStrategy {
 
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
-        if(personBody.getAngle() != 0) {
+        if(platformFixture == PLATFORM_ELEVATOR_SENSOR) {
             PersonModel personModel = (PersonModel) personBody.getUserData();
-            personModel.setPersonState(PersonState.FreeFlying);
-            if(personModel.getSide() == 'L'){
-                GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
-            } else {
-                GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
+            if(personModel.getPersonState() == PersonState.Waiting) {
+                personModel.setPersonState(PersonState.FreeFlying);
+                if (personModel.getSide() == Side.Left) {
+                    GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
+                } else {
+                    GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
+                }
             }
 
         }
@@ -41,12 +46,12 @@ public class DrunkenMovement extends NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public void initialMovement(Body body, boolean b) {
-        if (b) {
+    public void initialMovement(Body body, Side side) {
+        if (side == Side.Left) {
             body.setLinearVelocity(INITIAL_V, 0);
         } else {
             body.setLinearVelocity(-INITIAL_V, 0);
         }
     }
-    
+
 }

@@ -2,6 +2,7 @@ package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.model.entities.person.Side;
 
 public class NullStrategy implements MovementStrategy {
 
@@ -14,7 +15,7 @@ public class NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public void initialMovement(Body body, boolean b) {
+    public void initialMovement(Body body, Side side) {
 
     }
 
@@ -29,12 +30,12 @@ public class NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public void giveUp(PersonBody personBody, char side) {
+    public void giveUp(PersonBody personBody, Side side) {
 
     }
 
     @Override
-    public void collisionEndPersonPersonInPlatform(Body person1, Body person2, char side) {
+    public void collisionEndPersonPersonInPlatform(Body person1, Body person2, Side side) {
 
     }
 }

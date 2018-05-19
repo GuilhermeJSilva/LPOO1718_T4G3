@@ -42,7 +42,7 @@ public class PersonModel extends EntityModel {
     /**
      * Side of the screen the person is on.
      */
-    private char side;
+    private Side side;
 
     /**
      * New person.
@@ -50,7 +50,7 @@ public class PersonModel extends EntityModel {
     private boolean new_person = true;
 
 
-	public PersonModel(float x, float y, int floor, char side, Float satisfaction_factor, int destination) {
+	public PersonModel(float x, float y, int floor, Side side, Float satisfaction_factor, int destination) {
 		super(x, y);
 		this.satisfaction = STARTING_SATISFACTION;
 		this.satisfaction_factor = satisfaction_factor;
@@ -115,7 +115,7 @@ public class PersonModel extends EntityModel {
         return floor;
     }
 
-    public char getSide() {
+    public Side getSide() {
         return side;
     }
 }

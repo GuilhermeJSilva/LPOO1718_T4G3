@@ -10,6 +10,7 @@ import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.Side;
 
 /**
  * Represents the current state of the game.
@@ -144,8 +145,8 @@ public class GameModel {
     /**
      * Return the elevator according to character.
      */
-    public ElevatorModel getElevator(char side) {
-        if (side == 'L')
+    public ElevatorModel getElevator(Side side) {
+        if (side == Side.Left)
             return left_elevator;
         else
             return right_elevator;

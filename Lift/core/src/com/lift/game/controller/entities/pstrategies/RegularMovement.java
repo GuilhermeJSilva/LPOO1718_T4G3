@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
@@ -45,8 +46,8 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public void initialMovement(Body body, boolean b) {
-        if (b) {
+    public void initialMovement(Body body, Side side) {
+        if (side == Side.Left) {
             body.setLinearVelocity(INITIAL_V, 0);
         } else {
             body.setLinearVelocity(-INITIAL_V, 0);
@@ -54,8 +55,8 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public void giveUp(PersonBody personBody, char side) {
-        if (side == 'L') {
+    public void giveUp(PersonBody personBody, Side side) {
+        if (side == Side.Left) {
             personBody.setLinearVelocity(GIVING_UP_V, 0);
         } else {
             personBody.setLinearVelocity(-GIVING_UP_V, 0);
@@ -65,8 +66,8 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public void collisionEndPersonPersonInPlatform(Body person1, Body person2, char side) {
-        float x_velocity = side == 'L' ? GIVING_UP_V : -GIVING_UP_V;
+    public void collisionEndPersonPersonInPlatform(Body person1, Body person2, Side side) {
+        float x_velocity = side == Side.Left ? GIVING_UP_V : -GIVING_UP_V;
 
         //if(person1.getLinearVelocity().x == 0)
             person1.setLinearVelocity(x_velocity,person1.getLinearVelocity().y);

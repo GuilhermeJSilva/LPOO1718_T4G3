@@ -7,6 +7,7 @@ import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.Side;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -72,13 +73,13 @@ public class PeopleGenerator {
             dest = generator.nextInt(GameModel.getInstance().getN_levels());
         } while (dest == floor);
 
-        int left = new Random().nextInt(2);
-        PersonModel p_model = this.add_waiting_person(floor, 1, dest, left);
+        Side side = Side.values()[new Random().nextInt(2)];
+        PersonModel p_model = this.add_waiting_person(floor, 1, dest, side);
 
         if (p_model != null) {
             PersonBody personBody = new PersonBody(gameController.getWorld(), p_model);
             gameController.addPerson(personBody);
-            GameController.getInstance().getStrategySelector().getStrategy(p_model).initialMovement(personBody.getBody(), left == 1);
+            GameController.getInstance().getStrategySelector().getStrategy(p_model).initialMovement(personBody.getBody(), side);
         }
 
     }
@@ -103,10 +104,10 @@ public class PeopleGenerator {
      * @param satisfaction_factor Rate that the satisfaction decreases.
      * @return The person model that was added.
      */
-    public PersonModel add_waiting_person(int floor, float satisfaction_factor, int dest, int left) {
+    public PersonModel add_waiting_person(int floor, float satisfaction_factor, int dest, Side side) {
         ArrayList<PlatformModel> floors;
         float x;
-        if (left != 0) {
+        if (side == Side.Left) {
             floors = GameModel.getInstance().getLeft_floors();
             x = 0;
         } else {
@@ -118,7 +119,7 @@ public class PeopleGenerator {
             return null;
 
         float y = floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2;
-        PersonModel new_p = new PersonModel(x, y, floor, left != 0? 'L':'R', satisfaction_factor, dest);
+        PersonModel new_p = new PersonModel(x, y, floor, side, satisfaction_factor, dest);
         GameModel.getInstance().addPerson(new_p);
         floors.get(floor).incrementNPeople();
         return new_p;
