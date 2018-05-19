@@ -108,7 +108,6 @@ public class GameController {
         for (PersonModel pm : GameModel.getInstance().getPeople()){
             this.people.add(new PersonBody(world, pm));
         }
-        peopleGenerator.generatePeople(2);
         world.setContactListener(new GameCollisionHandler());
     }
 

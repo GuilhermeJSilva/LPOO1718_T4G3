@@ -6,7 +6,7 @@ import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
 
-public class DrunkenMovement implements MovementStrategy {
+public class DrunkenMovement extends NullStrategy implements MovementStrategy {
 
     private static final int INITIAL_V = 2;
 
@@ -48,19 +48,5 @@ public class DrunkenMovement implements MovementStrategy {
             body.setLinearVelocity(-INITIAL_V, 0);
         }
     }
-
-    @Override
-    public float getGravityScale() {
-        return 10;
-    }
-
-    @Override
-    public void giveUp(PersonBody personBody, char side) {
-
-    }
-
-    @Override
-    public void collisionEndPersonPersonInPlatform(Body person1, Body person2, char side) {
-
-    }
+    
 }

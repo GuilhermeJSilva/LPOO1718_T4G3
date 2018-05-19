@@ -7,7 +7,7 @@ import com.lift.game.model.entities.person.PersonState;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
-public class RegularMovement implements MovementStrategy {
+public class RegularMovement extends NullStrategy implements MovementStrategy {
     private static final int INITIAL_V = 10;
     public static final int GIVING_UP_V = 2;
 
@@ -51,11 +51,6 @@ public class RegularMovement implements MovementStrategy {
         } else {
             body.setLinearVelocity(-INITIAL_V, 0);
         }
-    }
-
-    @Override
-    public float getGravityScale() {
-        return 10;
     }
 
     @Override

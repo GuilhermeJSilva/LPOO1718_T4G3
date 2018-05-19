@@ -14,8 +14,6 @@ public interface MovementStrategy {
 
     void initialMovement(Body body, boolean b);
 
-    float getGravityScale();
-
     void giveUp(PersonBody personBody, char side);
 
     void collisionEndPersonPersonInPlatform(Body person1, Body person2, char side);

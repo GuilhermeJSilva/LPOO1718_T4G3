@@ -29,11 +29,6 @@ public class NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public float getGravityScale() {
-        return 1;
-    }
-
-    @Override
     public void giveUp(PersonBody personBody, char side) {
 
     }

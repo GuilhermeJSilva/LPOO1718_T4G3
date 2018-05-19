@@ -22,7 +22,7 @@ public class PeopleGenerator {
     /**
      * People generated per second.
      */
-    private Float seconds_b_person = 2f;
+    private Float seconds_b_person = 1f;
 
     public PeopleGenerator(GameController gameController) {
         this.gameController = gameController;
@@ -74,9 +74,9 @@ public class PeopleGenerator {
 
         int left = new Random().nextInt(2);
         PersonModel p_model = this.add_waiting_person(floor, 1, dest, left);
+
         if (p_model != null) {
             PersonBody personBody = new PersonBody(gameController.getWorld(), p_model);
-
             gameController.addPerson(personBody);
             GameController.getInstance().getStrategySelector().getStrategy(p_model).initialMovement(personBody.getBody(), left == 1);
         }
