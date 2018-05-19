@@ -75,6 +75,11 @@ public class GameController {
     public static GameController instance;
 
     /**
+     * Responsible to select what strategy to use.
+     */
+    private StrategySelector strategySelector;
+
+    /**
      * Constructs the model.
      */
     private GameController() {
@@ -82,6 +87,7 @@ public class GameController {
         this.world = new World(new Vector2(0, -5), false);
         this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getLeft_elevator());
         this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getRight_elevator());
+        this.strategySelector = new StrategySelector();
 
         this.people = new ArrayList<PersonBody>();
         this.left_floors = new ArrayList<PlatformBody>();
@@ -190,7 +196,7 @@ public class GameController {
         for(PersonBody personBody : people) {
             PersonModel per = (PersonModel) personBody.getBody().getUserData();
             if(per.update(delta) && per.getPersonState() != PersonState.GiveUP) {
-                StrategySelector.getStrategy(per).giveUp(personBody, per.getSide());
+                strategySelector.getStrategy(per).giveUp(personBody, per.getSide());
             }
         }
     }
@@ -253,5 +259,9 @@ public class GameController {
     public void addPerson(PersonBody personBody) {
         if(personBody != null)
             people.add(personBody);
+    }
+
+    public StrategySelector getStrategySelector() {
+        return strategySelector;
     }
 }

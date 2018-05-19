@@ -4,13 +4,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.entities.PersonBody;
 
 public class NullStrategy implements MovementStrategy {
-    private static NullStrategy ourInstance = new NullStrategy();
 
-    public static NullStrategy getInstance() {
-        return ourInstance;
-    }
-
-    private NullStrategy() {
+    public NullStrategy() {
     }
 
     @Override

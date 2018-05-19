@@ -78,7 +78,7 @@ public class PeopleGenerator {
             PersonBody personBody = new PersonBody(gameController.getWorld(), p_model);
 
             gameController.addPerson(personBody);
-            StrategySelector.getStrategy(p_model).initialMovement(personBody.getBody(), left == 1);
+            GameController.getInstance().getStrategySelector().getStrategy(p_model).initialMovement(personBody.getBody(), left == 1);
         }
 
     }

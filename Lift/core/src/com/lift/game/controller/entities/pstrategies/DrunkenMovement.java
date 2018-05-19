@@ -12,13 +12,7 @@ public class DrunkenMovement implements MovementStrategy {
 
     private final Integer priority = 1;
 
-    private static DrunkenMovement ourInstance = new DrunkenMovement();
-
-    public static DrunkenMovement getInstance() {
-        return ourInstance;
-    }
-
-    private DrunkenMovement() {
+    public DrunkenMovement() {
     }
 
     @Override

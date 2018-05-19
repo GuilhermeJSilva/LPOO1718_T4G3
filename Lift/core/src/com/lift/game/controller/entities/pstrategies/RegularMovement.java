@@ -13,13 +13,8 @@ public class RegularMovement implements MovementStrategy {
 
     private final Integer priority = 0;
 
-    private static RegularMovement ourInstance = new RegularMovement();
 
-    public static RegularMovement getInstance() {
-        return ourInstance;
-    }
-
-    private RegularMovement() {
+    public RegularMovement() {
     }
 
     @Override
