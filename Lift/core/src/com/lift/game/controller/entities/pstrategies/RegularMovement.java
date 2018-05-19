@@ -25,10 +25,15 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
 
     @Override
     public void collisionPersonPersonInPlatform(Body bodyA, Body bodyB) {
+        PersonModel personModel1 = (PersonModel) bodyA.getUserData();
+        PersonModel personModel2 = (PersonModel) bodyB.getUserData();
 
-        bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
-        bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
-
+        if (personModel1.getPersonState() != PersonState.FreeFlying && personModel2.getPersonState() != PersonState.FreeFlying) {
+            bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
+            bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
+            personModel1.setPersonState(PersonState.StoppedWaiting);
+            personModel2.setPersonState(PersonState.StoppedWaiting);
+        }
     }
 
     @Override
@@ -57,13 +62,16 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
 
     @Override
     public void giveUp(PersonBody personBody, Side side) {
-        if (side == Side.Left) {
-            personBody.setLinearVelocity(GIVING_UP_V, 0);
-        } else {
-            personBody.setLinearVelocity(-GIVING_UP_V, 0);
-        }
+        PersonModel personModel = (PersonModel) personBody.getBody().getUserData();
+        if(personModel.getPersonState() !=  PersonState.GiveUP && personModel.getPersonState() !=  PersonState.FreeFlying) {
+            if (side == Side.Left) {
+                personBody.setLinearVelocity(GIVING_UP_V, 0);
+            } else {
+                personBody.setLinearVelocity(-GIVING_UP_V, 0);
+            }
 
-        ((PersonModel) personBody.getBody().getUserData()).setPersonState(PersonState.GiveUP);
+            personModel.setPersonState(PersonState.GiveUP);
+        }
     }
 
     @Override

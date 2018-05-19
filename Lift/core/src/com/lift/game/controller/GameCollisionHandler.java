@@ -92,7 +92,6 @@ public class GameCollisionHandler implements ContactListener {
         Body bodyB = contact.getFixtureB().getBody();
 
         checkIfEndPlatformElevatorCollision(bodyA, bodyB);
-        checkIfEndPlatformPersonCollision(bodyA, bodyB);
         checkIfEndPersonPersonCollision(bodyA, bodyB);
     }
 
@@ -105,17 +104,10 @@ public class GameCollisionHandler implements ContactListener {
                 movementStrategy = movementStrategy1;
             else
                 movementStrategy = movementStrategy2;
-            movementStrategy.collisionEndPersonPersonInPlatform(person1, person2,((PersonModel) person1.getUserData()).getSide());
+            movementStrategy.collisionEndPersonPersonInPlatform(person1, person2, ((PersonModel) person1.getUserData()).getSide());
         }
     }
 
-    private void checkIfEndPlatformPersonCollision(Body bodyA, Body bodyB) {
-        if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
-            ((PersonModel) bodyB.getUserData()).setPersonState(PersonState.FreeFlying);
-        } else if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PlatformModel) {
-            ((PersonModel) bodyA.getUserData()).setPersonState(PersonState.FreeFlying);
-        }
-    }
 
     private void checkIfEndPlatformElevatorCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
@@ -127,9 +119,6 @@ public class GameCollisionHandler implements ContactListener {
 
 
     public void preSolve(Contact contact, Manifold oldManifold) {
-        Body bodyA = contact.getFixtureA().getBody();
-        Body bodyB = contact.getFixtureB().getBody();
-
 
     }
 
