@@ -5,6 +5,7 @@ import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.entities.person.PersonModel;
 
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
 
@@ -26,12 +27,12 @@ public class PersonBody extends EntityBody {
 		int width = WIDTH;
 
         this.add_fixture(body, new float[] {0, 0, 0, HEIGHT, width, 0, width, HEIGHT}
-		, width, HEIGHT, density, friction, restitution, PERSON_MASK , PLATFORM_MASK, false);
+		, width, HEIGHT, density, friction, restitution, PERSON_MASK , (short)(PLATFORM_MASK | PLATFORM_ELEVATOR_SENSOR), false);
 
         float sensor_width = 0.25f;
 
         this.add_fixture(body, new float[] {0, 0, 0, HEIGHT, -sensor_width, 0, -sensor_width, HEIGHT}
-                , width, HEIGHT, density, friction, restitution, PERSON_SENSOR_MASK , (short)(PLATFORM_END_SENSOR | PERSON_SENSOR_MASK), true);
+                , width, HEIGHT, density, friction, restitution, PERSON_SENSOR_MASK , (short)(PLATFORM_END_SENSOR | PERSON_SENSOR_MASK ), true);
 
         this.add_fixture(body, new float[] {width, 0, width, HEIGHT, width + sensor_width, 0, width + sensor_width, HEIGHT}
                 , width, HEIGHT, density, friction, restitution, PERSON_SENSOR_MASK , (short)(PLATFORM_END_SENSOR | PERSON_SENSOR_MASK), true);

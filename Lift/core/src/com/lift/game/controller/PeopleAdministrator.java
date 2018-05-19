@@ -7,6 +7,7 @@ import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,17 @@ public class PeopleAdministrator {
                 if(elevator.getTarget_floor() == personModel.getFloor() && elevator.getStopped()) {
                     personModel.setPersonState(PersonState.InElevator);
                 }
+            }
+        }
+    }
+
+    public void moveToFreeFly(PersonModel personModel) {
+        if(personModel.getPersonState() == PersonState.Waiting || personModel.getPersonState() == PersonState.GiveUP) {
+            personModel.setPersonState(PersonState.FreeFlying);
+            if (personModel.getSide() == Side.Left) {
+                GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
+            } else {
+                GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
             }
         }
     }

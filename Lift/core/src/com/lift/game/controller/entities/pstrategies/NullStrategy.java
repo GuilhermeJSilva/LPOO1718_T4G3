@@ -1,10 +1,14 @@
 package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
 
-public class NullStrategy implements MovementStrategy {
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
+
+public  class NullStrategy implements MovementStrategy {
 
     public NullStrategy() {
     }
@@ -26,6 +30,11 @@ public class NullStrategy implements MovementStrategy {
 
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
+        PersonModel personModel = (PersonModel) personBody.getUserData();
+        if(platformFixture == PLATFORM_ELEVATOR_SENSOR) {
+            GameController.getInstance().getPeopleAdministrator().moveToFreeFly(personModel);
+
+        }
 
     }
 

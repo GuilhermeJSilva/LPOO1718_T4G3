@@ -19,20 +19,21 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public  int getPriority() {
+    public int getPriority() {
         return priority;
     }
 
     @Override
     public void collisionPersonPersonInPlatform(Body bodyA, Body bodyB) {
-        bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
-        bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
 
+        bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
+        bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
 
     }
 
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
+        super.solvePersonPlatformCollision(personBody, platformBody, platformFixture);
         PersonModel personModel = (PersonModel) personBody.getUserData();
 
         if (platformFixture == PLATFORM_END_SENSOR && personModel.getPersonState() == PersonState.Waiting) {
@@ -40,7 +41,7 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
             personModel.setPersonState(PersonState.StoppedWaiting);
         }
 
-        if(personModel.getPersonState() == PersonState.StoppedWaiting)
+        if (personModel.getPersonState() == PersonState.StoppedWaiting)
             personBody.setLinearVelocity(0, 0f);
 
     }
@@ -68,10 +69,17 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
     @Override
     public void collisionEndPersonPersonInPlatform(Body person1, Body person2, Side side) {
         float x_velocity = side == Side.Left ? GIVING_UP_V : -GIVING_UP_V;
+        PersonModel personModel1 = (PersonModel) person1.getUserData();
+        PersonModel personModel2 = (PersonModel) person2.getUserData();
 
-        //if(person1.getLinearVelocity().x == 0)
-            person1.setLinearVelocity(x_velocity,person1.getLinearVelocity().y);
-        //if(person2.getLinearVelocity().x == 0)
-            person2.setLinearVelocity(x_velocity,person2.getLinearVelocity().y);
+        if (personModel1.getPersonState() == PersonState.StoppedWaiting) {
+            personModel1.setPersonState(PersonState.Waiting);
+            person1.setLinearVelocity(x_velocity, person1.getLinearVelocity().y);
+        }
+
+        if (personModel2.getPersonState() == PersonState.StoppedWaiting) {
+            personModel2.setPersonState(PersonState.Waiting);
+            person2.setLinearVelocity(x_velocity, person2.getLinearVelocity().y);
+        }
     }
 }

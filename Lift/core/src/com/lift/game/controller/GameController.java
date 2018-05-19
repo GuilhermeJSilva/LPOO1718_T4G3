@@ -263,4 +263,8 @@ public class GameController {
     public StrategySelector getStrategySelector() {
         return strategySelector;
     }
+
+    public PeopleAdministrator getPeopleAdministrator() {
+        return peopleAdministrator;
+    }
 }

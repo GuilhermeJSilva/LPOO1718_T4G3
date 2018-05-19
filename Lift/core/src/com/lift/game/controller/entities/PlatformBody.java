@@ -53,7 +53,7 @@ public class PlatformBody extends EntityBody {
         int person_sensor_width = 1;
         if (right) {
             this.add_fixture(body, new float[]{width, 0, width, height, width + elevator_sensor_width, 0, width + elevator_sensor_width, height}
-                    , width, height, density, friction, restitution, PLATFORM_ELEVATOR_SENSOR, ELEVATOR_MASK, true
+                    , width, height, density, friction, restitution, PLATFORM_ELEVATOR_SENSOR, (short)(ELEVATOR_MASK | PERSON_MASK), true
             );
 
             this.add_fixture(body, new float[]{width - person_sensor_width, 0, width - person_sensor_width, -PersonBody.HEIGHT, width, 0, width, -PersonBody.HEIGHT}
@@ -62,7 +62,7 @@ public class PlatformBody extends EntityBody {
 
         } else {
             this.add_fixture(body, new float[]{-elevator_sensor_width, 0, -elevator_sensor_width, height, 0, 0, 0, height}
-                    , width, height, density, friction, restitution, PLATFORM_ELEVATOR_SENSOR, ELEVATOR_MASK, true
+                    , width, height, density, friction, restitution, PLATFORM_ELEVATOR_SENSOR, (short)(ELEVATOR_MASK | PERSON_MASK), true
             );
 
             this.add_fixture(body, new float[]{0, 0, 0, -PersonBody.HEIGHT, person_sensor_width, 0, person_sensor_width, -PersonBody.HEIGHT}

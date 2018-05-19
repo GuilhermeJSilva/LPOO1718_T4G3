@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
@@ -23,27 +24,6 @@ public class DrunkenMovement extends NullStrategy implements MovementStrategy {
         return priority;
     }
 
-    @Override
-    public void collisionPersonPersonInPlatform(Body bodyA, Body bodyB) {
-
-    }
-
-    @Override
-    public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
-        if(platformFixture == PLATFORM_ELEVATOR_SENSOR) {
-            PersonModel personModel = (PersonModel) personBody.getUserData();
-            if(personModel.getPersonState() == PersonState.Waiting) {
-                personModel.setPersonState(PersonState.FreeFlying);
-                if (personModel.getSide() == Side.Left) {
-                    GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
-                } else {
-                    GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
-                }
-            }
-
-        }
-
-    }
 
     @Override
     public void initialMovement(Body body, Side side) {
