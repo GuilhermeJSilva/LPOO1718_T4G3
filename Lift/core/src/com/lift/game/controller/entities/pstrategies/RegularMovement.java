@@ -28,12 +28,14 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
         PersonModel personModel1 = (PersonModel) bodyA.getUserData();
         PersonModel personModel2 = (PersonModel) bodyB.getUserData();
 
-        if (personModel1.getPersonState() != PersonState.InElevator && personModel2.getPersonState() != PersonState.InElevator) {
-            if (personModel1.getPersonState() != PersonState.FreeFlying && personModel2.getPersonState() != PersonState.FreeFlying) {
-                bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
-                bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
-                personModel1.setPersonState(PersonState.StoppedWaiting);
-                personModel2.setPersonState(PersonState.StoppedWaiting);
+        if (personModel1.getPersonState() != PersonState.Reached && personModel2.getPersonState() != PersonState.Reached) {
+            if (personModel1.getPersonState() != PersonState.InElevator && personModel2.getPersonState() != PersonState.InElevator) {
+                if (personModel1.getPersonState() != PersonState.FreeFlying && personModel2.getPersonState() != PersonState.FreeFlying) {
+                    bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
+                    bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
+                    personModel1.setPersonState(PersonState.StoppedWaiting);
+                    personModel2.setPersonState(PersonState.StoppedWaiting);
+                }
             }
         }
     }
@@ -43,13 +45,15 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
         super.solvePersonPlatformCollision(personBody, platformBody, platformFixture);
         PersonModel personModel = (PersonModel) personBody.getUserData();
 
-        if (platformFixture == PLATFORM_END_SENSOR && personModel.getPersonState() == PersonState.Waiting) {
-            personBody.setLinearVelocity(0, 0f);
-            personModel.setPersonState(PersonState.StoppedWaiting);
-        }
+        if (personModel.getPersonState() != PersonState.Reached) {
+            if (platformFixture == PLATFORM_END_SENSOR && personModel.getPersonState() == PersonState.Waiting) {
+                personBody.setLinearVelocity(0, 0f);
+                personModel.setPersonState(PersonState.StoppedWaiting);
+            }
 
-        if (personModel.getPersonState() == PersonState.StoppedWaiting)
-            personBody.setLinearVelocity(0, 0f);
+            if (personModel.getPersonState() == PersonState.StoppedWaiting)
+                personBody.setLinearVelocity(0, 0f);
+        }
 
     }
 
@@ -66,14 +70,16 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
     public void giveUp(PersonBody personBody, Side side) {
         super.giveUp(personBody,side);
         PersonModel personModel = (PersonModel) personBody.getBody().getUserData();
-        if(personModel.getPersonState() !=  PersonState.GiveUP && personModel.getPersonState() !=  PersonState.FreeFlying && personModel.getPersonState() !=  PersonState.InElevator) {
-            if (side == Side.Left) {
-                personBody.setLinearVelocity(GIVING_UP_V, 0);
-            } else {
-                personBody.setLinearVelocity(-GIVING_UP_V, 0);
-            }
+        if (personModel.getPersonState() != PersonState.Reached) {
+            if(personModel.getPersonState() !=  PersonState.GiveUP && personModel.getPersonState() !=  PersonState.FreeFlying && personModel.getPersonState() !=  PersonState.InElevator) {
+                if (side == Side.Left) {
+                    personBody.setLinearVelocity(GIVING_UP_V, 0);
+                } else {
+                    personBody.setLinearVelocity(-GIVING_UP_V, 0);
+                }
 
-            personModel.setPersonState(PersonState.GiveUP);
+                personModel.setPersonState(PersonState.GiveUP);
+            }
         }
     }
 
@@ -83,14 +89,16 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
         PersonModel personModel1 = (PersonModel) person1.getUserData();
         PersonModel personModel2 = (PersonModel) person2.getUserData();
 
-        if (personModel1.getPersonState() == PersonState.StoppedWaiting) {
-            personModel1.setPersonState(PersonState.Waiting);
-            person1.setLinearVelocity(x_velocity, person1.getLinearVelocity().y);
-        }
+        if (personModel1.getPersonState() != PersonState.Reached && personModel2.getPersonState() != PersonState.Reached) {
+            if (personModel1.getPersonState() == PersonState.StoppedWaiting) {
+                personModel1.setPersonState(PersonState.Waiting);
+                person1.setLinearVelocity(x_velocity, person1.getLinearVelocity().y);
+            }
 
-        if (personModel2.getPersonState() == PersonState.StoppedWaiting) {
-            personModel2.setPersonState(PersonState.Waiting);
-            person2.setLinearVelocity(x_velocity, person2.getLinearVelocity().y);
+            if (personModel2.getPersonState() == PersonState.StoppedWaiting) {
+                personModel2.setPersonState(PersonState.Waiting);
+                person2.setLinearVelocity(x_velocity, person2.getLinearVelocity().y);
+            }
         }
     }
 }

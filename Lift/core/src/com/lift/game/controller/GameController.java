@@ -14,7 +14,6 @@ import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.entities.person.PersonState;
 import com.lift.game.model.entities.person.Side;
 
 /**
@@ -84,8 +83,8 @@ public class GameController {
     private GameController() {
         super();
         this.world = new World(new Vector2(0, -5), false);
-        this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getLeft_elevator());
-        this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getRight_elevator());
+        this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator(Side.Left));
+        this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator(Side.Right));
         this.strategySelector = new StrategySelector();
 
         this.people = new ArrayList<PersonBody>();
@@ -172,7 +171,7 @@ public class GameController {
             ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y, body.getAngle());
             if (body.getUserData() instanceof ElevatorModel) {
                 ElevatorModel em = ((ElevatorModel) body.getUserData());
-                if (em == GameModel.getInstance().getLeft_elevator()) {
+                if (em == GameModel.getInstance().getElevator(Side.Left)) {
                     ((ElevatorModel) body.getUserData()).setTarget_floor(left_elevator.getTarget_floor());
                 } else {
                     ((ElevatorModel) body.getUserData()).setTarget_floor(right_elevator.getTarget_floor());
@@ -210,5 +209,9 @@ public class GameController {
 
     public ArrayList<PersonBody> getPeople() {
         return people;
+    }
+
+    public void reached(int target_floor, Side side) {
+        peopleAdministrator.deliverPeople(target_floor, side);
     }
 }

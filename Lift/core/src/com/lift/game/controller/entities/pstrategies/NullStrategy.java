@@ -34,10 +34,12 @@ public class NullStrategy implements MovementStrategy {
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
         PersonModel personModel = (PersonModel) personBody.getUserData();
-        if (personModel.getPersonState() != PersonState.InElevator) {
-            if (platformFixture == PLATFORM_ELEVATOR_SENSOR && personModel.getPersonState() != PersonState.FreeFlying) {
-                GameController.getInstance().getPeopleAdministrator().moveToFreeFly(personModel);
+        if (personModel.getPersonState() != PersonState.Reached) {
+            if (personModel.getPersonState() != PersonState.InElevator) {
+                if (platformFixture == PLATFORM_ELEVATOR_SENSOR && personModel.getPersonState() != PersonState.FreeFlying) {
+                    GameController.getInstance().getPeopleAdministrator().moveToFreeFly(personModel);
 
+                }
             }
         }
 
@@ -46,12 +48,14 @@ public class NullStrategy implements MovementStrategy {
     @Override
     public void giveUp(PersonBody personBody, Side side) {
         PersonModel personModel = (PersonModel) personBody.getBody().getUserData();
-        if(personModel.getPersonState() == PersonState.InElevator) {
-            personBody.getBody().setGravityScale(5);
-            ElevatorBody elevatorBody = GameController.getInstance().getElevator(side);
-            personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
-            personModel.setPersonState(PersonState.FreeFlying);
-            GameModel.getInstance().getElevator(side).decrementOccupancy();
+        if (personModel.getPersonState() != PersonState.Reached) {
+            if(personModel.getPersonState() == PersonState.InElevator) {
+                personBody.getBody().setGravityScale(5);
+                ElevatorBody elevatorBody = GameController.getInstance().getElevator(side);
+                personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
+                personModel.setPersonState(PersonState.FreeFlying);
+                GameModel.getInstance().getElevator(side).decrementOccupancy();
+            }
         }
 
     }

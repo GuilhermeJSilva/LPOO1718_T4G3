@@ -123,24 +123,6 @@ public class GameModel {
         return n_levels;
     }
 
-    /**
-     * Returns the left_elevator.
-     *
-     * @return Game's left_elevator.
-     */
-    public ElevatorModel getLeft_elevator() {
-        return left_elevator;
-    }
-
-    /**
-     * Returns the right_elevator.
-     *
-     * @return Game's right_elevator.
-     */
-    public ElevatorModel getRight_elevator() {
-        return right_elevator;
-    }
-
 
     /**
      * Return the elevator according to character.

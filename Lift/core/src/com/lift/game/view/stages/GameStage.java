@@ -26,8 +26,8 @@ public class GameStage extends Stage {
 
         initiateIndicatorPositions(camera);
 
-        this.addActor(new ElevatorActor(game, GameModel.getInstance().getLeft_elevator()));
-        this.addActor(new ElevatorActor(game, GameModel.getInstance().getRight_elevator()));
+        this.addActor(new ElevatorActor(game, GameModel.getInstance().getElevator(Side.Left)));
+        this.addActor(new ElevatorActor(game, GameModel.getInstance().getElevator(Side.Right)));
 
         ArrayList<PlatformModel> platformModels = GameModel.getInstance().getLeft_floors();
         addPlatforms(game, platformModels);
