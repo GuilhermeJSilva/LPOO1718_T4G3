@@ -1,9 +1,7 @@
 package com.lift.game.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -152,7 +150,7 @@ public class GameController {
      */
     public void update(float delta) {
         GameModel.getInstance().update(delta);
-        this.updatePeple(delta);
+        this.updatePeople(delta);
 
         peopleAdministrator.run();
 
@@ -191,42 +189,16 @@ public class GameController {
         }
     }
 
-    private void updatePeple(float delta) {
+    private void updatePeople(float delta) {
         for(PersonBody personBody : people) {
             PersonModel per = (PersonModel) personBody.getBody().getUserData();
-            if(per.update(delta) && per.getPersonState() != PersonState.GiveUP) {
+            if(per.update(delta) && per.getPersonState() != PersonState.GiveUP && per.getPersonState() != PersonState.InElevator) {
                 strategySelector.getStrategy(per).giveUp(personBody, per.getSide());
             }
         }
     }
 
 
-    /**
-     * Generates new people in the game.
-     *
-     * @param n_people Number of people to generate.
-     */
-    private void generatePeople(int n_people) {
-        peopleGenerator.generatePeople(n_people);
-    }
-
-    /**
-     * Generates a person in a certain floor.
-     *
-     * @param floor Floor to generate in.
-     */
-    private void generatePerson(int floor) {
-
-        peopleGenerator.generatePerson(floor);
-    }
-
-    /**
-     * Generates new people bases on the level of difficulty.
-     */
-    public void generateNewPeople(float delta) {
-
-        peopleGenerator.generateNewPeople(delta);
-    }
 
     /**
      * Returns the world.
@@ -237,23 +209,6 @@ public class GameController {
         return this.world;
     }
 
-    /**
-     * Returns the left_floors of the game.
-     *
-     * @return Floors of the game.
-     */
-    public ArrayList<PlatformBody> getLeft_floors() {
-        return left_floors;
-    }
-
-    /**
-     * Returns the right_floors of the game.
-     *
-     * @return Floors of the game.
-     */
-    public ArrayList<PlatformBody> getRight_floors() {
-        return right_floors;
-    }
 
     public void addPerson(PersonBody personBody) {
         if(personBody != null)

@@ -28,11 +28,13 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
         PersonModel personModel1 = (PersonModel) bodyA.getUserData();
         PersonModel personModel2 = (PersonModel) bodyB.getUserData();
 
-        if (personModel1.getPersonState() != PersonState.FreeFlying && personModel2.getPersonState() != PersonState.FreeFlying) {
-            bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
-            bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
-            personModel1.setPersonState(PersonState.StoppedWaiting);
-            personModel2.setPersonState(PersonState.StoppedWaiting);
+        if (personModel1.getPersonState() != PersonState.InElevator && personModel2.getPersonState() != PersonState.InElevator) {
+            if (personModel1.getPersonState() != PersonState.FreeFlying && personModel2.getPersonState() != PersonState.FreeFlying) {
+                bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
+                bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
+                personModel1.setPersonState(PersonState.StoppedWaiting);
+                personModel2.setPersonState(PersonState.StoppedWaiting);
+            }
         }
     }
 

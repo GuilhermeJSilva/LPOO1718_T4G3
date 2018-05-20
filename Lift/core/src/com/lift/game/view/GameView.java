@@ -71,7 +71,10 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
 
-   Music music;
+    /**
+     * Indicator positions fot
+     */
+
 
     /**
      * Creates this screen.
@@ -84,10 +87,6 @@ public class GameView extends ScreenAdapter {
         camera = createCamera();
         this.hud = new HudStage(this.game,this.camera);
         this.game_stage = new GameStage(this.game,this.camera);
-        this.music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
-        music.play();
-
-
     }
 
 

@@ -78,8 +78,8 @@ public class GameModel {
         this.lives = 3;
         this.time_left = 30.0;
         n_levels = DEFAULT_N_LEVEL;
-        left_elevator = new ElevatorModel(15.2f, 0, this.n_levels);
-        right_elevator = new ElevatorModel(30f, 0, this.n_levels);
+        left_elevator = new ElevatorModel(15.2f, this.n_levels);
+        right_elevator = new ElevatorModel(30f , this.n_levels);
 
         this.people = new ArrayList<PersonModel>();
         this.left_floors = new ArrayList<PlatformModel>();

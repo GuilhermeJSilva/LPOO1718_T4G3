@@ -9,7 +9,7 @@ import com.lift.game.model.entities.person.Side;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 
-public  class NullStrategy implements MovementStrategy {
+public class NullStrategy implements MovementStrategy {
 
     public NullStrategy() {
     }
@@ -32,9 +32,11 @@ public  class NullStrategy implements MovementStrategy {
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
         PersonModel personModel = (PersonModel) personBody.getUserData();
-        if(platformFixture == PLATFORM_ELEVATOR_SENSOR && personModel.getPersonState() != PersonState.FreeFlying) {
-            GameController.getInstance().getPeopleAdministrator().moveToFreeFly(personModel);
+        if (personModel.getPersonState() != PersonState.InElevator) {
+            if (platformFixture == PLATFORM_ELEVATOR_SENSOR && personModel.getPersonState() != PersonState.FreeFlying) {
+                GameController.getInstance().getPeopleAdministrator().moveToFreeFly(personModel);
 
+            }
         }
 
     }
