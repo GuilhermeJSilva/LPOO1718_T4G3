@@ -1,7 +1,6 @@
 package com.lift.game.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
@@ -10,11 +9,13 @@ import com.badlogic.gdx.utils.Array;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.Side;
 
 /**
  * Controls the game.
@@ -70,7 +71,12 @@ public class GameController {
     /**
      * Stores the singleton.
      */
-    public static GameController instance;
+    private static GameController instance;
+
+    /**
+     * Responsible to select what strategy to use.
+     */
+    private StrategySelector strategySelector;
 
     /**
      * Constructs the model.
@@ -78,8 +84,9 @@ public class GameController {
     private GameController() {
         super();
         this.world = new World(new Vector2(0, -5), false);
-        this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getLeft_elevator());
-        this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getRight_elevator());
+        this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator(Side.Left));
+        this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator(Side.Right));
+        this.strategySelector = new StrategySelector();
 
         this.people = new ArrayList<PersonBody>();
         this.left_floors = new ArrayList<PlatformBody>();
@@ -97,10 +104,9 @@ public class GameController {
             right_floors.add(new PlatformBody(this.world, pm, false));
         }
 
-        for (PersonModel pm : GameModel.getInstance().getPeople()){
+        for (PersonModel pm : GameModel.getInstance().getPeople()) {
             this.people.add(new PersonBody(world, pm));
         }
-        peopleGenerator.generatePeople(2);
         world.setContactListener(new GameCollisionHandler());
     }
 
@@ -124,17 +130,11 @@ public class GameController {
      *
      * @return Controller's left_elevator.
      */
-    public ElevatorBody getLeft_elevator() {
-        return left_elevator;
-    }
-
-    /**
-     * Returns the controller's right_elevator.
-     *
-     * @return Controller's right_elevator.
-     */
-    public ElevatorBody getRight_elevator() {
-        return right_elevator;
+    public ElevatorBody getElevator(Side side) {
+        if (Side.Left == side)
+            return left_elevator;
+        else
+            return right_elevator;
     }
 
 
@@ -146,7 +146,8 @@ public class GameController {
     public void update(float delta) {
         GameModel.getInstance().update(delta);
 
-        peopleAdministrator.run();
+        peopleAdministrator.updatePeople(strategySelector,delta);
+        peopleAdministrator.movePeople();
 
         float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;
@@ -163,7 +164,6 @@ public class GameController {
     }
 
 
-
     private void updateModel() {
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
@@ -172,10 +172,9 @@ public class GameController {
             ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y, body.getAngle());
             if (body.getUserData() instanceof ElevatorModel) {
                 ElevatorModel em = ((ElevatorModel) body.getUserData());
-                if(em ==  GameModel.getInstance().getLeft_elevator()) {
+                if (em == GameModel.getInstance().getElevator(Side.Left)) {
                     ((ElevatorModel) body.getUserData()).setTarget_floor(left_elevator.getTarget_floor());
-                }
-                else {
+                } else {
                     ((ElevatorModel) body.getUserData()).setTarget_floor(right_elevator.getTarget_floor());
                 }
                 em.setStopped(body.getLinearVelocity().y == 0);
@@ -184,32 +183,7 @@ public class GameController {
     }
 
 
-    /**
-     * Generates new people in the game.
-     *
-     * @param n_people Number of people to generate.
-     */
-    private void generatePeople(int n_people) {
-        peopleGenerator.generatePeople(n_people);
-    }
 
-    /**
-     * Generates a person in a certain floor.
-     *
-     * @param floor Floor to generate in.
-     */
-    private void generatePerson(int floor) {
-
-        peopleGenerator.generatePerson(floor);
-    }
-
-    /**
-     * Generates new people bases on the level of difficulty.
-     */
-    public void generateNewPeople(float delta) {
-
-        peopleGenerator.generateNewPeople(delta);
-    }
 
     /**
      * Returns the world.
@@ -220,26 +194,35 @@ public class GameController {
         return this.world;
     }
 
-    /**
-     * Returns the left_floors of the game.
-     *
-     * @return Floors of the game.
-     */
-    public ArrayList<PlatformBody> getLeft_floors() {
-        return left_floors;
-    }
-
-    /**
-     * Returns the right_floors of the game.
-     *
-     * @return Floors of the game.
-     */
-    public ArrayList<PlatformBody> getRight_floors() {
-        return right_floors;
-    }
 
     public void addPerson(PersonBody personBody) {
-        if(personBody != null)
+        if (personBody != null)
             people.add(personBody);
     }
+
+    public StrategySelector getStrategySelector() {
+        return strategySelector;
+    }
+
+    public PeopleAdministrator getPeopleAdministrator() {
+        return peopleAdministrator;
+    }
+
+    public ArrayList<PersonBody> getPeople() {
+        return people;
+    }
+
+    public void removeFlagged() {
+        Array<Body> bodies = new Array<Body>();
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            EntityModel entityModel = ((EntityModel) body.getUserData());
+            if(entityModel.isFlaggedForRemoval()) {
+                world.destroyBody(body);
+                GameModel.getInstance().remove(entityModel);
+            }
+        }
+    }
+
+
 }

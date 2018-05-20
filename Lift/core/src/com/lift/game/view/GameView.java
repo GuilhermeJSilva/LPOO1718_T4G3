@@ -1,14 +1,11 @@
 package com.lift.game.view;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,21 +15,15 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.view.actors.hub.CoinLabelActor;
-import com.lift.game.view.actors.hub.ScoreLabelActor;
-import com.lift.game.view.actors.polygon_actor.DiamondPoly;
+import com.lift.game.model.entities.person.Side;
 import com.lift.game.view.stages.GameStage;
 import com.lift.game.view.stages.HudStage;
 
 import java.util.ArrayList;
-
-import static com.badlogic.gdx.Input.Keys.R;
 
 public class GameView extends ScreenAdapter {
     /**
@@ -42,7 +33,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures
      */
-    private static final boolean DEBUG_PHYSICS = true;
+    private static final boolean DEBUG_PHYSICS = false;
     /**
      * The width of the viewport in meters.
      */
@@ -80,7 +71,7 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
 
-   Music music;
+
 
     /**
      * Creates this screen.
@@ -93,10 +84,6 @@ public class GameView extends ScreenAdapter {
         camera = createCamera();
         this.hud = new HudStage(this.game,this.camera);
         this.game_stage = new GameStage(this.game,this.camera);
-        this.music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
-        music.play();
-
-
     }
 
 
@@ -133,7 +120,6 @@ public class GameView extends ScreenAdapter {
 
     }
 
-    //TODO: Load fonts in MenuView???
     private void loadFonts(AssetManager manager) {
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -158,14 +144,12 @@ public class GameView extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        //GameController.getInstance().removeFlagged();
+        GameController.getInstance().removeFlagged();
 
-        //Move into the elevator actor
         updateGame(delta);
         resetCamera();
 
         this.game_stage.draw();
-
         this.hud.draw();
 
         if (DEBUG_PHYSICS) {
@@ -195,14 +179,15 @@ public class GameView extends ScreenAdapter {
     private void resetCamera() {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
-        game.getBatch().setProjectionMatrix(camera.combined);
+        game.getSpriteBatch().setProjectionMatrix(camera.combined);
+        game.getPolygonBatch().setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(.135f, .206f, .235f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.getBatch().begin();
+        game.getSpriteBatch().begin();
         drawBackground();
-        game.getBatch().end();
+        game.getSpriteBatch().end();
     }
 
     /**
@@ -211,7 +196,7 @@ public class GameView extends ScreenAdapter {
     private void drawBackground() {
         Texture background = game.getAssetManager().get("lift4.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
-        game.getBatch().draw(background, 0, 0, 0, 0, (int) (camera.viewportWidth), (int) (camera.viewportHeight));
+        game.getSpriteBatch().draw(background, 0, 0, 0, 0, (int) (camera.viewportWidth), (int) (camera.viewportHeight));
     }
 
     /**
@@ -228,11 +213,11 @@ public class GameView extends ScreenAdapter {
             int floor = determine_floor_number(floors);
             if (floor != -1) {
                 if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
-                    if (GameController.getInstance().getRight_elevator().getTarget_floor() != floor) {
-                       GameController.getInstance().getRight_elevator().setTarget_floor(floor);
+                    if (GameController.getInstance().getElevator(Side.Right).getTarget_floor() != floor) {
+                       GameController.getInstance().getElevator(Side.Right).setTarget_floor(floor);
                     }
-                } else if (GameController.getInstance().getLeft_elevator().getTarget_floor() != floor) {
-                    GameController.getInstance().getLeft_elevator().setTarget_floor(floor);
+                } else if (GameController.getInstance().getElevator(Side.Left).getTarget_floor() != floor) {
+                    GameController.getInstance().getElevator(Side.Left).setTarget_floor(floor);
 
                 }
             }

@@ -2,12 +2,9 @@ package com.lift.game.view.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lift.game.LiftGame;
 import com.lift.game.model.entities.EntityModel;
-
-import javax.swing.text.html.parser.Entity;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
@@ -24,7 +21,7 @@ public abstract class EntityActor extends Actor {
     /**
      * The actor represents this model.
      */
-    protected EntityModel model;
+    private EntityModel model;
 
 	/**
 	 * Constructs an actor in a given game.
@@ -35,7 +32,6 @@ public abstract class EntityActor extends Actor {
 	protected EntityActor(LiftGame game,  EntityModel model) {
 		sprite = createSprite(game);
 		this.model = model;
-		this.update();
 	}
 
 	/**
@@ -57,7 +53,17 @@ public abstract class EntityActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        this.update();
-        sprite.draw(batch, parentAlpha);
+        if (removed()) {
+            this.update();
+            sprite.draw(batch, parentAlpha);
+        }
+    }
+
+    protected boolean removed() {
+	    if(model.isFlaggedForRemoval()) {
+            this.getParent().removeActor(this);
+	        return false;
+        }
+        return true;
     }
 }

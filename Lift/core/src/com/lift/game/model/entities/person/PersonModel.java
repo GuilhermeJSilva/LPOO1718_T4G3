@@ -7,22 +7,17 @@ public class PersonModel extends EntityModel {
     /**
      * Starting satisfaction.
      */
-	public static Float STARTING_SATISFACTION = 25f;
-	
-	/**
-	 * Satisfaction decrease factor.
-	 */
-	private Float satisfaction_factor;
-	
-	/**
-	 * Satisfaction.
-	 */
-	private Float satisfaction;
-	
-	/**
-	 * Person's destination.
-	 */
-	private Integer destination;
+    public static Float STARTING_SATISFACTION = 25f;
+
+    /**
+     * Satisfaction.
+     */
+    private Float satisfaction;
+
+    /**
+     * Person's destination.
+     */
+    private Integer destination;
 
     /**
      * Type of the person.
@@ -42,52 +37,65 @@ public class PersonModel extends EntityModel {
     /**
      * Side of the screen the person is on.
      */
-    private char side;
+    private Side side;
 
     /**
      * New person.
      */
     private boolean new_person = true;
 
+    /**
+     * True if a person is trying to enter the elevator.
+     */
+    private boolean tryingToEnter;
 
-	public PersonModel(float x, float y, int floor, char side, Float satisfaction_factor, int destination) {
-		super(x, y);
-		this.satisfaction = STARTING_SATISFACTION;
-		this.satisfaction_factor = satisfaction_factor;
-		this.destination = destination;
-		this.personType = RandomTypeGenerator.getRandomType();
-		this.personState = PersonState.Waiting;
-		this.floor =  floor;
-		this.side = side;
-	}
+
+    public PersonModel(float x, float y, int floor, Side side, int destination) {
+        super(x, y);
+
+        this.personType = RandomTypeGenerator.getRandomType();
+        this.personState = PersonState.Waiting;
+        this.tryingToEnter = false;
+
+        this.destination = destination;
+        this.floor = floor;
+        this.side = side;
+
+        this.satisfaction = STARTING_SATISFACTION;
+    }
 
 
     /**
-	 * Returns the person's satisfaction.
-	 * @return Satisfaction.
-	 */
-	public Float getSatisfaction() {
-		return satisfaction;
-	}
+     * Returns the person's satisfaction.
+     *
+     * @return Satisfaction.
+     */
+    public Float getSatisfaction() {
+        return satisfaction;
+    }
 
-	/**
-	 * Updates the person's satisfaction based on the time that passed.
-	 * @param delta Time that passed.
-	 */
-	public void update(float delta) {
-		this.satisfaction -= delta / satisfaction_factor;
-	}
+    /**
+     * Updates the person's satisfaction based on the time that passed.
+     *
+     * @param delta Time that passed.
+     */
+    public boolean update(float delta) {
+        this.satisfaction -= delta;
+        return satisfaction < 0;
+    }
 
-	/**
-	 * Returns the person's destination.
-	 * @return Person's destination.
-	 */
-	public Integer getDestination() {
-		return destination;
-	}
+    /**
+     * Returns the person's destination.
+     *
+     * @return Person's destination.
+     */
+    public Integer getDestination() {
+        return destination;
+    }
 
     /**
      * Returns the person's type.
+     *
      * @return Person's type.
      */
     public PersonType getPersonType() {
@@ -114,7 +122,16 @@ public class PersonModel extends EntityModel {
         return floor;
     }
 
-    public char getSide() {
+    public Side getSide() {
         return side;
     }
+
+    public boolean isTryingToEnter() {
+        return tryingToEnter;
+    }
+
+    public void setTryingToEnter(boolean tryingToEnter) {
+        this.tryingToEnter = tryingToEnter;
+    }
+
 }

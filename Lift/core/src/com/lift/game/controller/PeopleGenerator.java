@@ -1,17 +1,16 @@
 package com.lift.game.controller;
 
-import com.badlogic.gdx.Game;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
-import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.Side;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PeopleGenerator {
+class PeopleGenerator {
     private final GameController gameController;
 
     /**
@@ -29,15 +28,15 @@ public class PeopleGenerator {
     }
 
 
-    public Float getT_accumulator() {
+    private Float getT_accumulator() {
         return t_accumulator;
     }
 
-    public void setT_accumulator(Float t_accumulator) {
+    private void setT_accumulator(Float t_accumulator) {
         this.t_accumulator = t_accumulator;
     }
 
-    public Float getSeconds_b_person() {
+    private Float getSeconds_b_person() {
         return seconds_b_person;
     }
 
@@ -50,7 +49,7 @@ public class PeopleGenerator {
      *
      * @param n_people Number of people to generate.
      */
-    void generatePeople(int n_people) {
+    private void generatePeople(int n_people) {
         if (n_people < 0)
             return;
         Random generator = new Random();
@@ -65,20 +64,20 @@ public class PeopleGenerator {
      *
      * @param floor Floor to generate in.
      */
-    void generatePerson(int floor) {
+    private void generatePerson(int floor) {
         Random generator = new Random();
         int dest;
         do {
             dest = generator.nextInt(GameModel.getInstance().getN_levels());
         } while (dest == floor);
 
-        int left = new Random().nextInt(2);
-        PersonModel p_model = this.add_waiting_person(floor, 1, dest, left);
+        Side side = Side.values()[new Random().nextInt(2)];
+        PersonModel p_model = this.add_waiting_person(floor, dest, side);
+
         if (p_model != null) {
             PersonBody personBody = new PersonBody(gameController.getWorld(), p_model);
-
             gameController.addPerson(personBody);
-            StrategySelector.getStrategy(p_model).initialMovement(personBody.getBody(), left == 1);
+            GameController.getInstance().getStrategySelector().getStrategy(p_model).initialMovement(personBody.getBody(), side);
         }
 
     }
@@ -100,13 +99,12 @@ public class PeopleGenerator {
      * Adds a new person to waiting for the left_elevator.
      *
      * @param floor               Floor the person is currently in.
-     * @param satisfaction_factor Rate that the satisfaction decreases.
      * @return The person model that was added.
      */
-    public PersonModel add_waiting_person(int floor, float satisfaction_factor, int dest, int left) {
+    private PersonModel add_waiting_person(int floor, int dest, Side side) {
         ArrayList<PlatformModel> floors;
         float x;
-        if (left != 0) {
+        if (side == Side.Left) {
             floors = GameModel.getInstance().getLeft_floors();
             x = 0;
         } else {
@@ -117,7 +115,8 @@ public class PeopleGenerator {
         if (floors.get(floor).getNumber_of_people() >= PlatformModel.MAX_NUMBER_OF_PEOPLE)
             return null;
 
-        PersonModel new_p = new PersonModel(x, floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2, floor, left == 1? 'L':'R', satisfaction_factor, dest);
+        float y = floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2;
+        PersonModel new_p = new PersonModel(x, y, floor, side, dest);
         GameModel.getInstance().addPerson(new_p);
         floors.get(floor).incrementNPeople();
         return new_p;

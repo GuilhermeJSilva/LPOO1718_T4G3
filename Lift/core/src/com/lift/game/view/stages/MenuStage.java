@@ -18,7 +18,7 @@ public class MenuStage extends Stage {
     private float GLOBAL_OFFSET;
     private float SPACING_OFFSET;
     public MenuStage(LiftGame game, OrthographicCamera camera) {
-        super(new FitViewport(camera.viewportWidth, camera.viewportHeight));
+        super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
         GLOBAL_OFFSET = -camera.viewportHeight / 6.5f;
         SPACING_OFFSET = camera.viewportHeight / 20f;
         addPlayButton(game, camera);
@@ -68,8 +68,7 @@ public class MenuStage extends Stage {
     private ImageButton createButton(LiftGame game, OrthographicCamera camera, String fileName) {
         Texture texture = game.getAssetManager().get(fileName);
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(texture));
-        ImageButton button = new ImageButton(drawable);
 
-        return button;
+        return new ImageButton(drawable);
     }
 }

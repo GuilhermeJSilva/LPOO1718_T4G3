@@ -1,25 +1,15 @@
 package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.lift.game.model.GameModel;
-import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
 
-import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
+public class DrunkenMovement extends NullStrategy implements MovementStrategy {
 
-public class DrunkenMovement implements MovementStrategy {
-
-    private static final int INITIAL_V_Y = 2;
+    private static final int INITIAL_V = 2;
 
     private final Integer priority = 1;
 
-    private static DrunkenMovement ourInstance = new DrunkenMovement();
-
-    public static DrunkenMovement getInstance() {
-        return ourInstance;
-    }
-
-    private DrunkenMovement() {
+    public DrunkenMovement() {
     }
 
     @Override
@@ -27,37 +17,23 @@ public class DrunkenMovement implements MovementStrategy {
         return priority;
     }
 
-    @Override
-    public void collisionPersonPersonInPlatform(Body bodyA, Body bodyB) {
-
-    }
 
     @Override
-    public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
-        if(personBody.getAngle() != 0) {
-            PersonModel personModel = (PersonModel) personBody.getUserData();
-            personModel.setPersonState(PersonState.FreeFlying);
-            if(personModel.getSide() == 'L'){
-                GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
-            } else {
-                GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
-            }
-
-        }
-
-    }
-
-    @Override
-    public void initialMovement(Body body, boolean b) {
-        if (b) {
-            body.setLinearVelocity(INITIAL_V_Y, 0);
+    public void initialMovement(Body body, Side side) {
+        if (side == Side.Left) {
+            body.setLinearVelocity(INITIAL_V, 0);
         } else {
-            body.setLinearVelocity(-INITIAL_V_Y, 0);
+            body.setLinearVelocity(-INITIAL_V, 0);
         }
     }
 
     @Override
-    public float getGravityScale() {
-        return 5;
+    public float getSatisfactionDelta(float delta) {
+        return 0;
+    }
+
+    @Override
+    public float getTimeIncrease() {
+        return 2f;
     }
 }

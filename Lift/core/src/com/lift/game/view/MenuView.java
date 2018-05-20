@@ -6,8 +6,6 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lift.game.LiftGame;
 import com.lift.game.view.stages.MenuStage;
@@ -16,7 +14,7 @@ public class MenuView extends ScreenAdapter {
     /**
      * How much meters does a pixel represent.
      */
-    public final static float PIXEL_TO_METER = 0.0417f;
+    private final static float PIXEL_TO_METER = 0.0417f;
     /**
      * The width of the viewport in meters.
      */
@@ -68,14 +66,14 @@ public class MenuView extends ScreenAdapter {
     public void render(float delta) {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
-        game.getBatch().setProjectionMatrix(camera.combined);
+        game.getSpriteBatch().setProjectionMatrix(camera.combined);
 
         Gdx.gl.glClearColor(.135f, .206f, .235f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        game.getBatch().begin();
+        game.getSpriteBatch().begin();
         this.drawBackground();
-        game.getBatch().end();
+        game.getSpriteBatch().end();
         this.menuStage.draw();
     }
 
@@ -86,7 +84,7 @@ public class MenuView extends ScreenAdapter {
     private void drawBackground() {
         Texture background = game.getAssetManager().get("Plano de Fundo.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
-        game.getBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH/PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
+        game.getSpriteBatch().draw(background, 0, 0, 0, 0, (int) (VIEWPORT_WIDTH/PIXEL_TO_METER), (int) (VIEWPORT_HEIGHT / PIXEL_TO_METER));
     }
 
 }

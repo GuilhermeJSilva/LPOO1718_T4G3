@@ -1,57 +1,109 @@
 package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
-public class RegularMovement implements MovementStrategy {
-    private static final int INITIAL_V_Y = 10;
+public class RegularMovement extends NullStrategy implements MovementStrategy {
+    private static final int INITIAL_V = 10;
+    private static final int GIVING_UP_V = 2;
 
     private final Integer priority = 0;
 
-    private static RegularMovement ourInstance = new RegularMovement();
 
-    public static RegularMovement getInstance() {
-        return ourInstance;
-    }
-
-    private RegularMovement() {
+    public RegularMovement() {
     }
 
     @Override
-    public  int getPriority() {
+    public int getPriority() {
         return priority;
     }
 
     @Override
     public void collisionPersonPersonInPlatform(Body bodyA, Body bodyB) {
-        float x_velocity;
-        if (bodyA.getLinearVelocity().x < 0 || bodyB.getLinearVelocity().x < 0)
-            x_velocity = Math.max(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
-        else
-            x_velocity = Math.min(bodyA.getLinearVelocity().x, bodyB.getLinearVelocity().x);
-        bodyB.setLinearVelocity(x_velocity, 0);
-        bodyA.setLinearVelocity(x_velocity, 0);
+        PersonModel personModel1 = (PersonModel) bodyA.getUserData();
+        PersonModel personModel2 = (PersonModel) bodyB.getUserData();
+
+        if (personModel1.getPersonState() != PersonState.Reached && personModel2.getPersonState() != PersonState.Reached) {
+            if (personModel1.getPersonState() != PersonState.InElevator && personModel2.getPersonState() != PersonState.InElevator) {
+                if (personModel1.getPersonState() != PersonState.FreeFlying && personModel2.getPersonState() != PersonState.FreeFlying) {
+                    bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
+                    bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
+                    personModel1.setPersonState(PersonState.StoppedWaiting);
+                    personModel2.setPersonState(PersonState.StoppedWaiting);
+                }
+            }
+        }
     }
 
     @Override
     public void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
-        if (platformFixture == PLATFORM_END_SENSOR) {
-            personBody.setLinearVelocity(0, 0f);
+        super.solvePersonPlatformCollision(personBody, platformBody, platformFixture);
+        PersonModel personModel = (PersonModel) personBody.getUserData();
+
+        if (personModel.getPersonState() != PersonState.Reached) {
+            if (platformFixture == PLATFORM_END_SENSOR && personModel.getPersonState() == PersonState.Waiting) {
+                personBody.setLinearVelocity(0, 0f);
+                personModel.setPersonState(PersonState.StoppedWaiting);
+            }
+
+            if (personModel.getPersonState() == PersonState.StoppedWaiting)
+                personBody.setLinearVelocity(0, 0f);
         }
+
     }
 
     @Override
-    public void initialMovement(Body body, boolean b) {
-        if (b) {
-            body.setLinearVelocity(INITIAL_V_Y, 0);
+    public void initialMovement(Body body, Side side) {
+        if (side == Side.Left) {
+            body.setLinearVelocity(INITIAL_V, 0);
         } else {
-            body.setLinearVelocity(-INITIAL_V_Y, 0);
+            body.setLinearVelocity(-INITIAL_V, 0);
         }
     }
 
     @Override
-    public float getGravityScale() {
-        return 0;
+    public void giveUp(PersonBody personBody, Side side) {
+        super.giveUp(personBody,side);
+        PersonModel personModel = (PersonModel) personBody.getBody().getUserData();
+        if (personModel.getPersonState() != PersonState.Reached) {
+            if(personModel.getPersonState() !=  PersonState.GiveUP && personModel.getPersonState() !=  PersonState.FreeFlying && personModel.getPersonState() !=  PersonState.InElevator) {
+                if (side == Side.Left) {
+                    personBody.setLinearVelocity(GIVING_UP_V, 0);
+                } else {
+                    personBody.setLinearVelocity(-GIVING_UP_V, 0);
+                }
+
+                personModel.setPersonState(PersonState.GiveUP);
+            }
+        }
+    }
+
+    @Override
+    public void collisionEndPersonPersonInPlatform(Body person1, Body person2, Side side) {
+        float x_velocity = side == Side.Left ? GIVING_UP_V : -GIVING_UP_V;
+        PersonModel personModel1 = (PersonModel) person1.getUserData();
+        PersonModel personModel2 = (PersonModel) person2.getUserData();
+
+        if (personModel1.getPersonState() != PersonState.Reached && personModel2.getPersonState() != PersonState.Reached) {
+            if (personModel1.getPersonState() == PersonState.StoppedWaiting) {
+                personModel1.setPersonState(PersonState.Waiting);
+                person1.setLinearVelocity(x_velocity, person1.getLinearVelocity().y);
+            }
+
+            if (personModel2.getPersonState() == PersonState.StoppedWaiting) {
+                personModel2.setPersonState(PersonState.Waiting);
+                person2.setLinearVelocity(x_velocity, person2.getLinearVelocity().y);
+            }
+        }
+    }
+
+    @Override
+    public float getTimeIncrease() {
+        return 1f;
     }
 }

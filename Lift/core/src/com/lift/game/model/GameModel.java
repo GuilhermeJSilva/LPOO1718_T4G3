@@ -3,13 +3,13 @@ package com.lift.game.model;
 import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.Side;
 
 /**
  * Represents the current state of the game.
@@ -40,7 +40,7 @@ public class GameModel {
     /**
      * Stores the singleton.
      */
-    public static GameModel instance;
+    private static GameModel instance;
 
     /**
      * Game's left left_elevator.
@@ -65,9 +65,9 @@ public class GameModel {
     private ArrayList<PlatformModel> right_floors;
 
     /**
-     * Freeflying people.
+     * Free flying people.
      */
-    private ArrayList<PersonModel>  people;
+    private ArrayList<PersonModel> people;
 
     /**
      * Constructs the model.
@@ -77,8 +77,8 @@ public class GameModel {
         this.lives = 3;
         this.time_left = 30.0;
         n_levels = DEFAULT_N_LEVEL;
-        left_elevator = new ElevatorModel(15.2f, 0, this.n_levels);
-        right_elevator = new ElevatorModel(30f, 0, this.n_levels);
+        left_elevator = new ElevatorModel(15.2f);
+        right_elevator = new ElevatorModel(30f);
 
         this.people = new ArrayList<PersonModel>();
         this.left_floors = new ArrayList<PlatformModel>();
@@ -122,24 +122,16 @@ public class GameModel {
         return n_levels;
     }
 
-    /**
-     * Returns the left_elevator.
-     *
-     * @return Game's left_elevator.
-     */
-    public ElevatorModel getLeft_elevator() {
-        return left_elevator;
-    }
 
     /**
-     * Returns the right_elevator.
-     *
-     * @return Game's right_elevator.
+     * Return the elevator according to character.
      */
-    public ElevatorModel getRight_elevator() {
-        return right_elevator;
+    public ElevatorModel getElevator(Side side) {
+        if (side == Side.Left)
+            return left_elevator;
+        else
+            return right_elevator;
     }
-
 
     /**
      * Returns the left_floors of the game.
@@ -179,9 +171,6 @@ public class GameModel {
         if (this.time_left < 0)
             this.time_left = 0.0;
 
-        for (PersonModel person : people) {
-                person.update(delta);
-        }
     }
 
     public ArrayList<PersonModel> getPeople() {
@@ -190,6 +179,27 @@ public class GameModel {
 
     public void addPerson(PersonModel new_p) {
         people.add(new_p);
+    }
+
+    public void incrementLives() {
+        lives++;
+    }
+
+    public void decrementLives() {
+        if(lives > 0)
+            lives--;
+    }
+
+    public void remove(EntityModel model) {
+        if (model instanceof PersonModel) {
+            people.remove(model);
+        }
+    }
+
+    public void incrementTime(float timeIncrease) {
+        time_left += timeIncrease;
+        if(time_left > 99.9)
+            time_left = 99.9;
     }
 }
 
