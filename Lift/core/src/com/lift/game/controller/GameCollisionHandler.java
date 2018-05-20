@@ -1,20 +1,14 @@
 package com.lift.game.controller;
 
 import com.badlogic.gdx.physics.box2d.*;
-import com.lift.game.controller.entities.PersonBody;
-import com.lift.game.controller.entities.pstrategies.DrunkenMovement;
 import com.lift.game.controller.entities.pstrategies.MovementStrategy;
-import com.lift.game.controller.entities.pstrategies.RegularMovement;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.entities.person.PersonState;
 import com.lift.game.model.entities.person.Side;
 
-import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
-
-public class GameCollisionHandler implements ContactListener {
+class GameCollisionHandler implements ContactListener {
     public GameCollisionHandler() {
         super();
     }
@@ -79,12 +73,12 @@ public class GameCollisionHandler implements ContactListener {
         if (em == GameModel.getInstance().getElevator(Side.Left)) {
             if (em.getTarget_floor() == GameModel.getInstance().getLeft_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
-                GameController.getInstance().reached(em.getTarget_floor(), Side.Left);
+                GameController.getInstance().getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Left);
             }
         } else {
             if (em.getTarget_floor() == GameModel.getInstance().getRight_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
-                GameController.getInstance().reached(em.getTarget_floor(), Side.Right);
+                GameController.getInstance().getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Right);
             }
         }
     }

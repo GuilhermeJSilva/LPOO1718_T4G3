@@ -24,7 +24,7 @@ public abstract class EntityModel {
 	 * @param y
 	 *            position.
 	 */
-	public EntityModel(float x, float y) {
+    protected EntityModel(float x, float y) {
 		super();
 		this.y = y;
 		this.x = x;

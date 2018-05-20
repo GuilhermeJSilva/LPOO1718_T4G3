@@ -17,7 +17,7 @@ public class LiftGame extends Game {
     private PolygonSpriteBatch polygonBatch;
     private SpriteBatch spriteBatch;
 	private AssetManager assetManager;
-    Music music;
+    private Music music;
 
     /**
      * Creates the game. Initializes the sprite spriteBatch and asset manager.

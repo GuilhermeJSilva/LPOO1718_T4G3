@@ -7,8 +7,6 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.EntityModel;
 
-import static com.lift.game.view.GameView.PIXEL_TO_METER;
-
 public class EntityBody {
 
     final Body body;
@@ -18,7 +16,7 @@ public class EntityBody {
      *
      * @param model Entity model.
      */
-    public EntityBody(World world, EntityModel model) {
+    EntityBody(World world, EntityModel model) {
         super();
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -35,7 +33,7 @@ public class EntityBody {
      * @param body
      * @param sensor
      */
-    protected final void add_fixture(Body body, float[] vertexes, float width, float height, float density, float friction, float restitution, short category, short mask, boolean sensor) {
+    final void add_fixture(Body body, float[] vertexes, float width, float height, float density, float friction, float restitution, short category, short mask, boolean sensor) {
         for (int i = 0; i < vertexes.length; i++) {
             if (i % 2 == 0) vertexes[i] -= width / 2;
             if (i % 2 != 0) vertexes[i] -= height / 2;
@@ -81,14 +79,6 @@ public class EntityBody {
         return body.getPosition().y;
     }
 
-    /**
-     * Returns the rotation of the body.
-     *
-     * @return Rotation of the body.
-     */
-    public float getRotation() {
-        return body.getAngle();
-    }
 
     /**
      * Changes the linear velocity of a body.

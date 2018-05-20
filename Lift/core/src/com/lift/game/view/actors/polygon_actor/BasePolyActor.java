@@ -7,13 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class BasePolyActor extends Actor {
 
-    protected float percentage = 1;
+    float percentage = 1;
 
     private PolygonSprite poly;
     private PolygonSprite back;
-    protected int width;
-    protected int height;
-    protected Texture front;
+    int width;
+    int height;
+    private Texture front;
     private PolygonSpriteBatch polyBatch;
 
 

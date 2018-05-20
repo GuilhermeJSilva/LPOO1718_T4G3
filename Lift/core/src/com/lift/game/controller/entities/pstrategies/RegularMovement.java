@@ -10,7 +10,7 @@ import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR
 
 public class RegularMovement extends NullStrategy implements MovementStrategy {
     private static final int INITIAL_V = 10;
-    public static final int GIVING_UP_V = 2;
+    private static final int GIVING_UP_V = 2;
 
     private final Integer priority = 0;
 

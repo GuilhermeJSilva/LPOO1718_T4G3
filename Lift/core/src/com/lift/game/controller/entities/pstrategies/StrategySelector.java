@@ -14,7 +14,7 @@ public class StrategySelector {
     private MovementStrategy nullStrategy;
 
     public StrategySelector() {
-        this.strategies = new HashMap<PersonType, MovementStrategy>();
+        this.strategies = new HashMap<PersonType,MovementStrategy>();
         this.strategies.put(PersonType.Drunken, new DrunkenMovement());
         this.strategies.put(PersonType.Regular, new RegularMovement());
         this.nullStrategy = new NullStrategy();

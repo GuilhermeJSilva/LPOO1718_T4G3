@@ -19,7 +19,7 @@ public class DiamondPoly extends BasePolyActor{
         float h2 = -height / 2 * (1 - p2);
         float w2 = width / 2 * p2;
 
-        PolygonRegion polyReg = new PolygonRegion(new TextureRegion(texture), new float[]{      // Four vertices
+        return new PolygonRegion(new TextureRegion(texture), new float[]{      // Four vertices
                 -width / 2, 0,
                 -w1, h1,
                 0, 0,
@@ -37,6 +37,5 @@ public class DiamondPoly extends BasePolyActor{
                 5, 7, 8,
                 7, 8, 6
         });
-        return polyReg;
     }
 }

@@ -1,11 +1,5 @@
 package com.lift.game.model.entities;
 
-import com.lift.game.model.entities.person.PersonModel;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * Model representing an elevator.
  */
@@ -71,7 +65,7 @@ public class ElevatorModel extends EntityModel {
     /**
      * Default constructor.
      */
-    public ElevatorModel(Float x, Integer levels) {
+    public ElevatorModel(Float x) {
         super(x, STARTING_Y);
         this.capacity = DEFAULT_CAPACITY;
         this.occupancy = 0;

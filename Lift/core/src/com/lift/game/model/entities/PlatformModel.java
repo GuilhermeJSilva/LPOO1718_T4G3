@@ -1,10 +1,5 @@
 package com.lift.game.model.entities;
 
-import com.lift.game.model.entities.person.PersonModel;
-
-import java.util.LinkedList;
-import java.util.List;
-
 public class PlatformModel extends EntityModel{
 
     private int number_of_people;

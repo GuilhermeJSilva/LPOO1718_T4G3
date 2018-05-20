@@ -3,9 +3,7 @@ package com.lift.game.model;
 import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.person.PersonModel;
@@ -41,7 +39,7 @@ public class GameModel {
     /**
      * Stores the singleton.
      */
-    public static GameModel instance;
+    private static GameModel instance;
 
     /**
      * Game's left left_elevator.
@@ -66,7 +64,7 @@ public class GameModel {
     private ArrayList<PlatformModel> right_floors;
 
     /**
-     * Freeflying people.
+     * Free flying people.
      */
     private ArrayList<PersonModel> people;
 
@@ -78,8 +76,8 @@ public class GameModel {
         this.lives = 3;
         this.time_left = 30.0;
         n_levels = DEFAULT_N_LEVEL;
-        left_elevator = new ElevatorModel(15.2f, this.n_levels);
-        right_elevator = new ElevatorModel(30f , this.n_levels);
+        left_elevator = new ElevatorModel(15.2f);
+        right_elevator = new ElevatorModel(30f);
 
         this.people = new ArrayList<PersonModel>();
         this.left_floors = new ArrayList<PlatformModel>();

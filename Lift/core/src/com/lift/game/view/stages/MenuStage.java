@@ -3,7 +3,6 @@ package com.lift.game.view.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -69,8 +68,7 @@ public class MenuStage extends Stage {
     private ImageButton createButton(LiftGame game, OrthographicCamera camera, String fileName) {
         Texture texture = game.getAssetManager().get(fileName);
         Drawable drawable = new TextureRegionDrawable(new TextureRegion(texture));
-        ImageButton button = new ImageButton(drawable);
 
-        return button;
+        return new ImageButton(drawable);
     }
 }

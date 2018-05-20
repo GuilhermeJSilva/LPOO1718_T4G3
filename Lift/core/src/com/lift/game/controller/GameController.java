@@ -70,7 +70,7 @@ public class GameController {
     /**
      * Stores the singleton.
      */
-    public static GameController instance;
+    private static GameController instance;
 
     /**
      * Responsible to select what strategy to use.
@@ -144,9 +144,9 @@ public class GameController {
      */
     public void update(float delta) {
         GameModel.getInstance().update(delta);
-        peopleAdministrator.updatePeople(strategySelector,delta);
 
-        peopleAdministrator.run();
+        peopleAdministrator.updatePeople(strategySelector,delta);
+        peopleAdministrator.movePeople();
 
         float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;
@@ -164,7 +164,7 @@ public class GameController {
 
 
     private void updateModel() {
-        Array<Body> bodies = new Array<Body>();
+        Array<Body> bodies = new Array<>();
         world.getBodies(bodies);
 
         for (Body body : bodies) {
@@ -211,7 +211,4 @@ public class GameController {
         return people;
     }
 
-    public void reached(int target_floor, Side side) {
-        peopleAdministrator.deliverPeople(target_floor, side);
-    }
 }

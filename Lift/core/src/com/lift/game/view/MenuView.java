@@ -14,7 +14,7 @@ public class MenuView extends ScreenAdapter {
     /**
      * How much meters does a pixel represent.
      */
-    public final static float PIXEL_TO_METER = 0.0417f;
+    private final static float PIXEL_TO_METER = 0.0417f;
     /**
      * The width of the viewport in meters.
      */

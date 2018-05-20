@@ -28,7 +28,7 @@ public class LifeActor extends Actor {
     }
 
 
-    public Sprite createSprite(LiftGame game, float x, float y) {
+    private Sprite createSprite(LiftGame game, float x, float y) {
         Sprite tmp = new Sprite(heartRegion);
         tmp.setPosition(x,y);
         return tmp;

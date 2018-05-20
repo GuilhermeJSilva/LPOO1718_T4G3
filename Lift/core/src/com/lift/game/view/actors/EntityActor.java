@@ -2,12 +2,9 @@ package com.lift.game.view.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lift.game.LiftGame;
 import com.lift.game.model.entities.EntityModel;
-
-import javax.swing.text.html.parser.Entity;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
@@ -24,7 +21,7 @@ public abstract class EntityActor extends Actor {
     /**
      * The actor represents this model.
      */
-    protected EntityModel model;
+    private EntityModel model;
 
 	/**
 	 * Constructs an actor in a given game.

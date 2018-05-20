@@ -1,9 +1,7 @@
 package com.lift.game.controller;
 
-import com.badlogic.gdx.Game;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
-import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
@@ -12,7 +10,7 @@ import com.lift.game.model.entities.person.Side;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PeopleGenerator {
+class PeopleGenerator {
     private final GameController gameController;
 
     /**
@@ -30,15 +28,15 @@ public class PeopleGenerator {
     }
 
 
-    public Float getT_accumulator() {
+    private Float getT_accumulator() {
         return t_accumulator;
     }
 
-    public void setT_accumulator(Float t_accumulator) {
+    private void setT_accumulator(Float t_accumulator) {
         this.t_accumulator = t_accumulator;
     }
 
-    public Float getSeconds_b_person() {
+    private Float getSeconds_b_person() {
         return seconds_b_person;
     }
 
@@ -51,7 +49,7 @@ public class PeopleGenerator {
      *
      * @param n_people Number of people to generate.
      */
-    void generatePeople(int n_people) {
+    private void generatePeople(int n_people) {
         if (n_people < 0)
             return;
         Random generator = new Random();
@@ -66,7 +64,7 @@ public class PeopleGenerator {
      *
      * @param floor Floor to generate in.
      */
-    void generatePerson(int floor) {
+    private void generatePerson(int floor) {
         Random generator = new Random();
         int dest;
         do {
@@ -103,7 +101,7 @@ public class PeopleGenerator {
      * @param floor               Floor the person is currently in.
      * @return The person model that was added.
      */
-    public PersonModel add_waiting_person(int floor, int dest, Side side) {
+    private PersonModel add_waiting_person(int floor, int dest, Side side) {
         ArrayList<PlatformModel> floors;
         float x;
         if (side == Side.Left) {

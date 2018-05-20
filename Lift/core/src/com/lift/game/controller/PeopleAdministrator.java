@@ -24,17 +24,7 @@ public class PeopleAdministrator {
 
     }
 
-    void run() {
-        this.movePeople();
-        this.erasePeople();
-    }
-
-    //TODO Implement
-    private void erasePeople() {
-
-    }
-
-    private void movePeople() {
+    void movePeople() {
         for(PersonBody personBody : reachedPeople) {
             PersonModel personModel = ((PersonModel) personBody.getBody().getUserData());
             updatePositionWhenReached(personModel.getSide(), personBody);

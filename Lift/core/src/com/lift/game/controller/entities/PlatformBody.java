@@ -1,11 +1,7 @@
 package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import static com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
 import static com.lift.game.controller.entities.PersonBody.PERSON_MASK;

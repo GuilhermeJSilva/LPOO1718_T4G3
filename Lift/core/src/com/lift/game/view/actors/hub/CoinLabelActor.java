@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.lift.game.LiftGame;
-import com.lift.game.model.GameModel;
 
 public class CoinLabelActor extends Actor {
     /**
@@ -17,7 +16,7 @@ public class CoinLabelActor extends Actor {
     private Label coin_label;
 
     /**
-     * Contructs the label for the score.
+     * Constructs the label for the score.
      */
     public CoinLabelActor(LiftGame game, Camera camera) {
         Label.LabelStyle label2Style = new Label.LabelStyle();
