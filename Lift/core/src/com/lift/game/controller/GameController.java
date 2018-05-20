@@ -164,7 +164,7 @@ public class GameController {
 
 
     private void updateModel() {
-        Array<Body> bodies = new Array<>();
+        Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
 
         for (Body body : bodies) {
