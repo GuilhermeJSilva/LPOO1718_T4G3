@@ -145,7 +145,7 @@ public class GameController {
      */
     public void update(float delta) {
         GameModel.getInstance().update(delta);
-        this.updatePeople(delta);
+        peopleAdministrator.updatePeople(strategySelector,delta);
 
         peopleAdministrator.run();
 
@@ -182,14 +182,7 @@ public class GameController {
         }
     }
 
-    private void updatePeople(float delta) {
-        for (PersonBody personBody : people) {
-            PersonModel per = (PersonModel) personBody.getBody().getUserData();
-            if (per.update(delta) && per.getPersonState() != PersonState.GiveUP) {
-                strategySelector.getStrategy(per).giveUp(personBody, per.getSide());
-            }
-        }
-    }
+
 
 
     /**

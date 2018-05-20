@@ -60,4 +60,9 @@ public class NullStrategy implements MovementStrategy {
     public void collisionEndPersonPersonInPlatform(Body person1, Body person2, Side side) {
 
     }
+
+    @Override
+    public float getSatisfactionDelta(float delta) {
+        return delta;
+    }
 }

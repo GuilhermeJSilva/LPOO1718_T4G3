@@ -2,6 +2,7 @@ package com.lift.game.controller;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.person.PersonModel;
@@ -25,8 +26,7 @@ public class PeopleAdministrator {
 
     }
 
-    //TODO Implement
-    protected void movePeople() {
+    private void movePeople() {
         for (PersonBody personBody : gameController.getPeople()) {
             Body body = personBody.getBody();
             PersonModel personModel = ((PersonModel) body.getUserData());
@@ -63,6 +63,16 @@ public class PeopleAdministrator {
             GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
         } else {
             GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
+        }
+    }
+
+    public  void updatePeople(StrategySelector strategySelector, float delta) {
+        for (PersonBody personBody : gameController.getPeople()) {
+            PersonModel per = (PersonModel) personBody.getBody().getUserData();
+            float real_delta = strategySelector.getStrategy(per).getSatisfactionDelta(delta);
+            if (per.update(real_delta) && per.getPersonState() != PersonState.GiveUP) {
+                strategySelector.getStrategy(per).giveUp(personBody, per.getSide());
+            }
         }
     }
 

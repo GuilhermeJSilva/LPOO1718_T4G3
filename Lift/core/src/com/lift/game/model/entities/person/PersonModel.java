@@ -10,11 +10,6 @@ public class PersonModel extends EntityModel {
     public static Float STARTING_SATISFACTION = 25f;
 
     /**
-     * Satisfaction decrease factor.
-     */
-    private Float satisfaction_factor;
-
-    /**
      * Satisfaction.
      */
     private Float satisfaction;
@@ -55,7 +50,7 @@ public class PersonModel extends EntityModel {
     private boolean tryingToEnter;
 
 
-    public PersonModel(float x, float y, int floor, Side side, Float satisfaction_factor, int destination) {
+    public PersonModel(float x, float y, int floor, Side side, int destination) {
         super(x, y);
 
         this.personType = RandomTypeGenerator.getRandomType();
@@ -67,7 +62,6 @@ public class PersonModel extends EntityModel {
         this.side = side;
 
         this.satisfaction = STARTING_SATISFACTION;
-        this.satisfaction_factor = satisfaction_factor;
     }
 
 
@@ -86,7 +80,7 @@ public class PersonModel extends EntityModel {
      * @param delta Time that passed.
      */
     public boolean update(float delta) {
-        this.satisfaction -= delta / satisfaction_factor;
+        this.satisfaction -= delta;
         return satisfaction < 0;
     }
 

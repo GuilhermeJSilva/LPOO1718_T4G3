@@ -74,7 +74,7 @@ public class PeopleGenerator {
         } while (dest == floor);
 
         Side side = Side.values()[new Random().nextInt(2)];
-        PersonModel p_model = this.add_waiting_person(floor, 1, dest, side);
+        PersonModel p_model = this.add_waiting_person(floor, dest, side);
 
         if (p_model != null) {
             PersonBody personBody = new PersonBody(gameController.getWorld(), p_model);
@@ -101,10 +101,9 @@ public class PeopleGenerator {
      * Adds a new person to waiting for the left_elevator.
      *
      * @param floor               Floor the person is currently in.
-     * @param satisfaction_factor Rate that the satisfaction decreases.
      * @return The person model that was added.
      */
-    public PersonModel add_waiting_person(int floor, float satisfaction_factor, int dest, Side side) {
+    public PersonModel add_waiting_person(int floor, int dest, Side side) {
         ArrayList<PlatformModel> floors;
         float x;
         if (side == Side.Left) {
@@ -119,7 +118,7 @@ public class PeopleGenerator {
             return null;
 
         float y = floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2;
-        PersonModel new_p = new PersonModel(x, y, floor, side, satisfaction_factor, dest);
+        PersonModel new_p = new PersonModel(x, y, floor, side, dest);
         GameModel.getInstance().addPerson(new_p);
         floors.get(floor).incrementNPeople();
         return new_p;

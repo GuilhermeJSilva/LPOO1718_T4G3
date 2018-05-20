@@ -18,4 +18,6 @@ public interface MovementStrategy {
     void giveUp(PersonBody personBody, Side side);
 
     void collisionEndPersonPersonInPlatform(Body person1, Body person2, Side side);
+
+    float getSatisfactionDelta(float delta);
 }
