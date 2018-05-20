@@ -27,7 +27,7 @@ public class GameStage extends Stage {
         initiateIndicatorPositions(camera);
 
         this.addActor(new ElevatorActor(game, GameModel.getInstance().getLeft_elevator()));
-        this.addActor(new ElevatorActor(game,GameModel.getInstance().getRight_elevator()));
+        this.addActor(new ElevatorActor(game, GameModel.getInstance().getRight_elevator()));
 
         ArrayList<PlatformModel> platformModels = GameModel.getInstance().getLeft_floors();
         addPlatforms(game, platformModels);
@@ -40,21 +40,21 @@ public class GameStage extends Stage {
     }
 
     private void initiateIndicatorPositions(Camera camera) {
-        HashMap<Side, ArrayList<Vector2> > indicatorPositions =  new HashMap<Side, ArrayList<Vector2>>();
+        HashMap<Side, ArrayList<Vector2>> indicatorPositions = new HashMap<Side, ArrayList<Vector2>>();
         ArrayList<Vector2> arrayPositions = new ArrayList<Vector2>();
 
-        float leftIndicatorHeight = camera.viewportHeight / 2 + camera.viewportHeight / 4;
-        arrayPositions.add(new Vector2(camera.viewportWidth/2 - 3*PersonActor.INDICATOR_WIDTH/2, leftIndicatorHeight));
-        arrayPositions.add(new Vector2(camera.viewportWidth/2, leftIndicatorHeight));
-        arrayPositions.add(new Vector2(camera.viewportWidth/2 + 3*PersonActor.INDICATOR_WIDTH/2, leftIndicatorHeight));
+        float leftIndicatorHeight = camera.viewportHeight / 2 + camera.viewportHeight / 4 + camera.viewportHeight / 60;
+        arrayPositions.add(new Vector2(camera.viewportWidth / 2 - PersonActor.INDICATOR_WIDTH, leftIndicatorHeight));
+        arrayPositions.add(new Vector2(camera.viewportWidth / 2, leftIndicatorHeight));
+        arrayPositions.add(new Vector2(camera.viewportWidth / 2 + PersonActor.INDICATOR_WIDTH, leftIndicatorHeight));
         indicatorPositions.put(Side.Left, arrayPositions);
 
         arrayPositions = new ArrayList<Vector2>();
 
-        float rightIndicatorRight = camera.viewportHeight / 2 - camera.viewportHeight / 4;
-        arrayPositions.add(new Vector2(camera.viewportWidth/2 - 3*PersonActor.INDICATOR_WIDTH/2, rightIndicatorRight));
-        arrayPositions.add(new Vector2(camera.viewportWidth/2, rightIndicatorRight));
-        arrayPositions.add(new Vector2(camera.viewportWidth/2 + 3*PersonActor.INDICATOR_WIDTH/2, rightIndicatorRight));
+        float rightIndicatorRight = camera.viewportHeight / 2 - camera.viewportHeight / 6 - camera.viewportHeight / 56;
+        arrayPositions.add(new Vector2(camera.viewportWidth / 2 - PersonActor.INDICATOR_WIDTH, rightIndicatorRight));
+        arrayPositions.add(new Vector2(camera.viewportWidth / 2, rightIndicatorRight));
+        arrayPositions.add(new Vector2(camera.viewportWidth / 2 + PersonActor.INDICATOR_WIDTH, rightIndicatorRight));
         indicatorPositions.put(Side.Right, arrayPositions);
 
         PersonActor.setIndicatorPositions(indicatorPositions);
@@ -67,8 +67,8 @@ public class GameStage extends Stage {
     }
 
     private void addPeopleActors(LiftGame game) {
-        for(PersonModel personModel : GameModel.getInstance().getPeople()) {
-            if(personModel.isNew_person()) {
+        for (PersonModel personModel : GameModel.getInstance().getPeople()) {
+            if (personModel.isNew_person()) {
                 this.addActor(new PersonActor(game, personModel));
                 personModel.setNew_person(false);
             }

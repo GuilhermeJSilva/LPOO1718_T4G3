@@ -15,6 +15,7 @@ import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
 
 /**
  * Controls the game.
@@ -103,7 +104,7 @@ public class GameController {
             right_floors.add(new PlatformBody(this.world, pm, false));
         }
 
-        for (PersonModel pm : GameModel.getInstance().getPeople()){
+        for (PersonModel pm : GameModel.getInstance().getPeople()) {
             this.people.add(new PersonBody(world, pm));
         }
         world.setContactListener(new GameCollisionHandler());
@@ -129,17 +130,11 @@ public class GameController {
      *
      * @return Controller's left_elevator.
      */
-    public ElevatorBody getLeft_elevator() {
-        return left_elevator;
-    }
-
-    /**
-     * Returns the controller's right_elevator.
-     *
-     * @return Controller's right_elevator.
-     */
-    public ElevatorBody getRight_elevator() {
-        return right_elevator;
+    public ElevatorBody getElevator(Side side) {
+        if (Side.Left == side)
+            return left_elevator;
+        else
+            return right_elevator;
     }
 
 
@@ -169,7 +164,6 @@ public class GameController {
     }
 
 
-
     private void updateModel() {
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
@@ -178,10 +172,9 @@ public class GameController {
             ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y, body.getAngle());
             if (body.getUserData() instanceof ElevatorModel) {
                 ElevatorModel em = ((ElevatorModel) body.getUserData());
-                if(em ==  GameModel.getInstance().getLeft_elevator()) {
+                if (em == GameModel.getInstance().getLeft_elevator()) {
                     ((ElevatorModel) body.getUserData()).setTarget_floor(left_elevator.getTarget_floor());
-                }
-                else {
+                } else {
                     ((ElevatorModel) body.getUserData()).setTarget_floor(right_elevator.getTarget_floor());
                 }
                 em.setStopped(body.getLinearVelocity().y == 0);
@@ -190,14 +183,13 @@ public class GameController {
     }
 
     private void updatePeople(float delta) {
-        for(PersonBody personBody : people) {
+        for (PersonBody personBody : people) {
             PersonModel per = (PersonModel) personBody.getBody().getUserData();
-            if(per.update(delta) && per.getPersonState() != PersonState.GiveUP && per.getPersonState() != PersonState.InElevator) {
+            if (per.update(delta) && per.getPersonState() != PersonState.GiveUP) {
                 strategySelector.getStrategy(per).giveUp(personBody, per.getSide());
             }
         }
     }
-
 
 
     /**
@@ -211,7 +203,7 @@ public class GameController {
 
 
     public void addPerson(PersonBody personBody) {
-        if(personBody != null)
+        if (personBody != null)
             people.add(personBody);
     }
 

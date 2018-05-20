@@ -20,6 +20,7 @@ import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.Side;
 import com.lift.game.view.stages.GameStage;
 import com.lift.game.view.stages.HudStage;
 
@@ -218,11 +219,11 @@ public class GameView extends ScreenAdapter {
             int floor = determine_floor_number(floors);
             if (floor != -1) {
                 if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
-                    if (GameController.getInstance().getRight_elevator().getTarget_floor() != floor) {
-                       GameController.getInstance().getRight_elevator().setTarget_floor(floor);
+                    if (GameController.getInstance().getElevator(Side.Right).getTarget_floor() != floor) {
+                       GameController.getInstance().getElevator(Side.Right).setTarget_floor(floor);
                     }
-                } else if (GameController.getInstance().getLeft_elevator().getTarget_floor() != floor) {
-                    GameController.getInstance().getLeft_elevator().setTarget_floor(floor);
+                } else if (GameController.getInstance().getElevator(Side.Left).getTarget_floor() != floor) {
+                    GameController.getInstance().getElevator(Side.Left).setTarget_floor(floor);
 
                 }
             }

@@ -7,7 +7,7 @@ public class PersonModel extends EntityModel {
     /**
      * Starting satisfaction.
      */
-    public static Float STARTING_SATISFACTION = 10f;
+    public static Float STARTING_SATISFACTION = 25f;
 
     /**
      * Satisfaction decrease factor.
@@ -66,10 +66,7 @@ public class PersonModel extends EntityModel {
         this.floor = floor;
         this.side = side;
 
-        if (personType == PersonType.Drunken)
-            this.satisfaction = 0f;
-        else
-            this.satisfaction = STARTING_SATISFACTION;
+        this.satisfaction = STARTING_SATISFACTION;
         this.satisfaction_factor = satisfaction_factor;
     }
 

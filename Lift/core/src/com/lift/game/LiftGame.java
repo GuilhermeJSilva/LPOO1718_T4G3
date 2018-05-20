@@ -48,6 +48,7 @@ public class LiftGame extends Game {
     @Override
 	public void dispose () {
 		spriteBatch.dispose();
+        polygonBatch.dispose();
 		assetManager.dispose();
 	}
 
