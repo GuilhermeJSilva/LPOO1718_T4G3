@@ -16,7 +16,12 @@ public abstract class EntityModel {
      */
     private float rotation = 0;
 
-	/**
+    /**
+     * If this field is true the object is going to be removed.
+     */
+    private boolean flaggedForRemoval = false;
+
+    /**
 	 * Default entity constructor.
 	 * 
 	 * @param x
@@ -57,4 +62,12 @@ public abstract class EntityModel {
 		this.y = y;
 		this.rotation = rotation;
 	}
+
+    public boolean isFlaggedForRemoval() {
+        return flaggedForRemoval;
+    }
+
+    public void setFlaggedForRemoval(boolean flaggedForRemoval) {
+        this.flaggedForRemoval = flaggedForRemoval;
+    }
 }

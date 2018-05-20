@@ -35,8 +35,18 @@ public class PeopleAdministrator {
             Body body = personBody.getBody();
             PersonModel personModel = ((PersonModel) body.getUserData());
 
-            if (personModel.isTryingToEnter() && personModel.getPersonState() != PersonState.InElevator) {
-                enterTheElevator(body, personModel);
+            if (personModel != null) {
+                if (personModel.isTryingToEnter() && personModel.getPersonState() != PersonState.InElevator) {
+                    enterTheElevator(body, personModel);
+                }
+
+                if (personModel.getPersonState() == PersonState.FreeFlying || personModel.getPersonState() == PersonState.Reached) {
+                    if(body.getPosition().x < 0 || body.getPosition().x > 45 || body.getPosition().y < 0) {
+                        if (personModel.getPersonState() == PersonState.FreeFlying)
+                            GameModel.getInstance().decrementLives();
+                        personModel.setFlaggedForRemoval(true);
+                    }
+                }
             }
         }
     }
@@ -73,9 +83,11 @@ public class PeopleAdministrator {
     void updatePeople(StrategySelector strategySelector, float delta) {
         for (PersonBody personBody : gameController.getPeople()) {
             PersonModel per = (PersonModel) personBody.getBody().getUserData();
-            float real_delta = strategySelector.getStrategy(per).getSatisfactionDelta(delta);
-            if (per.update(real_delta) && per.getPersonState() != PersonState.GiveUP) {
-                strategySelector.getStrategy(per).giveUp(personBody, per.getSide());
+            if (per != null) {
+                float real_delta = strategySelector.getStrategy(per).getSatisfactionDelta(delta);
+                if (per.update(real_delta) && per.getPersonState() != PersonState.GiveUP) {
+                    strategySelector.getStrategy(per).giveUp(personBody, per.getSide());
+                }
             }
         }
     }

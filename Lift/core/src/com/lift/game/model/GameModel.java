@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.Side;
@@ -178,6 +179,21 @@ public class GameModel {
 
     public void addPerson(PersonModel new_p) {
         people.add(new_p);
+    }
+
+    public void incrementLives() {
+        lives++;
+    }
+
+    public void decrementLives() {
+        if(lives > 0)
+            lives--;
+    }
+
+    public void remove(EntityModel model) {
+        if (model instanceof PersonModel) {
+            people.remove(model);
+        }
     }
 }
 

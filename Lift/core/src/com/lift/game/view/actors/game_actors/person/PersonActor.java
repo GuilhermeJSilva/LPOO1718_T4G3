@@ -86,12 +86,16 @@ public class PersonActor extends EntityActor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        if(model.getPersonState() != PersonState.InElevator) {
-            drawPerson(batch, parentAlpha);
-        } else {
-            drawIndicatorOnly(batch, parentAlpha);
+        if (removed()) {
+            if(model.getPersonState() != PersonState.InElevator) {
+                drawPerson(batch, parentAlpha);
+            } else {
+                drawIndicatorOnly(batch, parentAlpha);
+            }
         }
     }
+
+
 
     private void drawIndicatorOnly(Batch batch, float parentAlpha) {
         this.updateIndicator();

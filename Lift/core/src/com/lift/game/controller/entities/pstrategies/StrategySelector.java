@@ -22,9 +22,11 @@ public class StrategySelector {
 
     public MovementStrategy getStrategy(PersonModel personModel) {
         PersonType personType;
-        personType = personModel.getPersonType();
-        if(strategies.containsKey(personType)) {
-            return strategies.get(personType);
+        if(personModel != null) {
+            personType = personModel.getPersonType();
+            if (strategies.containsKey(personType)) {
+                return strategies.get(personType);
+            }
         }
         return nullStrategy;
     }

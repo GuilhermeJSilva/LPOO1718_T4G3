@@ -2,6 +2,7 @@ package com.lift.game.controller;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -210,5 +211,18 @@ public class GameController {
     public ArrayList<PersonBody> getPeople() {
         return people;
     }
+
+    public void removeFlagged() {
+        Array<Body> bodies = new Array<Body>();
+        world.getBodies(bodies);
+        for (Body body : bodies) {
+            EntityModel entityModel = ((EntityModel) body.getUserData());
+            if(entityModel.isFlaggedForRemoval()) {
+                world.destroyBody(body);
+                GameModel.getInstance().remove(entityModel);
+            }
+        }
+    }
+
 
 }

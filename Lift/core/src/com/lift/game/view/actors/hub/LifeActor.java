@@ -42,7 +42,7 @@ public class LifeActor extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         int n_lives = GameModel.getInstance().getLives();
-        for (int i = 0; i < n_lives; i++) {
+        for (int i = 0; i < n_lives && i < this.sprite.size(); i++) {
             this.sprite.get(i).draw(batch, parentAlpha);
         }
 

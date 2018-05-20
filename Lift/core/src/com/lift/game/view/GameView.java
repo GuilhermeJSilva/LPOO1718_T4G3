@@ -33,7 +33,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures
      */
-    private static final boolean DEBUG_PHYSICS = true;
+    private static final boolean DEBUG_PHYSICS = false;
     /**
      * The width of the viewport in meters.
      */
@@ -120,7 +120,6 @@ public class GameView extends ScreenAdapter {
 
     }
 
-    //TODO: Load fonts in MenuView???
     private void loadFonts(AssetManager manager) {
         FileHandleResolver resolver = new InternalFileHandleResolver();
         manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
@@ -145,9 +144,8 @@ public class GameView extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        //GameController.getInstance().removeFlagged();
+        GameController.getInstance().removeFlagged();
 
-        //Move into the elevator actor
         updateGame(delta);
         resetCamera();
 

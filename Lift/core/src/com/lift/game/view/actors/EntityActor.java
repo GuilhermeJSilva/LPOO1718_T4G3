@@ -53,7 +53,17 @@ public abstract class EntityActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        this.update();
-        sprite.draw(batch, parentAlpha);
+        if (removed()) {
+            this.update();
+            sprite.draw(batch, parentAlpha);
+        }
+    }
+
+    protected boolean removed() {
+	    if(model.isFlaggedForRemoval()) {
+            this.getParent().removeActor(this);
+	        return false;
+        }
+        return true;
     }
 }
