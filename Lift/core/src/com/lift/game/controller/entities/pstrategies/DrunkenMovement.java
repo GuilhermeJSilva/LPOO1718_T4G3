@@ -31,4 +31,9 @@ public class DrunkenMovement extends NullStrategy implements MovementStrategy {
     public float getSatisfactionDelta(float delta) {
         return 0;
     }
+
+    @Override
+    public float getTimeIncrease() {
+        return 2f;
+    }
 }

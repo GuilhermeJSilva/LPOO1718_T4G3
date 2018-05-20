@@ -25,11 +25,7 @@ public class PeopleAdministrator {
     }
 
     void movePeople() {
-        for(PersonBody personBody : reachedPeople) {
-            PersonModel personModel = ((PersonModel) personBody.getBody().getUserData());
-            updatePositionWhenReached(personModel.getSide(), personBody);
-        }
-        reachedPeople.clear();
+        movePeopleOut();
 
         for (PersonBody personBody : gameController.getPeople()) {
             Body body = personBody.getBody();
@@ -49,6 +45,15 @@ public class PeopleAdministrator {
                 }
             }
         }
+    }
+
+    private void movePeopleOut() {
+        for(PersonBody personBody : reachedPeople) {
+            PersonModel personModel = ((PersonModel) personBody.getBody().getUserData());
+            updatePositionWhenReached(personModel.getSide(), personBody);
+            GameModel.getInstance().incrementTime(gameController.getStrategySelector().getStrategy(personModel).getTimeIncrease());
+        }
+        reachedPeople.clear();
     }
 
     private void enterTheElevator(Body personBody, PersonModel personModel) {
@@ -97,11 +102,13 @@ public class PeopleAdministrator {
             Body body = personBody.getBody();
             PersonModel personModel = ((PersonModel) body.getUserData());
 
-            if (personModel.getPersonState() == PersonState.InElevator && personModel.getDestination() ==target_floor && personModel.getSide() == side) {
-                personBody.getBody().setGravityScale(5);
-                reachedPeople.add(personBody);
-                personModel.setPersonState(PersonState.Reached);
-                GameModel.getInstance().getElevator(side).decrementOccupancy();
+            if (personModel != null) {
+                if (personModel.getPersonState() == PersonState.InElevator && personModel.getDestination() ==target_floor && personModel.getSide() == side) {
+                    personBody.getBody().setGravityScale(5);
+                    reachedPeople.add(personBody);
+                    personModel.setPersonState(PersonState.Reached);
+                    GameModel.getInstance().getElevator(side).decrementOccupancy();
+                }
             }
         }
     }

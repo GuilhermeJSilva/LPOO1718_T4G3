@@ -69,4 +69,9 @@ public class NullStrategy implements MovementStrategy {
     public float getSatisfactionDelta(float delta) {
         return delta;
     }
+
+    @Override
+    public float getTimeIncrease() {
+        return 0;
+    }
 }

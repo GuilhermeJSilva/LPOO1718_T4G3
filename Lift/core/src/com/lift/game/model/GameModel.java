@@ -195,6 +195,12 @@ public class GameModel {
             people.remove(model);
         }
     }
+
+    public void incrementTime(float timeIncrease) {
+        time_left += timeIncrease;
+        if(time_left > 99.9)
+            time_left = 99.9;
+    }
 }
 
 
