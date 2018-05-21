@@ -39,9 +39,9 @@ public class ElevatorActor extends EntityActor {
     }
 
     /**
-     * Creates a texture region
-     * @param game
-     * @return
+     * Creates a texture region.
+     * @param game Game.
+     * @return Elevator texture region.
      */
 	private TextureRegion create_elevator_region(LiftGame game) {
 		  Texture elevatorTexture = game.getAssetManager().get("elevator.png");

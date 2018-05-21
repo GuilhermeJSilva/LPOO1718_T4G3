@@ -30,8 +30,16 @@ public class EntityBody {
     /**
      * Adds a fixture to a given body.
      *
-     * @param body
-     * @param sensor
+     * @param body Body to add fixture to.
+     * @param vertexes Vertexes of the fixture.
+     * @param width Width of the fixture.
+     * @param height Height of the fixture.
+     * @param density Density of the fixture.
+     * @param friction Friction of the fixture.
+     * @param restitution Restitution of the fixture.
+     * @param category Category bits of the fixture.
+     * @param mask Collision mask of the fixture.
+     * @param sensor True if the fixture is a sensor.
      */
     final void add_fixture(Body body, float[] vertexes, float width, float height, float density, float friction, float restitution, short category, short mask, boolean sensor) {
         for (int i = 0; i < vertexes.length; i++) {

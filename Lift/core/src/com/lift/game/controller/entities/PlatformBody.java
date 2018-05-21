@@ -31,8 +31,9 @@ public class PlatformBody extends EntityBody {
     /**
      * Creates an entity Body.
      *
-     * @param world
-     * @param model
+     * @param world World the body belongs to.
+     * @param model Model for the body.
+     * @param right True if the sensor is to the right of the platform.
      */
     public PlatformBody(World world, PlatformModel model, boolean right) {
         super(world, model);

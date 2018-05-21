@@ -36,9 +36,9 @@ public class ElevatorModel extends EntityModel {
     private Boolean stopped;
 
     /**
-     * Changes the target floor;
+     * Changes the target floor.
      *
-     * @param target_floor
+     * @param target_floor New target floor.
      */
     public void setTarget_floor(int target_floor) {
         this.target_floor = target_floor;

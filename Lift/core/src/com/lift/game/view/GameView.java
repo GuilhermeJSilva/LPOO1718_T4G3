@@ -35,7 +35,7 @@ public class GameView extends ScreenAdapter {
      */
     public final static float PIXEL_TO_METER = 0.0417f;
     /**
-     * Used to debug the position of the physics fixtures
+     * Used to debug the position of the physics fixtures.
      */
     private static final boolean DEBUG_PHYSICS = false;
     /**
@@ -95,14 +95,14 @@ public class GameView extends ScreenAdapter {
     private GameState gameState;
 
     /**
-     *
+     * Shader to blur the game when the player is in the menus.
      */
     private Shader blurShader;
 
     /**
      * Creates this screen.
      *
-     * @param liftGame
+     * @param liftGame Game the view belongs to.
      */
     public GameView(LiftGame liftGame) {
         this.game = liftGame;
@@ -273,7 +273,7 @@ public class GameView extends ScreenAdapter {
 
     /**
      * Determines the number of the floor.
-     *
+     *D
      * @param floors Floors.
      * @return Number of the floor.
      */

@@ -33,18 +33,18 @@ public class PlatformActor extends EntityActor {
      */
     @Override
     public Sprite createSprite(LiftGame game) {
-        paltormRegion = create_elevator_region(game);
+        paltormRegion = create_platform_region(game);
         return new Sprite(paltormRegion);
     }
 
     /**
-     * Creates a texture region
-     * @param game
-     * @return
+     * Creates a texture region.
+     * @param game Uses the asset maaget from this game.
+     * @return Texture region of the platform.
      */
-    private TextureRegion create_elevator_region(LiftGame game) {
-        Texture elevatorTexture = game.getAssetManager().get("elevator.png");
-        return new TextureRegion(elevatorTexture,(int)(PlatformBody.PLATFORM_LENGTH/PIXEL_TO_METER), (int)(PlatformBody.PLATFORM_HEIGHT/PIXEL_TO_METER));
+    private TextureRegion create_platform_region(LiftGame game) {
+        Texture platformTexture = game.getAssetManager().get("elevator.png");
+        return new TextureRegion(platformTexture,(int)(PlatformBody.PLATFORM_LENGTH/PIXEL_TO_METER), (int)(PlatformBody.PLATFORM_HEIGHT/PIXEL_TO_METER));
     }
 
 }

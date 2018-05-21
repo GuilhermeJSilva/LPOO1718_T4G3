@@ -48,8 +48,8 @@ public abstract class BasePolyActor extends Actor {
     /**
      * Sets the position of the actor's bottom left corner.
      *
-     * @param x
-     * @param y
+     * @param x Position in the x coordinate.
+     * @param y Posiyion in the y coordinate.
      */
     @Override
     public void setPosition(float x, float y) {

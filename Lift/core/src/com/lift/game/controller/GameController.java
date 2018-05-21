@@ -22,7 +22,7 @@ import com.lift.game.model.entities.person.Side;
 public class GameController {
 
     /**
-     * Meters per floor
+     * Meters per floor.
      */
     public static final Integer METERS_PER_FLOOR = 13;
 
