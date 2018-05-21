@@ -34,10 +34,6 @@ public class PersonModel extends EntityModel {
      */
     private int floor;
 
-    /**
-     * Side of the screen the person is on.
-     */
-    private Side side;
 
     /**
      * New person.
@@ -51,7 +47,7 @@ public class PersonModel extends EntityModel {
 
 
     public PersonModel(float x, float y, int floor, Side side, int destination) {
-        super(x, y);
+        super(x, y, side);
 
         this.personType = RandomTypeGenerator.getRandomType();
         this.personState = PersonState.Waiting;
@@ -59,7 +55,6 @@ public class PersonModel extends EntityModel {
 
         this.destination = destination;
         this.floor = floor;
-        this.side = side;
 
         this.satisfaction = STARTING_SATISFACTION;
     }
@@ -122,9 +117,6 @@ public class PersonModel extends EntityModel {
         return floor;
     }
 
-    public Side getSide() {
-        return side;
-    }
 
     public boolean isTryingToEnter() {
         return tryingToEnter;

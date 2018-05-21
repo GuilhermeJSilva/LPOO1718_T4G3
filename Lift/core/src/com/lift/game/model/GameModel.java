@@ -82,19 +82,19 @@ public class GameModel {
         this.lives = 3;
         this.time_left = 30.0;
         n_levels = DEFAULT_N_LEVEL;
-        left_elevator = new ElevatorModel(15.2f);
-        right_elevator = new ElevatorModel(30f);
+        left_elevator = new ElevatorModel(15.2f, Side.Left);
+        right_elevator = new ElevatorModel(30f, Side.Right);
 
         this.people = new ArrayList<PersonModel>();
         this.left_floors = new ArrayList<PlatformModel>();
         this.right_floors = new ArrayList<PlatformModel>();
 
         for (int i = 1; i <= n_levels; i++) {
-            left_floors.add(new PlatformModel(PlatformBody.PLATFORM_LENGTH / 2f + 0.1f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f));
+            left_floors.add(new PlatformModel(PlatformBody.PLATFORM_LENGTH / 2f + 0.1f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f, Side.Left));
         }
 
         for (int i = 1; i <= n_levels; i++) {
-            right_floors.add(new PlatformModel(38.5f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f));
+            right_floors.add(new PlatformModel(38.5f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f, Side.Right));
         }
     }
 

@@ -1,5 +1,7 @@
 package com.lift.game.model.entities;
 
+import com.lift.game.model.entities.person.Side;
+
 public class PlatformModel extends EntityModel{
 
     private int number_of_people;
@@ -12,8 +14,8 @@ public class PlatformModel extends EntityModel{
      * @param x position.
      * @param y position
      */
-    public PlatformModel(float x, float y) {
-        super(x, y);
+    public PlatformModel(float x, float y, Side side) {
+        super(x, y, side);
         number_of_people = 0;
     }
 

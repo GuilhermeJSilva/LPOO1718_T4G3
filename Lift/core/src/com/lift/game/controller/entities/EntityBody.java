@@ -6,10 +6,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.person.Side;
 
 public class EntityBody {
 
     final Body body;
+
+    private Side side;
 
     /**
      * Creates an entity Body.
@@ -25,6 +28,8 @@ public class EntityBody {
 
         body = world.createBody(bodyDef);
         body.setUserData(model);
+
+        this.side = model.getSide();
     }
 
     /**
@@ -100,5 +105,9 @@ public class EntityBody {
 
     public Body getBody() {
         return body;
+    }
+
+    public Side getSide() {
+        return side;
     }
 }

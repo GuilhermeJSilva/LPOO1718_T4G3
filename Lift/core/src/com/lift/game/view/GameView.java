@@ -1,8 +1,6 @@
 package com.lift.game.view;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -21,7 +19,6 @@ import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.model.entities.person.Side;
 import com.lift.game.view.stages.EndStage;
 import com.lift.game.view.stages.GameStage;
 import com.lift.game.view.stages.HudStage;
@@ -38,15 +35,11 @@ public class GameView extends ScreenAdapter {
      * Used to debug the position of the physics fixtures.
      */
     private static final boolean DEBUG_PHYSICS = false;
-    /**
-     * The width of the viewport in meters.
-     */
-    private static final float VIEWPORT_WIDTH = 45;
 
     /**
      * The height of the viewport in meters.
      */
-    private static final float VIEWPORT_HEIGHT = 80;
+    public static final float VIEWPORT_HEIGHT = 80;
 
     /**
      * The game this screen belongs to.
@@ -57,6 +50,11 @@ public class GameView extends ScreenAdapter {
      * The camera used to show the viewport.
      */
     private final OrthographicCamera camera;
+
+    /**
+     * Handles the basic inputs.
+     */
+    private final InputHandler inputHandler = new InputHandler();
 
     /**
      * Stage for the hud.
@@ -216,7 +214,7 @@ public class GameView extends ScreenAdapter {
     }
 
     private void updateGame(float delta) {
-        handleInputs(delta);
+        inputHandler.handleInputs();
         GameController.getInstance().update(delta);
         this.game_stage.updateStage(this.game);
         this.hud.updateStage(delta / 5);
@@ -243,49 +241,6 @@ public class GameView extends ScreenAdapter {
         Texture background = game.getAssetManager().get("lift4.png", Texture.class);
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
         game.getSpriteBatch().draw(background, 0, 0, 0, 0, (int) (camera.viewportWidth), (int) (camera.viewportHeight));
-    }
-
-    /**
-     * Handles any inputs and passes them to the controller.
-     *
-     * @param delta time since last time inputs where handled in seconds
-     */
-    private void handleInputs(float delta) {
-        if (Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            ArrayList<PlatformModel> floors = GameModel.getInstance().getLeft_floors();
-            if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
-                floors = GameModel.getInstance().getRight_floors();
-            }
-            int floor = determine_floor_number(floors);
-            if (floor != -1) {
-                if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
-                    if (GameController.getInstance().getElevator(Side.Right).getTarget_floor() != floor) {
-                        GameController.getInstance().getElevator(Side.Right).setTarget_floor(floor);
-                    }
-                } else if (GameController.getInstance().getElevator(Side.Left).getTarget_floor() != floor) {
-                    GameController.getInstance().getElevator(Side.Left).setTarget_floor(floor);
-
-                }
-            }
-
-        }
-    }
-
-    /**
-     * Determines the number of the floor.
-     *D
-     * @param floors Floors.
-     * @return Number of the floor.
-     */
-    private int determine_floor_number(ArrayList<PlatformModel> floors) {
-        float y_pos = (Gdx.graphics.getHeight() - Gdx.input.getY()) * VIEWPORT_HEIGHT / Gdx.graphics.getHeight();
-        int floor = -1;
-        float distance = Float.MAX_VALUE;
-        for (PlatformModel pm : floors) {
-            if (Math.abs(pm.getY() - y_pos) < distance & y_pos > pm.getY())
-                floor = floors.indexOf(pm);
-        }
-        return floor;
     }
 
 

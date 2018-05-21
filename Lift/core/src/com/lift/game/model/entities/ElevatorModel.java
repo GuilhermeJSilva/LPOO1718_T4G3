@@ -1,5 +1,7 @@
 package com.lift.game.model.entities;
 
+import com.lift.game.model.entities.person.Side;
+
 /**
  * Model representing an elevator.
  */
@@ -65,8 +67,8 @@ public class ElevatorModel extends EntityModel {
     /**
      * Default constructor.
      */
-    public ElevatorModel(Float x) {
-        super(x, STARTING_Y);
+    public ElevatorModel(Float x, Side side) {
+        super(x, STARTING_Y, side);
         this.capacity = DEFAULT_CAPACITY;
         this.occupancy = 0;
         this.stopped = false;
