@@ -2,19 +2,17 @@ package com.lift.game.view.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.view.GameView;
+import com.lift.game.view.actors.ButtonCreator;
 
 public class MenuStage extends Stage {
+    private final ButtonCreator buttonCreator = new ButtonCreator();
     private float GLOBAL_OFFSET;
     private float SPACING_OFFSET;
     public MenuStage(LiftGame game, OrthographicCamera camera) {
@@ -29,7 +27,7 @@ public class MenuStage extends Stage {
     }
 
     private void addPlayButton(final LiftGame game, OrthographicCamera camera) {
-        ImageButton button = createButton(game, camera, "PLAY.png");
+        ImageButton button = buttonCreator.createButton(game, camera, "PLAY.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 + button.getHeight() / 2 + GLOBAL_OFFSET + SPACING_OFFSET);
         button.addListener(new ClickListener() {
             @Override
@@ -42,7 +40,7 @@ public class MenuStage extends Stage {
     }
 
     private void addSettingsButton(LiftGame game, OrthographicCamera camera) {
-        ImageButton button = createButton(game, camera, "SETTINGS.png");
+        ImageButton button = buttonCreator.createButton(game, camera, "SETTINGS.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 - button.getHeight() / 2 + GLOBAL_OFFSET);
         button.addListener(new ClickListener() {
             @Override
@@ -54,7 +52,7 @@ public class MenuStage extends Stage {
     }
 
     private void addScoreButton(LiftGame game, OrthographicCamera camera) {
-        ImageButton button = createButton(game, camera, "SCORE.png");
+        ImageButton button = buttonCreator.createButton(game, camera, "SCORE.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 - 3 * button.getHeight() / 2 + GLOBAL_OFFSET - SPACING_OFFSET);
         button.addListener(new ClickListener() {
             @Override
@@ -66,9 +64,7 @@ public class MenuStage extends Stage {
     }
 
     private ImageButton createButton(LiftGame game, OrthographicCamera camera, String fileName) {
-        Texture texture = game.getAssetManager().get(fileName);
-        Drawable drawable = new TextureRegionDrawable(new TextureRegion(texture));
 
-        return new ImageButton(drawable);
+        return buttonCreator.createButton(game, camera, fileName);
     }
 }

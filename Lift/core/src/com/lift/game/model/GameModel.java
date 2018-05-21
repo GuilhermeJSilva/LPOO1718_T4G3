@@ -28,6 +28,11 @@ public class GameModel {
     private Double time_left;
 
     /**
+     * Game's score.
+     */
+    private Double score = 0.0;
+
+    /**
      * Number of left_floors in the game.
      */
     private Integer n_levels;
@@ -168,6 +173,7 @@ public class GameModel {
      */
     public void update(float delta) {
         this.time_left -= delta;
+        this.score += delta;
         if (this.time_left < 0)
             this.time_left = 0.0;
 
@@ -200,6 +206,10 @@ public class GameModel {
         time_left += timeIncrease;
         if(time_left > 99.9)
             time_left = 99.9;
+    }
+
+    public Double getScore() {
+        return score;
     }
 }
 

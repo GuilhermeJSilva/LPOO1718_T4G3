@@ -1,5 +1,6 @@
 package com.lift.game.view;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lift.game.LiftGame;
@@ -20,8 +22,10 @@ import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.Side;
+import com.lift.game.view.stages.EndStage;
 import com.lift.game.view.stages.GameStage;
 import com.lift.game.view.stages.HudStage;
+import com.lift.game.view.stages.StartStage;
 
 import java.util.ArrayList;
 
@@ -48,18 +52,32 @@ public class GameView extends ScreenAdapter {
      * The game this screen belongs to.
      */
     private final LiftGame game;
+
     /**
      * The camera used to show the viewport.
      */
     private final OrthographicCamera camera;
+
     /**
      * Stage for the hud.
      */
     private HudStage hud;
+
     /**
      * Stage for all game entities.
      */
     private GameStage game_stage;
+
+    /**
+     * Stage for the start of the game.
+     */
+    private StartStage startStage;
+
+    /**
+     * Stage for the end of the game.
+     */
+    private EndStage endStage;
+
     /**
      * A renderer used to debug the physical fixtures.
      */
@@ -71,19 +89,30 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
 
+    /**
+     * State of the game.
+     */
+    private GameState gameState;
 
+    /**
+     *
+     */
+    private Shader blurShader;
 
     /**
      * Creates this screen.
      *
-     * @param liftGame The game this screen belongs to
+     * @param liftGame
      */
     public GameView(LiftGame liftGame) {
         this.game = liftGame;
         loadAssets();
         camera = createCamera();
-        this.hud = new HudStage(this.game,this.camera);
-        this.game_stage = new GameStage(this.game,this.camera);
+        this.hud = new HudStage(this.game, this.camera);
+        this.game_stage = new GameStage(this.game, this.camera);
+        this.startStage = new StartStage(this.game, this.camera);
+        this.endStage =  new EndStage(this.game, this.camera);
+        this.gameState = GameState.StartScreen;
     }
 
 
@@ -146,27 +175,44 @@ public class GameView extends ScreenAdapter {
     public void render(float delta) {
         GameController.getInstance().removeFlagged();
 
-        updateGame(delta);
-        resetCamera();
+        if (gameState == GameState.Playing) {
+            updateGame(delta);
+        }
 
+        resetCamera();
+        drawAllStages(delta);
+
+        if (checkEndGame() && gameState == GameState.Playing) {
+            this.gameState = GameState.EndScreen;
+            this.endStage.update();
+            Gdx.input.setInputProcessor(this.endStage);
+        }
+
+    }
+
+    private void drawAllStages(float delta) {
         this.game_stage.draw();
         this.hud.draw();
+
+        if (gameState == GameState.StartScreen) {
+            if(this.startStage.update(delta) <= 0.0) {
+                this.gameState = GameState.Playing;
+                Gdx.input.setInputProcessor(this.game_stage);
+            }
+            this.startStage.draw();
+        } else if (gameState == GameState.EndScreen) {
+            this.endStage.draw();
+        }
 
         if (DEBUG_PHYSICS) {
             debugCamera = camera.combined.cpy();
             debugCamera.scl(1 / PIXEL_TO_METER);
             debugRenderer.render(GameController.getInstance().getWorld(), debugCamera);
         }
-
-        if(checkEndGame()) {
-            this.game.setScreen(new MenuView(game));
-            this.game.resetGame();
-        }
-
     }
 
     private boolean checkEndGame() {
-        return GameModel.getInstance().getTime_left() <= 0 || GameModel.getInstance().getLives() == 0;
+        return GameModel.getInstance().getTime_left() <= 0 || GameModel.getInstance().getLives() <= 0;
     }
 
     private void updateGame(float delta) {
@@ -214,7 +260,7 @@ public class GameView extends ScreenAdapter {
             if (floor != -1) {
                 if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
                     if (GameController.getInstance().getElevator(Side.Right).getTarget_floor() != floor) {
-                       GameController.getInstance().getElevator(Side.Right).setTarget_floor(floor);
+                        GameController.getInstance().getElevator(Side.Right).setTarget_floor(floor);
                     }
                 } else if (GameController.getInstance().getElevator(Side.Left).getTarget_floor() != floor) {
                     GameController.getInstance().getElevator(Side.Left).setTarget_floor(floor);
@@ -241,9 +287,6 @@ public class GameView extends ScreenAdapter {
         }
         return floor;
     }
-
-
-
 
 
 }
