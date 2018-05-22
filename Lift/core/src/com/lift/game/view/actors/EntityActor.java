@@ -34,6 +34,10 @@ public abstract class EntityActor extends Actor {
 		this.model = model;
 	}
 
+    protected EntityActor(EntityModel model) {
+	    this.model = model;
+    }
+
 	/**
 	 * Creates the view's sprite.
 	 * 

@@ -11,7 +11,10 @@ import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
 import com.lift.game.model.entities.person.Side;
+import com.lift.game.view.IndicatorCreator;
+import com.lift.game.view.TextureManager;
 import com.lift.game.view.actors.EntityActor;
+import com.lift.game.view.actors.polygon_actor.BasePolyActor;
 import com.lift.game.view.actors.polygon_actor.DiamondPoly;
 
 import java.util.ArrayList;
@@ -22,32 +25,40 @@ import static com.lift.game.view.GameView.PIXEL_TO_METER;
 public class PersonActor extends EntityActor {
 
     public static final float INDICATOR_WIDTH = 2.5f / PIXEL_TO_METER;
+
     private static final float INDICATOR_HEIGHT = (3 / PIXEL_TO_METER);
     /**
      * The person's texture.
      */
     private TextureRegion personRegion;
 
-    private DiamondPoly patientIndicator;
+    private BasePolyActor patientIndicator;
 
     private PersonModel model;
 
-    private static HashMap<Side, ArrayList<Vector2> > indicatorPositions;
+    private static HashMap<Side, ArrayList<Vector2>> indicatorPositions;
 
-    private static int indicator_number[] = {0,0};
+    private static int indicator_number[] = {0, 0};
 
     public static void setIndicatorPositions(HashMap<Side, ArrayList<Vector2>> indicatorPositions) {
         PersonActor.indicatorPositions = indicatorPositions;
     }
 
     public PersonActor(LiftGame game, PersonModel model) {
-        super(game, model);
+        super(model);
+
+        this.model = model;
+        this.sprite = createSprite(game);
+
+        int color = TextureManager.getInstance().getColor(model.getDestination());
+        this.patientIndicator = IndicatorCreator.createIndicator(new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY() + 3 * sprite.getHeight() / 2), model.getPersonType(), color, game.getPolygonBatch());
+
         this.setBounds(this.sprite.getX(), this.sprite.getY(), personRegion.getRegionWidth(), personRegion.getRegionHeight());
-        this.patientIndicator = new DiamondPoly(sprite.getX() + sprite.getWidth() / 2, sprite.getY() + 3 * sprite.getHeight() / 2, (int) INDICATOR_WIDTH, (int) INDICATOR_HEIGHT, 0x1254adff, game.getPolygonBatch());
         if (!this.addListener(new PersonClickListener(model))) {
             System.err.println("Failed to install listener");
         }
-        this.model = model;
+
+
     }
 
     @Override
@@ -57,10 +68,7 @@ public class PersonActor extends EntityActor {
     }
 
     private TextureRegion create_person_region(LiftGame game) {
-        Pixmap pix = new Pixmap((int) (PersonBody.WIDTH / PIXEL_TO_METER), (int) (PersonBody.HEIGHT / PIXEL_TO_METER), Pixmap.Format.RGBA8888);
-        pix.setColor(0x129824aa);
-        pix.fill();
-        Texture textureSolid = new Texture(pix);
+        Texture textureSolid = TextureManager.getInstance().getTexture(model.getDestination());
         return new TextureRegion(textureSolid, (int) (PersonBody.WIDTH / PIXEL_TO_METER), (int) (PersonBody.HEIGHT / PIXEL_TO_METER));
     }
 
@@ -87,14 +95,13 @@ public class PersonActor extends EntityActor {
     public void draw(Batch batch, float parentAlpha) {
 
         if (removed()) {
-            if(model.getPersonState() != PersonState.InElevator) {
+            if (model.getPersonState() != PersonState.InElevator) {
                 drawPerson(batch, parentAlpha);
             } else {
                 drawIndicatorOnly(batch, parentAlpha);
             }
         }
     }
-
 
 
     private void drawIndicatorOnly(Batch batch, float parentAlpha) {
@@ -116,4 +123,5 @@ public class PersonActor extends EntityActor {
             indicator_number[i] = 0;
         }
     }
+
 }
