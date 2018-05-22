@@ -20,11 +20,13 @@ public class HudStage extends Stage {
 
     }
 
-    public void updateStage(float delta) {
+    public void updateStage(LiftGame game, float delta) {
         for (Actor a:
              this.getActors()) {
             if(a instanceof BasePolyActor) {
                 ((BasePolyActor) a).decPercentage(delta);
+            } else if(a instanceof CoinLabelActor){
+                ((CoinLabelActor) a).update(game.getGamePreferences().getCoins());
             }
         }
     }

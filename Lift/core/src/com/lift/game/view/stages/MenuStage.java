@@ -33,7 +33,7 @@ public class MenuStage extends Stage {
     }
 
     private void addHighScore(LiftGame game, OrthographicCamera camera) {
-        Float highScore = game.getGamePreferences().getFloat("highscore", 0f);
+        Float highScore = game.getGamePreferences().getHighscore();
         if(highScore != 0 ) {
             Label.LabelStyle label1Style = new Label.LabelStyle();
             label1Style.font = game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);

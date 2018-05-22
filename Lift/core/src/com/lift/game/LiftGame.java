@@ -21,7 +21,7 @@ public class LiftGame extends Game {
 	private AssetManager assetManager;
 	private TextureManager textureManager;
     private Music music;
-    private Preferences gamePreferences;
+    private PreferenceManager gamePreferences;
 
     /**
      * Creates the game. Initializes the sprite spriteBatch and asset manager.
@@ -33,7 +33,7 @@ public class LiftGame extends Game {
         polygonBatch = new PolygonSpriteBatch();
 		assetManager = new AssetManager();
         music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
-        gamePreferences = Gdx.app.getPreferences("Game Preferences");
+        gamePreferences = new PreferenceManager(Gdx.app.getPreferences("Game Preferences"));
         startGame();
 	}
 
@@ -43,7 +43,7 @@ public class LiftGame extends Game {
     private void startGame() {
         setScreen(new MenuView(this));
         music.play();
-        music.setVolume(gamePreferences.getFloat("volume", 0.5f));
+        music.setVolume(gamePreferences.getVolume());
     }
 
     /**
@@ -89,7 +89,7 @@ public class LiftGame extends Game {
         return textureManager;
     }
 
-    public Preferences getGamePreferences() {
+    public PreferenceManager getGamePreferences() {
         return gamePreferences;
     }
 }

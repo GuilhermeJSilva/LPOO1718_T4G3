@@ -167,13 +167,8 @@ public class GameView extends ScreenAdapter {
         if (checkEndGame() && gameState == GameState.Playing) {
             this.gameState = GameState.EndScreen;
             this.endStage.update();
-            float highScore = game.getGamePreferences().getFloat("highscore", 0f);
-
-            if(GameModel.getInstance().getScore() > highScore) {
-                System.out.println(GameModel.getInstance().getScore() + " " + highScore);
-                game.getGamePreferences().putFloat("highscore", GameModel.getInstance().getScore().floatValue());
-                game.getGamePreferences().flush();
-            }
+            this.game.getGamePreferences().updateHighScore(GameModel.getInstance().getScore().floatValue());
+            this.game.getGamePreferences().increaseCoins(10);
             Gdx.input.setInputProcessor(this.endStage);
         }
 
@@ -208,7 +203,7 @@ public class GameView extends ScreenAdapter {
         inputHandler.handleInputs();
         GameController.getInstance().update(delta);
         this.game_stage.updateStage(this.game);
-        this.hud.updateStage(delta / 5);
+        this.hud.updateStage(this.game,delta / 5);
     }
 
     private void resetCamera() {
