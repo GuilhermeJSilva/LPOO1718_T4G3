@@ -52,6 +52,10 @@ public class GameModel {
      */
     private ElevatorModel left_elevator;
 
+    /**
+     * Coins won in this game.
+     */
+    private Integer coins;
 
     /**
      * Game's right left_elevator.
@@ -81,6 +85,7 @@ public class GameModel {
         super();
         this.lives = 3;
         this.time_left = 30.0;
+        this.coins = 10;
         n_levels = DEFAULT_N_LEVEL;
         left_elevator = new ElevatorModel(15.2f, Side.Left);
         right_elevator = new ElevatorModel(30f, Side.Right);
@@ -179,37 +184,87 @@ public class GameModel {
 
     }
 
+    /**
+     * Returns the people in the model.
+     * @return People in the model.
+     */
     public ArrayList<PersonModel> getPeople() {
         return people;
     }
 
+    /**
+     * Adds a person to the model.
+     * @param new_p Person to be added
+     */
     public void addPerson(PersonModel new_p) {
         people.add(new_p);
     }
 
+    /**
+     * Increments the number of lives.
+     */
     public void incrementLives() {
         lives++;
     }
 
+    /**
+     * Decrements the number of lives.
+     */
     public void decrementLives() {
         if(lives > 0)
             lives--;
     }
 
+    /**
+     * Removes a person from the model.
+     * @param model Model to remove.
+     */
     public void remove(EntityModel model) {
         if (model instanceof PersonModel) {
             people.remove(model);
         }
     }
 
+    /**
+     * Increments the amount of time left, up to a max of 99.9 seconds.
+     * @param timeIncrease Time to increase by.
+     */
     public void incrementTime(float timeIncrease) {
         time_left += timeIncrease;
         if(time_left > 99.9)
             time_left = 99.9;
     }
 
+    /**
+     * Returns the game's current score.
+     * @return Current score.
+     */
     public Double getScore() {
         return (Math.round(score * 10))/10.0;
+    }
+
+    /**
+     * Checks if the game has ended.
+     * @return True if the game has ended.
+     */
+    public boolean endGame() {
+        return time_left <= 0 || lives <= 0;
+    }
+
+    /**
+     * Return the number of coins won in this game.
+     * @return Number of coins.
+     */
+    public Integer getCoins() {
+        return coins;
+    }
+
+    /**
+     * Increases the number of coins won in this game.
+     * @param coins Increment.
+     */
+    public void incCoins(Integer coins) {
+        this.coins += coins;
     }
 }
 

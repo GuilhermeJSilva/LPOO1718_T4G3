@@ -45,8 +45,15 @@ public class PersonModel extends EntityModel {
      */
     private boolean tryingToEnter;
 
-
-    public PersonModel(float x, float y, int floor, Side side, int destination) {
+    /**
+     * Constru
+     * @param x
+     * @param y
+     * @param floor
+     * @param side
+     * @param destination
+     */
+    PersonModel(float x, float y, int floor, Side side, int destination) {
         super(x, y, side);
 
         this.personType = RandomTypeGenerator.getRandomType();

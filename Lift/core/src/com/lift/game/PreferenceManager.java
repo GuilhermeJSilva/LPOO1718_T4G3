@@ -4,6 +4,9 @@ import com.badlogic.gdx.Preferences;
 import com.lift.game.model.GameModel;
 
 
+/**
+ * Manages all preferences.
+ */
 public class PreferenceManager {
     /**
      * Contains the preferences it manages.

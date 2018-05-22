@@ -11,16 +11,20 @@ import com.badlogic.gdx.utils.Align;
 import com.lift.game.LiftGame;
 import com.lift.game.PreferenceManager;
 
+/**
+ * Represents the coin label.
+ */
 public class CoinLabelActor extends Actor {
     /**
      *  Label that contains the score.
      */
     private Label coin_label;
 
-
-
     /**
      * Constructs the label for the score.
+     *
+     * @param game Constructs the label according to this game.
+     * @param camera Aligns according to this camera.
      */
     public CoinLabelActor(LiftGame game, Camera camera) {
         Label.LabelStyle label2Style = new Label.LabelStyle();
@@ -39,6 +43,10 @@ public class CoinLabelActor extends Actor {
         this.coin_label.draw(batch, parentAlpha);
     }
 
+    /**
+     * Updates the coin label.
+     * @param coins New value for the coin label.
+     */
     public void update(Integer coins) {
         this.coin_label.setText(Integer.toString(coins));
     }
