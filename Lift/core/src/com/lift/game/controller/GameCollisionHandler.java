@@ -73,13 +73,11 @@ class GameCollisionHandler implements ContactListener {
         if (em == GameModel.getInstance().getElevator(Side.Left)) {
             if (em.getTarget_floor() == GameModel.getInstance().getLeft_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
-                System.out.println("Stopped at " + em.getTarget_floor());
                 GameController.getInstance().getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Left);
             }
         } else {
             if (em.getTarget_floor() == GameModel.getInstance().getRight_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
-                System.out.println("Stopped at " + em.getTarget_floor());
                 GameController.getInstance().getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Right);
             }
         }

@@ -23,7 +23,6 @@ public class InputHandler {
                 floors = GameModel.getInstance().getRight_floors();
             }
             int floor = determine_floor_number(floors);
-            System.out.println(floor);
             if (floor != -1) {
                 if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
                     if (GameController.getInstance().getElevator(Side.Right).getTarget_floor() != floor) {
