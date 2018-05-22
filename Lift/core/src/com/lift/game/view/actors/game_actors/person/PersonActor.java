@@ -1,6 +1,5 @@
 package com.lift.game.view.actors.game_actors.person;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,7 +14,6 @@ import com.lift.game.view.IndicatorCreator;
 import com.lift.game.view.TextureManager;
 import com.lift.game.view.actors.EntityActor;
 import com.lift.game.view.actors.polygon_actor.BasePolyActor;
-import com.lift.game.view.actors.polygon_actor.DiamondPoly;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +66,7 @@ public class PersonActor extends EntityActor {
     }
 
     private TextureRegion create_person_region(LiftGame game) {
-        Texture textureSolid = TextureManager.getInstance().getTexture(model.getDestination());
+        Texture textureSolid = TextureManager.getInstance().getPersonTexture(model.getDestination());
         return new TextureRegion(textureSolid, (int) (PersonBody.WIDTH / PIXEL_TO_METER), (int) (PersonBody.HEIGHT / PIXEL_TO_METER));
     }
 
