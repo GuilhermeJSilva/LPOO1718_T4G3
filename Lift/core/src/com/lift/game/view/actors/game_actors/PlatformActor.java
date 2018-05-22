@@ -38,16 +38,6 @@ public class PlatformActor extends EntityActor {
         return new Sprite(platformRegion);
     }
 
-    /**
-     * Creates the view's sprite.
-     *
-     * @param game The view belongs to this game.
-     * @return This view's sprite.
-     */
-    @Override
-    protected Sprite createSprite(LiftGame game) {
-        return null;
-    }
 
     /**
      * Creates a texture region.
@@ -55,7 +45,7 @@ public class PlatformActor extends EntityActor {
      * @return Texture region of the platform.
      */
     private TextureRegion create_platform_region(LiftGame game, PlatformModel model) {
-        Texture platformTexture = TextureManager.getInstance().getPlatformTexture(model.getFloor_number());
+        Texture platformTexture = game.getTextureManager().getPlatformTexture(model.getFloor_number());
         return new TextureRegion(platformTexture,(int)(PlatformBody.PLATFORM_LENGTH/PIXEL_TO_METER), (int)(PlatformBody.PLATFORM_HEIGHT/PIXEL_TO_METER));
     }
 
