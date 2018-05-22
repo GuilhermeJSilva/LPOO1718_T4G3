@@ -2,7 +2,6 @@ package com.lift.game.controller;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
@@ -23,7 +22,7 @@ import com.lift.game.model.entities.person.Side;
 public class GameController {
 
     /**
-     * Meters per floor
+     * Meters per floor.
      */
     public static final Integer METERS_PER_FLOOR = 13;
 
@@ -172,11 +171,6 @@ public class GameController {
             ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y, body.getAngle());
             if (body.getUserData() instanceof ElevatorModel) {
                 ElevatorModel em = ((ElevatorModel) body.getUserData());
-                if (em == GameModel.getInstance().getElevator(Side.Left)) {
-                    ((ElevatorModel) body.getUserData()).setTarget_floor(left_elevator.getTarget_floor());
-                } else {
-                    ((ElevatorModel) body.getUserData()).setTarget_floor(right_elevator.getTarget_floor());
-                }
                 em.setStopped(body.getLinearVelocity().y == 0);
             }
         }
@@ -224,5 +218,11 @@ public class GameController {
         }
     }
 
+    public ArrayList<PlatformBody> getFloors(Side side) {
+        if(side == Side.Left) {
+            return left_floors;
+        }
+        return  right_floors;
+    }
 
 }

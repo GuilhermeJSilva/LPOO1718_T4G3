@@ -4,6 +4,8 @@ import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.GameController;
+import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 
 public class ElevatorBody extends EntityBody {
@@ -64,18 +66,16 @@ public class ElevatorBody extends EntityBody {
      *
      * @param floor New target floor.
      */
-    public boolean setTarget_floor(Integer floor) {
+    public void setTarget_floor(Integer floor) {
         float y = (this.getY() - height / 2);
         if (this.target_floor != floor) {
-
             this.target_floor = floor;
-            if (floor * METERS_PER_FLOOR > y) {
+            if (GameController.getInstance().getFloors(this.getSide()).get(floor).getY() > y) {
                 this.setLinearVelocity(0, vy);
-            } else if (floor * METERS_PER_FLOOR < y) {
+            } else if (GameController.getInstance().getFloors(this.getSide()).get(floor).getY() < y) {
                 this.setLinearVelocity(0, -vy);
             }
         }
-        return this.body.getLinearVelocity().y == 0;
     }
 
 

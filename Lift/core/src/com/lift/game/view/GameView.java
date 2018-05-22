@@ -1,7 +1,6 @@
 package com.lift.game.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -13,15 +12,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.view.stages.EndStage;
 import com.lift.game.view.stages.GameStage;
 import com.lift.game.view.stages.HudStage;
+import com.lift.game.view.stages.StartStage;
 
 import java.util.ArrayList;
 
@@ -31,35 +32,50 @@ public class GameView extends ScreenAdapter {
      */
     public final static float PIXEL_TO_METER = 0.0417f;
     /**
-     * Used to debug the position of the physics fixtures
+     * Used to debug the position of the physics fixtures.
      */
     private static final boolean DEBUG_PHYSICS = false;
-    /**
-     * The width of the viewport in meters.
-     */
-    private static final float VIEWPORT_WIDTH = 45;
 
     /**
      * The height of the viewport in meters.
      */
-    private static final float VIEWPORT_HEIGHT = 80;
+    public static final float VIEWPORT_HEIGHT = 80;
 
     /**
      * The game this screen belongs to.
      */
     private final LiftGame game;
+
     /**
      * The camera used to show the viewport.
      */
     private final OrthographicCamera camera;
+
+    /**
+     * Handles the basic inputs.
+     */
+    private final InputHandler inputHandler = new InputHandler();
+
     /**
      * Stage for the hud.
      */
     private HudStage hud;
+
     /**
      * Stage for all game entities.
      */
     private GameStage game_stage;
+
+    /**
+     * Stage for the start of the game.
+     */
+    private StartStage startStage;
+
+    /**
+     * Stage for the end of the game.
+     */
+    private EndStage endStage;
+
     /**
      * A renderer used to debug the physical fixtures.
      */
@@ -71,19 +87,30 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
 
+    /**
+     * State of the game.
+     */
+    private GameState gameState;
 
+    /**
+     * Shader to blur the game when the player is in the menus.
+     */
+    private Shader blurShader;
 
     /**
      * Creates this screen.
      *
-     * @param liftGame The game this screen belongs to
+     * @param liftGame Game the view belongs to.
      */
     public GameView(LiftGame liftGame) {
         this.game = liftGame;
         loadAssets();
         camera = createCamera();
-        this.hud = new HudStage(this.game,this.camera);
-        this.game_stage = new GameStage(this.game,this.camera);
+        this.hud = new HudStage(this.game, this.camera);
+        this.game_stage = new GameStage(this.game, this.camera);
+        this.startStage = new StartStage(this.game, this.camera);
+        this.endStage =  new EndStage(this.game, this.camera);
+        this.gameState = GameState.StartScreen;
     }
 
 
@@ -114,6 +141,7 @@ public class GameView extends ScreenAdapter {
         manager.load("lift4.png", Texture.class);
         manager.load("elevator.png", Texture.class);
         manager.load("heart.png", Texture.class);
+        manager.load("gajos.png", Texture.class);
         loadFonts(manager);
 
         manager.finishLoading();
@@ -146,31 +174,48 @@ public class GameView extends ScreenAdapter {
     public void render(float delta) {
         GameController.getInstance().removeFlagged();
 
-        updateGame(delta);
-        resetCamera();
+        if (gameState == GameState.Playing) {
+            updateGame(delta);
+        }
 
+        resetCamera();
+        drawAllStages(delta);
+
+        if (checkEndGame() && gameState == GameState.Playing) {
+            this.gameState = GameState.EndScreen;
+            this.endStage.update();
+            Gdx.input.setInputProcessor(this.endStage);
+        }
+
+    }
+
+    private void drawAllStages(float delta) {
         this.game_stage.draw();
         this.hud.draw();
+
+        if (gameState == GameState.StartScreen) {
+            if(this.startStage.update(delta) <= 0.0) {
+                this.gameState = GameState.Playing;
+                Gdx.input.setInputProcessor(this.game_stage);
+            }
+            this.startStage.draw();
+        } else if (gameState == GameState.EndScreen) {
+            this.endStage.draw();
+        }
 
         if (DEBUG_PHYSICS) {
             debugCamera = camera.combined.cpy();
             debugCamera.scl(1 / PIXEL_TO_METER);
             debugRenderer.render(GameController.getInstance().getWorld(), debugCamera);
         }
-
-        if(checkEndGame()) {
-            this.game.setScreen(new MenuView(game));
-            this.game.resetGame();
-        }
-
     }
 
     private boolean checkEndGame() {
-        return GameModel.getInstance().getTime_left() <= 0 || GameModel.getInstance().getLives() == 0;
+        return GameModel.getInstance().getTime_left() <= 0 || GameModel.getInstance().getLives() <= 0;
     }
 
     private void updateGame(float delta) {
-        handleInputs(delta);
+        inputHandler.handleInputs();
         GameController.getInstance().update(delta);
         this.game_stage.updateStage(this.game);
         this.hud.updateStage(delta / 5);
@@ -198,52 +243,6 @@ public class GameView extends ScreenAdapter {
         background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
         game.getSpriteBatch().draw(background, 0, 0, 0, 0, (int) (camera.viewportWidth), (int) (camera.viewportHeight));
     }
-
-    /**
-     * Handles any inputs and passes them to the controller.
-     *
-     * @param delta time since last time inputs where handled in seconds
-     */
-    private void handleInputs(float delta) {
-        if (Gdx.input.isTouched() || Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            ArrayList<PlatformModel> floors = GameModel.getInstance().getLeft_floors();
-            if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
-                floors = GameModel.getInstance().getRight_floors();
-            }
-            int floor = determine_floor_number(floors);
-            if (floor != -1) {
-                if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
-                    if (GameController.getInstance().getElevator(Side.Right).getTarget_floor() != floor) {
-                       GameController.getInstance().getElevator(Side.Right).setTarget_floor(floor);
-                    }
-                } else if (GameController.getInstance().getElevator(Side.Left).getTarget_floor() != floor) {
-                    GameController.getInstance().getElevator(Side.Left).setTarget_floor(floor);
-
-                }
-            }
-
-        }
-    }
-
-    /**
-     * Determines the number of the floor.
-     *
-     * @param floors Floors.
-     * @return Number of the floor.
-     */
-    private int determine_floor_number(ArrayList<PlatformModel> floors) {
-        float y_pos = (Gdx.graphics.getHeight() - Gdx.input.getY()) * VIEWPORT_HEIGHT / Gdx.graphics.getHeight();
-        int floor = -1;
-        float distance = Float.MAX_VALUE;
-        for (PlatformModel pm : floors) {
-            if (Math.abs(pm.getY() - y_pos) < distance & y_pos > pm.getY())
-                floor = floors.indexOf(pm);
-        }
-        return floor;
-    }
-
-
-
 
 
 }

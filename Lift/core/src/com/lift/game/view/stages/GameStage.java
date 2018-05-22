@@ -35,7 +35,7 @@ public class GameStage extends Stage {
         addPlatforms(game, platformModels);
 
         addPeopleActors(game);
-        Gdx.input.setInputProcessor(this);
+
     }
 
     private void initiateIndicatorPositions(Camera camera) {

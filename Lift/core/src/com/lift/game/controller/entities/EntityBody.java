@@ -6,10 +6,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.person.Side;
 
 public class EntityBody {
 
     final Body body;
+
+    private Side side;
 
     /**
      * Creates an entity Body.
@@ -25,13 +28,23 @@ public class EntityBody {
 
         body = world.createBody(bodyDef);
         body.setUserData(model);
+
+        this.side = model.getSide();
     }
 
     /**
      * Adds a fixture to a given body.
      *
-     * @param body
-     * @param sensor
+     * @param body Body to add fixture to.
+     * @param vertexes Vertexes of the fixture.
+     * @param width Width of the fixture.
+     * @param height Height of the fixture.
+     * @param density Density of the fixture.
+     * @param friction Friction of the fixture.
+     * @param restitution Restitution of the fixture.
+     * @param category Category bits of the fixture.
+     * @param mask Collision mask of the fixture.
+     * @param sensor True if the fixture is a sensor.
      */
     final void add_fixture(Body body, float[] vertexes, float width, float height, float density, float friction, float restitution, short category, short mask, boolean sensor) {
         for (int i = 0; i < vertexes.length; i++) {
@@ -92,5 +105,9 @@ public class EntityBody {
 
     public Body getBody() {
         return body;
+    }
+
+    public Side getSide() {
+        return side;
     }
 }

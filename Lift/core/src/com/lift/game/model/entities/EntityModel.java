@@ -1,5 +1,7 @@
 package com.lift.game.model.entities;
 
+import com.lift.game.model.entities.person.Side;
+
 public abstract class EntityModel {
 	/**
 	 * Position in the y axis.
@@ -22,17 +24,22 @@ public abstract class EntityModel {
     private boolean flaggedForRemoval = false;
 
     /**
+     * Side of the screen the entity is on.
+     */
+    private Side side;
+
+    /**
 	 * Default entity constructor.
-	 * 
-	 * @param x
+	 *  @param x
 	 *            position.
 	 * @param y
-	 *            position.
-	 */
-    protected EntityModel(float x, float y) {
+     * @param side
+     */
+    protected EntityModel(float x, float y, Side side) {
 		super();
 		this.y = y;
 		this.x = x;
+		this.side  = side;
 	}
 
 	/**
@@ -70,4 +77,9 @@ public abstract class EntityModel {
     public void setFlaggedForRemoval(boolean flaggedForRemoval) {
         this.flaggedForRemoval = flaggedForRemoval;
     }
+
+    public Side getSide() {
+        return side;
+    }
+
 }

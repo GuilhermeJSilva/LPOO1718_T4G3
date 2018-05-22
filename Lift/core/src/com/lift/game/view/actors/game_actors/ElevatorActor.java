@@ -23,7 +23,8 @@ public class ElevatorActor extends EntityActor {
      * @param game Elevator's game.
      */
     public ElevatorActor(LiftGame game, ElevatorModel model) {
-    	super(game, model);
+    	super(model);
+    	this.sprite = createSprite(game);
     }
     
     /**
@@ -32,16 +33,15 @@ public class ElevatorActor extends EntityActor {
      * @param game the game this view belongs to
      * @return the sprite representing The elevator.
      */
-    @Override
     public Sprite createSprite(LiftGame game) {
         elevatorRegion = create_elevator_region(game);
         return new Sprite(elevatorRegion);
     }
 
     /**
-     * Creates a texture region
-     * @param game
-     * @return
+     * Creates a texture region.
+     * @param game Game.
+     * @return Elevator texture region.
      */
 	private TextureRegion create_elevator_region(LiftGame game) {
 		  Texture elevatorTexture = game.getAssetManager().get("elevator.png");

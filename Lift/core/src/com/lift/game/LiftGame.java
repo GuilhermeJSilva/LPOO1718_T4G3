@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.view.MenuView;
+import com.lift.game.view.TextureManager;
 
 /**
  * The game main class.
@@ -17,6 +18,7 @@ public class LiftGame extends Game {
     private PolygonSpriteBatch polygonBatch;
     private SpriteBatch spriteBatch;
 	private AssetManager assetManager;
+	private TextureManager textureManager;
     private Music music;
 
     /**
@@ -78,4 +80,12 @@ public class LiftGame extends Game {
         GameModel.resetModel();
         GameController.resetController();
     }
+
+    public TextureManager getTextureManager() {
+	    if(textureManager == null)
+	        textureManager = new TextureManager(this);
+        return textureManager;
+    }
+
+
 }

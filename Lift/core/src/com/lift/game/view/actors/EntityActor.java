@@ -23,25 +23,11 @@ public abstract class EntityActor extends Actor {
      */
     private EntityModel model;
 
-	/**
-	 * Constructs an actor in a given game.
-	 * 
-	 * @param game
-	 *            The actor belongs to this game.
-	 */
-	protected EntityActor(LiftGame game,  EntityModel model) {
-		sprite = createSprite(game);
-		this.model = model;
-	}
 
-	/**
-	 * Creates the view's sprite.
-	 * 
-	 * @param game
-	 *            The view belongs to this game.
-	 * @return This view's sprite.
-	 */
-	protected abstract Sprite createSprite(LiftGame game);
+    protected EntityActor(EntityModel model) {
+	    this.model = model;
+    }
+
 
 	/**
 	 * Updates this view based on a certain model.
