@@ -209,7 +209,7 @@ public class GameModel {
     }
 
     public Double getScore() {
-        return score;
+        return (Math.round(score * 10))/10.0;
     }
 }
 

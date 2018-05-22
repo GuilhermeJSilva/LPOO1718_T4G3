@@ -2,6 +2,7 @@ package com.lift.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -20,6 +21,7 @@ public class LiftGame extends Game {
 	private AssetManager assetManager;
 	private TextureManager textureManager;
     private Music music;
+    private Preferences gamePreferences;
 
     /**
      * Creates the game. Initializes the sprite spriteBatch and asset manager.
@@ -30,8 +32,8 @@ public class LiftGame extends Game {
 		spriteBatch = new SpriteBatch();
         polygonBatch = new PolygonSpriteBatch();
 		assetManager = new AssetManager();
-        this.music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
-
+        music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
+        gamePreferences = Gdx.app.getPreferences("Game Preferences");
         startGame();
 	}
 
@@ -41,7 +43,7 @@ public class LiftGame extends Game {
     private void startGame() {
         setScreen(new MenuView(this));
         music.play();
-        music.setVolume(0f);
+        music.setVolume(gamePreferences.getFloat("volume", 0.5f));
     }
 
     /**
@@ -87,5 +89,7 @@ public class LiftGame extends Game {
         return textureManager;
     }
 
-
+    public Preferences getGamePreferences() {
+        return gamePreferences;
+    }
 }

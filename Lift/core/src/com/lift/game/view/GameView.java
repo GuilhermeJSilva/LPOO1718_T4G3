@@ -142,28 +142,11 @@ public class GameView extends ScreenAdapter {
         manager.load("elevator.png", Texture.class);
         manager.load("heart.png", Texture.class);
         manager.load("gajos.png", Texture.class);
-        loadFonts(manager);
-
         manager.finishLoading();
 
     }
 
-    private void loadFonts(AssetManager manager) {
-        FileHandleResolver resolver = new InternalFileHandleResolver();
-        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
 
-        FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        mySmallFont.fontFileName = "fonts/font2.otf";
-        mySmallFont.fontParameters.size = 150;
-        manager.load("fonts/font2.otf", BitmapFont.class, mySmallFont);
-
-        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-        FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        myBigFont.fontFileName = "fonts/font.ttf";
-        myBigFont.fontParameters.size = 100;
-        manager.load("fonts/font.ttf", BitmapFont.class, myBigFont);
-    }
 
     /**
      * Renders this screen.
@@ -184,6 +167,13 @@ public class GameView extends ScreenAdapter {
         if (checkEndGame() && gameState == GameState.Playing) {
             this.gameState = GameState.EndScreen;
             this.endStage.update();
+            float highScore = game.getGamePreferences().getFloat("highscore", 0f);
+
+            if(GameModel.getInstance().getScore() > highScore) {
+                System.out.println(GameModel.getInstance().getScore() + " " + highScore);
+                game.getGamePreferences().putFloat("highscore", GameModel.getInstance().getScore().floatValue());
+                game.getGamePreferences().flush();
+            }
             Gdx.input.setInputProcessor(this.endStage);
         }
 

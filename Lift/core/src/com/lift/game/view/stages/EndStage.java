@@ -59,6 +59,6 @@ public class EndStage extends Stage {
     }
 
     public void update() {
-        this.scoreLabel.setText("Score: " + (Math.round(GameModel.getInstance().getScore() * 10))/10f);
+        this.scoreLabel.setText("Score: " + GameModel.getInstance().getScore());
     }
 }
