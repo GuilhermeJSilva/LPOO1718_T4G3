@@ -19,10 +19,7 @@ import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.view.stages.EndStage;
-import com.lift.game.view.stages.GameStage;
-import com.lift.game.view.stages.HudStage;
-import com.lift.game.view.stages.StartStage;
+import com.lift.game.view.stages.*;
 
 import java.util.ArrayList;
 
@@ -80,6 +77,11 @@ public class GameView extends ScreenAdapter {
     private EndStage endStage;
 
     /**
+     * Menu stage.
+     */
+    private MenuStage menuStage;
+
+    /**
      * A renderer used to debug the physical fixtures.
      */
     private Box2DDebugRenderer debugRenderer;
@@ -90,15 +92,6 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
 
-    /**
-     * State of the game.
-     */
-    private GameState gameState;
-
-    /**
-     * Shader to blur the game when the player is in the menus.
-     */
-    private Shader blurShader;
 
     /**
      * Creates this screen.
@@ -113,8 +106,8 @@ public class GameView extends ScreenAdapter {
         this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
-        this.gameState = GameState.StartScreen;
-        Gdx.input.setInputProcessor(this.startStage);
+        this.menuStage = new MenuStage(this.game, this.camera);
+        Gdx.input.setInputProcessor(this.menuStage);
         this.game.getTextureManager().resetBackground();
     }
 
@@ -143,14 +136,41 @@ public class GameView extends ScreenAdapter {
      */
     private void loadAssets() {
         AssetManager manager = this.game.getAssetManager();
-        manager.load("lift4.png", Texture.class);
         manager.load("elevator.png", Texture.class);
         manager.load("heart.png", Texture.class);
         manager.load("gajos.png", Texture.class);
+        manager.load("Plano de Fundo.png", Texture.class);
+        manager.load("PLAY.png", Texture.class);
+        manager.load("SCORE.png", Texture.class);
+        manager.load("SETTINGS.png", Texture.class);
+        manager.load("fundo.png", Texture.class);
+        manager.load("structure.png", Texture.class);
+        manager.load("SUN.png", Texture.class);
+        loadFonts(manager);
         manager.finishLoading();
 
     }
 
+    /**
+     * Loads the game fonts.
+     * @param manager Asset manager to use.
+     */
+    private void loadFonts(AssetManager manager) {
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        mySmallFont.fontFileName = "fonts/font2.otf";
+        mySmallFont.fontParameters.size = 150;
+        manager.load("fonts/font2.otf", BitmapFont.class, mySmallFont);
+
+        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+        FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        myBigFont.fontFileName = "fonts/font.ttf";
+        myBigFont.fontParameters.size = 100;
+        manager.load("fonts/font.ttf", BitmapFont.class, myBigFont);
+    }
 
 
     /**
@@ -162,15 +182,15 @@ public class GameView extends ScreenAdapter {
     public void render(float delta) {
         GameController.getInstance().removeFlagged();
 
-        if (gameState == GameState.Playing) {
+        if (game.getGameState() == GameState.Playing) {
             updateGame(delta);
         }
 
         resetCamera(delta);
         drawAllStages(delta);
 
-        if (GameModel.getInstance().endGame() && gameState == GameState.Playing) {
-            this.gameState = GameState.EndScreen;
+        if (GameModel.getInstance().endGame() && game.getGameState() == GameState.Playing) {
+            this.game.setGameState(GameState.EndScreen);
             this.endStage.update();
             this.game.getGamePreferences().updateHighScore(GameModel.getInstance().getScore().floatValue());
             this.game.getGamePreferences().increaseCoins(GameModel.getInstance().getCoins());
@@ -184,16 +204,20 @@ public class GameView extends ScreenAdapter {
      * @param delta Time since the last render.
      */
     private void drawAllStages(float delta) {
-        this.game_stage.draw();
-        this.hud.draw();
+        if(game.getGameState() == GameState.InMenu)
+            this.menuStage.draw();
+        else {
+            this.game_stage.draw();
+            this.hud.draw();
+        }
 
-        if (gameState == GameState.StartScreen) {
+        if (game.getGameState() == GameState.StartScreen) {
             if(this.startStage.update(delta) <= 0.0) {
-                this.gameState = GameState.Playing;
+                this.game.setGameState(GameState.Playing);
                 Gdx.input.setInputProcessor(this.game_stage);
             }
             this.startStage.draw();
-        } else if (gameState == GameState.EndScreen) {
+        } else if (game.getGameState() == GameState.EndScreen) {
             this.endStage.draw();
         }
 
@@ -236,9 +260,14 @@ public class GameView extends ScreenAdapter {
      * Draws the background.
      */
     private void drawBackground(float delta) {
-        game.getSpriteBatch().draw(this.game.getTextureManager().getBackground(delta * 200), 0,0);
-        game.getSpriteBatch().draw(this.game.getTextureManager().getStructure(), 0,0);
-        game.getSpriteBatch().draw(this.game.getTextureManager().getSun(), 0,0);
+        float backgroundMovement = 0;
+        if(game.getGameState() == GameState.Playing)
+            backgroundMovement = delta * 20;
+        game.getSpriteBatch().draw(this.game.getTextureManager().getBackground(backgroundMovement), 0,0);
+        if (game.getGameState() != GameState.InMenu) {
+            game.getSpriteBatch().draw(this.game.getTextureManager().getStructure(), 0,0);
+            game.getSpriteBatch().draw(this.game.getTextureManager().getSun(), 0,0);
+        }
     }
 
 

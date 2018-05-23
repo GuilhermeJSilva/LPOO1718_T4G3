@@ -7,13 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
-import com.lift.game.view.MenuView;
+import com.lift.game.view.GameState;
 import com.lift.game.view.actors.ButtonCreator;
 
 public class EndStage extends Stage {
@@ -39,7 +38,7 @@ public class EndStage extends Stage {
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MenuView(game));
+                game.setGameState(GameState.InMenu);
                 game.resetGame();
             }
         });

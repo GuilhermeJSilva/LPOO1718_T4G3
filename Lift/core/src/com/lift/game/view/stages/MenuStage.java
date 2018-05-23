@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
+import com.lift.game.view.GameState;
 import com.lift.game.view.GameView;
 import com.lift.game.view.actors.ButtonCreator;
 
@@ -56,7 +57,8 @@ public class MenuStage extends Stage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                game.setScreen(new GameView(game));
+                game.setGameState(GameState.StartScreen);
+                game.getTextureManager().resetBackground();
             }
         });
         this.addActor(button);

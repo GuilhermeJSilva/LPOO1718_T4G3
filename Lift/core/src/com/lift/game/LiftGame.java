@@ -2,14 +2,14 @@ package com.lift.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
-import com.lift.game.view.MenuView;
+import com.lift.game.view.GameState;
+import com.lift.game.view.GameView;
 import com.lift.game.view.TextureManager;
 
 /**
@@ -24,6 +24,11 @@ public class LiftGame extends Game {
     private PreferenceManager gamePreferences;
 
     /**
+     * State of the game.
+     */
+    private GameState gameState;
+
+    /**
      * Creates the game. Initializes the sprite spriteBatch and asset manager.
      * Also starts the game until we have a main menu.
      */
@@ -34,6 +39,7 @@ public class LiftGame extends Game {
 		assetManager = new AssetManager();
         music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
         gamePreferences = new PreferenceManager(Gdx.app.getPreferences("Game Preferences"));
+        this.gameState = GameState.InMenu;
         startGame();
 	}
 
@@ -41,7 +47,7 @@ public class LiftGame extends Game {
      * Starts the game.
      */
     private void startGame() {
-        setScreen(new MenuView(this));
+        setScreen(new GameView(this));
         music.play();
         music.setVolume(gamePreferences.getVolume());
     }
@@ -91,5 +97,13 @@ public class LiftGame extends Game {
 
     public PreferenceManager getGamePreferences() {
         return gamePreferences;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 }
