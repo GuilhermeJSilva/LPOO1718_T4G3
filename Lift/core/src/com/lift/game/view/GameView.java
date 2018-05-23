@@ -147,6 +147,8 @@ public class GameView extends ScreenAdapter {
         manager.load("structure.png", Texture.class);
         manager.load("SUN.png", Texture.class);
         manager.load("lifttitle.png", Texture.class);
+        manager.load("PAUSE.png", Texture.class);
+        manager.load("MUTE.png", Texture.class);
         loadFonts(manager);
         manager.finishLoading();
 
@@ -280,5 +282,6 @@ public class GameView extends ScreenAdapter {
         this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
+        game.getTextureManager().resetBackground();
     }
 }

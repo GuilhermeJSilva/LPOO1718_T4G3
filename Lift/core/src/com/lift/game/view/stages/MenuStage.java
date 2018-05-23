@@ -63,7 +63,7 @@ public class MenuStage extends Stage {
     }
 
     private void addPlayButton(final LiftGame game, OrthographicCamera camera) {
-        ImageButton button = ButtonCreator.createButton(game, camera, "PLAY.png");
+        ImageButton button = ButtonCreator.createButton(game, "PLAY.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 + button.getHeight() / 2 + GLOBAL_OFFSET + SPACING_OFFSET);
         button.addListener(new ClickListener() {
             @Override
@@ -71,14 +71,14 @@ public class MenuStage extends Stage {
                 super.clicked(event, x, y);
                 game.setGameState(GameState.StartScreen);
                 ((GameView)game.getScreen()).resetGameStages();
-                game.getTextureManager().resetBackground();
+
             }
         });
         this.addActor(button);
     }
 
     private void addSettingsButton(LiftGame game, OrthographicCamera camera) {
-        ImageButton button = ButtonCreator.createButton(game, camera, "SETTINGS.png");
+        ImageButton button = ButtonCreator.createButton(game, "SETTINGS.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 - button.getHeight() / 2 + GLOBAL_OFFSET);
         button.addListener(new ClickListener() {
             @Override
@@ -90,7 +90,7 @@ public class MenuStage extends Stage {
     }
 
     private void addScoreButton(LiftGame game, OrthographicCamera camera) {
-        ImageButton button = ButtonCreator.createButton(game, camera, "SCORE.png");
+        ImageButton button = ButtonCreator.createButton(game, "SCORE.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 - 3 * button.getHeight() / 2 + GLOBAL_OFFSET - SPACING_OFFSET);
         button.addListener(new ClickListener() {
             @Override
@@ -102,6 +102,6 @@ public class MenuStage extends Stage {
     }
 
     private ImageButton createButton(LiftGame game, OrthographicCamera camera, String fileName) {
-        return ButtonCreator.createButton(game, camera, fileName);
+        return ButtonCreator.createButton(game, fileName);
     }
 }

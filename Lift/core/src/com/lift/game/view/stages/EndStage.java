@@ -32,7 +32,7 @@ public class EndStage extends Stage {
     }
 
     private void createMainMenuButton(final LiftGame game, OrthographicCamera camera) {
-        mainMenuButton = ButtonCreator.createButton(game, camera, "PLAY.png");
+        mainMenuButton = ButtonCreator.createButton(game, "PLAY.png");
         float x = camera.viewportWidth / 2 - mainMenuButton.getWidth() / 2;
         float y = camera.viewportHeight / 2 -  mainMenuButton.getHeight() / 2 ;
         this.mainMenuButton.setPosition(x, y);

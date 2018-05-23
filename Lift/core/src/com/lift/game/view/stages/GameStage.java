@@ -4,21 +4,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
+import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.actors.game_actors.ElevatorActor;
 import com.lift.game.view.actors.game_actors.PlatformActor;
 import com.lift.game.view.actors.game_actors.person.PersonActor;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameStage extends Stage {
-    //TODO: ADD POOL TO PEOPLE ????
 
     public GameStage(LiftGame game, Camera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
@@ -36,6 +39,25 @@ public class GameStage extends Stage {
 
         addPeopleActors(game);
 
+        addPauseButton(game, camera);
+        addMuteButton(game, camera);
+
+    }
+
+    private void addPauseButton(LiftGame game, Camera camera) {
+        ImageButton pauseButton = ButtonCreator.createButton(game, "PAUSE.png");
+        int x = (int)(camera.viewportWidth / 2 - pauseButton.getWidth() / 2);
+        int y = (int)(camera.viewportHeight/4.1);
+        pauseButton.setPosition(x, y);
+        this.addActor(pauseButton);
+    }
+
+    private void addMuteButton(LiftGame game, Camera camera) {
+        ImageButton muteButton = ButtonCreator.createButton(game, "MUTE.png");
+        int x = (int)(camera.viewportWidth / 2 - muteButton.getWidth() / 2);
+        int y = (int)(camera.viewportHeight / 5.6);
+        muteButton.setPosition(x, y);
+        this.addActor(muteButton);
     }
 
     private void initiateIndicatorPositions(Camera camera) {

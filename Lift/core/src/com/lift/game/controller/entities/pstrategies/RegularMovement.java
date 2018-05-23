@@ -29,11 +29,11 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
         PersonModel personModel2 = (PersonModel) personBody2.getUserData();
 
 
-        if (personModel1.getPersonState() == PersonState.Waiting ) {
+        if (personModel1.getPersonState() == PersonState.Waiting  && personModel2.getPersonState() != PersonState.Reached) {
             personBody1.setLinearVelocity(0, personBody1.getLinearVelocity().y);
             personModel1.setPersonState(PersonState.StoppedWaiting);
         }
-        if (personModel2.getPersonState() == PersonState.Waiting) {
+        if (personModel2.getPersonState() == PersonState.Waiting && personModel1.getPersonState() != PersonState.Reached) {
             personBody2.setLinearVelocity(0, personBody2.getLinearVelocity().y);
             personModel2.setPersonState(PersonState.StoppedWaiting);
         }
