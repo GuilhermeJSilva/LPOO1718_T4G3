@@ -115,6 +115,7 @@ public class GameView extends ScreenAdapter {
         this.endStage =  new EndStage(this.game, this.camera);
         this.gameState = GameState.StartScreen;
         Gdx.input.setInputProcessor(this.startStage);
+        this.game.getTextureManager().resetBackground();
     }
 
 
@@ -165,7 +166,7 @@ public class GameView extends ScreenAdapter {
             updateGame(delta);
         }
 
-        resetCamera();
+        resetCamera(delta);
         drawAllStages(delta);
 
         if (GameModel.getInstance().endGame() && gameState == GameState.Playing) {
@@ -217,7 +218,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Resets the camera to its initial state.
      */
-    private void resetCamera() {
+    private void resetCamera(float delta) {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
         game.getSpriteBatch().setProjectionMatrix(camera.combined);
@@ -227,17 +228,17 @@ public class GameView extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.getSpriteBatch().begin();
-        drawBackground();
+        drawBackground(delta);
         game.getSpriteBatch().end();
     }
 
     /**
      * Draws the background.
      */
-    private void drawBackground() {
-        Texture background = game.getAssetManager().get("lift4.png", Texture.class);
-        background.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
-        game.getSpriteBatch().draw(background, 0, 0, 0, 0, (int) (camera.viewportWidth), (int) (camera.viewportHeight));
+    private void drawBackground(float delta) {
+        game.getSpriteBatch().draw(this.game.getTextureManager().getBackground(delta * 200), 0,0);
+        game.getSpriteBatch().draw(this.game.getTextureManager().getStructure(), 0,0);
+        game.getSpriteBatch().draw(this.game.getTextureManager().getSun(), 0,0);
     }
 
 

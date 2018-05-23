@@ -10,7 +10,7 @@ import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
 public class PersonBody extends EntityBody {
 
     public static final int WIDTH = 3;
-    public static final int HEIGHT = 4;
+    public static final int HEIGHT = 5;
     public static final short PERSON_MASK = 1 << 2;
     public static final short PERSON_SENSOR_MASK = 1 << 5;
 

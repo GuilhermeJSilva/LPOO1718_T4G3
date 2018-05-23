@@ -21,7 +21,7 @@ class PeopleGenerator {
     /**
      * People generated per second.
      */
-    private Float seconds_b_person = 1f;
+    private Float seconds_b_person = 3f;
 
     public PeopleGenerator(GameController gameController) {
         this.gameController = gameController;
