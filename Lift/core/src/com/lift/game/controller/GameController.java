@@ -24,14 +24,21 @@ public class GameController {
     /**
      * Meters per floor.
      */
-    public static final Integer METERS_PER_FLOOR = 13;
+    public static final Float METERS_PER_FLOOR = 12.5f;
 
     /**
      * Physic's world.
      */
     private final World world;
 
+    /**
+     * Responsible for generating new people.
+     */
     private final PeopleGenerator peopleGenerator = new PeopleGenerator(this);
+
+    /**
+     * Responsible for administrating people.
+     */
     private final PeopleAdministrator peopleAdministrator = new PeopleAdministrator(this);
 
     /**
