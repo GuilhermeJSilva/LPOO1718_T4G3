@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -103,5 +104,13 @@ public class MenuStage extends Stage {
 
     private ImageButton createButton(LiftGame game, OrthographicCamera camera, String fileName) {
         return ButtonCreator.createButton(game, fileName);
+    }
+
+    public void updateHighScore(LiftGame game) {
+        Float highScore = game.getGamePreferences().getHighscore();
+        for(Actor a :  this.getActors()) {
+            if(a instanceof Label)
+                ((Label) a).setText("High Score: " + highScore);
+        }
     }
 }

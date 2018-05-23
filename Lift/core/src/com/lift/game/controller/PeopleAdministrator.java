@@ -38,7 +38,7 @@ public class PeopleAdministrator {
 
                 if (personModel.getPersonState() == PersonState.FreeFlying || personModel.getPersonState() == PersonState.Reached) {
                     if(body.getPosition().x < 0 || body.getPosition().x > 45 || body.getPosition().y < 0) {
-                        if (personModel.getPersonState() == PersonState.FreeFlying)
+                        if (personModel.getPersonState() == PersonState.FreeFlying && !personModel.isFlaggedForRemoval())
                             GameModel.getInstance().decrementLives();
                         personModel.setFlaggedForRemoval(true);
                     }

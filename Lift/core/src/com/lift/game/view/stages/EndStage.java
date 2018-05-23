@@ -42,7 +42,9 @@ public class EndStage extends Stage {
             public void clicked(InputEvent event, float x, float y) {
                 game.setGameState(GameState.InMenu);
                 game.resetGame();
-                Gdx.input.setInputProcessor(((GameView)game.getScreen()).getMenuStage());
+                MenuStage menuStage = ((GameView) game.getScreen()).getMenuStage();
+                menuStage.updateHighScore(game);
+                Gdx.input.setInputProcessor(menuStage);
             }
         });
     }

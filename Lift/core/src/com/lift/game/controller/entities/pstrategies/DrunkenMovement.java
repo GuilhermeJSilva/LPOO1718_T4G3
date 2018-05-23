@@ -45,6 +45,6 @@ public class DrunkenMovement extends NullStrategy implements MovementStrategy {
 
     @Override
     public float getTimeIncrease() {
-        return 2f;
+        return 7f;
     }
 }
