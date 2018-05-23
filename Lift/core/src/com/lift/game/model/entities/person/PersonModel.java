@@ -46,14 +46,20 @@ public class PersonModel extends EntityModel {
     private boolean tryingToEnter;
 
     /**
-     * Constru
-     * @param x
-     * @param y
-     * @param floor
-     * @param side
-     * @param destination
+     * Position of the person in the platform.
      */
-    PersonModel(float x, float y, int floor, Side side, int destination) {
+    private int plat_position;
+
+    /**
+     * Construst the model for a person.
+     * @param x X position.
+     * @param y Y position.
+     * @param floor Floor of the person.
+     * @param side Side of the screen.
+     * @param destination Destination floor.
+     * @param people_position Position of the person on the platform.
+     */
+    public PersonModel(float x, float y, int floor, Side side, int destination, int people_position) {
         super(x, y, side);
 
         this.personType = RandomTypeGenerator.getRandomType();
@@ -63,6 +69,7 @@ public class PersonModel extends EntityModel {
         this.destination = destination;
         this.floor = floor;
 
+        this.plat_position = people_position;
         this.satisfaction = STARTING_SATISFACTION;
     }
 
@@ -133,4 +140,7 @@ public class PersonModel extends EntityModel {
         this.tryingToEnter = tryingToEnter;
     }
 
+    public int getPlat_position() {
+        return plat_position;
+    }
 }

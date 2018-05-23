@@ -24,20 +24,20 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
     }
 
     @Override
-    public void collisionPersonPersonInPlatform(Body bodyA, Body bodyB) {
-        PersonModel personModel1 = (PersonModel) bodyA.getUserData();
-        PersonModel personModel2 = (PersonModel) bodyB.getUserData();
+    public void collisionPersonPersonInPlatform(Body personBody1, Body personBody2) {
+        PersonModel personModel1 = (PersonModel) personBody1.getUserData();
+        PersonModel personModel2 = (PersonModel) personBody2.getUserData();
 
-        if (personModel1.getPersonState() != PersonState.Reached && personModel2.getPersonState() != PersonState.Reached) {
-            if (personModel1.getPersonState() != PersonState.InElevator && personModel2.getPersonState() != PersonState.InElevator) {
-                if (personModel1.getPersonState() != PersonState.FreeFlying && personModel2.getPersonState() != PersonState.FreeFlying) {
-                    bodyA.setLinearVelocity(0, bodyA.getLinearVelocity().y);
-                    bodyB.setLinearVelocity(0, bodyB.getLinearVelocity().y);
-                    personModel1.setPersonState(PersonState.StoppedWaiting);
-                    personModel2.setPersonState(PersonState.StoppedWaiting);
-                }
-            }
+
+        if (personModel1.getPersonState() == PersonState.Waiting ) {
+            personBody1.setLinearVelocity(0, personBody1.getLinearVelocity().y);
+            personModel1.setPersonState(PersonState.StoppedWaiting);
         }
+        if (personModel2.getPersonState() == PersonState.Waiting) {
+            personBody2.setLinearVelocity(0, personBody2.getLinearVelocity().y);
+            personModel2.setPersonState(PersonState.StoppedWaiting);
+        }
+
     }
 
     @Override
@@ -73,9 +73,9 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
         if (personModel.getPersonState() != PersonState.Reached) {
             if(personModel.getPersonState() !=  PersonState.GiveUP && personModel.getPersonState() !=  PersonState.FreeFlying && personModel.getPersonState() !=  PersonState.InElevator) {
                 if (side == Side.Left) {
-                    personBody.setLinearVelocity(GIVING_UP_V, 0);
+                    personBody.setLinearVelocity(GIVING_UP_V, personBody.getBody().linVelLoc.y);
                 } else {
-                    personBody.setLinearVelocity(-GIVING_UP_V, 0);
+                    personBody.setLinearVelocity(-GIVING_UP_V, personBody.getBody().linVelLoc.y);
                 }
 
                 personModel.setPersonState(PersonState.GiveUP);
@@ -90,12 +90,12 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
         PersonModel personModel2 = (PersonModel) person2.getUserData();
 
         if (personModel1.getPersonState() != PersonState.Reached && personModel2.getPersonState() != PersonState.Reached) {
-            if (personModel1.getPersonState() == PersonState.StoppedWaiting) {
+            if (personModel1.getPersonState() == PersonState.StoppedWaiting && personModel2.getPlat_position() < personModel1.getPlat_position()) {
                 personModel1.setPersonState(PersonState.Waiting);
                 person1.setLinearVelocity(x_velocity, person1.getLinearVelocity().y);
             }
 
-            if (personModel2.getPersonState() == PersonState.StoppedWaiting) {
+            if (personModel2.getPersonState() == PersonState.StoppedWaiting && personModel1.getPlat_position() < personModel2.getPlat_position()) {
                 personModel2.setPersonState(PersonState.Waiting);
                 person2.setLinearVelocity(x_velocity, person2.getLinearVelocity().y);
             }

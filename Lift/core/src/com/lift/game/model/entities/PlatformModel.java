@@ -26,8 +26,9 @@ public class PlatformModel extends EntityModel{
         return number_of_people;
     }
 
-    public void incrementNPeople() {
+    public int incrementNPeople() {
         number_of_people++;
+        return number_of_people;
     }
 
     public void decrementNPeople() {
