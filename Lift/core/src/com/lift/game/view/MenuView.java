@@ -3,9 +3,15 @@ package com.lift.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lift.game.LiftGame;
 import com.lift.game.view.stages.MenuStage;
@@ -46,7 +52,25 @@ public class MenuView extends ScreenAdapter {
         manager.load("PLAY.png", Texture.class);
         manager.load("SCORE.png", Texture.class);
         manager.load("SETTINGS.png", Texture.class);
+        loadFonts(manager);
         manager.finishLoading();
+    }
+
+    private void loadFonts(AssetManager manager) {
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        mySmallFont.fontFileName = "fonts/font2.otf";
+        mySmallFont.fontParameters.size = 150;
+        manager.load("fonts/font2.otf", BitmapFont.class, mySmallFont);
+
+        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+        FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        myBigFont.fontFileName = "fonts/font.ttf";
+        myBigFont.fontParameters.size = 100;
+        manager.load("fonts/font.ttf", BitmapFont.class, myBigFont);
     }
 
     /**

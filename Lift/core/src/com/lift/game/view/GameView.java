@@ -26,6 +26,9 @@ import com.lift.game.view.stages.StartStage;
 
 import java.util.ArrayList;
 
+/**
+ * Main view for the game.
+ */
 public class GameView extends ScreenAdapter {
     /**
      * How much meters does a pixel represent.
@@ -111,6 +114,7 @@ public class GameView extends ScreenAdapter {
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
         this.gameState = GameState.StartScreen;
+        Gdx.input.setInputProcessor(this.startStage);
     }
 
 
@@ -142,28 +146,11 @@ public class GameView extends ScreenAdapter {
         manager.load("elevator.png", Texture.class);
         manager.load("heart.png", Texture.class);
         manager.load("gajos.png", Texture.class);
-        loadFonts(manager);
-
         manager.finishLoading();
 
     }
 
-    private void loadFonts(AssetManager manager) {
-        FileHandleResolver resolver = new InternalFileHandleResolver();
-        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
 
-        FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        mySmallFont.fontFileName = "fonts/font2.otf";
-        mySmallFont.fontParameters.size = 150;
-        manager.load("fonts/font2.otf", BitmapFont.class, mySmallFont);
-
-        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-        FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        myBigFont.fontFileName = "fonts/font.ttf";
-        myBigFont.fontParameters.size = 100;
-        manager.load("fonts/font.ttf", BitmapFont.class, myBigFont);
-    }
 
     /**
      * Renders this screen.
@@ -181,14 +168,20 @@ public class GameView extends ScreenAdapter {
         resetCamera();
         drawAllStages(delta);
 
-        if (checkEndGame() && gameState == GameState.Playing) {
+        if (GameModel.getInstance().endGame() && gameState == GameState.Playing) {
             this.gameState = GameState.EndScreen;
             this.endStage.update();
+            this.game.getGamePreferences().updateHighScore(GameModel.getInstance().getScore().floatValue());
+            this.game.getGamePreferences().increaseCoins(GameModel.getInstance().getCoins());
             Gdx.input.setInputProcessor(this.endStage);
         }
 
     }
 
+    /**
+     * Draws all stages.
+     * @param delta Time since the last render.
+     */
     private void drawAllStages(float delta) {
         this.game_stage.draw();
         this.hud.draw();
@@ -210,17 +203,20 @@ public class GameView extends ScreenAdapter {
         }
     }
 
-    private boolean checkEndGame() {
-        return GameModel.getInstance().getTime_left() <= 0 || GameModel.getInstance().getLives() <= 0;
-    }
-
+    /**
+     * Updates the game according
+     * @param delta Time passed since the last render.
+     */
     private void updateGame(float delta) {
         inputHandler.handleInputs();
         GameController.getInstance().update(delta);
         this.game_stage.updateStage(this.game);
-        this.hud.updateStage(delta / 5);
+        this.hud.updateStage(this.game,delta / 5);
     }
 
+    /**
+     * Resets the camera to its initial state.
+     */
     private void resetCamera() {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
