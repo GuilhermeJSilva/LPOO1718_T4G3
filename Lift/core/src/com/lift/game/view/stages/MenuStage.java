@@ -3,9 +3,11 @@ package com.lift.game.view.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -29,8 +31,18 @@ public class MenuStage extends Stage {
         addScoreButton(game, camera);
         addSettingsButton(game, camera);
         addHighScore(game, camera);
+        addLiftTitle(game, camera);
         Gdx.input.setInputProcessor(this);
 
+    }
+
+    private void addLiftTitle(LiftGame game, OrthographicCamera camera) {
+        Texture titleTexture = game.getAssetManager().get("lifttitle.png");
+        Image title = new Image(titleTexture);
+        int x = (int)(camera.viewportWidth / 2 - title.getWidth() / 2);
+        int y = (int)(camera.viewportHeight - 3 * title.getHeight() / 2);
+        title.setPosition(x, y);
+        this.addActor(title);
     }
 
     private void addHighScore(LiftGame game, OrthographicCamera camera) {
@@ -58,6 +70,7 @@ public class MenuStage extends Stage {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 game.setGameState(GameState.StartScreen);
+                ((GameView)game.getScreen()).resetGameStages();
                 game.getTextureManager().resetBackground();
             }
         });

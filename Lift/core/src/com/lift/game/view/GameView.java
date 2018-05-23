@@ -146,6 +146,7 @@ public class GameView extends ScreenAdapter {
         manager.load("fundo.png", Texture.class);
         manager.load("structure.png", Texture.class);
         manager.load("SUN.png", Texture.class);
+        manager.load("lifttitle.png", Texture.class);
         loadFonts(manager);
         manager.finishLoading();
 
@@ -270,5 +271,14 @@ public class GameView extends ScreenAdapter {
         }
     }
 
+    public MenuStage getMenuStage() {
+        return menuStage;
+    }
 
+    public void resetGameStages() {
+        this.hud = new HudStage(this.game, this.camera);
+        this.game_stage = new GameStage(this.game, this.camera);
+        this.startStage = new StartStage(this.game, this.camera);
+        this.endStage =  new EndStage(this.game, this.camera);
+    }
 }

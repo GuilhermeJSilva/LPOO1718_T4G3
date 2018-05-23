@@ -47,6 +47,10 @@ public class StartStage extends Stage {
         return timeToStart;
     }
 
+    public void resetCounter() {
+        timeToStart = 5.0;
+    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.lift.game.view.stages;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
 import com.lift.game.view.GameState;
+import com.lift.game.view.GameView;
 import com.lift.game.view.actors.ButtonCreator;
 
 public class EndStage extends Stage {
@@ -40,6 +42,7 @@ public class EndStage extends Stage {
             public void clicked(InputEvent event, float x, float y) {
                 game.setGameState(GameState.InMenu);
                 game.resetGame();
+                Gdx.input.setInputProcessor(((GameView)game.getScreen()).getMenuStage());
             }
         });
     }
