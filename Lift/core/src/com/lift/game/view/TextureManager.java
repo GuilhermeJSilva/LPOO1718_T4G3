@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 public class TextureManager {
+    //TODO all textures saved in a hash map
 
     private static final int FRAME_COLS = 12;
 
@@ -36,6 +37,14 @@ public class TextureManager {
 
     private Texture defaultPlatformTexture;
 
+    private Texture background;
+
+    private Texture light;
+
+    private Texture structure;
+
+    private Float backgroundDelta = 0f;
+
     private LiftGame game;
 
     public TextureManager(LiftGame game) {
@@ -44,6 +53,9 @@ public class TextureManager {
         initializeTextures();
         initializeDefault();
         initializePeopleAnimation();
+        this.background = game.getAssetManager().get("fundo.png");
+        this.structure = game.getAssetManager().get("structure.png");
+        this.light = game.getAssetManager().get("SUN.png");
     }
 
     private void initializeDefault() {
@@ -118,5 +130,26 @@ public class TextureManager {
         if(direction == Side.Right)
         return walkAnimation.getKeyFrame(stateTime, true);
         return  reverseWalkAnimation.getKeyFrame(stateTime, true);
+    }
+
+    public TextureRegion getBackground(float delta) {
+        backgroundDelta += delta;
+        Float initialValue = background.getHeight() - (1920 + backgroundDelta);
+        if(initialValue < 0)
+            initialValue = 0f;
+        return new TextureRegion(background, 0 , initialValue.intValue(), 1080, 1920);
+
+    }
+
+    public TextureRegion getStructure() {
+        return new TextureRegion(structure, 0 , 0, 1080, 1920);
+    }
+
+    public void resetBackground() {
+        this.backgroundDelta = 0f;
+    }
+
+    public TextureRegion getSun() {
+        return new TextureRegion(light, 0 , 0, 1080, 1920);
     }
 }

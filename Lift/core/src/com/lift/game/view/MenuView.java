@@ -52,6 +52,9 @@ public class MenuView extends ScreenAdapter {
         manager.load("PLAY.png", Texture.class);
         manager.load("SCORE.png", Texture.class);
         manager.load("SETTINGS.png", Texture.class);
+        manager.load("fundo.png", Texture.class);
+        manager.load("structure.png", Texture.class);
+        manager.load("SUN.png", Texture.class);
         loadFonts(manager);
         manager.finishLoading();
     }
