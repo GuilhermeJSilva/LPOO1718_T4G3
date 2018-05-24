@@ -47,6 +47,11 @@ public class GameController {
      */
     private Float accumulator = 0.0f;
 
+    /**
+     * Accumulates time to determine when to increase the difficulty.
+     */
+    private Float difficulty_accumulator = 0.0f;
+
 
     /**
      * Game's left_elevator.
@@ -166,6 +171,7 @@ public class GameController {
 
             peopleAdministrator.updatePeople(strategySelector,1 / 60f);
             peopleGenerator.generateNewPeople(1 / 60f);
+            increaseDifficulty(1/60f);
         }
 
         updateModel();
@@ -232,6 +238,15 @@ public class GameController {
             return left_floors;
         }
         return  right_floors;
+    }
+
+    public void increaseDifficulty(float delta) {
+        difficulty_accumulator += delta;
+        while(difficulty_accumulator > 5f) {
+            peopleAdministrator.increaseDifficulty();
+            peopleGenerator.increaseDifficulty();
+            difficulty_accumulator -= 5f;
+        }
     }
 
 }

@@ -14,9 +14,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PeopleAdministrator {
+    public static final int MAX_DF = 2;
+
     private final GameController gameController;
 
     private List<PersonBody> reachedPeople;
+
+    private float difficultyFactor = 1;
 
     PeopleAdministrator(GameController gameController) {
         this.gameController = gameController;
@@ -89,7 +93,7 @@ public class PeopleAdministrator {
         for (PersonBody personBody : gameController.getPeople()) {
             PersonModel per = (PersonModel) personBody.getBody().getUserData();
             if (per != null) {
-                float real_delta = strategySelector.getStrategy(per).getSatisfactionDelta(delta);
+                float real_delta = strategySelector.getStrategy(per).getSatisfactionDelta(delta) * difficultyFactor;
                 if (per.update(real_delta) && per.getPersonState() != PersonState.GiveUP) {
                     strategySelector.getStrategy(per).giveUp(personBody, per.getSide());
                 }
@@ -117,5 +121,11 @@ public class PeopleAdministrator {
         ElevatorBody elevatorBody = GameController.getInstance().getElevator(side);
         personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
         personBody.getBody().setLinearVelocity(side == Side.Left ? -10 :10 , 2);
+    }
+
+    public void increaseDifficulty() {
+        if(difficultyFactor < MAX_DF) {
+            difficultyFactor += 0.1;
+        }
     }
 }
