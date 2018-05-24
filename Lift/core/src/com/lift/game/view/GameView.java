@@ -141,7 +141,7 @@ public class GameView extends ScreenAdapter {
         AssetManager manager = this.game.getAssetManager();
         manager.load("elevator.png", Texture.class);
         manager.load("heart.png", Texture.class);
-        manager.load("gajos.png", Texture.class);
+        manager.load("regular.png", Texture.class);
         manager.load("Plano de Fundo.png", Texture.class);
         manager.load("PLAY.png", Texture.class);
         manager.load("SCORE.png", Texture.class);
@@ -152,6 +152,7 @@ public class GameView extends ScreenAdapter {
         manager.load("lifttitle.png", Texture.class);
         manager.load("PAUSE.png", Texture.class);
         manager.load("MUTE.png", Texture.class);
+        manager.load("drunk.png", Texture.class);
         loadFonts(manager);
         manager.finishLoading();
 
