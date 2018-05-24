@@ -153,6 +153,8 @@ public class GameView extends ScreenAdapter {
         manager.load("PAUSE.png", Texture.class);
         manager.load("MUTE.png", Texture.class);
         manager.load("drunk.png", Texture.class);
+        manager.load("pregnant.png", Texture.class);
+
         loadFonts(manager);
         manager.finishLoading();
 
