@@ -11,6 +11,7 @@ import com.lift.game.model.entities.person.PersonType;
 import com.lift.game.model.entities.person.Side;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
@@ -21,11 +22,9 @@ public class TextureManager {
 
     private static final int FRAME_ROWS = 1;
 
-    private Animation<TextureRegion> walkAnimation;
+    private HashMap<PersonType, Animation<TextureRegion> > walkAnimation;
 
-    private Animation<TextureRegion> reverseWalkAnimation;
-
-    private Texture walkSheet;
+    private HashMap<PersonType, Animation<TextureRegion> >  reverseWalkAnimation;
 
     private ArrayList<Texture> platformTextures;
 
@@ -83,7 +82,15 @@ public class TextureManager {
     }
 
     private void initializePeopleAnimation() {
-        walkSheet = game.getAssetManager().get("gajos.png");
+        this.walkAnimation = new  HashMap<PersonType, Animation<TextureRegion> > ();
+        this.reverseWalkAnimation = new HashMap<PersonType, Animation<TextureRegion> >();
+
+        walkAnimation(PersonType.Regular, "regular.png");
+        walkAnimation(PersonType.Drunken, "drunk.png");
+    }
+
+    private void walkAnimation(PersonType personType, String fileName) {
+        Texture walkSheet = game.getAssetManager().get(fileName);
 
         TextureRegion[][] tmp = TextureRegion.split(walkSheet,
                 walkSheet.getWidth() / FRAME_COLS,
@@ -99,8 +106,8 @@ public class TextureManager {
                 reverseWalkFrames[index - 1].flip(true, false);
             }
         }
-        walkAnimation = new Animation<TextureRegion>(0.125f, walkFrames);
-        reverseWalkAnimation = new Animation<TextureRegion>(0.125f, reverseWalkFrames);
+        walkAnimation.put(personType, new Animation<TextureRegion>(0.125f, walkFrames));
+        reverseWalkAnimation.put(personType, new Animation<TextureRegion>(0.125f, reverseWalkFrames));
     }
 
     private void initializeColors() {
@@ -128,8 +135,8 @@ public class TextureManager {
 
     public TextureRegion getPersonTexture(PersonType personType, float stateTime, Side direction) {
         if(direction == Side.Right)
-        return walkAnimation.getKeyFrame(stateTime, true);
-        return  reverseWalkAnimation.getKeyFrame(stateTime, true);
+        return walkAnimation.get(personType).getKeyFrame(stateTime, true);
+        return  reverseWalkAnimation.get(personType).getKeyFrame(stateTime, true);
     }
 
     public TextureRegion getBackground(float delta) {
