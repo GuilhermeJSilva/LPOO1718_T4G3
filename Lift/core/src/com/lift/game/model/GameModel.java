@@ -9,6 +9,7 @@ import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.PersonState;
 import com.lift.game.model.entities.person.Side;
 
 /**
@@ -186,6 +187,7 @@ public class GameModel {
 
     /**
      * Returns the people in the model.
+     *
      * @return People in the model.
      */
     public ArrayList<PersonModel> getPeople() {
@@ -194,6 +196,7 @@ public class GameModel {
 
     /**
      * Adds a person to the model.
+     *
      * @param new_p Person to be added
      */
     public void addPerson(PersonModel new_p) {
@@ -211,12 +214,13 @@ public class GameModel {
      * Decrements the number of lives.
      */
     public void decrementLives() {
-        if(lives > 0)
+        if (lives > 0)
             lives--;
     }
 
     /**
      * Removes a person from the model.
+     *
      * @param model Model to remove.
      */
     public void remove(EntityModel model) {
@@ -227,24 +231,27 @@ public class GameModel {
 
     /**
      * Increments the amount of time left, up to a max of 99.9 seconds.
+     *
      * @param timeIncrease Time to increase by.
      */
     public void incrementTime(float timeIncrease) {
         time_left += timeIncrease;
-        if(time_left > 99.9)
+        if (time_left > 99.9)
             time_left = 99.9;
     }
 
     /**
      * Returns the game's current score.
+     *
      * @return Current score.
      */
     public Double getScore() {
-        return (Math.round(score * 10))/10.0;
+        return (Math.round(score * 10)) / 10.0;
     }
 
     /**
      * Checks if the game has ended.
+     *
      * @return True if the game has ended.
      */
     public boolean endGame() {
@@ -253,6 +260,7 @@ public class GameModel {
 
     /**
      * Return the number of coins won in this game.
+     *
      * @return Number of coins.
      */
     public Integer getCoins() {
@@ -261,10 +269,19 @@ public class GameModel {
 
     /**
      * Increases the number of coins won in this game.
+     *
      * @param coins Increment.
      */
     public void incCoins(Integer coins) {
         this.coins += coins;
+    }
+
+    public void tryToEnter(Side side) {
+        for (PersonModel personModel : people) {
+            if (personModel.getFloor() == getElevator(side).getTarget_floor() && getElevator(side).getStopped() && personModel.getSide() == side && (personModel.getPersonState() == PersonState.Waiting || personModel.getPersonState() == PersonState.StoppedWaiting)) {
+                personModel.setTryingToEnter(true);
+            }
+        }
     }
 }
 
