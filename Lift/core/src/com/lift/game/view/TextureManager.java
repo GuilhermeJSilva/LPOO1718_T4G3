@@ -133,10 +133,13 @@ public class TextureManager {
     }
 
     public TextureRegion getBackground(float delta) {
-        backgroundDelta += delta;
-        Float initialValue = background.getHeight() - (1920 + backgroundDelta);
+        Float initialValue = background.getHeight() - (1920 + backgroundDelta + delta);
         if(initialValue < 0)
             initialValue = 0f;
+        else if(initialValue > background.getHeight() - 1920)
+            initialValue = background.getHeight() - 1920f;
+        else
+            backgroundDelta += delta;
         return new TextureRegion(background, 0 , initialValue.intValue(), 1080, 1920);
 
     }

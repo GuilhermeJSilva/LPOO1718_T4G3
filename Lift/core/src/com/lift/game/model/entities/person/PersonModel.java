@@ -50,6 +50,8 @@ public class PersonModel extends EntityModel {
      */
     private int plat_position;
 
+    public int n_updates = 0;
+
     /**
      * Construst the model for a person.
      * @param x X position.
@@ -73,7 +75,6 @@ public class PersonModel extends EntityModel {
         this.satisfaction = STARTING_SATISFACTION;
     }
 
-
     /**
      * Returns the person's satisfaction.
      *
@@ -89,6 +90,7 @@ public class PersonModel extends EntityModel {
      * @param delta Time that passed.
      */
     public boolean update(float delta) {
+        n_updates++;
         this.satisfaction -= delta;
         return satisfaction < 0;
     }

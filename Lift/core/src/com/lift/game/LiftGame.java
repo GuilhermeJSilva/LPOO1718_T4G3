@@ -106,4 +106,8 @@ public class LiftGame extends Game {
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
+
+    public Music getMusic() {
+        return music;
+    }
 }

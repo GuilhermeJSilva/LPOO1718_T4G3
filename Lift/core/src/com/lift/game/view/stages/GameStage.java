@@ -55,7 +55,6 @@ public class GameStage extends Stage {
         pauseButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
                 if(game.getGameState() == GameState.Playing)
                     game.setGameState(GameState.Paused);
                 else
@@ -65,11 +64,21 @@ public class GameStage extends Stage {
         this.addActor(pauseButton);
     }
 
-    private void addMuteButton(LiftGame game, Camera camera) {
+    private void addMuteButton(final LiftGame game, Camera camera) {
         ImageButton muteButton = ButtonCreator.createButton(game, "MUTE.png");
         int x = (int)(camera.viewportWidth / 2 - muteButton.getWidth() / 2);
         int y = (int)(camera.viewportHeight / 5.6);
         muteButton.setPosition(x, y);
+        muteButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(game.getMusic().isPlaying()) {
+                    game.getMusic().pause();
+                } else {
+                    game.getMusic().play();
+                }
+            }
+        });
         this.addActor(muteButton);
     }
 

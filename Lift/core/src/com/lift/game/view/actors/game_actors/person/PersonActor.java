@@ -104,10 +104,11 @@ public class PersonActor extends EntityActor {
 
         TextureRegion currentFrame = game.getTextureManager().getPersonTexture(model.getPersonType(), stateTime, this.getRunningDirection());
         sprite.setRegion(currentFrame);
-
-        batch.end();
-        patientIndicator.draw(batch, parentAlpha);
-        batch.begin();
+        if(model.getPersonState() != PersonState.Reached) {
+            batch.end();
+            patientIndicator.draw(batch, parentAlpha);
+            batch.begin();
+        }
     }
 
     private Side getRunningDirection() {

@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.Random;
 
 class PeopleGenerator {
+    /**
+     * Minimum amount of seconds of people between people.
+     */
+    public static final float MIN_SBP = 1.5f;
+    /**
+     * Instance of the game controller.
+     */
     private final GameController gameController;
 
     /**
@@ -99,6 +106,8 @@ class PeopleGenerator {
      * Adds a new person to waiting for the left_elevator.
      *
      * @param floor               Floor the person is currently in.
+     * @param dest Floor number of destination.
+     * @param side Side of the screen.
      * @return The person model that was added.
      */
     private PersonModel add_waiting_person(int floor, int dest, Side side) {
@@ -120,5 +129,11 @@ class PeopleGenerator {
         GameModel.getInstance().addPerson(new_p);
 
         return new_p;
+    }
+
+    public void increaseDifficulty() {
+        if(seconds_b_person > MIN_SBP) {
+            seconds_b_person -= 0.1f;
+        }
     }
 }
