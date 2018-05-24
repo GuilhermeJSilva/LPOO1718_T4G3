@@ -13,10 +13,6 @@ public enum PersonState {
      */
     StoppedWaiting,
     /**
-     * Fist person waiting,
-     */
-    FirstInLine,
-    /**
      * The person is in the elevator.
      */
     InElevator,

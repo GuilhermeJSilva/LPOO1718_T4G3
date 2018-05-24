@@ -104,6 +104,6 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
 
     @Override
     public float getTimeIncrease() {
-        return 5f;
+        return 3f;
     }
 }

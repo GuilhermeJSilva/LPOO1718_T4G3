@@ -52,11 +52,7 @@ public class PersonActor extends EntityActor {
         this.sprite = new Sprite(new Texture((int)(PersonBody.WIDTH / PIXEL_TO_METER), (int)(PersonBody.HEIGHT / PIXEL_TO_METER), Pixmap.Format.RGB888));
         int color = game.getTextureManager().getColor(model.getDestination());
         this.patientIndicator = IndicatorCreator.createIndicator(new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY() + 3 * sprite.getHeight() / 2), model.getPersonType(), color, game.getPolygonBatch());
-
         this.setBounds(this.sprite.getX(), this.sprite.getY(), PersonBody.WIDTH / PIXEL_TO_METER, PersonBody.HEIGHT / PIXEL_TO_METER);
-        if (!this.addListener(new PersonClickListener(model))) {
-            System.err.println("Failed to install listener");
-        }
     }
 
 

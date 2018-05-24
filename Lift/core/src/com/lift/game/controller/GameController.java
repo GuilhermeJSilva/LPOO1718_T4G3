@@ -149,7 +149,6 @@ public class GameController {
             return right_elevator;
     }
 
-
     /**
      * Updates the game.
      *
@@ -157,6 +156,7 @@ public class GameController {
      */
     public void update(float delta) {
         GameModel.getInstance().update(delta);
+
 
 
         peopleAdministrator.movePeople();
@@ -169,6 +169,8 @@ public class GameController {
             world.step(1 / 60f, 6, 2);
             accumulator -= 1 / 60f;
 
+            GameModel.getInstance().tryToEnter(Side.Left);
+            GameModel.getInstance().tryToEnter(Side.Right);
             peopleAdministrator.updatePeople(strategySelector,1 / 60f);
             peopleGenerator.generateNewPeople(1 / 60f);
             increaseDifficulty(1/60f);
@@ -189,6 +191,7 @@ public class GameController {
                 em.setStopped(body.getLinearVelocity().y == 0);
             }
         }
+
     }
 
 

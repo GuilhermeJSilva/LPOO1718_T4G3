@@ -71,7 +71,7 @@ public class ElevatorModel extends EntityModel {
         super(x, STARTING_Y, side);
         this.capacity = DEFAULT_CAPACITY;
         this.occupancy = 0;
-        this.stopped = false;
+        this.stopped = true;
         this.target_floor = -1;
 
     }
