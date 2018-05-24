@@ -75,12 +75,6 @@ public class PersonModel extends EntityModel {
         this.satisfaction = STARTING_SATISFACTION;
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        System.out.println("Updates " + n_updates);
-    }
-
     /**
      * Returns the person's satisfaction.
      *

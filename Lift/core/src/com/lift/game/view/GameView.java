@@ -17,8 +17,11 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
+import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.Side;
 import com.lift.game.view.stages.*;
 
 import java.util.ArrayList;
@@ -185,7 +188,7 @@ public class GameView extends ScreenAdapter {
     public void render(float delta) {
         GameController.getInstance().removeFlagged();
 
-        if (game.getGameState() == GameState.Playing) {
+        if (game.getGameState() == GameState.Playing || game.getGameState() == GameState.EndScreen) {
             updateGame(delta);
         }
 
@@ -236,7 +239,8 @@ public class GameView extends ScreenAdapter {
      * @param delta Time passed since the last render.
      */
     private void updateGame(float delta) {
-        inputHandler.handleInputs();
+        if(game.getGameState() == GameState.Playing)
+            inputHandler.handleInputs();
         GameController.getInstance().update(delta);
         this.game_stage.updateStage(this.game);
         this.hud.updateStage(this.game,delta / 5);
@@ -266,6 +270,8 @@ public class GameView extends ScreenAdapter {
         float backgroundMovement = 0;
         if(game.getGameState() == GameState.Playing)
             backgroundMovement = delta * 20;
+        else if(game.getGameState() !=  GameState.Paused)
+            backgroundMovement = - delta * 400;
         game.getSpriteBatch().draw(this.game.getTextureManager().getBackground(backgroundMovement), 0,0);
         if (game.getGameState() != GameState.InMenu) {
             game.getSpriteBatch().draw(this.game.getTextureManager().getStructure(), 0,0);
