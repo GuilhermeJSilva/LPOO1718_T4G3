@@ -1,6 +1,7 @@
 package com.lift.game.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -152,7 +153,7 @@ public class GameController {
     public void update(float delta) {
         GameModel.getInstance().update(delta);
 
-        peopleAdministrator.updatePeople(strategySelector,delta);
+
         peopleAdministrator.movePeople();
 
         float frameTime = Math.min(delta, 0.25f);
@@ -163,6 +164,7 @@ public class GameController {
             world.step(1 / 60f, 6, 2);
             accumulator -= 1 / 60f;
 
+            peopleAdministrator.updatePeople(strategySelector,1 / 60f);
             peopleGenerator.generateNewPeople(1 / 60f);
         }
 
@@ -214,13 +216,13 @@ public class GameController {
     }
 
     public void removeFlagged() {
-        Array<Body> bodies = new Array<Body>();
-        world.getBodies(bodies);
-        for (Body body : bodies) {
-            EntityModel entityModel = ((EntityModel) body.getUserData());
-            if(entityModel.isFlaggedForRemoval()) {
-                world.destroyBody(body);
+        for (Iterator<PersonBody> iter = people.iterator(); iter.hasNext(); ) {
+            PersonBody personBody = iter.next();
+            EntityModel entityModel = ((EntityModel) personBody.getBody().getUserData());
+            if (entityModel.isFlaggedForRemoval()) {
+                world.destroyBody(personBody.getBody());
                 GameModel.getInstance().remove(entityModel);
+                iter.remove();
             }
         }
     }
