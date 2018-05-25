@@ -13,7 +13,13 @@ import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_S
 
 public class NullStrategy implements MovementStrategy {
 
-    public NullStrategy() {
+    /**
+     * Controller to act on.
+     */
+    private GameController gameController;
+
+    public NullStrategy(GameController gameController) {
+        this.gameController =  gameController;
     }
 
     @Override
@@ -37,7 +43,7 @@ public class NullStrategy implements MovementStrategy {
         if (personModel.getPersonState() != PersonState.Reached) {
             if (personModel.getPersonState() != PersonState.InElevator) {
                 if (platformFixture == PLATFORM_ELEVATOR_SENSOR && personModel.getPersonState() != PersonState.FreeFlying) {
-                    GameController.getInstance().getPeopleAdministrator().moveToFreeFly(personModel);
+                    gameController.getPeopleAdministrator().moveToFreeFly(personModel);
 
                 }
             }
@@ -51,7 +57,7 @@ public class NullStrategy implements MovementStrategy {
         if (personModel.getPersonState() != PersonState.Reached) {
             if(personModel.getPersonState() == PersonState.InElevator) {
                 personBody.getBody().setGravityScale(5);
-                ElevatorBody elevatorBody = GameController.getInstance().getElevator(side);
+                ElevatorBody elevatorBody = gameController.getElevator(side);
                 personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
                 personModel.setPersonState(PersonState.FreeFlying);
                 GameModel.getInstance().getElevator(side).decrementOccupancy();

@@ -118,7 +118,7 @@ public class PeopleAdministrator {
     }
 
     private void updatePositionWhenReached(Side side, PersonBody personBody) {
-        ElevatorBody elevatorBody = GameController.getInstance().getElevator(side);
+        ElevatorBody elevatorBody = gameController.getElevator(side);
         personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
         personBody.getBody().setLinearVelocity(side == Side.Left ? -10 :10 , 2);
     }

@@ -1,5 +1,6 @@
 package com.lift.game.view;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
@@ -50,7 +51,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Handles the basic inputs.
      */
-    private final InputHandler inputHandler = new InputHandler();
+    private final InputHandler inputHandler;
 
     /**
      * Stage for the hud.
@@ -88,6 +89,11 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
 
+    /**
+     * Game controller.
+     */
+    private GameController gameController;
+
 
     /**
      * Creates this screen.
@@ -98,11 +104,13 @@ public class GameView extends ScreenAdapter {
         this.game = liftGame;
         loadAssets();
         camera = createCamera();
+        this.gameController = new GameController();
         this.hud = new HudStage(this.game, this.camera);
         this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
         this.menuStage = new MenuStage(this.game, this.camera);
+        this.inputHandler = new InputHandler(gameController);
         Gdx.input.setInputProcessor(this.menuStage);
     }
 
@@ -181,7 +189,7 @@ public class GameView extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        GameController.getInstance().removeFlagged();
+        gameController.removeFlagged();
 
         if (game.getGameState() == GameState.Playing || game.getGameState() == GameState.EndScreen) {
             updateGame(delta);
@@ -225,7 +233,7 @@ public class GameView extends ScreenAdapter {
         if (DEBUG_PHYSICS) {
             debugCamera = camera.combined.cpy();
             debugCamera.scl(1 / PIXEL_TO_METER);
-            debugRenderer.render(GameController.getInstance().getWorld(), debugCamera);
+            debugRenderer.render(gameController.getWorld(), debugCamera);
         }
     }
 
@@ -236,7 +244,7 @@ public class GameView extends ScreenAdapter {
     private void updateGame(float delta) {
         if(game.getGameState() == GameState.Playing)
             inputHandler.handleInputs();
-        GameController.getInstance().update(delta);
+        gameController.update(delta);
         this.game_stage.updateStage(this.game);
         this.hud.updateStage(this.game,delta / 5);
     }
@@ -283,5 +291,6 @@ public class GameView extends ScreenAdapter {
         this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
+        this.gameController = new GameController();
     }
 }

@@ -9,8 +9,10 @@ import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
 
 class GameCollisionHandler implements ContactListener {
-    public GameCollisionHandler() {
+    private GameController gameController;
+    public GameCollisionHandler(GameController gameController) {
         super();
+        this.gameController = gameController;
     }
 
     public void beginContact(Contact contact) {
@@ -31,8 +33,8 @@ class GameCollisionHandler implements ContactListener {
     }
 
     private void solvePersonPersonCollision(Body person1, Body person2) {
-        MovementStrategy movementStrategy1 = GameController.getInstance().getStrategySelector().getStrategy((PersonModel) person1.getUserData());
-        MovementStrategy movementStrategy2 = GameController.getInstance().getStrategySelector().getStrategy((PersonModel) person2.getUserData());
+        MovementStrategy movementStrategy1 = gameController.getStrategySelector().getStrategy((PersonModel) person1.getUserData());
+        MovementStrategy movementStrategy2 = gameController.getStrategySelector().getStrategy((PersonModel) person2.getUserData());
         MovementStrategy movementStrategy;
         if (movementStrategy1.getPriority() > movementStrategy2.getPriority())
             movementStrategy = movementStrategy1;
@@ -52,7 +54,7 @@ class GameCollisionHandler implements ContactListener {
     }
 
     private void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
-        MovementStrategy movementStrategy = GameController.getInstance().getStrategySelector().getStrategy((PersonModel) personBody.getUserData());
+        MovementStrategy movementStrategy = gameController.getStrategySelector().getStrategy((PersonModel) personBody.getUserData());
         movementStrategy.solvePersonPlatformCollision(personBody, platformBody, platformFixture);
     }
 
@@ -73,13 +75,13 @@ class GameCollisionHandler implements ContactListener {
         if (em == GameModel.getInstance().getElevator(Side.Left)) {
             if (em.getTarget_floor() == GameModel.getInstance().getLeft_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
-                GameController.getInstance().getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Left);
+                gameController.getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Left);
 
             }
         } else {
             if (em.getTarget_floor() == GameModel.getInstance().getRight_floors().indexOf(pm) && b) {
                 bodyB.setLinearVelocity(0, 0);
-                GameController.getInstance().getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Right);
+                gameController.getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Right);
 
             }
         }
@@ -96,8 +98,8 @@ class GameCollisionHandler implements ContactListener {
 
     private void checkIfEndPersonPersonCollision(Body person1, Body person2) {
         if (person1.getUserData() instanceof PersonModel && person2.getUserData() instanceof PersonModel) {
-            MovementStrategy movementStrategy1 = GameController.getInstance().getStrategySelector().getStrategy((PersonModel) person1.getUserData());
-            MovementStrategy movementStrategy2 = GameController.getInstance().getStrategySelector().getStrategy((PersonModel) person2.getUserData());
+            MovementStrategy movementStrategy1 = gameController.getStrategySelector().getStrategy((PersonModel) person1.getUserData());
+            MovementStrategy movementStrategy2 = gameController.getStrategySelector().getStrategy((PersonModel) person2.getUserData());
             MovementStrategy movementStrategy;
             if (movementStrategy1.getPriority() > movementStrategy2.getPriority())
                 movementStrategy = movementStrategy1;

@@ -93,12 +93,12 @@ public class GameController {
     /**
      * Constructs the model.
      */
-    private GameController() {
+    public GameController() {
         super();
         this.world = new World(new Vector2(0, -5), false);
         this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator(Side.Left));
         this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator(Side.Right));
-        this.strategySelector = new StrategySelector();
+        this.strategySelector = new StrategySelector(this);
 
         this.people = new ArrayList<PersonBody>();
         this.left_floors = new ArrayList<PlatformBody>();
@@ -119,23 +119,9 @@ public class GameController {
         for (PersonModel pm : GameModel.getInstance().getPeople()) {
             this.people.add(new PersonBody(world, pm));
         }
-        world.setContactListener(new GameCollisionHandler());
+        world.setContactListener(new GameCollisionHandler(this));
     }
 
-    /**
-     * Returns the game model instance.
-     *
-     * @return Game model instance.
-     */
-    public static GameController getInstance() {
-        if (instance == null)
-            instance = new GameController();
-        return instance;
-    }
-
-    public static void resetController() {
-        instance = null;
-    }
 
     /**
      * Returns the controller's left_elevator.

@@ -10,7 +10,9 @@ import com.lift.game.model.entities.person.Side;
 import java.util.ArrayList;
 
 public class InputHandler {
-    public InputHandler() {
+    private GameController gameController;
+    public InputHandler(GameController gameController) {
+        this.gameController = gameController;
     }
 
     /**
@@ -25,14 +27,14 @@ public class InputHandler {
             int floor = determine_floor_number(floors);
             if (floor != -1) {
                 if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
-                    if (GameController.getInstance().getElevator(Side.Right).getTarget_floor() != floor) {
+                    if (gameController.getElevator(Side.Right).getTarget_floor() != floor) {
                         GameModel.getInstance().getElevator(Side.Right).setTarget_floor(floor);
-                        GameController.getInstance().getElevator(Side.Right).setTarget_floor(floor);
+                        gameController.getElevator(Side.Right).setTarget_floor(gameController,floor);
 
                     }
-                } else if (GameController.getInstance().getElevator(Side.Left).getTarget_floor() != floor) {
+                } else if (gameController.getElevator(Side.Left).getTarget_floor() != floor) {
                     GameModel.getInstance().getElevator(Side.Left).setTarget_floor(floor);
-                    GameController.getInstance().getElevator(Side.Left).setTarget_floor(floor);
+                    gameController.getElevator(Side.Left).setTarget_floor(gameController,floor);
                 }
             }
 

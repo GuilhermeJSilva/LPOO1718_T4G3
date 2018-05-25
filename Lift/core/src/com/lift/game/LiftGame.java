@@ -86,7 +86,6 @@ public class LiftGame extends Game {
 
     public void resetGame() {
         GameModel.resetModel();
-        GameController.resetController();
     }
 
     public TextureManager getTextureManager() {

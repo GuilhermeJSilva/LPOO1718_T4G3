@@ -1,5 +1,6 @@
 package com.lift.game.controller.entities.pstrategies;
 
+import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonType;
 
@@ -13,11 +14,11 @@ public class StrategySelector {
 
     private MovementStrategy nullStrategy;
 
-    public StrategySelector() {
+    public StrategySelector(GameController gameController) {
         this.strategies = new HashMap<PersonType,MovementStrategy>();
-        this.strategies.put(PersonType.Drunken, new DrunkenMovement());
-        this.strategies.put(PersonType.Regular, new RegularMovement());
-        this.nullStrategy = new NullStrategy();
+        this.strategies.put(PersonType.Drunken, new DrunkenMovement(gameController));
+        this.strategies.put(PersonType.Regular, new RegularMovement(gameController));
+        this.nullStrategy = new NullStrategy(gameController);
     }
 
     public MovementStrategy getStrategy(PersonModel personModel) {
