@@ -3,7 +3,6 @@ package com.lift.game.view.actors;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.lift.game.LiftGame;
 import com.lift.game.model.entities.EntityModel;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;

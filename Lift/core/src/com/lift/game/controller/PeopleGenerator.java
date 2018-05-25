@@ -13,11 +13,12 @@ import java.util.Random;
 /**
  * Responsible to generating new people in the controller.
  */
-class PeopleGenerator {
+public class PeopleGenerator {
     /**
      * Minimum amount of seconds of people between people.
      */
     public static final float MIN_SBP = 1.5f;
+
     /**
      * Instance of the game controller.
      */
@@ -61,7 +62,7 @@ class PeopleGenerator {
      * Returns the number of seconds between the generation of people.
      * @return Number of seconds between the generation of people.
      */
-    private Float getSeconds_b_person() {
+    public Float getSeconds_b_person() {
         return seconds_b_person;
     }
 
@@ -78,7 +79,7 @@ class PeopleGenerator {
      *
      * @param n_people Number of people to generate.
      */
-    private void generatePeople(int n_people) {
+    public void generatePeople(int n_people) {
         if (n_people < 0)
             return;
         Random generator = new Random();
@@ -93,7 +94,7 @@ class PeopleGenerator {
      *
      * @param floor Floor to generate in.
      */
-    private void generatePerson(int floor) {
+    public void generatePerson(int floor) {
         Random generator = new Random();
         int dest;
         do {
@@ -134,7 +135,7 @@ class PeopleGenerator {
      * @param side Side of the screen.
      * @return The person model that was added.
      */
-    private PersonModel add_waiting_person(int floor, int dest, Side side) {
+    public PersonModel add_waiting_person(int floor, int dest, Side side) {
         ArrayList<PlatformModel> floors;
         float x;
         if (side == Side.Left) {

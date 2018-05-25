@@ -3,7 +3,6 @@ package com.lift.game.view.actors.game_actors.person;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,10 +11,8 @@ import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
-import com.lift.game.model.entities.person.PersonType;
 import com.lift.game.model.entities.person.Side;
 import com.lift.game.view.IndicatorCreator;
-import com.lift.game.view.TextureManager;
 import com.lift.game.view.actors.EntityActor;
 import com.lift.game.view.actors.polygon_actor.BasePolyActor;
 

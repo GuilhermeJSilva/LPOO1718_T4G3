@@ -1,11 +1,9 @@
 package com.lift.game.view.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -20,7 +18,6 @@ import com.lift.game.view.actors.game_actors.ElevatorActor;
 import com.lift.game.view.actors.game_actors.PlatformActor;
 import com.lift.game.view.actors.game_actors.person.PersonActor;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 

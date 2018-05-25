@@ -157,8 +157,6 @@ public class GameController {
     public void update(float delta) {
         GameModel.getInstance().update(delta);
 
-
-
         peopleAdministrator.movePeople();
 
         float frameTime = Math.min(delta, 0.25f);

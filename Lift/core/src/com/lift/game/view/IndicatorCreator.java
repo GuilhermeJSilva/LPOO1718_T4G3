@@ -2,14 +2,10 @@ package com.lift.game.view;
 
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.lift.game.model.entities.person.PersonType;
 import com.lift.game.view.actors.polygon_actor.BasePolyActor;
 import com.lift.game.view.actors.polygon_actor.DiamondPoly;
 import com.lift.game.view.actors.polygon_actor.OctagonPoly;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 

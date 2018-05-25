@@ -1,11 +1,9 @@
 package com.lift.game.controller.entities;
 
-import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
-import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 
 public class ElevatorBody extends EntityBody {

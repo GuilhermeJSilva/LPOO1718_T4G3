@@ -12,19 +12,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
-import com.badlogic.gdx.graphics.g3d.Shader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
-import com.lift.game.controller.entities.PersonBody;
-import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.GameModel;
-import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.model.entities.person.Side;
 import com.lift.game.view.stages.*;
-
-import java.util.ArrayList;
 
 /**
  * Main view for the game.
