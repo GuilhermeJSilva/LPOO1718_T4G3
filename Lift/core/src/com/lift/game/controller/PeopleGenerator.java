@@ -18,6 +18,7 @@ public class PeopleGenerator {
      * Minimum amount of seconds of people between people.
      */
     public static final float MIN_SBP = 1.5f;
+    public static final float SBP_DELTA = 0.1f;
 
     /**
      * Instance of the game controller.
@@ -119,7 +120,7 @@ public class PeopleGenerator {
      */
     public void generateNewPeople(float delta) {
         this.setT_accumulator(this.getT_accumulator() + delta);
-        while (this.getT_accumulator() > this.getSeconds_b_person()) {
+        while (this.getT_accumulator() >= this.getSeconds_b_person()) {
             generatePeople(1);
             this.setT_accumulator(this.getT_accumulator() - this.getSeconds_b_person());
         }
@@ -160,8 +161,8 @@ public class PeopleGenerator {
      * Increases the difficulty of the game by decreasing the number of seconds between generation attempts.
      */
     public void increaseDifficulty() {
-        if(seconds_b_person > MIN_SBP) {
-            seconds_b_person -= 0.1f;
+        if(Math.round(seconds_b_person* 10) /10f > MIN_SBP ) {
+            seconds_b_person -= SBP_DELTA;
         }
     }
 }
