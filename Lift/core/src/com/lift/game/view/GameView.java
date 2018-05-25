@@ -51,7 +51,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Handles the basic inputs.
      */
-    private final InputHandler inputHandler;
+    private  InputHandler inputHandler;
 
     /**
      * Stage for the hud.
@@ -89,6 +89,8 @@ public class GameView extends ScreenAdapter {
      */
     private Matrix4 debugCamera;
     
+
+
 
     /**
      * Creates this screen.
@@ -282,11 +284,11 @@ public class GameView extends ScreenAdapter {
 
     public void resetGameStages() {
         this.game.resetGame();
+        this.inputHandler =  new InputHandler(this.gameController);
         this.hud = new HudStage(this.game, this.camera);
         this.game_stage = new GameStage(this.game.getGameModel(),this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
-
     }
 
     public GameModel getGameModel() {
