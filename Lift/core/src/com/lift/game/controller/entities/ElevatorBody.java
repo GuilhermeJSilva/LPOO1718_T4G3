@@ -75,10 +75,8 @@ public class ElevatorBody extends EntityBody {
             this.target_floor = floor;
             if (gameController.getFloors(this.getSide()).get(floor).getY() > y) {
                 this.setLinearVelocity(0, vy);
-                System.out.println("Upwards");
             } else if (gameController.getFloors(this.getSide()).get(floor).getY() < y) {
                 this.setLinearVelocity(0, -vy);
-                System.out.println("Downwards");
             }
         }
     }

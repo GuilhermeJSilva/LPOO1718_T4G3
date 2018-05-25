@@ -22,9 +22,6 @@ import java.util.HashMap;
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 public class PersonActor extends EntityActor {
-    public static final float INDICATOR_WIDTH = 2.5f / PIXEL_TO_METER;
-
-    private static final float INDICATOR_HEIGHT = (3 / PIXEL_TO_METER);
 
     private BasePolyActor patientIndicator;
 
