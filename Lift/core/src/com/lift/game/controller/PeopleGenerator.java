@@ -10,6 +10,9 @@ import com.lift.game.model.entities.person.Side;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Responsible to generating new people in the controller.
+ */
 class PeopleGenerator {
     /**
      * Minimum amount of seconds of people between people.
@@ -30,23 +33,42 @@ class PeopleGenerator {
      */
     private Float seconds_b_person = 3f;
 
+    /**
+     * Constructs a new generator associated with a controller.
+     * @param gameController Controller to generate the people in.
+     */
     public PeopleGenerator(GameController gameController) {
         this.gameController = gameController;
     }
 
-
+    /**
+     * Returns the time accumulate since the last person was generated.
+     * @return  Time accumulate since the last person was generated.
+     */
     private Float getT_accumulator() {
         return t_accumulator;
     }
 
+    /**
+     * Sets the time accumulated since the last person was generated.
+     * @param t_accumulator New value.
+     */
     private void setT_accumulator(Float t_accumulator) {
         this.t_accumulator = t_accumulator;
     }
 
+    /**
+     * Returns the number of seconds between the generation of people.
+     * @return Number of seconds between the generation of people.
+     */
     private Float getSeconds_b_person() {
         return seconds_b_person;
     }
 
+    /**
+     * Changes the number of seconds between the generation of people.
+     * @param seconds_b_person Number of seconds between the generation of people.
+     */
     public void setSeconds_b_person(Float seconds_b_person) {
         this.seconds_b_person = seconds_b_person;
     }
@@ -84,13 +106,15 @@ class PeopleGenerator {
         if (p_model != null) {
             PersonBody personBody = new PersonBody(gameController.getWorld(), p_model);
             gameController.addPerson(personBody);
-            GameController.getInstance().getStrategySelector().getStrategy(p_model).initialMovement(personBody.getBody(), side);
+            gameController.getStrategySelector().getStrategy(p_model).initialMovement(personBody.getBody(), side);
         }
 
     }
 
     /**
      * Generates new people bases on the level of difficulty.
+     *
+     * @param delta Time passed since the last generating attempt.
      */
     public void generateNewPeople(float delta) {
         this.setT_accumulator(this.getT_accumulator() + delta);
@@ -131,6 +155,9 @@ class PeopleGenerator {
         return new_p;
     }
 
+    /**
+     * Increases the difficulty of the game by decreasing the number of seconds between generation attempts.
+     */
     public void increaseDifficulty() {
         if(seconds_b_person > MIN_SBP) {
             seconds_b_person -= 0.1f;

@@ -111,7 +111,6 @@ public class GameView extends ScreenAdapter {
         this.endStage =  new EndStage(this.game, this.camera);
         this.menuStage = new MenuStage(this.game, this.camera);
         Gdx.input.setInputProcessor(this.menuStage);
-        this.game.getTextureManager().resetBackground();
     }
 
 
@@ -291,6 +290,5 @@ public class GameView extends ScreenAdapter {
         this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
-        game.getTextureManager().resetBackground();
     }
 }
