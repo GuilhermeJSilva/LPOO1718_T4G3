@@ -2,6 +2,7 @@ package com.lift.game.controller.entities;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.ElevatorModel;
@@ -40,7 +41,7 @@ public class ElevatorBody extends EntityBody {
      * @param model Elevator model.
      */
     public ElevatorBody(World world, ElevatorModel model) {
-        super(world, model);
+        super(world, model, BodyDef.BodyType.DynamicBody);
         this.target_floor = model.getTarget_floor();
 
         float density = 1f, friction = 0.5f, restitution = 0f;

@@ -1,5 +1,6 @@
 package com.lift.game.controller.entities;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.person.PersonModel;
 
@@ -19,7 +20,7 @@ public class PersonBody extends EntityBody {
 	 * @param model Person model.
 	 */
 	public PersonBody(World world, PersonModel model) {
-		super(world, model);
+		super(world, model, BodyDef.BodyType.DynamicBody);
 		
 		float density = 0.01f, friction = 0f, restitution = 0f;
 		int width = WIDTH;

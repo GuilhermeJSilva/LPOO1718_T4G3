@@ -1,5 +1,6 @@
 package com.lift.game.controller.entities;
 
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.model.entities.PlatformModel;
 
@@ -36,7 +37,7 @@ public class PlatformBody extends EntityBody {
      * @param right True if the sensor is to the right of the platform.
      */
     public PlatformBody(World world, PlatformModel model, boolean right) {
-        super(world, model);
+        super(world, model, BodyDef.BodyType.DynamicBody);
 
 
         float density = 1000000f, friction = 0f, restitution = 0f;

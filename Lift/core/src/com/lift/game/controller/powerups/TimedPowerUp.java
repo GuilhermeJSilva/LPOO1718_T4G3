@@ -14,7 +14,7 @@ public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp{
      * @param activeTime Time the power up will be active.
      */
     public TimedPowerUp(Float timeToDisappear, Float activeTime) {
-        super(timeToDisappear);
+        super(timeToDisappear, model, world);
         this.activeTime = activeTime;
     }
 
