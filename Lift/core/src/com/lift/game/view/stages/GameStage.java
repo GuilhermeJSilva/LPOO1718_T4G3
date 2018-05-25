@@ -13,6 +13,7 @@ import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
 import com.lift.game.view.GameState;
+import com.lift.game.view.GameView;
 import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.actors.game_actors.ElevatorActor;
 import com.lift.game.view.actors.game_actors.PlatformActor;
@@ -23,21 +24,21 @@ import java.util.HashMap;
 
 public class GameStage extends Stage {
 
-    public GameStage(LiftGame game, Camera camera) {
+    public GameStage(GameModel gameModel, LiftGame game, Camera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
 
         initiateIndicatorPositions(camera);
 
-        this.addActor(new ElevatorActor(game, GameModel.getInstance().getElevator(Side.Left)));
-        this.addActor(new ElevatorActor(game, GameModel.getInstance().getElevator(Side.Right)));
+        this.addActor(new ElevatorActor(game, gameModel.getElevator(Side.Left)));
+        this.addActor(new ElevatorActor(game, gameModel.getElevator(Side.Right)));
 
-        ArrayList<PlatformModel> platformModels = GameModel.getInstance().getLeft_floors();
+        ArrayList<PlatformModel> platformModels = gameModel.getLeft_floors();
         addPlatforms(game, platformModels);
 
-        platformModels = GameModel.getInstance().getRight_floors();
+        platformModels = gameModel.getRight_floors();
         addPlatforms(game, platformModels);
 
-        addPeopleActors(game);
+        addPeopleActors(gameModel,game);
 
         addPauseButton(game, camera);
         addMuteButton(game, camera);
@@ -106,8 +107,8 @@ public class GameStage extends Stage {
         }
     }
 
-    private void addPeopleActors(LiftGame game) {
-        for (PersonModel personModel : GameModel.getInstance().getPeople()) {
+    private void addPeopleActors(GameModel gameModel, LiftGame game) {
+        for (PersonModel personModel : gameModel.getPeople()) {
             if (personModel.isNew_person()) {
                 this.addActor(new PersonActor(game, personModel));
                 personModel.setNew_person(false);
@@ -115,8 +116,8 @@ public class GameStage extends Stage {
         }
     }
 
-    public void updateStage(LiftGame game) {
-        addPeopleActors(game);
+    public void updateStage(GameModel gameModel, LiftGame game) {
+        addPeopleActors(gameModel, game);
     }
 
     @Override

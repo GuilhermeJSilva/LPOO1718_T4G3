@@ -17,7 +17,12 @@ public class ScoreLabelActor extends Actor {
     private Label score_label;
 
     /**
-     * Contructs the label for the score.
+     * Display according to this model.
+     */
+    private GameModel gameModel;
+
+    /**
+     * Constructs the label for the score.
      */
     public ScoreLabelActor(LiftGame game, Camera camera) {
         Label.LabelStyle label1Style = new Label.LabelStyle();
@@ -29,11 +34,12 @@ public class ScoreLabelActor extends Actor {
         float y = camera.viewportHeight - this.score_label.getHeight();
         this.score_label.setPosition(x, y);
         this.score_label.setAlignment(Align.center);
+        this.gameModel = game.getGameModel();
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        this.score_label.setText(Double.toString((Math.floor(GameModel.getInstance().getTime_left() * 10) / 10f)));
+        this.score_label.setText(Double.toString((Math.floor(gameModel.getTime_left() * 10) / 10f)));
         this.score_label.draw(batch, parentAlpha);
     }
 }

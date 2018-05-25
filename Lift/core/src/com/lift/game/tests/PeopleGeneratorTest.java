@@ -14,23 +14,25 @@ public class PeopleGeneratorTest extends GameTester{
 
     @Test
     public void generatePeople() {
-        GameController gameController = new GameController();
+        GameModel gameModel =  new GameModel();
+        GameController gameController = new GameController(gameModel);
         PeopleGenerator peopleGenerator =  new PeopleGenerator(gameController);
         peopleGenerator.generatePeople(2);
         assertEquals(2, gameController.getPeople().size());
         peopleGenerator.generatePeople(1);
         assertEquals(3, gameController.getPeople().size());
         
-        GameModel.resetModel();
+        
     }
 
     @Test
     public void generatePerson() {
-        PeopleGenerator peopleGenerator =  new PeopleGenerator(new GameController());
+        GameModel gameModel =  new GameModel();
+        PeopleGenerator peopleGenerator =  new PeopleGenerator(new GameController(gameModel));
         for (int i = 0; i < 6; i++) {
             peopleGenerator.generatePerson(i);
             boolean fail = true;
-            for (PersonModel personModel : GameModel.getInstance().getPeople()) {
+            for (PersonModel personModel : gameModel.getPeople()) {
                 if(personModel.getFloor() == i)
                     fail = false;
             }
@@ -39,38 +41,44 @@ public class PeopleGeneratorTest extends GameTester{
         }
 
         
-        GameModel.resetModel();
+        
     }
 
     @Test
     public void generateNewPeople() {
-        PeopleGenerator peopleGenerator =  new PeopleGenerator(new GameController());
+        GameModel gameModel =  new GameModel();
+
+        PeopleGenerator peopleGenerator =  new PeopleGenerator(new GameController(gameModel));
         peopleGenerator.generateNewPeople(0);
-        assertEquals(0,GameModel.getInstance().getPeople().size());
+        assertEquals(0,gameModel.getPeople().size());
         peopleGenerator.generateNewPeople(peopleGenerator.getSeconds_b_person());
-        assertEquals(1,GameModel.getInstance().getPeople().size());
+        assertEquals(1,gameModel.getPeople().size());
         peopleGenerator.generateNewPeople(2 * peopleGenerator.getSeconds_b_person());
-        assertEquals(3,GameModel.getInstance().getPeople().size());
+        assertEquals(3,gameModel.getPeople().size());
         
-        GameModel.resetModel();
+        
 
     }
 
     @Test
     public void add_waiting_person() {
-        PeopleGenerator peopleGenerator =  new PeopleGenerator(new GameController());
+        GameModel gameModel =  new GameModel();
+
+        PeopleGenerator peopleGenerator =  new PeopleGenerator(new GameController(gameModel));
         peopleGenerator.add_waiting_person(0,1,Side.Left);
-        PersonModel personModel = GameModel.getInstance().getPeople().get(0);
+        PersonModel personModel = gameModel.getPeople().get(0);
         assertEquals(0, personModel.getFloor());
         assertEquals(1L, personModel.getDestination().longValue());
         assertEquals(Side.Left, personModel.getSide());
         
-        GameModel.resetModel();
+        
     }
 
     @Test
     public void increaseDifficulty() {
-        PeopleGenerator peopleGenerator =  new PeopleGenerator(new GameController());
+        GameModel gameModel =  new GameModel();
+
+        PeopleGenerator peopleGenerator =  new PeopleGenerator(new GameController(gameModel));
         while(Math.round(peopleGenerator.getSeconds_b_person()* 10) /10f > PeopleGenerator.MIN_SBP) {
             Float sbp = Math.round(peopleGenerator.getSeconds_b_person() * 10) / 10f;
             peopleGenerator.increaseDifficulty();

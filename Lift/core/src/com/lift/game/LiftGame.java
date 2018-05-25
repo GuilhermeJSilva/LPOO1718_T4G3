@@ -22,6 +22,8 @@ public class LiftGame extends Game {
 	private TextureManager textureManager;
     private Music music;
     private PreferenceManager gamePreferences;
+    private GameModel gameModel;
+    private GameController gameController;
 
     /**
      * State of the game.
@@ -38,8 +40,10 @@ public class LiftGame extends Game {
         polygonBatch = new PolygonSpriteBatch();
 		assetManager = new AssetManager();
         music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
-        gamePreferences = new PreferenceManager(Gdx.app.getPreferences("Game Preferences"));
+        gamePreferences = new PreferenceManager(Gdx.app.getPreferences("Game Preferences"), this);
         this.gameState = GameState.InMenu;
+        this.gameModel = new GameModel();
+        this.gameController = new GameController(this.gameModel);
         startGame();
 	}
 
@@ -84,10 +88,6 @@ public class LiftGame extends Game {
         return polygonBatch;
     }
 
-    public void resetGame() {
-        GameModel.resetModel();
-    }
-
     public TextureManager getTextureManager() {
 	    if(textureManager == null)
 	        textureManager = new TextureManager(this);
@@ -108,5 +108,18 @@ public class LiftGame extends Game {
 
     public Music getMusic() {
         return music;
+    }
+
+    public GameModel getGameModel() {
+        return gameModel;
+    }
+
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    public void resetGame() {
+        this.gameModel =  new GameModel();
+        this.gameController =  new GameController(this.gameModel);
     }
 }

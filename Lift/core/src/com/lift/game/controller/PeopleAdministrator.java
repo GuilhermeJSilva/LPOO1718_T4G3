@@ -43,7 +43,7 @@ public class PeopleAdministrator {
                 if (personModel.getPersonState() == PersonState.FreeFlying || personModel.getPersonState() == PersonState.Reached) {
                     if(body.getPosition().x < 0 || body.getPosition().x > 45 || body.getPosition().y < 0) {
                         if (personModel.getPersonState() == PersonState.FreeFlying && !personModel.isFlaggedForRemoval())
-                            GameModel.getInstance().decrementLives();
+                            gameController.getGameModel().decrementLives();
                         personModel.setFlaggedForRemoval(true);
                     }
                 }
@@ -55,13 +55,13 @@ public class PeopleAdministrator {
         for(PersonBody personBody : reachedPeople) {
             PersonModel personModel = ((PersonModel) personBody.getBody().getUserData());
             updatePositionWhenReached(personModel.getSide(), personBody);
-            GameModel.getInstance().incrementTime(gameController.getStrategySelector().getStrategy(personModel).getTimeIncrease());
+            gameController.getGameModel().incrementTime(gameController.getStrategySelector().getStrategy(personModel).getTimeIncrease());
         }
         reachedPeople.clear();
     }
 
     private void enterTheElevator(Body personBody, PersonModel personModel) {
-        ElevatorModel elevator = GameModel.getInstance().getElevator(personModel.getSide());
+        ElevatorModel elevator = gameController.getGameModel().getElevator(personModel.getSide());
         if (elevator.getTarget_floor() == personModel.getFloor() && elevator.getStopped() && elevator.isThereSpaceFree()) {
             personModel.setPersonState(PersonState.InElevator);
             freeSpaceInPlatform(personModel);
@@ -83,9 +83,9 @@ public class PeopleAdministrator {
 
     private void freeSpaceInPlatform(PersonModel personModel) {
         if (personModel.getSide() == Side.Left) {
-            GameModel.getInstance().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
+            gameController.getGameModel().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
         } else {
-            GameModel.getInstance().getRight_floors().get(personModel.getFloor()).decrementNPeople();
+            gameController.getGameModel().getRight_floors().get(personModel.getFloor()).decrementNPeople();
         }
     }
 
@@ -111,7 +111,7 @@ public class PeopleAdministrator {
                     personBody.getBody().setGravityScale(5);
                     reachedPeople.add(personBody);
                     personModel.setPersonState(PersonState.Reached);
-                    GameModel.getInstance().getElevator(side).decrementOccupancy();
+                    gameController.getGameModel().getElevator(side).decrementOccupancy();
                 }
             }
         }

@@ -18,6 +18,12 @@ public class LifeActor extends Actor {
 
     private TextureRegion heartRegion;
 
+
+    /**
+     * Display according to this model.
+     */
+    private GameModel gameModel;
+
     public LifeActor(LiftGame game, Camera camera) {
 
         heartRegion = create_elevator_region(game);
@@ -25,6 +31,7 @@ public class LifeActor extends Actor {
         this.sprite.add(createSprite(game, camera.viewportWidth/2 - 3.5f*heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
         this.sprite.add(createSprite(game, camera.viewportWidth/2 - heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
         this.sprite.add(createSprite(game, camera.viewportWidth/2 + 1.5f*heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
+        this.gameModel = game.getGameModel();
     }
 
 
@@ -41,8 +48,7 @@ public class LifeActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        int n_lives = GameModel.getInstance().getLives();
-        for (int i = 0; i < n_lives && i < this.sprite.size(); i++) {
+        for (int i = 0; i < gameModel.getLives() && i < this.sprite.size(); i++) {
             this.sprite.get(i).draw(batch, parentAlpha);
         }
 

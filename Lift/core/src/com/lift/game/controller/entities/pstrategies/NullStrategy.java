@@ -60,7 +60,7 @@ public class NullStrategy implements MovementStrategy {
                 ElevatorBody elevatorBody = gameController.getElevator(side);
                 personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
                 personModel.setPersonState(PersonState.FreeFlying);
-                GameModel.getInstance().getElevator(side).decrementOccupancy();
+                gameController.getGameModel().getElevator(side).decrementOccupancy();
             }
         }
 

@@ -31,7 +31,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures.
      */
-    private static final boolean DEBUG_PHYSICS = false;
+    private static final boolean DEBUG_PHYSICS = true;
 
     /**
      * The height of the viewport in meters.
@@ -88,12 +88,7 @@ public class GameView extends ScreenAdapter {
      * show fixtures in their correct places.
      */
     private Matrix4 debugCamera;
-
-    /**
-     * Game controller.
-     */
-    private GameController gameController;
-
+    
 
     /**
      * Creates this screen.
@@ -104,13 +99,12 @@ public class GameView extends ScreenAdapter {
         this.game = liftGame;
         loadAssets();
         camera = createCamera();
-        this.gameController = new GameController();
         this.hud = new HudStage(this.game, this.camera);
-        this.game_stage = new GameStage(this.game, this.camera);
+        this.game_stage = new GameStage(this.game.getGameModel(), this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
         this.menuStage = new MenuStage(this.game, this.camera);
-        this.inputHandler = new InputHandler(gameController);
+        this.inputHandler = new InputHandler(game.getGameController());
         Gdx.input.setInputProcessor(this.menuStage);
     }
 
@@ -189,7 +183,7 @@ public class GameView extends ScreenAdapter {
      */
     @Override
     public void render(float delta) {
-        gameController.removeFlagged();
+        game.getGameController().removeFlagged();
 
         if (game.getGameState() == GameState.Playing || game.getGameState() == GameState.EndScreen) {
             updateGame(delta);
@@ -198,11 +192,11 @@ public class GameView extends ScreenAdapter {
         resetCamera(delta);
         drawAllStages(delta);
 
-        if (GameModel.getInstance().endGame() && game.getGameState() == GameState.Playing) {
+        if (game.getGameModel().endGame() && game.getGameState() == GameState.Playing) {
             this.game.setGameState(GameState.EndScreen);
-            this.endStage.update();
-            this.game.getGamePreferences().updateHighScore(GameModel.getInstance().getScore().floatValue());
-            this.game.getGamePreferences().increaseCoins(GameModel.getInstance().getCoins());
+            this.endStage.update(this.game);
+            this.game.getGamePreferences().updateHighScore(game.getGameModel().getScore().floatValue());
+            this.game.getGamePreferences().increaseCoins(game.getGameModel().getCoins());
             Gdx.input.setInputProcessor(this.endStage);
         }
 
@@ -233,7 +227,7 @@ public class GameView extends ScreenAdapter {
         if (DEBUG_PHYSICS) {
             debugCamera = camera.combined.cpy();
             debugCamera.scl(1 / PIXEL_TO_METER);
-            debugRenderer.render(gameController.getWorld(), debugCamera);
+            debugRenderer.render(game.getGameController().getWorld(), debugCamera);
         }
     }
 
@@ -244,8 +238,8 @@ public class GameView extends ScreenAdapter {
     private void updateGame(float delta) {
         if(game.getGameState() == GameState.Playing)
             inputHandler.handleInputs();
-        gameController.update(delta);
-        this.game_stage.updateStage(this.game);
+        game.getGameController().update(delta);
+        this.game_stage.updateStage(this.game.getGameModel(),this.game);
         this.hud.updateStage(this.game,delta / 5);
     }
 
@@ -287,10 +281,15 @@ public class GameView extends ScreenAdapter {
     }
 
     public void resetGameStages() {
+        this.game.resetGame();
         this.hud = new HudStage(this.game, this.camera);
-        this.game_stage = new GameStage(this.game, this.camera);
+        this.game_stage = new GameStage(this.game.getGameModel(),this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
-        this.gameController = new GameController();
+
+    }
+
+    public GameModel getGameModel() {
+        return game.getGameModel();
     }
 }

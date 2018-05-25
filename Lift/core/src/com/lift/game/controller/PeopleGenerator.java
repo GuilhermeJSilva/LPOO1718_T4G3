@@ -18,6 +18,10 @@ public class PeopleGenerator {
      * Minimum amount of seconds of people between people.
      */
     public static final float MIN_SBP = 1.5f;
+
+    /**
+     * Decrease of the seconds between person.
+     */
     public static final float SBP_DELTA = 0.1f;
 
     /**
@@ -85,7 +89,7 @@ public class PeopleGenerator {
             return;
         Random generator = new Random();
         for (int i = 0; i < n_people; ++i) {
-            int floor = generator.nextInt(GameModel.getInstance().getN_levels());
+            int floor = generator.nextInt(gameController.getGameModel().getN_levels());
             generatePerson(floor);
         }
     }
@@ -99,7 +103,7 @@ public class PeopleGenerator {
         Random generator = new Random();
         int dest;
         do {
-            dest = generator.nextInt(GameModel.getInstance().getN_levels());
+            dest = generator.nextInt(gameController.getGameModel().getN_levels());
         } while (dest == floor);
 
         Side side = Side.values()[new Random().nextInt(2)];
@@ -140,10 +144,10 @@ public class PeopleGenerator {
         ArrayList<PlatformModel> floors;
         float x;
         if (side == Side.Left) {
-            floors = GameModel.getInstance().getLeft_floors();
+            floors = gameController.getGameModel().getLeft_floors();
             x = 0;
         } else {
-            floors = GameModel.getInstance().getRight_floors();
+            floors = gameController.getGameModel().getRight_floors();
             x = floors.get(floor).getX() + PlatformBody.PLATFORM_LENGTH / 2;
         }
 
@@ -152,7 +156,7 @@ public class PeopleGenerator {
         int people_position = floors.get(floor).incrementNPeople();
         float y = floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2;
         PersonModel new_p = new PersonModel(x, y, floor, side, dest, people_position);
-        GameModel.getInstance().addPerson(new_p);
+        gameController.getGameModel().addPerson(new_p);
 
         return new_p;
     }

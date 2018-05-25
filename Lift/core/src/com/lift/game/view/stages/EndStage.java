@@ -41,7 +41,6 @@ public class EndStage extends Stage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setGameState(GameState.InMenu);
-                game.resetGame();
                 MenuStage menuStage = ((GameView) game.getScreen()).getMenuStage();
                 menuStage.updateHighScore(game);
                 Gdx.input.setInputProcessor(menuStage);
@@ -54,7 +53,7 @@ public class EndStage extends Stage {
         label1Style.font = game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
         label1Style.fontColor = Color.WHITE;
 
-        this.scoreLabel = new Label("Score: " + GameModel.getInstance().getScore(), label1Style);
+        this.scoreLabel = new Label("Score: " + game.getGameModel().getScore(), label1Style);
         float x = camera.viewportWidth / 2 - scoreLabel.getWidth() / 2;
         float y = camera.viewportHeight / 2 +  scoreLabel.getHeight();
         this.scoreLabel.setPosition(x, y);
@@ -62,7 +61,7 @@ public class EndStage extends Stage {
 
     }
 
-    public void update() {
-        this.scoreLabel.setText("Score: " + GameModel.getInstance().getScore());
+    public void update(LiftGame game) {
+        this.scoreLabel.setText("Score: " + game.getGameModel().getScore());
     }
 }

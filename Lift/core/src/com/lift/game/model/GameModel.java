@@ -14,7 +14,6 @@ import com.lift.game.model.entities.person.Side;
 
 /**
  * Represents the current state of the game.
- * Implements a singleton.
  */
 public class GameModel {
 
@@ -42,11 +41,6 @@ public class GameModel {
      * Default number of left_floors.
      */
     private static final Integer DEFAULT_N_LEVEL = 6;
-
-    /**
-     * Stores the singleton.
-     */
-    private static GameModel instance;
 
     /**
      * Game's left left_elevator.
@@ -82,7 +76,7 @@ public class GameModel {
     /**
      * Constructs the model.
      */
-    private GameModel() {
+    public GameModel() {
         super();
         this.lives = 3;
         this.time_left = 30.0;
@@ -102,22 +96,6 @@ public class GameModel {
         for (int i = 1; i <= n_levels; i++) {
             right_floors.add(new PlatformModel(38.5f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f, Side.Right, i - 1));
         }
-    }
-
-    /**
-     * Returns the game model instance.
-     *
-     * @return Game model instance.
-     */
-    public static GameModel getInstance() {
-        if (instance == null)
-            instance = new GameModel();
-        return instance;
-    }
-
-
-    public static void resetModel() {
-        instance = null;
     }
 
     public Integer getLives() {

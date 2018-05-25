@@ -20,20 +20,20 @@ public class InputHandler {
      */
     void handleInputs() {
         if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Buttons.LEFT)) {
-            ArrayList<PlatformModel> floors = GameModel.getInstance().getLeft_floors();
+            ArrayList<PlatformModel> floors = gameController.getGameModel().getLeft_floors();
             if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
-                floors = GameModel.getInstance().getRight_floors();
+                floors = gameController.getGameModel().getRight_floors();
             }
             int floor = determine_floor_number(floors);
             if (floor != -1) {
                 if (Gdx.input.getX() > Gdx.graphics.getWidth() / 2) {
                     if (gameController.getElevator(Side.Right).getTarget_floor() != floor) {
-                        GameModel.getInstance().getElevator(Side.Right).setTarget_floor(floor);
+                        gameController.getGameModel().getElevator(Side.Right).setTarget_floor(floor);
                         gameController.getElevator(Side.Right).setTarget_floor(gameController,floor);
 
                     }
                 } else if (gameController.getElevator(Side.Left).getTarget_floor() != floor) {
-                    GameModel.getInstance().getElevator(Side.Left).setTarget_floor(floor);
+                    gameController.getGameModel().getElevator(Side.Left).setTarget_floor(floor);
                     gameController.getElevator(Side.Left).setTarget_floor(gameController,floor);
                 }
             }
