@@ -284,7 +284,7 @@ public class GameView extends ScreenAdapter {
 
     public void resetGameStages() {
         this.game.resetGame();
-        this.inputHandler =  new InputHandler(this.gameController);
+        this.inputHandler =  new InputHandler(this.game.getGameController());
         this.hud = new HudStage(this.game, this.camera);
         this.game_stage = new GameStage(this.game.getGameModel(),this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
