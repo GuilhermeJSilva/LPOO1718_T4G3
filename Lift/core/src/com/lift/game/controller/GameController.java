@@ -16,6 +16,7 @@ import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
+import com.lift.game.view.GameState;
 
 /**
  * Controls the game.
@@ -147,10 +148,12 @@ public class GameController {
      *
      * @param delta Time passed.
      */
-    public void update(float delta) {
-        gameModel.update(delta);
+    public void update(GameState gameState, float delta) {
 
-        peopleAdministrator.movePeople();
+        if (gameState == GameState.Playing) {
+            gameModel.update(delta);
+            peopleAdministrator.movePeople();
+        }
 
         float frameTime = Math.min(delta, 0.25f);
         accumulator += frameTime;

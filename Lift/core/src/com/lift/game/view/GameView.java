@@ -31,7 +31,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures.
      */
-    private static final boolean DEBUG_PHYSICS = true;
+    private static final boolean DEBUG_PHYSICS = false;
 
     /**
      * The height of the viewport in meters.
@@ -240,7 +240,7 @@ public class GameView extends ScreenAdapter {
     private void updateGame(float delta) {
         if(game.getGameState() == GameState.Playing)
             inputHandler.handleInputs();
-        game.getGameController().update(delta);
+        game.getGameController().update(this.game.getGameState(), delta);
         this.game_stage.updateStage(this.game.getGameModel(),this.game);
         this.hud.updateStage(this.game,delta / 5);
     }
