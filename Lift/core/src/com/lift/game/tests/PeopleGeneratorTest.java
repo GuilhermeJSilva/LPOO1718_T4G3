@@ -71,7 +71,7 @@ public class PeopleGeneratorTest extends GameTester{
     public void increaseDifficulty() {
         PeopleGenerator peopleGenerator =  new PeopleGenerator(GameController.getInstance());
         while(Math.round(peopleGenerator.getSeconds_b_person()* 10) /10f > PeopleGenerator.MIN_SBP) {
-            Float sbp = new Float(Math.round(peopleGenerator.getSeconds_b_person()* 10) /10f);
+            Float sbp = Math.round(peopleGenerator.getSeconds_b_person() * 10) / 10f;
             peopleGenerator.increaseDifficulty();
             assertEquals(PeopleGenerator.SBP_DELTA, sbp - Math.round(peopleGenerator.getSeconds_b_person()* 10) /10f, 0.01f);
         }
