@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
@@ -15,7 +16,8 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
     private final Integer priority = 0;
 
 
-    public RegularMovement() {
+    public RegularMovement(GameController gameController) {
+        super(gameController);
     }
 
     @Override

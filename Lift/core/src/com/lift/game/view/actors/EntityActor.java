@@ -20,7 +20,7 @@ public abstract class EntityActor extends Actor {
     /**
      * The actor represents this model.
      */
-    private EntityModel model;
+    protected EntityModel model;
 
 
     protected EntityActor(EntityModel model) {

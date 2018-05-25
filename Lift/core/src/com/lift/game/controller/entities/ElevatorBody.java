@@ -7,6 +7,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.ElevatorModel;
 
+/**
+ * Represents the body of an elevator.
+ */
 public class ElevatorBody extends EntityBody {
     /**
      * Elevator's vertical speed.
@@ -63,16 +66,19 @@ public class ElevatorBody extends EntityBody {
     /**
      * Changes the target floor.
      *
+     * @param gameController Controller that contains the floors.
      * @param floor New target floor.
      */
-    public void setTarget_floor(Integer floor) {
+    public void setTarget_floor(GameController gameController, Integer floor) {
         float y = (this.getY() - height / 2);
         if (this.target_floor != floor) {
             this.target_floor = floor;
-            if (GameController.getInstance().getFloors(this.getSide()).get(floor).getY() > y) {
+            if (gameController.getFloors(this.getSide()).get(floor).getY() > y) {
                 this.setLinearVelocity(0, vy);
-            } else if (GameController.getInstance().getFloors(this.getSide()).get(floor).getY() < y) {
+                System.out.println("Upwards");
+            } else if (gameController.getFloors(this.getSide()).get(floor).getY() < y) {
                 this.setLinearVelocity(0, -vy);
+                System.out.println("Downwards");
             }
         }
     }

@@ -14,12 +14,19 @@ public class PreferenceManager {
     private Preferences preferences;
 
     /**
+     * Owner of the preferences.
+     */
+    private LiftGame game;
+
+    /**
      * Constructs the Manager.
      *
      * @param preferences Preferences to manage.
+     * @param game Owner of the manager.
      */
-    public PreferenceManager(Preferences preferences) {
+    public PreferenceManager(Preferences preferences, LiftGame game) {
         this.preferences = preferences;
+        this.game =  game;
     }
 
     /**
@@ -28,8 +35,8 @@ public class PreferenceManager {
     public void updateHighScore(float new_score) {
         float highScore = preferences.getFloat("highscore", 0f);
 
-        if (GameModel.getInstance().getScore() > highScore) {
-            preferences.putFloat("highscore", GameModel.getInstance().getScore().floatValue());
+        if (game.getGameModel().getScore() > highScore) {
+            preferences.putFloat("highscore", game.getGameModel().getScore().floatValue());
             preferences.flush();
 
         }

@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.person.Side;
 
 /**
@@ -20,7 +21,8 @@ public class DrunkenMovement extends NullStrategy implements MovementStrategy {
     /**
      * Constructs the strategy of drunken person.
      */
-    DrunkenMovement() {
+    DrunkenMovement(GameController gameController) {
+        super(gameController);
     }
 
     @Override

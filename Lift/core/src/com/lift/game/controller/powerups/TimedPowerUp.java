@@ -1,5 +1,8 @@
 package com.lift.game.controller.powerups;
 
+import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.model.entities.EntityModel;
+
 public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp{
 
     /**
@@ -13,7 +16,7 @@ public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp{
      *
      * @param activeTime Time the power up will be active.
      */
-    public TimedPowerUp(Float timeToDisappear, Float activeTime) {
+    public TimedPowerUp(World world, EntityModel model, Float timeToDisappear, Float activeTime) {
         super(timeToDisappear, model, world);
         this.activeTime = activeTime;
     }

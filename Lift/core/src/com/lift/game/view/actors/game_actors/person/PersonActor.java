@@ -28,8 +28,6 @@ public class PersonActor extends EntityActor {
 
     private BasePolyActor patientIndicator;
 
-    private PersonModel model;
-
     private LiftGame game;
 
     float stateTime = 0;
@@ -45,9 +43,8 @@ public class PersonActor extends EntityActor {
     public PersonActor(LiftGame game, PersonModel model) {
         super(model);
         this.game = game;
-        this.model = model;
         this.sprite = new Sprite(new Texture((int)(PersonBody.WIDTH / PIXEL_TO_METER), (int)(PersonBody.HEIGHT / PIXEL_TO_METER), Pixmap.Format.RGB888));
-        int color = game.getTextureManager().getColor(model.getDestination());
+        int color = game.getTextureManager().getColor(((PersonModel) this.model).getDestination());
         this.patientIndicator = IndicatorCreator.createIndicator(new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY() + 3 * sprite.getHeight() / 2), model.getPersonType(), color, game.getPolygonBatch());
         this.setBounds(this.sprite.getX(), this.sprite.getY(), PersonBody.WIDTH / PIXEL_TO_METER, PersonBody.HEIGHT / PIXEL_TO_METER);
     }
@@ -56,16 +53,16 @@ public class PersonActor extends EntityActor {
     @Override
     protected void update() {
         super.update();
-        patientIndicator.setPercentage(this.model.getSatisfaction() / PersonModel.STARTING_SATISFACTION);
+        patientIndicator.setPercentage(((PersonModel) this.model).getSatisfaction() / PersonModel.STARTING_SATISFACTION);
         patientIndicator.setPosition(sprite.getX() + sprite.getWidth() / 2, sprite.getY() + 3 * sprite.getHeight() / 2);
         this.setBounds(this.sprite.getX(), this.sprite.getY(), PersonBody.WIDTH / PIXEL_TO_METER, PersonBody.HEIGHT / PIXEL_TO_METER);
     }
 
 
     private void updateIndicator() {
-        ArrayList<Vector2> tmp = indicatorPositions.get(model.getSide());
-        int pos = model.getSide() == Side.Left ? 0 : 1;
-        patientIndicator.setPercentage(this.model.getSatisfaction() / PersonModel.STARTING_SATISFACTION);
+        ArrayList<Vector2> tmp = indicatorPositions.get(((PersonModel) this.model).getSide());
+        int pos = ((PersonModel) this.model).getSide() == Side.Left ? 0 : 1;
+        patientIndicator.setPercentage(((PersonModel) this.model).getSatisfaction() / PersonModel.STARTING_SATISFACTION);
         patientIndicator.setPosition(tmp.get(indicator_number[pos]).x, tmp.get(indicator_number[pos]).y);
         indicator_number[pos]++;
         indicator_number[pos] %= tmp.size();
@@ -75,7 +72,7 @@ public class PersonActor extends EntityActor {
     public void draw(Batch batch, float parentAlpha) {
 
         if (removed()) {
-            if (model.getPersonState() != PersonState.InElevator) {
+            if (((PersonModel) this.model).getPersonState() != PersonState.InElevator) {
                 drawPerson(batch, parentAlpha);
             } else {
                 drawIndicatorOnly(batch, parentAlpha);
@@ -95,9 +92,9 @@ public class PersonActor extends EntityActor {
         super.draw(batch, parentAlpha);
         stateTime += Gdx.graphics.getDeltaTime();
 
-        TextureRegion currentFrame = game.getTextureManager().getPersonTexture(model.getPersonType(), stateTime, this.getRunningDirection());
+        TextureRegion currentFrame = game.getTextureManager().getPersonTexture(((PersonModel) this.model).getPersonType(), stateTime, this.getRunningDirection());
         sprite.setRegion(currentFrame);
-        if(model.getPersonState() != PersonState.Reached) {
+        if(((PersonModel) this.model).getPersonState() != PersonState.Reached) {
             batch.end();
             patientIndicator.draw(batch, parentAlpha);
             batch.begin();
@@ -105,13 +102,13 @@ public class PersonActor extends EntityActor {
     }
 
     private Side getRunningDirection() {
-        if(model.getSide() == Side.Left) {
-            if(model.getPersonState() != PersonState.Reached)
+        if(((PersonModel) this.model).getSide() == Side.Left) {
+            if(((PersonModel) this.model).getPersonState() != PersonState.Reached)
                 return Side.Right;
             else
                 return Side.Left;
         } else {
-            if(model.getPersonState() != PersonState.Reached)
+            if(((PersonModel) this.model).getPersonState() != PersonState.Reached)
                 return Side.Left;
             else
                 return Side.Right;

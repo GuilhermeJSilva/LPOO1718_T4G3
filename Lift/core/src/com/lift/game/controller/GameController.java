@@ -90,52 +90,45 @@ public class GameController {
      */
     private StrategySelector strategySelector;
 
+
+    /**
+     * Game model to be controlled.
+     */
+    private GameModel  gameModel;
+
     /**
      * Constructs the model.
      */
-    private GameController() {
+    public GameController(GameModel gameModel) {
         super();
+        this.gameModel =  gameModel;
         this.world = new World(new Vector2(0, -5), false);
-        this.left_elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator(Side.Left));
-        this.right_elevator = new ElevatorBody(this.world, GameModel.getInstance().getElevator(Side.Right));
-        this.strategySelector = new StrategySelector();
+        this.left_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Left));
+        this.right_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Right));
+        this.strategySelector = new StrategySelector(this);
 
         this.people = new ArrayList<PersonBody>();
         this.left_floors = new ArrayList<PlatformBody>();
         this.right_floors = new ArrayList<PlatformBody>();
 
-        ArrayList<PlatformModel> fm = GameModel.getInstance().getLeft_floors();
+        ArrayList<PlatformModel> fm = gameModel.getLeft_floors();
 
         for (PlatformModel pm : fm) {
             left_floors.add(new PlatformBody(this.world, pm, true));
         }
 
-        fm = GameModel.getInstance().getRight_floors();
+        fm = gameModel.getRight_floors();
 
         for (PlatformModel pm : fm) {
             right_floors.add(new PlatformBody(this.world, pm, false));
         }
 
-        for (PersonModel pm : GameModel.getInstance().getPeople()) {
+        for (PersonModel pm : gameModel.getPeople()) {
             this.people.add(new PersonBody(world, pm));
         }
-        world.setContactListener(new GameCollisionHandler());
+        world.setContactListener(new GameCollisionHandler(this));
     }
 
-    /**
-     * Returns the game model instance.
-     *
-     * @return Game model instance.
-     */
-    public static GameController getInstance() {
-        if (instance == null)
-            instance = new GameController();
-        return instance;
-    }
-
-    public static void resetController() {
-        instance = null;
-    }
 
     /**
      * Returns the controller's left_elevator.
@@ -155,7 +148,7 @@ public class GameController {
      * @param delta Time passed.
      */
     public void update(float delta) {
-        GameModel.getInstance().update(delta);
+        gameModel.update(delta);
 
         peopleAdministrator.movePeople();
 
@@ -167,8 +160,8 @@ public class GameController {
             world.step(1 / 60f, 6, 2);
             accumulator -= 1 / 60f;
 
-            GameModel.getInstance().tryToEnter(Side.Left);
-            GameModel.getInstance().tryToEnter(Side.Right);
+            gameModel.tryToEnter(Side.Left);
+            gameModel.tryToEnter(Side.Right);
             peopleAdministrator.updatePeople(strategySelector,1 / 60f);
             peopleGenerator.generateNewPeople(1 / 60f);
             increaseDifficulty(1/60f);
@@ -228,7 +221,7 @@ public class GameController {
             EntityModel entityModel = ((EntityModel) personBody.getBody().getUserData());
             if (entityModel.isFlaggedForRemoval()) {
                 world.destroyBody(personBody.getBody());
-                GameModel.getInstance().remove(entityModel);
+                gameModel.remove(entityModel);
                 iter.remove();
             }
         }
@@ -250,4 +243,7 @@ public class GameController {
         }
     }
 
+    public GameModel getGameModel() {
+        return gameModel;
+    }
 }
