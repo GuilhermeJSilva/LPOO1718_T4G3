@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.pstrategies.StrategySelector;
-import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
@@ -13,22 +12,49 @@ import com.lift.game.model.entities.person.Side;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Changes the people states and physical attributes.
+ */
 public class PeopleAdministrator {
+    /**
+     * Maximum difficulty factor.
+     */
     public static final int MAX_DF = 2;
 
+    /**
+     * Difficulty factor increment.
+     */
+    public static final double DF_DELTA = 0.1;
+
+    /**
+     * Owner of the administrator.
+     */
     private final GameController gameController;
 
+    /**
+     * People that have reached their destination.
+     */
     private List<PersonBody> reachedPeople;
 
+    /**
+     * Difficulty factor.
+     */
     private float difficultyFactor = 1;
 
+    /**
+     * Constructs the people administrator.
+     * @param gameController Owner
+     */
     PeopleAdministrator(GameController gameController) {
         this.gameController = gameController;
         reachedPeople = new LinkedList<PersonBody>();
 
     }
 
-    void movePeople() {
+    /**
+     * Moves people from and to the elevator and eliminates those who have left the screen.
+     */
+    public void movePeople() {
         movePeopleOut();
 
         for (PersonBody personBody : gameController.getPeople()) {
@@ -40,9 +66,9 @@ public class PeopleAdministrator {
                     enterTheElevator(body, personModel);
                 }
 
-                if (personModel.getPersonState() == PersonState.FreeFlying || personModel.getPersonState() == PersonState.Reached) {
+                if (personModel.getPersonState() == PersonState.FreeFalling || personModel.getPersonState() == PersonState.Reached) {
                     if(body.getPosition().x < 0 || body.getPosition().x > 45 || body.getPosition().y < 0) {
-                        if (personModel.getPersonState() == PersonState.FreeFlying && !personModel.isFlaggedForRemoval())
+                        if (personModel.getPersonState() == PersonState.FreeFalling && !personModel.isFlaggedForRemoval())
                             gameController.getGameModel().decrementLives();
                         personModel.setFlaggedForRemoval(true);
                     }
@@ -51,7 +77,10 @@ public class PeopleAdministrator {
         }
     }
 
-    private void movePeopleOut() {
+    /**
+     * Moves people out of the elevator.
+     */
+    public void movePeopleOut() {
         for(PersonBody personBody : reachedPeople) {
             PersonModel personModel = ((PersonModel) personBody.getBody().getUserData());
             updatePositionWhenReached(personModel.getSide(), personBody);
@@ -60,7 +89,23 @@ public class PeopleAdministrator {
         reachedPeople.clear();
     }
 
-    private void enterTheElevator(Body personBody, PersonModel personModel) {
+    /**
+     * Updates a person's position when they reached their destination.
+     * @param side Side the movement is going to occur.
+     * @param personBody Body to be updated.
+     */
+    public void updatePositionWhenReached(Side side, PersonBody personBody) {
+        ElevatorBody elevatorBody = gameController.getElevator(side);
+        personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
+        personBody.getBody().setLinearVelocity(side == Side.Left ? -10 :10 , 2);
+    }
+
+    /**
+     * Check if a person can enter the elevator, if it can moves the person into it.
+     * @param personBody Body to be moved.
+     * @param personModel Model of the body.
+     */
+    public void enterTheElevator(Body personBody, PersonModel personModel) {
         ElevatorModel elevator = gameController.getGameModel().getElevator(personModel.getSide());
         if (elevator.getTarget_floor() == personModel.getFloor() && elevator.getStopped() && elevator.isThereSpaceFree()) {
             personModel.setPersonState(PersonState.InElevator);
@@ -74,14 +119,22 @@ public class PeopleAdministrator {
         personModel.setTryingToEnter(false);
     }
 
+    /**
+     * Makes a person move into the free falling.
+     * @param personModel Model to be updated.
+     */
     public void moveToFreeFly(PersonModel personModel) {
         if (personModel.getPersonState() == PersonState.Waiting || personModel.getPersonState() == PersonState.GiveUP) {
-            personModel.setPersonState(PersonState.FreeFlying);
+            personModel.setPersonState(PersonState.FreeFalling);
             freeSpaceInPlatform(personModel);
         }
     }
 
-    private void freeSpaceInPlatform(PersonModel personModel) {
+    /**
+     * Frees space in a platform-
+     * @param personModel Free the space previously owned by this model-
+     */
+    public void freeSpaceInPlatform(PersonModel personModel) {
         if (personModel.getSide() == Side.Left) {
             gameController.getGameModel().getLeft_floors().get(personModel.getFloor()).decrementNPeople();
         } else {
@@ -89,7 +142,12 @@ public class PeopleAdministrator {
         }
     }
 
-    void updatePeople(StrategySelector strategySelector, float delta) {
+    /**
+     * Updates all the people.
+     * @param strategySelector Strategy selector for the people.
+     * @param delta Time since the last update.
+     */
+    public void updatePeople(StrategySelector strategySelector, float delta) {
         for (PersonBody personBody : gameController.getPeople()) {
             PersonModel per = (PersonModel) personBody.getBody().getUserData();
             if (per != null) {
@@ -101,7 +159,12 @@ public class PeopleAdministrator {
         }
     }
 
-    void deliverPeople(int target_floor, Side side) {
+    /**
+     * Delivers the people in the elevator to a given floor.
+     * @param target_floor Floor the elevator arrived in.
+     * @param side Side of the elevator.
+     */
+    public void deliverPeople(int target_floor, Side side) {
         for (PersonBody personBody : gameController.getPeople()) {
             Body body = personBody.getBody();
             PersonModel personModel = ((PersonModel) body.getUserData());
@@ -117,15 +180,29 @@ public class PeopleAdministrator {
         }
     }
 
-    private void updatePositionWhenReached(Side side, PersonBody personBody) {
-        ElevatorBody elevatorBody = gameController.getElevator(side);
-        personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
-        personBody.getBody().setLinearVelocity(side == Side.Left ? -10 :10 , 2);
+
+    /**
+     * Increases the difficulty of the game.
+     */
+    public void increaseDifficulty() {
+        if(Math.round(difficultyFactor* 10) /10f < MAX_DF) {
+            difficultyFactor += DF_DELTA;
+        }
     }
 
-    public void increaseDifficulty() {
-        if(difficultyFactor < MAX_DF) {
-            difficultyFactor += 0.1;
-        }
+    /**
+     * Returns the people that have reached their destination.
+     * @return People that have reached their destination.
+     */
+    public List<PersonBody> getReachedPeople() {
+        return reachedPeople;
+    }
+
+    /**
+     * Returns the difficulty factor.
+     * @return Difficulty factor.
+     */
+    public float getDifficultyFactor() {
+        return difficultyFactor;
     }
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
-import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
 import com.lift.game.model.entities.person.Side;
@@ -42,7 +41,7 @@ public class NullStrategy implements MovementStrategy {
         PersonModel personModel = (PersonModel) personBody.getUserData();
         if (personModel.getPersonState() != PersonState.Reached) {
             if (personModel.getPersonState() != PersonState.InElevator) {
-                if (platformFixture == PLATFORM_ELEVATOR_SENSOR && personModel.getPersonState() != PersonState.FreeFlying) {
+                if (platformFixture == PLATFORM_ELEVATOR_SENSOR && personModel.getPersonState() != PersonState.FreeFalling) {
                     gameController.getPeopleAdministrator().moveToFreeFly(personModel);
 
                 }
@@ -59,7 +58,7 @@ public class NullStrategy implements MovementStrategy {
                 personBody.getBody().setGravityScale(5);
                 ElevatorBody elevatorBody = gameController.getElevator(side);
                 personBody.getBody().setTransform(elevatorBody.getX(),elevatorBody.getY(),0);
-                personModel.setPersonState(PersonState.FreeFlying);
+                personModel.setPersonState(PersonState.FreeFalling);
                 gameController.getGameModel().getElevator(side).decrementOccupancy();
             }
         }

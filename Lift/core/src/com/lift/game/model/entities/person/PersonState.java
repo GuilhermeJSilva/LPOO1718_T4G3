@@ -25,7 +25,7 @@ public enum PersonState {
      */
     GiveUP,
     /**
-     * The person is free flying.
+     * The person is free falling.
      */
-    FreeFlying,
+    FreeFalling,
 }

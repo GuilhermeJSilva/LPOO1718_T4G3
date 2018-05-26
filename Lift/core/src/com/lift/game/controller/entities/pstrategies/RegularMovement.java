@@ -73,7 +73,7 @@ public class RegularMovement extends NullStrategy implements MovementStrategy {
         super.giveUp(personBody,side);
         PersonModel personModel = (PersonModel) personBody.getBody().getUserData();
         if (personModel.getPersonState() != PersonState.Reached) {
-            if(personModel.getPersonState() !=  PersonState.GiveUP && personModel.getPersonState() !=  PersonState.FreeFlying && personModel.getPersonState() !=  PersonState.InElevator) {
+            if(personModel.getPersonState() !=  PersonState.GiveUP && personModel.getPersonState() !=  PersonState.FreeFalling && personModel.getPersonState() !=  PersonState.InElevator) {
                 if (side == Side.Left) {
                     personBody.setLinearVelocity(GIVING_UP_V, personBody.getBody().linVelLoc.y);
                 } else {
