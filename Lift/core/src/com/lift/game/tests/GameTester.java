@@ -1,3 +1,5 @@
+package com.lift.game.tests;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;

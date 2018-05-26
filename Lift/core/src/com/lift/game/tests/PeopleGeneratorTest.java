@@ -1,3 +1,5 @@
+package com.lift.game.tests;
+
 import static org.junit.Assert.*;
 
 import com.lift.game.controller.GameController;
@@ -31,11 +33,13 @@ public class PeopleGeneratorTest extends GameTester{
             peopleGenerator.generatePerson(i);
             boolean fail = true;
             for (PersonModel personModel : gameModel.getPeople()) {
-                if(personModel.getFloor() == i)
+                if(personModel.getFloor() == i) {
                     fail = false;
+                }
             }
-            if(fail)
+            if(fail) {
                 fail("Not generated in th right floor");
+            }
         }
 
         
