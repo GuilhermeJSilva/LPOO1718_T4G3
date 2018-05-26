@@ -7,6 +7,7 @@ import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.Side;
 
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Random;
 
 /**
@@ -22,9 +23,18 @@ public class PowerUpController {
     /**
      * Maximum interval between power up generations.
      */
-    public static final float MAX_INTERVAL = 10f;
+    public static final float MAX_INTERVAL = 20f;
+
+    /**
+     * Maximum y coordinate for a power up in meters.
+     */
     public static final int MAXIMUM_Y = 75;
+
+    /**
+     * Minimum y coordinate for a power up in meters.
+     */
     public static final int MINIMUM_Y = 5;
+
     /**
      * List of waiting power ups.
      */
@@ -54,7 +64,7 @@ public class PowerUpController {
         this.powerUps = new LinkedList<PowerUp>();
         this.gameController = gameController;
         this.time_accumulator = 0f;
-        this.timeToNext = 5f;
+        this.timeToNext = newTimeToNext();
     }
 
     /**
@@ -67,6 +77,12 @@ public class PowerUpController {
             generateNewPowerUp();
             time_accumulator -= timeToNext;
             timeToNext = newTimeToNext();
+        }
+
+        for(ListIterator<PowerUp> iter = this.powerUps.listIterator(); iter.hasNext();) {
+            PowerUp powerUp =  iter.next();
+            powerUp.update(gameController, delta);
+
         }
     }
 

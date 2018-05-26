@@ -36,22 +36,34 @@ public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp {
     /**
      * Updates a power ups stats.
      *
-     * @param delta Time since the last update.
+     * @param gameController Controller to act upon.
+     * @param delta          Time since the last update.
      * @return True when the power up is finished.
      */
     @Override
-    public boolean update(float delta) {
-        switch (powerUpState) {
+    public boolean update(GameController gameController, float delta) {
+        switch (getPowerUpState()) {
             case Waiting:
-                return super.update(delta);
+                timeToDisappear -= delta;
+                if (timeToDisappear <= 0f) {
+                    setPowerUpState(PowerUpState.Done);
+                    return true;
+                }
+                break;
+            case PickedUp:
+                this.pickup(gameController);
+                setPowerUpState(PowerUpState.Active);
+                break;
             case Active:
                 activeTime -= delta;
-                if (activeTime <= 0 )
-                    powerUpState = PowerUpState.Done;
-                return activeTime <= 0;
+                if (activeTime <= 0f) {
+                    setPowerUpState(PowerUpState.Done);
+                    return true;
+                }
+                break;
             case Done:
-                return true;
+                break;
         }
-        return false;
+        return getPowerUpState() == PowerUpState.Done;
     }
 }

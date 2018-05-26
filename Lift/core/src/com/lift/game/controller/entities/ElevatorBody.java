@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
+import static com.lift.game.controller.powerups.types.StaticPowerUP.PU_MASK;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -49,7 +50,7 @@ public class ElevatorBody extends EntityBody {
 
         float density = 1f, friction = 0.5f, restitution = 0f;
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , width, height, density, friction, restitution, ELEVATOR_MASK,  PLATFORM_ELEVATOR_SENSOR, true);
+                , width, height, density, friction, restitution, ELEVATOR_MASK ,  (short)(PLATFORM_ELEVATOR_SENSOR| PU_MASK), true);
         this.body.setGravityScale(0);
 
     }

@@ -9,6 +9,10 @@ public enum PowerUpState {
      */
     Waiting,
     /**
+     * The power has just been picked up.
+     */
+    PickedUp,
+    /**
      * The power up is active.
      */
     Active,

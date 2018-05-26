@@ -2,14 +2,17 @@ package com.lift.game.controller;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.lift.game.controller.entities.pstrategies.MovementStrategy;
+import com.lift.game.controller.powerups.PowerUpState;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
 
 class GameCollisionHandler implements ContactListener {
     private GameController gameController;
+
     public GameCollisionHandler(GameController gameController) {
         super();
         this.gameController = gameController;
@@ -22,8 +25,25 @@ class GameCollisionHandler implements ContactListener {
         checkIfPlatformElevatorCollision(bodyA, bodyB);
         checkIfPlatformPersonCollision(contact, bodyA, bodyB);
         checkIfPersonPersonCollision(bodyA, bodyB);
+        checkIfPowerUpCollision(bodyA, bodyB);
 
 
+    }
+
+    private void checkIfPowerUpCollision(Body bodyA, Body bodyB) {
+        if (bodyA.getUserData() instanceof PowerUpModel && bodyB.getUserData() instanceof ElevatorModel) {
+            pickUpPowerUp(bodyA);
+        } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PowerUpModel) {
+            pickUpPowerUp(bodyB);
+        }
+    }
+
+    private void pickUpPowerUp(Body powerUpBody) {
+        PowerUpModel powerUpModel = (PowerUpModel) powerUpBody.getUserData();
+        if (powerUpModel.getPowerUpState() == PowerUpState.Waiting) {
+            powerUpModel.setPowerUpState(PowerUpState.PickedUp);
+            System.out.println("Power up picked.");
+        }
     }
 
     private void checkIfPersonPersonCollision(Body bodyA, Body bodyB) {

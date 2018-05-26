@@ -2,10 +2,12 @@ package com.lift.game.controller.powerups.types;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.EntityBody;
 import com.lift.game.controller.powerups.PowerUp;
 import com.lift.game.controller.powerups.PowerUpState;
 import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PowerUpModel;
 
 import static com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
 
@@ -64,24 +66,49 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
      * @return Power up's state.
      */
     public PowerUpState getPowerUpState() {
+        powerUpState = ((PowerUpModel)this.getBody().getUserData()).getPowerUpState();
         return powerUpState;
+    }
+
+    /**
+     * Changes the state of the power up.
+     *
+     * @param powerUpState New value for the power up state.
+     */
+    @Override
+    public void setPowerUpState(PowerUpState powerUpState) {
+        ((PowerUpModel)this.getBody().getUserData()).setPowerUpState(powerUpState);
+        this.powerUpState = powerUpState;
     }
 
     /**
      * Updates a power ups stats.
      *
+     * @param gameController Controller to act upon.
      * @param delta Time since the last update.
      * @return True when the power up is finished.
      */
     @Override
-    public boolean update(float delta) {
-        if (powerUpState == PowerUpState.Waiting) {
-            timeToDisappear -= delta;
+    public boolean update(GameController gameController, float delta) {
+        switch (getPowerUpState()) {
+            case Waiting:
+                timeToDisappear -= delta;
+                if (timeToDisappear <= 0f) {
+                   setPowerUpState(PowerUpState.Done);
+                    return true;
+                }
+                break;
+            case PickedUp:
+                if(this.pickup(gameController))
+                    setPowerUpState(PowerUpState.Done);
+                else
+                    setPowerUpState(PowerUpState.Waiting);
+                break;
+            case Active:
+                break;
+            case Done:
+                break;
         }
-        if (timeToDisappear <= 0f) {
-            powerUpState = PowerUpState.Done;
-            return true;
-        }
-        return powerUpState == PowerUpState.Done;
+        return getPowerUpState() == PowerUpState.Done;
     }
 }

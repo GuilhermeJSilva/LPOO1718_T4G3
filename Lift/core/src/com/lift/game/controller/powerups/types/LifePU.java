@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.EntityModel;
+import com.lift.game.view.IndicatorCreator;
 
 /**
  * Gives an extra life to the player.
@@ -13,7 +14,7 @@ public class LifePU extends StaticPowerUP {
     /**
      * Time it takes the life power up to disappear.
      */
-    public static final float TIME_TO_DISAPPEAR = 10f;
+    public static final float TIME_TO_DISAPPEAR = 30f;
 
 
     /**
@@ -32,8 +33,10 @@ public class LifePU extends StaticPowerUP {
      * @param gameController Controller to be manipulated.
      */
     @Override
-    public void pickup(GameController gameController) {
+    public boolean pickup(GameController gameController) {
+        Integer before = gameController.getGameModel().getLives();
         gameController.getGameModel().incrementLives();
+        return  gameController.getGameModel().getLives() - before == 1;
     }
 
     /**
