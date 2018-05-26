@@ -1,5 +1,3 @@
-package com.lift.game.tests;
-
 import static org.junit.Assert.*;
 
 import com.lift.game.controller.GameController;
