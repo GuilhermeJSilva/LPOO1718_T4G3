@@ -169,7 +169,7 @@ public class GameController {
 
         while (accumulator >= 1 / 60f) {
 
-            world.step(1 / 60f, 6, 2);
+            world.step(1 / 60f, 10, 4);
             accumulator -= 1 / 60f;
 
             gameModel.tryToEnter(Side.Left);

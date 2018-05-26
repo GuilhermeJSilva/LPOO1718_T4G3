@@ -18,9 +18,11 @@ public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp {
 
     /**
      * Constructs a timed power up with a given time to disappear and an active time.
-     * @param timeToDisappear Time before the power up disappears.
      *
-     * @param activeTime Time the power up will be active.
+     * @param model           Model the power up is based on.
+     * @param world           World the power is in.
+     * @param timeToDisappear Time before the power up disappears.
+     * @param activeTime      Time the power up will be active.
      */
     public TimedPowerUp(World world, EntityModel model, Float timeToDisappear, Float activeTime) {
         super(timeToDisappear, model, world);
@@ -29,6 +31,7 @@ public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp {
 
     /**
      * To run when the power up is in the ned of its life.
+     *
      * @param gameController Controller to be manipulated.
      */
     public abstract void end(GameController gameController);
@@ -57,6 +60,7 @@ public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp {
             case Active:
                 activeTime -= delta;
                 if (activeTime <= 0f) {
+                    this.end(gameController);
                     setPowerUpState(PowerUpState.Done);
                     return true;
                 }

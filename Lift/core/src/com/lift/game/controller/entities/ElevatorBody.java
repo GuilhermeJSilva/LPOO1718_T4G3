@@ -17,6 +17,10 @@ public class ElevatorBody extends EntityBody {
      */
     private static int vy = 50;
 
+    /**
+     * Velocity multiplier.
+     */
+    private Float velocity_multiplier = 1f;
 
     /**
      * Height of the elevator.
@@ -75,12 +79,19 @@ public class ElevatorBody extends EntityBody {
         if (this.target_floor != floor) {
             this.target_floor = floor;
             if (gameController.getFloors(this.getSide()).get(floor).getY() > y) {
-                this.setLinearVelocity(0, vy);
+                this.setLinearVelocity(0, vy * velocity_multiplier);
             } else if (gameController.getFloors(this.getSide()).get(floor).getY() < y) {
-                this.setLinearVelocity(0, -vy);
+                this.setLinearVelocity(0, -vy * velocity_multiplier);
             }
         }
+        System.out.println(this.body.getLinearVelocity().y);
     }
 
-
+    /**
+     * Changes the multiplier by the amount give.
+     * @param increment Delta of the multiplier.
+     */
+    public void change_multiplier(float increment) {
+        velocity_multiplier += increment;
+    }
 }

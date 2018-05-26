@@ -104,8 +104,7 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
                 if (this.pickup(gameController)) {
                     flagForRemoval();
                     setPowerUpState(PowerUpState.Done);
-                } else
-                    setPowerUpState(PowerUpState.Waiting);
+                }
                 break;
             case Active:
                 break;

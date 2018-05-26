@@ -4,6 +4,7 @@ import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.powerups.types.LifePU;
 import com.lift.game.controller.powerups.types.StaticPowerUP;
+import com.lift.game.controller.powerups.types.VelocityPU;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.Side;
 
@@ -99,7 +100,7 @@ public class PowerUpController {
         Float y = randomY(side);
         PowerUpModel powerUpModel = new PowerUpModel(x, y, side);
         gameController.getGameModel().addPowerUp(powerUpModel);
-        powerUps.add(new LifePU(powerUpModel, gameController.getWorld()));
+        powerUps.add(new VelocityPU(powerUpModel, gameController.getWorld()));
     }
 
     /**
