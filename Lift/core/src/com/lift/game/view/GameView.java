@@ -31,7 +31,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures.
      */
-    private static final boolean DEBUG_PHYSICS = false;
+    private static final boolean DEBUG_PHYSICS = true;
 
     /**
      * The height of the viewport in meters.

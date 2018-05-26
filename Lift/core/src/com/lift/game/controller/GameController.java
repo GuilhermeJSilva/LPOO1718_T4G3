@@ -10,6 +10,7 @@ import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.controller.entities.pstrategies.StrategySelector;
+import com.lift.game.controller.powerups.PowerUpController;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
@@ -91,6 +92,10 @@ public class GameController {
      */
     private StrategySelector strategySelector;
 
+    /**
+     * Power up controller.
+     */
+    private PowerUpController powerUpController;
 
     /**
      * Game model to be controlled.
@@ -99,6 +104,7 @@ public class GameController {
 
     /**
      * Constructs the model.
+     * @param gameModel Game model controlled.
      */
     public GameController(GameModel gameModel) {
         super();
@@ -107,6 +113,7 @@ public class GameController {
         this.left_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Left));
         this.right_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Right));
         this.strategySelector = new StrategySelector(this);
+        this.powerUpController = new PowerUpController(this);
 
         this.people = new ArrayList<PersonBody>();
         this.left_floors = new ArrayList<PlatformBody>();
@@ -134,6 +141,7 @@ public class GameController {
     /**
      * Returns the controller's left_elevator.
      *
+     * @param side Side of the elevator.
      * @return Controller's left_elevator.
      */
     public ElevatorBody getElevator(Side side) {
@@ -146,6 +154,7 @@ public class GameController {
     /**
      * Updates the game.
      *
+     * @param gameState State of the game.
      * @param delta Time passed.
      */
     public void update(GameState gameState, float delta) {
@@ -167,6 +176,7 @@ public class GameController {
             gameModel.tryToEnter(Side.Right);
             peopleAdministrator.updatePeople(strategySelector,1 / 60f);
             peopleGenerator.generateNewPeople(1 / 60f);
+            powerUpController.update(1/60f);
             increaseDifficulty(1/60f);
         }
 

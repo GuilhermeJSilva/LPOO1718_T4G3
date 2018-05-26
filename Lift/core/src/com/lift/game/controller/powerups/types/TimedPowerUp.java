@@ -1,9 +1,15 @@
-package com.lift.game.controller.powerups;
+package com.lift.game.controller.powerups.types;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.GameController;
+import com.lift.game.controller.powerups.PowerUp;
+import com.lift.game.controller.powerups.PowerUpState;
 import com.lift.game.model.entities.EntityModel;
 
-public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp{
+/**
+ * Implements the based class for a power up which is active.
+ */
+public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp {
 
     /**
      * Active time for the power up.
@@ -23,8 +29,9 @@ public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp{
 
     /**
      * To run when the power up is in the ned of its life.
+     * @param gameController Controller to be manipulated.
      */
-    public abstract void end();
+    public abstract void end(GameController gameController);
 
     /**
      * Updates a power ups stats.

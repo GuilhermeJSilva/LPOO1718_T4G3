@@ -3,10 +3,12 @@ package com.lift.game.model;
 import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonState;
@@ -16,7 +18,10 @@ import com.lift.game.model.entities.person.Side;
  * Represents the current state of the game.
  */
 public class GameModel {
-
+    /**
+     * Max number of lives a model can have.
+     */
+    public static final int MAX_LIVES = 3;
     /**
      * Lives left.
      */
@@ -74,6 +79,11 @@ public class GameModel {
     private ArrayList<PersonModel> people;
 
     /**
+     * Power ups present.
+     */
+    private LinkedList<PowerUpModel> powerUpModels;
+
+    /**
      * Constructs the model.
      */
     public GameModel() {
@@ -81,9 +91,9 @@ public class GameModel {
         this.lives = 3;
         this.time_left = 30.0;
         this.coins = 10;
-        n_levels = DEFAULT_N_LEVEL;
-        left_elevator = new ElevatorModel(15.2f, Side.Left);
-        right_elevator = new ElevatorModel(30f, Side.Right);
+        this.n_levels = DEFAULT_N_LEVEL;
+        this.left_elevator = new ElevatorModel(15.2f, Side.Left);
+        this.right_elevator = new ElevatorModel(30f, Side.Right);
 
         this.people = new ArrayList<PersonModel>();
         this.left_floors = new ArrayList<PlatformModel>();
@@ -96,8 +106,14 @@ public class GameModel {
         for (int i = 1; i <= n_levels; i++) {
             right_floors.add(new PlatformModel(38.5f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f, Side.Right, i - 1));
         }
+
+        this.powerUpModels = new LinkedList<PowerUpModel>();
     }
 
+    /**
+     * Returns the number of lives.
+     * @return Number of lives.
+     */
     public Integer getLives() {
         return lives;
     }
@@ -185,7 +201,8 @@ public class GameModel {
      * Increments the number of lives.
      */
     public void incrementLives() {
-        lives++;
+        if(lives < MAX_LIVES)
+            lives++;
     }
 
     /**
@@ -254,12 +271,25 @@ public class GameModel {
         this.coins += coins;
     }
 
+    /**
+     * All the people in one side of the screen try to enter.
+     * @param side Side of the screen.
+     */
     public void tryToEnter(Side side) {
         for (PersonModel personModel : people) {
             if (personModel.getFloor() == getElevator(side).getTarget_floor() && getElevator(side).getStopped() && personModel.getSide() == side && (personModel.getPersonState() == PersonState.Waiting || personModel.getPersonState() == PersonState.StoppedWaiting)) {
                 personModel.setTryingToEnter(true);
             }
         }
+    }
+
+    /**
+     * Add new power up to the list.
+     *
+     * @param powerUpModel Power up to be added.
+     */
+    public void addPowerUp(PowerUpModel powerUpModel) {
+        powerUpModels.add(powerUpModel);
     }
 }
 

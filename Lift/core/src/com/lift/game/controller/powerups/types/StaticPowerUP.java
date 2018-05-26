@@ -1,9 +1,13 @@
-package com.lift.game.controller.powerups;
+package com.lift.game.controller.powerups.types;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.entities.EntityBody;
+import com.lift.game.controller.powerups.PowerUp;
+import com.lift.game.controller.powerups.PowerUpState;
 import com.lift.game.model.entities.EntityModel;
+
+import static com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
 
 /**
  * Implements a power up with a single action.
@@ -13,7 +17,12 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
     /**
      * Radius of the power up's body expressed in meters.
      */
-    public static final float RADIUS_OF_THE_BODY = 2f;
+    public static final float RADIUS_OF_THE_BODY = 1f;
+
+    /**
+     * Collision mask for the power ups.
+     */
+    public static final short PU_MASK = (short) (1 << 6);
 
     /**
      * Time left before the power up disappears.
@@ -34,9 +43,10 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
      */
     public StaticPowerUP(Float timeToDisappear, EntityModel model, World world) {
         super(world, model, BodyDef.BodyType.DynamicBody);
-        this.addCircularFixture(this.getBody(), RADIUS_OF_THE_BODY, 100,0,0, (short) 0, (short) 0 , true);
+        this.addCircularFixture(this.getBody(), RADIUS_OF_THE_BODY, 100,0,0, PU_MASK, ELEVATOR_MASK , true);
         this.timeToDisappear = timeToDisappear;
         this.powerUpState = PowerUpState.Waiting;
+        this.getBody().setGravityScale(0);
     }
 
     /**
