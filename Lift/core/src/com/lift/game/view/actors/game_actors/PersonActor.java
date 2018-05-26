@@ -1,4 +1,4 @@
-package com.lift.game.view.actors.game_actors.person;
+package com.lift.game.view.actors.game_actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;

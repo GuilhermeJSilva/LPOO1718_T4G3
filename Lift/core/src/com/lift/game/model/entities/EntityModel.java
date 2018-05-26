@@ -24,6 +24,12 @@ public abstract class EntityModel {
     private boolean flaggedForRemoval = false;
 
     /**
+     * New person.
+     */
+    private boolean new_entity = true;
+
+
+    /**
      * Side of the screen the entity is on.
      */
     private Side side;
@@ -80,6 +86,15 @@ public abstract class EntityModel {
 
     public Side getSide() {
         return side;
+    }
+
+
+    public boolean isNew() {
+        return new_entity;
+    }
+
+    public void setNew(boolean new_person) {
+        this.new_entity = new_person;
     }
 
 }

@@ -71,6 +71,10 @@ public class PowerUpController {
      * Array of incremental percentages of power ups.
      */
     private ArrayList<Float> incPercentages;
+
+    /**
+     * Used to get random numbers.
+     */
     private Random randomGenerator;
 
     /**
@@ -87,6 +91,9 @@ public class PowerUpController {
         this.initializePossibilities();
     }
 
+    /**
+     * Initializes the arrays to generate random power ups.
+     */
     private void initializePossibilities() {
         this.incPercentages = new ArrayList<Float>();
         this.typesOfPowerUps = new ArrayList<Class<? extends BasicPowerUP>>();
@@ -112,6 +119,7 @@ public class PowerUpController {
             BasicPowerUP powerUp =  iter.next();
             powerUp.update(gameController, delta);
             if(powerUp.getPowerUpState() == PowerUpState.Done) {
+                ((EntityModel)powerUp.getBody().getUserData()).setFlaggedForRemoval(true);
                 gameController.getWorld().destroyBody(powerUp.getBody());
                 iter.remove();
             }

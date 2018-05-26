@@ -34,7 +34,7 @@ public class VelocityPU extends TimedPowerUp {
     }
 
     /**
-     * To run when the power up is in the ned of its life.
+     * To run when the power up is in the end of its life.
      *
      * @param gameController Controller to be manipulated.
      */

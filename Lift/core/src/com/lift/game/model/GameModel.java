@@ -291,6 +291,14 @@ public class GameModel {
     public void addPowerUp(PowerUpModel powerUpModel) {
         powerUpModels.add(powerUpModel);
     }
+
+    /**
+     * Returns the power up list.
+     * @return Power up list.
+     */
+    public LinkedList<PowerUpModel> getPowerUpModels() {
+        return powerUpModels;
+    }
 }
 
 

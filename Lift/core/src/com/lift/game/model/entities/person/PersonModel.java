@@ -34,10 +34,6 @@ public class PersonModel extends EntityModel {
      */
     private int floor;
 
-    /**
-     * New person.
-     */
-    private boolean new_person = true;
 
     /**
      * True if a person is trying to enter the elevator.
@@ -109,13 +105,7 @@ public class PersonModel extends EntityModel {
         return personType;
     }
 
-    public boolean isNew_person() {
-        return new_person;
-    }
 
-    public void setNew_person(boolean new_person) {
-        this.new_person = new_person;
-    }
 
     public void setPersonState(PersonState personState) {
         this.personState = personState;

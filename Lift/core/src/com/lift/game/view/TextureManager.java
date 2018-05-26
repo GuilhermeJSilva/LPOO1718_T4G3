@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.model.entities.PowerUpType;
 import com.lift.game.model.entities.person.PersonType;
 import com.lift.game.model.entities.person.Side;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.lift.game.controller.powerups.types.BasicPowerUP.RADIUS_OF_THE_BODY;
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 /**
@@ -27,6 +29,11 @@ public class TextureManager {
      * Number of rows to divide sprite sheets.
      */
     private static final int FRAME_ROWS = 1;
+
+    /**
+     * Textures for the power ups.
+     */
+    private HashMap<PowerUpType, Texture> powerUpTexture;
 
     /**
      * Walking animations stored by type of person.
@@ -57,6 +64,11 @@ public class TextureManager {
      * If the desired platform texture is not in the platform this texture is used.
      */
     private Texture defaultPlatformTexture;
+
+    /**
+     * Default power up texture.
+     */
+    private Texture defaultPowerUpTexture;
 
     /**
      * Background texture.
@@ -94,9 +106,27 @@ public class TextureManager {
         initializePlatformTextures();
         initializeDefault();
         initializePeopleAnimation();
+        initializePowerUpTextures();
         this.background = game.getAssetManager().get("fundo.png");
         this.structure = game.getAssetManager().get("structure.png");
         this.light = game.getAssetManager().get("SUN.png");
+    }
+
+    /**
+     * Initializes the power up textures.
+     */
+    private void initializePowerUpTextures() {
+        this.powerUpTexture = new HashMap<PowerUpType, Texture>();
+        //TODO Change to the real textures.
+        Pixmap pix = new Pixmap((int) (RADIUS_OF_THE_BODY / PIXEL_TO_METER), (int) (RADIUS_OF_THE_BODY / PIXEL_TO_METER), Pixmap.Format.RGBA8888);
+        pix.setColor(0xaa00aaff);
+        pix.fill();
+        this.powerUpTexture.put(PowerUpType.LifePowerUp, new Texture(pix));
+        pix = new Pixmap((int) (RADIUS_OF_THE_BODY / PIXEL_TO_METER), (int) (RADIUS_OF_THE_BODY / PIXEL_TO_METER), Pixmap.Format.RGBA8888);
+        pix.setColor(0x00aaaaff);
+        pix.fill();
+        this.powerUpTexture.put(PowerUpType.ElevatorVelocity, new Texture(pix));
+
     }
 
     /**
@@ -108,6 +138,11 @@ public class TextureManager {
         pix.setColor(defaultColor);
         pix.fill();
         defaultPlatformTexture = new Texture(pix);
+        pix = new Pixmap((int) (RADIUS_OF_THE_BODY / PIXEL_TO_METER), (int) (RADIUS_OF_THE_BODY / PIXEL_TO_METER), Pixmap.Format.RGBA8888);
+        pix.setColor(defaultColor);
+        pix.fill();
+        defaultPowerUpTexture = new Texture(pix);
+
     }
 
     /**
@@ -253,5 +288,18 @@ public class TextureManager {
      */
     public TextureRegion getSun() {
         return new TextureRegion(light, 0, 0, 1080, 1920);
+    }
+
+    /**
+     * Returns a power up texture based on the power up type.
+     * @param powerUpType Type of power up.
+     * @return Texture associated to that type.
+     */
+    public Texture getPUTexture(PowerUpType powerUpType) {
+        System.out.println(powerUpType);
+        if(powerUpTexture.containsKey(powerUpType)) {
+            return powerUpTexture.get(powerUpType);
+        }
+        return defaultPowerUpTexture;
     }
 }

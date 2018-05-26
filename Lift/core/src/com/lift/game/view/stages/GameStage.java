@@ -10,14 +10,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
 import com.lift.game.view.GameState;
-import com.lift.game.view.GameView;
 import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.actors.game_actors.ElevatorActor;
 import com.lift.game.view.actors.game_actors.PlatformActor;
-import com.lift.game.view.actors.game_actors.person.PersonActor;
+import com.lift.game.view.actors.game_actors.PersonActor;
+import com.lift.game.view.actors.game_actors.PowerUpActor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -112,15 +113,25 @@ public class GameStage extends Stage {
 
     private void addPeopleActors(GameModel gameModel, LiftGame game) {
         for (PersonModel personModel : gameModel.getPeople()) {
-            if (personModel.isNew_person()) {
+            if (personModel.isNew()) {
                 this.addActor(new PersonActor(game, personModel));
-                personModel.setNew_person(false);
+                personModel.setNew(false);
+            }
+        }
+    }
+
+    private void addPUActors(GameModel gameModel, LiftGame game) {
+        for (PowerUpModel powerUpModel : gameModel.getPowerUpModels()) {
+            if (powerUpModel.isNew()) {
+                this.addActor(new PowerUpActor(game, powerUpModel));
+                powerUpModel.setNew(false);
             }
         }
     }
 
     public void updateStage(GameModel gameModel, LiftGame game) {
         addPeopleActors(gameModel, game);
+        addPUActors(gameModel, game);
     }
 
     @Override

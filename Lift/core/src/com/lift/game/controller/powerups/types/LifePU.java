@@ -3,6 +3,8 @@ package com.lift.game.controller.powerups.types;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PowerUpModel;
+import com.lift.game.model.entities.PowerUpType;
 
 /**
  * Gives an extra life to the player.
@@ -12,7 +14,7 @@ public class LifePU extends BasicPowerUP {
     /**
      * Time it takes the life power up to disappear.
      */
-    public static final float TIME_TO_DISAPPEAR = 30f;
+    public static final float TIME_TO_DISAPPEAR = 15f;
 
 
     /**
@@ -23,6 +25,7 @@ public class LifePU extends BasicPowerUP {
      */
     public LifePU(EntityModel model, World world) {
         super(TIME_TO_DISAPPEAR, model, world);
+        ((PowerUpModel) model).setPowerUpType(PowerUpType.LifePowerUp);
     }
 
     /**
