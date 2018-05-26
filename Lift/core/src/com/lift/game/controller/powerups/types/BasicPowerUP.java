@@ -14,7 +14,7 @@ import static com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
 /**
  * Implements a power up with a single action.
  */
-public abstract class StaticPowerUP extends EntityBody implements PowerUp {
+public abstract class BasicPowerUP extends EntityBody implements PowerUp {
 
     /**
      * Radius of the power up's body expressed in meters.
@@ -43,7 +43,7 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
      * @param model           Model the power up is based on.
      * @param world           World the power is in.
      */
-    public StaticPowerUP(Float timeToDisappear, EntityModel model, World world) {
+    public BasicPowerUP(Float timeToDisappear, EntityModel model, World world) {
         super(world, model, BodyDef.BodyType.DynamicBody);
         this.addCircularFixture(this.getBody(), RADIUS_OF_THE_BODY, 100, 0, 0, PU_MASK, ELEVATOR_MASK, true);
         this.timeToDisappear = timeToDisappear;

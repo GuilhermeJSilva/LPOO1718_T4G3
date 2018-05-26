@@ -1,7 +1,7 @@
 package com.lift.game.controller.entities;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
-import static com.lift.game.controller.powerups.types.StaticPowerUP.PU_MASK;
+import static com.lift.game.controller.powerups.types.BasicPowerUP.PU_MASK;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;

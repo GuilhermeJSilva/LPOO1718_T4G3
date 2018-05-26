@@ -1,13 +1,18 @@
 package com.lift.game.controller.powerups;
 
+import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.ElevatorBody;
+import com.lift.game.controller.powerups.types.BasicPowerUP;
 import com.lift.game.controller.powerups.types.LifePU;
-import com.lift.game.controller.powerups.types.StaticPowerUP;
+import com.lift.game.controller.powerups.types.NullPU;
 import com.lift.game.controller.powerups.types.VelocityPU;
+import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.Side;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
@@ -20,7 +25,7 @@ public class PowerUpController {
     /**
      * Minimum interval between power up generations.
      */
-    public static final float MIN_INTERVAL = 5f;
+    public static final float MIN_INTERVAL = 10f;
 
     /**
      * Maximum interval between power up generations.
@@ -40,7 +45,7 @@ public class PowerUpController {
     /**
      * List of waiting power ups.
      */
-    private LinkedList<StaticPowerUP> powerUps;
+    private LinkedList<BasicPowerUP> powerUps;
 
     /**
      * Owner of the controller.
@@ -58,15 +63,37 @@ public class PowerUpController {
     private Float timeToNext;
 
     /**
+     * Possible power ups.
+     */
+    private ArrayList<Class<? extends BasicPowerUP>> typesOfPowerUps;
+
+    /**
+     * Array of incremental percentages of power ups.
+     */
+    private ArrayList<Float> incPercentages;
+    private Random randomGenerator;
+
+    /**
      * Constructs the power up controller.
      *
      * @param gameController Owner of the controller.
      */
     public PowerUpController(GameController gameController) {
-        this.powerUps = new LinkedList<StaticPowerUP>();
+        this.randomGenerator = new Random();
+        this.powerUps = new LinkedList<BasicPowerUP>();
         this.gameController = gameController;
         this.time_accumulator = 0f;
         this.timeToNext = newTimeToNext();
+        this.initializePossibilities();
+    }
+
+    private void initializePossibilities() {
+        this.incPercentages = new ArrayList<Float>();
+        this.typesOfPowerUps = new ArrayList<Class<? extends BasicPowerUP>>();
+        this.typesOfPowerUps.add(LifePU.class);
+        this.incPercentages.add(0.8f);
+        this.typesOfPowerUps.add(VelocityPU.class);
+        this.incPercentages.add(1f);
     }
 
     /**
@@ -81,8 +108,8 @@ public class PowerUpController {
             timeToNext = newTimeToNext();
         }
 
-        for(ListIterator<StaticPowerUP> iter = this.powerUps.listIterator(); iter.hasNext();) {
-            StaticPowerUP powerUp =  iter.next();
+        for(ListIterator<BasicPowerUP> iter = this.powerUps.listIterator(); iter.hasNext();) {
+            BasicPowerUP powerUp =  iter.next();
             powerUp.update(gameController, delta);
             if(powerUp.getPowerUpState() == PowerUpState.Done) {
                 gameController.getWorld().destroyBody(powerUp.getBody());
@@ -100,7 +127,33 @@ public class PowerUpController {
         Float y = randomY(side);
         PowerUpModel powerUpModel = new PowerUpModel(x, y, side);
         gameController.getGameModel().addPowerUp(powerUpModel);
-        powerUps.add(new VelocityPU(powerUpModel, gameController.getWorld()));
+        powerUps.add(this.randomPowerUp(powerUpModel));
+    }
+
+    /**
+     * Returns a random power up.
+     *
+     * @param powerUpModel The model that the body is going to represent.
+     * @return Random power up.
+     */
+    private BasicPowerUP randomPowerUp(PowerUpModel powerUpModel) {
+        Float rNumber = randomGenerator.nextFloat();
+        for(Float p : this.incPercentages) {
+            if(rNumber < p) {
+                try {
+                    return this.typesOfPowerUps.get(this.incPercentages.indexOf(p)).getConstructor(EntityModel.class, World.class).newInstance(powerUpModel, gameController.getWorld());
+                } catch (NoSuchMethodException e) {
+                    return new NullPU(powerUpModel, gameController.getWorld());
+                } catch (IllegalAccessException e) {
+                    return new NullPU(powerUpModel, gameController.getWorld());
+                } catch (InstantiationException e) {
+                    return new NullPU(powerUpModel, gameController.getWorld());
+                } catch (InvocationTargetException e) {
+                    return new NullPU(powerUpModel, gameController.getWorld());
+                }
+            }
+        }
+        return new NullPU(powerUpModel, gameController.getWorld());
     }
 
     /**
@@ -109,10 +162,9 @@ public class PowerUpController {
      * @return Generated number.
      */
     private float randomY(Side side) {
-        Random random = new Random();
         float v;
         do {
-        v = MINIMUM_Y + random.nextFloat() * (MAXIMUM_Y - MINIMUM_Y);
+        v = MINIMUM_Y + randomGenerator.nextFloat() * (MAXIMUM_Y - MINIMUM_Y);
 
         } while (v > gameController.getElevator(side).getY() - ElevatorBody.height && v  <  gameController.getElevator(side).getY() + ElevatorBody.height);
         return v;

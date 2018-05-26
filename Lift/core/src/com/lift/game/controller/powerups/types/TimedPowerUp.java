@@ -9,7 +9,7 @@ import com.lift.game.model.entities.EntityModel;
 /**
  * Implements the based class for a power up which is active.
  */
-public abstract class TimedPowerUp extends StaticPowerUP implements PowerUp {
+public abstract class TimedPowerUp extends BasicPowerUP implements PowerUp {
 
     /**
      * Active time for the power up.
