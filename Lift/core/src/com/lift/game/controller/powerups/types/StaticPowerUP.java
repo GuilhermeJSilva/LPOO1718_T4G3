@@ -45,7 +45,7 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
      */
     public StaticPowerUP(Float timeToDisappear, EntityModel model, World world) {
         super(world, model, BodyDef.BodyType.DynamicBody);
-        this.addCircularFixture(this.getBody(), RADIUS_OF_THE_BODY, 100,0,0, PU_MASK, ELEVATOR_MASK , true);
+        this.addCircularFixture(this.getBody(), RADIUS_OF_THE_BODY, 100, 0, 0, PU_MASK, ELEVATOR_MASK, true);
         this.timeToDisappear = timeToDisappear;
         this.powerUpState = PowerUpState.Waiting;
         this.getBody().setGravityScale(0);
@@ -66,7 +66,7 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
      * @return Power up's state.
      */
     public PowerUpState getPowerUpState() {
-        powerUpState = ((PowerUpModel)this.getBody().getUserData()).getPowerUpState();
+        powerUpState = ((PowerUpModel) this.getBody().getUserData()).getPowerUpState();
         return powerUpState;
     }
 
@@ -77,7 +77,7 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
      */
     @Override
     public void setPowerUpState(PowerUpState powerUpState) {
-        ((PowerUpModel)this.getBody().getUserData()).setPowerUpState(powerUpState);
+        ((PowerUpModel) this.getBody().getUserData()).setPowerUpState(powerUpState);
         this.powerUpState = powerUpState;
     }
 
@@ -85,7 +85,7 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
      * Updates a power ups stats.
      *
      * @param gameController Controller to act upon.
-     * @param delta Time since the last update.
+     * @param delta          Time since the last update.
      * @return True when the power up is finished.
      */
     @Override
@@ -94,14 +94,17 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
             case Waiting:
                 timeToDisappear -= delta;
                 if (timeToDisappear <= 0f) {
-                   setPowerUpState(PowerUpState.Done);
+                    this.disappear(gameController);
+                    flagForRemoval();
+                    setPowerUpState(PowerUpState.Done);
                     return true;
                 }
                 break;
             case PickedUp:
-                if(this.pickup(gameController))
+                if (this.pickup(gameController)) {
+                    flagForRemoval();
                     setPowerUpState(PowerUpState.Done);
-                else
+                } else
                     setPowerUpState(PowerUpState.Waiting);
                 break;
             case Active:
@@ -110,5 +113,9 @@ public abstract class StaticPowerUP extends EntityBody implements PowerUp {
                 break;
         }
         return getPowerUpState() == PowerUpState.Done;
+    }
+
+    private void flagForRemoval() {
+        ((PowerUpModel) this.getBody().getUserData()).setFlaggedForRemoval(true);
     }
 }

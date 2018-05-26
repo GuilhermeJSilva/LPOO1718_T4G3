@@ -42,7 +42,6 @@ class GameCollisionHandler implements ContactListener {
         PowerUpModel powerUpModel = (PowerUpModel) powerUpBody.getUserData();
         if (powerUpModel.getPowerUpState() == PowerUpState.Waiting) {
             powerUpModel.setPowerUpState(PowerUpState.PickedUp);
-            System.out.println("Power up picked.");
         }
     }
 
@@ -114,6 +113,22 @@ class GameCollisionHandler implements ContactListener {
 
         checkIfEndPlatformElevatorCollision(bodyA, bodyB);
         checkIfEndPersonPersonCollision(bodyA, bodyB);
+        checkIfEndPowerUP(bodyA, bodyB);
+    }
+
+    private void checkIfEndPowerUP(Body bodyA, Body bodyB) {
+        if (bodyA.getUserData() instanceof PowerUpModel && bodyB.getUserData() instanceof ElevatorModel) {
+            dropPowerUp(bodyA);
+        } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PowerUpModel) {
+            dropPowerUp(bodyB);
+        }
+    }
+
+    private void dropPowerUp(Body powerUpBody) {
+        PowerUpModel powerUpModel = (PowerUpModel) powerUpBody.getUserData();
+        if (powerUpModel.getPowerUpState() == PowerUpState.PickedUp) {
+            powerUpModel.setPowerUpState(PowerUpState.Waiting);
+        }
     }
 
     private void checkIfEndPersonPersonCollision(Body person1, Body person2) {

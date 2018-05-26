@@ -3,6 +3,7 @@ package com.lift.game.controller.powerups;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.powerups.types.LifePU;
+import com.lift.game.controller.powerups.types.StaticPowerUP;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.Side;
 
@@ -38,7 +39,7 @@ public class PowerUpController {
     /**
      * List of waiting power ups.
      */
-    private LinkedList<PowerUp> powerUps;
+    private LinkedList<StaticPowerUP> powerUps;
 
     /**
      * Owner of the controller.
@@ -61,7 +62,7 @@ public class PowerUpController {
      * @param gameController Owner of the controller.
      */
     public PowerUpController(GameController gameController) {
-        this.powerUps = new LinkedList<PowerUp>();
+        this.powerUps = new LinkedList<StaticPowerUP>();
         this.gameController = gameController;
         this.time_accumulator = 0f;
         this.timeToNext = newTimeToNext();
@@ -79,10 +80,13 @@ public class PowerUpController {
             timeToNext = newTimeToNext();
         }
 
-        for(ListIterator<PowerUp> iter = this.powerUps.listIterator(); iter.hasNext();) {
-            PowerUp powerUp =  iter.next();
+        for(ListIterator<StaticPowerUP> iter = this.powerUps.listIterator(); iter.hasNext();) {
+            StaticPowerUP powerUp =  iter.next();
             powerUp.update(gameController, delta);
-
+            if(powerUp.getPowerUpState() == PowerUpState.Done) {
+                gameController.getWorld().destroyBody(powerUp.getBody());
+                iter.remove();
+            }
         }
     }
 
