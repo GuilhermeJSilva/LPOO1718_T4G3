@@ -14,6 +14,10 @@ public class PowerUpModel extends EntityModel {
     private PowerUpState powerUpState;
 
     /**
+     * Type of power up.
+     */
+    private PowerUpType powerUpType;
+    /**
      * Default entity constructor.
      *
      * @param x    position.
@@ -22,7 +26,8 @@ public class PowerUpModel extends EntityModel {
      */
     public PowerUpModel(float x, float y, Side side) {
         super(x, y, side);
-        powerUpState = PowerUpState.Waiting;
+        this.powerUpState = PowerUpState.Waiting;
+        this.powerUpType = PowerUpType.NullPowerUp;
     }
 
     /**
@@ -39,5 +44,21 @@ public class PowerUpModel extends EntityModel {
      */
     public void setPowerUpState(PowerUpState powerUpState) {
         this.powerUpState = powerUpState;
+    }
+
+    /**
+     * Returns the power up type.
+     * @return Power up type.
+     */
+    public PowerUpType getPowerUpType() {
+        return powerUpType;
+    }
+
+    /**
+     * Changes the power up type.
+     * @param powerUpType Power up type.
+     */
+    public void setPowerUpType(PowerUpType powerUpType) {
+        this.powerUpType = powerUpType;
     }
 }

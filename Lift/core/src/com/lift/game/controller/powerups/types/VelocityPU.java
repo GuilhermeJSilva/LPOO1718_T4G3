@@ -3,8 +3,13 @@ package com.lift.game.controller.powerups.types;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PowerUpModel;
+import com.lift.game.model.entities.PowerUpType;
 import com.lift.game.model.entities.person.Side;
 
+/**
+ * Changes the velocity of the elevator.
+ */
 public class VelocityPU extends TimedPowerUp {
 
     /**
@@ -15,7 +20,7 @@ public class VelocityPU extends TimedPowerUp {
     /**
      * Active time for this power up.
      */
-    public static final float ACTIVE_TIME = 15f;
+    public static final float ACTIVE_TIME = 5f;
 
     /**
      * Constructs a timed power up with a given time to disappear and an active time.
@@ -25,6 +30,7 @@ public class VelocityPU extends TimedPowerUp {
      */
     public VelocityPU(EntityModel model, World world) {
         super(world, model, TIME_TO_DISAPPEAR, ACTIVE_TIME);
+        ((PowerUpModel) model).setPowerUpType(PowerUpType.ElevatorVelocity);
     }
 
     /**
