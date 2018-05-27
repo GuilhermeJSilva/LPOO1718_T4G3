@@ -296,7 +296,6 @@ public class TextureManager {
      * @return Texture associated to that type.
      */
     public Texture getPUTexture(PowerUpType powerUpType) {
-        System.out.println(powerUpType);
         if(powerUpTexture.containsKey(powerUpType)) {
             return powerUpTexture.get(powerUpType);
         }

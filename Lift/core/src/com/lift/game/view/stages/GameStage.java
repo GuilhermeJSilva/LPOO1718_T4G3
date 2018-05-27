@@ -23,6 +23,8 @@ import com.lift.game.view.actors.game_actors.PowerUpActor;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.lift.game.controller.powerups.types.BasicPowerUP.RADIUS_OF_THE_BODY;
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
 import static com.lift.game.view.IndicatorCreator.INDICATOR_WIDTH;
 
 
@@ -32,6 +34,7 @@ public class GameStage extends Stage {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
 
         initiateIndicatorPositions(camera);
+        initiateActivePUPositions(camera);
 
         this.addActor(new ElevatorActor(game, gameModel.getElevator(Side.Left)));
         this.addActor(new ElevatorActor(game, gameModel.getElevator(Side.Right)));
@@ -42,46 +45,11 @@ public class GameStage extends Stage {
         platformModels = gameModel.getRight_floors();
         addPlatforms(game, platformModels);
 
-        addPeopleActors(gameModel,game);
+        addPeopleActors(gameModel, game);
 
         addPauseButton(game, camera);
         addMuteButton(game, camera);
 
-    }
-
-    private void addPauseButton(final LiftGame game, Camera camera) {
-        ImageButton pauseButton = ButtonCreator.createButton(game, "PAUSE.png");
-        int x = (int)(camera.viewportWidth / 2 - pauseButton.getWidth() / 2);
-        int y = (int)(camera.viewportHeight/4.1);
-        pauseButton.setPosition(x, y);
-        pauseButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(game.getGameState() == GameState.Playing)
-                    game.setGameState(GameState.Paused);
-                else
-                    game.setGameState(GameState.Playing);
-            }
-        });
-        this.addActor(pauseButton);
-    }
-
-    private void addMuteButton(final LiftGame game, Camera camera) {
-        ImageButton muteButton = ButtonCreator.createButton(game, "MUTE.png");
-        int x = (int)(camera.viewportWidth / 2 - muteButton.getWidth() / 2);
-        int y = (int)(camera.viewportHeight / 5.6);
-        muteButton.setPosition(x, y);
-        muteButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(game.getMusic().isPlaying()) {
-                    game.getMusic().pause();
-                } else {
-                    game.getMusic().play();
-                }
-            }
-        });
-        this.addActor(muteButton);
     }
 
     private void initiateIndicatorPositions(Camera camera) {
@@ -104,6 +72,52 @@ public class GameStage extends Stage {
 
         PersonActor.setIndicatorPositions(indicatorPositions);
     }
+
+    private void initiateActivePUPositions(Camera camera) {
+        ArrayList<Vector2> activePositions = new ArrayList<Vector2>();
+        float activeWidth = camera.viewportWidth / 2 - RADIUS_OF_THE_BODY / PIXEL_TO_METER;
+        activePositions.add(new Vector2(activeWidth, camera.viewportHeight / 2 - 1.5f * RADIUS_OF_THE_BODY / PIXEL_TO_METER));
+        activePositions.add(new Vector2(activeWidth, camera.viewportHeight / 2));
+        activePositions.add(new Vector2(activeWidth, camera.viewportHeight / 2 + 1.5f * RADIUS_OF_THE_BODY / PIXEL_TO_METER));
+        PowerUpActor.setActivePositions(activePositions);
+    }
+
+
+    private void addPauseButton(final LiftGame game, Camera camera) {
+        ImageButton pauseButton = ButtonCreator.createButton(game, "PAUSE.png");
+        int x = (int) (camera.viewportWidth / 2 - pauseButton.getWidth() / 2);
+        int y = (int) (camera.viewportHeight / 4.1);
+        pauseButton.setPosition(x, y);
+        pauseButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (game.getGameState() == GameState.Playing)
+                    game.setGameState(GameState.Paused);
+                else
+                    game.setGameState(GameState.Playing);
+            }
+        });
+        this.addActor(pauseButton);
+    }
+
+    private void addMuteButton(final LiftGame game, Camera camera) {
+        ImageButton muteButton = ButtonCreator.createButton(game, "MUTE.png");
+        int x = (int) (camera.viewportWidth / 2 - muteButton.getWidth() / 2);
+        int y = (int) (camera.viewportHeight / 5.6);
+        muteButton.setPosition(x, y);
+        muteButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (game.getMusic().isPlaying()) {
+                    game.getMusic().pause();
+                } else {
+                    game.getMusic().play();
+                }
+            }
+        });
+        this.addActor(muteButton);
+    }
+
 
     private void addPlatforms(LiftGame game, ArrayList<PlatformModel> platformModels) {
         for (PlatformModel pm : platformModels) {
@@ -137,6 +151,7 @@ public class GameStage extends Stage {
     @Override
     public void draw() {
         PersonActor.resetCounters();
+        PowerUpActor.resetPositionCounter();
         super.draw();
     }
 }

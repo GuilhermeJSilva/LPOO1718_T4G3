@@ -24,8 +24,14 @@ public class PlatformBody extends EntityBody {
      */
     public static final short PLATFORM_MASK = 1;
 
+    /**
+     * Collision bit mask for  sensor at the end of the platform
+     */
     public static final short PLATFORM_END_SENSOR = 1 << 3;
 
+    /**
+     * Collision bit mask for the elevator sensor.
+     */
     public static final short PLATFORM_ELEVATOR_SENSOR = 1 << 4;
 
 

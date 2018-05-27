@@ -54,8 +54,8 @@ public abstract class TimedPowerUp extends BasicPowerUP implements PowerUp {
                 }
                 break;
             case PickedUp:
-                this.pickup(gameController);
-                setPowerUpState(PowerUpState.Active);
+                if(this.pickup(gameController))
+                    setPowerUpState(PowerUpState.Active);
                 break;
             case Active:
                 activeTime -= delta;

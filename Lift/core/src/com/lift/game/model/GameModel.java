@@ -84,6 +84,16 @@ public class GameModel {
     private LinkedList<PowerUpModel> powerUpModels;
 
     /**
+     * Number of active power ups.
+     */
+    private Integer nActivePowerUps = 0;
+
+    /**
+     * Max number of active power ups.
+     */
+    public final static Integer MAX_ACTIVE_PU = 3;
+
+    /**
      * Constructs the model.
      */
     public GameModel() {
@@ -298,6 +308,27 @@ public class GameModel {
      */
     public LinkedList<PowerUpModel> getPowerUpModels() {
         return powerUpModels;
+    }
+
+    /**
+     * Increments the number of active power ups.
+     * @return True if the increment was successful.
+     */
+    public boolean incrementActivePowerUps() {
+        if(nActivePowerUps < MAX_ACTIVE_PU) {
+            nActivePowerUps++;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Decrements the number of active power ups.
+     */
+    public void decrementActivePowerUps() {
+        nActivePowerUps--;
+        if(nActivePowerUps < 0)
+            nActivePowerUps = 0;
     }
 }
 

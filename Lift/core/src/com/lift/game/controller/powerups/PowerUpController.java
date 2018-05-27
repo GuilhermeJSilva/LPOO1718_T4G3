@@ -3,10 +3,7 @@ package com.lift.game.controller.powerups;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.ElevatorBody;
-import com.lift.game.controller.powerups.types.BasicPowerUP;
-import com.lift.game.controller.powerups.types.LifePU;
-import com.lift.game.controller.powerups.types.NullPU;
-import com.lift.game.controller.powerups.types.VelocityPU;
+import com.lift.game.controller.powerups.types.*;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.Side;
@@ -25,7 +22,7 @@ public class PowerUpController {
     /**
      * Minimum interval between power up generations.
      */
-    public static final float MIN_INTERVAL = 10f;
+    public static final float MIN_INTERVAL = 5f;
 
     /**
      * Maximum interval between power up generations.
@@ -97,8 +94,10 @@ public class PowerUpController {
     private void initializePossibilities() {
         this.incPercentages = new ArrayList<Float>();
         this.typesOfPowerUps = new ArrayList<Class<? extends BasicPowerUP>>();
+        this.typesOfPowerUps.add(CoinPU.class);
+        this.incPercentages.add(0.6f);
         this.typesOfPowerUps.add(LifePU.class);
-        this.incPercentages.add(0.8f);
+        this.incPercentages.add(0.75f);
         this.typesOfPowerUps.add(VelocityPU.class);
         this.incPercentages.add(1f);
     }
@@ -193,6 +192,6 @@ public class PowerUpController {
     private Float newTimeToNext() {
         Random random = new Random();
         Float time = random.nextFloat() * (MAX_INTERVAL - MIN_INTERVAL);
-        return time + 5f;
+        return time + MIN_INTERVAL;
     }
 }

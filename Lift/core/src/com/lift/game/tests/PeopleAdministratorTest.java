@@ -94,9 +94,6 @@ public class PeopleAdministratorTest {
 
     }
 
-    @Test
-    public void updatePeople() {
-    }
 
     @Test
     public void deliverPeople() {

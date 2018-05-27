@@ -38,7 +38,7 @@ public class HudStage extends Stage {
             if(a instanceof BasePolyActor) {
                 ((BasePolyActor) a).decPercentage(delta);
             } else if(a instanceof CoinLabelActor){
-                ((CoinLabelActor) a).update(game.getGamePreferences().getCoins());
+                ((CoinLabelActor) a).update(game.getGamePreferences().getCoins() + game.getGameModel().getCoins());
             }
         }
     }

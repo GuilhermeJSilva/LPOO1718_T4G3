@@ -84,7 +84,6 @@ public class ElevatorBody extends EntityBody {
                 this.setLinearVelocity(0, -vy * velocity_multiplier);
             }
         }
-        System.out.println(this.body.getLinearVelocity().y);
     }
 
     /**

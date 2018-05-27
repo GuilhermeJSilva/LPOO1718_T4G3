@@ -20,13 +20,18 @@ public class VelocityPU extends TimedPowerUp {
     /**
      * Active time for this power up.
      */
-    public static final float ACTIVE_TIME = 5f;
+    public static final float ACTIVE_TIME = 10f;
+
+    /**
+     * Increment to add to the velocity multiplier.
+     */
+    public static final int MULTIPLIER_INCREMENT = 1;
 
     /**
      * Constructs a timed power up with a given time to disappear and an active time.
      *
-     * @param world           World the power is in.
-     * @param model           Model the power up is based on.
+     * @param world World the power is in.
+     * @param model Model the power up is based on.
      */
     public VelocityPU(EntityModel model, World world) {
         super(world, model, TIME_TO_DISAPPEAR, ACTIVE_TIME);
@@ -40,8 +45,9 @@ public class VelocityPU extends TimedPowerUp {
      */
     @Override
     public void end(GameController gameController) {
-        gameController.getElevator(Side.Left).change_multiplier(-2);
-        gameController.getElevator(Side.Right).change_multiplier(-2);
+        gameController.getGameModel().decrementActivePowerUps();
+        gameController.getElevator(Side.Left).change_multiplier(-MULTIPLIER_INCREMENT);
+        gameController.getElevator(Side.Right).change_multiplier(-MULTIPLIER_INCREMENT);
 
     }
 
@@ -53,9 +59,12 @@ public class VelocityPU extends TimedPowerUp {
      */
     @Override
     public boolean pickup(GameController gameController) {
-        gameController.getElevator(Side.Left).change_multiplier(2);
-        gameController.getElevator(Side.Right).change_multiplier(2);
-        return true;
+        if (gameController.getGameModel().incrementActivePowerUps()) {
+            gameController.getElevator(Side.Left).change_multiplier(MULTIPLIER_INCREMENT);
+            gameController.getElevator(Side.Right).change_multiplier(MULTIPLIER_INCREMENT);
+            return true;
+        }
+        return false;
     }
 
     /**
