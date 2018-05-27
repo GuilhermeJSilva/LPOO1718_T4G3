@@ -198,7 +198,9 @@ public class GameView extends ScreenAdapter {
             this.game.setGameState(GameState.EndScreen);
             this.endStage.update(this.game);
             this.game.getGamePreferences().updateHighScore(game.getGameModel().getScore().floatValue());
+            System.out.println(game.getGameModel().getCoins());
             this.game.getGamePreferences().increaseCoins(game.getGameModel().getCoins());
+            game.getGameModel().incCoins(-game.getGameModel().getCoins());
             Gdx.input.setInputProcessor(this.endStage);
         }
 

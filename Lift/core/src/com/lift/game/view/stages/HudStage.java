@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
+import com.lift.game.view.GameState;
 import com.lift.game.view.actors.hub.CoinLabelActor;
 import com.lift.game.view.actors.hub.LifeActor;
 import com.lift.game.view.actors.hub.ScoreLabelActor;
@@ -38,7 +39,11 @@ public class HudStage extends Stage {
             if(a instanceof BasePolyActor) {
                 ((BasePolyActor) a).decPercentage(delta);
             } else if(a instanceof CoinLabelActor){
+                if(game.getGameState() == GameState.Playing)
                 ((CoinLabelActor) a).update(game.getGamePreferences().getCoins() + game.getGameModel().getCoins());
+                else
+                    ((CoinLabelActor) a).update(game.getGamePreferences().getCoins());
+
             }
         }
     }

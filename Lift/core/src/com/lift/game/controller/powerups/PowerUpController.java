@@ -27,7 +27,7 @@ public class PowerUpController {
     /**
      * Maximum interval between power up generations.
      */
-    public static final float MAX_INTERVAL = 20f;
+    public static final float MAX_INTERVAL = 10f;
 
     /**
      * Maximum y coordinate for a power up in meters.

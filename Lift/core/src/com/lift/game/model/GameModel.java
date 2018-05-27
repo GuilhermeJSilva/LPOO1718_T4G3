@@ -5,6 +5,7 @@ import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
