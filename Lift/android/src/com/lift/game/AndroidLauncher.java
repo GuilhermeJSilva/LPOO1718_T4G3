@@ -1,10 +1,10 @@
 package com.lift.game;
 
-import android.os.Bundle;
-
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.lift.game.LiftGame;
+
+import android.os.Bundle;
+import main.com.lift.game.LiftGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

@@ -2,7 +2,8 @@ package com.lift.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.lift.game.LiftGame;
+
+import main.com.lift.game.LiftGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
