@@ -9,7 +9,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.mockito.Mockito;
 
-public class GameTester {z
+public class GameTester {
     private static Application application;
 
     @BeforeClass
