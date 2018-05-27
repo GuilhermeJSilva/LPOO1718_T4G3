@@ -1,22 +1,21 @@
-package com.lift.game.tests;
+package tests.controller;
 
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.PeopleAdministrator;
-import com.lift.game.controller.PeopleGenerator;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.GameModel;
-import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
 import com.lift.game.model.entities.person.Side;
-import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import tests.GameTester;
 
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class PeopleAdministratorTest {
+public class PeopleAdministratorTest extends GameTester {
 
     @Test
     public void movePeopleOut() {

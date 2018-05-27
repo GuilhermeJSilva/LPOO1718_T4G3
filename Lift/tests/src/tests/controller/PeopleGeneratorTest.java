@@ -1,14 +1,15 @@
-package com.lift.game.tests;
+package tests.controller;
 
 import static org.junit.Assert.*;
 
-import com.lift.game.GameTester;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.PeopleGenerator;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import tests.GameTester;
 
 public class PeopleGeneratorTest extends GameTester {
 

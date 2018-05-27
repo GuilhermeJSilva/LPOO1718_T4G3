@@ -1,4 +1,4 @@
-package com.lift.game;
+package tests;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
@@ -9,7 +9,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.mockito.Mockito;
 
-public class GameTester {
+public class GameTester {z
     private static Application application;
 
     @BeforeClass
