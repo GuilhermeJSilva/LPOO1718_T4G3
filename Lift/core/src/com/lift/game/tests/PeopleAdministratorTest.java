@@ -88,6 +88,7 @@ public class PeopleAdministratorTest {
         GameController gameController = new GameController(new GameModel());
         PersonModel personModel = new PersonModel(0, 0, 1, Side.Left, 2, 1);
         gameController.getGameModel().addPerson(personModel);
+        gameController.getGameModel().getLeft_floors().get(personModel.getFloor()).incrementNPeople();
         assertEquals(1, gameController.getGameModel().getLeft_floors().get(personModel.getFloor()).getNumber_of_people());
         gameController.getPeopleAdministrator().freeSpaceInPlatform(personModel);
         assertEquals(0, gameController.getGameModel().getLeft_floors().get(personModel.getFloor()).getNumber_of_people());
@@ -120,9 +121,9 @@ public class PeopleAdministratorTest {
         while(Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f < PeopleAdministrator.MAX_DF) {
             Float sbp = Math.round(gameController.getPeopleAdministrator().getDifficultyFactor() * 10) / 10f;
             gameController.getPeopleAdministrator().increaseDifficulty();
-            assertEquals(PeopleAdministrator.DF_DELTA, sbp - Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f, 0.01f);
+            assertEquals(-PeopleAdministrator.DF_DELTA, sbp - Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f, 0.01f);
         }
         gameController.getPeopleAdministrator().increaseDifficulty();
-        assertEquals(PeopleGenerator.MIN_SBP, Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f, 0.01f);
+        assertEquals(PeopleAdministrator.MAX_DF, Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f, 0.01f);
     }
 }
