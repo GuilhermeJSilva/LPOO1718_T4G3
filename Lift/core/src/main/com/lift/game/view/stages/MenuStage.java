@@ -101,9 +101,6 @@ public class MenuStage extends Stage {
         this.addActor(button);
     }
 
-    private ImageButton createButton(LiftGame game, OrthographicCamera camera, String fileName) {
-        return ButtonCreator.createButton(game, fileName);
-    }
 
     public void updateHighScore(LiftGame game) {
         Float highScore = game.getGamePreferences().getHighscore();

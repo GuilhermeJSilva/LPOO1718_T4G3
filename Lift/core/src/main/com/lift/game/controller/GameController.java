@@ -84,11 +84,6 @@ public class GameController {
     private ArrayList<PersonBody> people;
 
     /**
-     * Stores the singleton.
-     */
-    private static GameController instance;
-
-    /**
      * Responsible to select what strategy to use.
      */
     private StrategySelector strategySelector;
