@@ -1,4 +1,4 @@
-package main.com.lift.game.view.stages;
+package com.lift.game.view.stages;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import main.com.lift.game.LiftGame;
+import com.lift.game.LiftGame;
 
 public class StartStage extends Stage {
     private Label timerLabel;

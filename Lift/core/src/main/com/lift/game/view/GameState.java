@@ -1,4 +1,4 @@
-package main.com.lift.game.view;
+package com.lift.game.view;
 
 public enum GameState {
     StartScreen,

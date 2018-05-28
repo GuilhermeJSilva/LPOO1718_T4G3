@@ -1,13 +1,12 @@
-package main.com.lift.game.controller.entities;
-
-import static main.com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
-import static main.com.lift.game.controller.entities.PersonBody.PERSON_MASK;
-import static main.com.lift.game.controller.entities.PersonBody.PERSON_SENSOR_MASK;
+package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.model.entities.PlatformModel;
 
-import main.com.lift.game.model.entities.PlatformModel;
+import static com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
+import static com.lift.game.controller.entities.PersonBody.PERSON_MASK;
+import static com.lift.game.controller.entities.PersonBody.PERSON_SENSOR_MASK;
 
 public class PlatformBody extends EntityBody {
     /**

@@ -1,6 +1,6 @@
-package main.com.lift.game.controller.powerups;
+package com.lift.game.controller.powerups;
 
-import main.com.lift.game.controller.GameController;
+import com.lift.game.controller.GameController;
 
 /**
  * Interface for power ups to use.

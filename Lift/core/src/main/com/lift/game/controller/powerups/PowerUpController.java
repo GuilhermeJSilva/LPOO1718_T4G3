@@ -1,23 +1,18 @@
-package main.com.lift.game.controller.powerups;
+package com.lift.game.controller.powerups;
+
+import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.GameController;
+import com.lift.game.controller.entities.ElevatorBody;
+import com.lift.game.controller.powerups.types.*;
+import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PowerUpModel;
+import com.lift.game.model.entities.person.Side;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Random;
-
-import com.badlogic.gdx.physics.box2d.World;
-
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.controller.entities.ElevatorBody;
-import main.com.lift.game.controller.powerups.types.BasicPowerUP;
-import main.com.lift.game.controller.powerups.types.CoinPU;
-import main.com.lift.game.controller.powerups.types.LifePU;
-import main.com.lift.game.controller.powerups.types.NullPU;
-import main.com.lift.game.controller.powerups.types.VelocityPU;
-import main.com.lift.game.model.entities.EntityModel;
-import main.com.lift.game.model.entities.PowerUpModel;
-import main.com.lift.game.model.entities.person.Side;
 
 /**
  * Controls all power ups present in the game.
@@ -50,7 +45,7 @@ public class PowerUpController {
     private LinkedList<BasicPowerUP> powerUps;
 
     /**
-     * Owner of the controller.
+     * Owner of the com.lift.game.controller.
      */
     private GameController gameController;
 
@@ -80,9 +75,9 @@ public class PowerUpController {
     private Random randomGenerator;
 
     /**
-     * Constructs the power up controller.
+     * Constructs the power up com.lift.game.controller.
      *
-     * @param gameController Owner of the controller.
+     * @param gameController Owner of the com.lift.game.controller.
      */
     public PowerUpController(GameController gameController) {
         this.randomGenerator = new Random();

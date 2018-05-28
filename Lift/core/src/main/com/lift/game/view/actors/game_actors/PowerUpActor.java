@@ -1,21 +1,20 @@
-package main.com.lift.game.view.actors.game_actors;
-
-import static main.com.lift.game.controller.powerups.types.BasicPowerUP.RADIUS_OF_THE_BODY;
-import static main.com.lift.game.view.GameView.PIXEL_TO_METER;
-
-import java.util.ArrayList;
+package com.lift.game.view.actors.game_actors;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.lift.game.LiftGame;
+import com.lift.game.controller.powerups.PowerUpState;
+import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PowerUpModel;
+import com.lift.game.view.actors.EntityActor;
 
-import main.com.lift.game.LiftGame;
-import main.com.lift.game.controller.powerups.PowerUpState;
-import main.com.lift.game.model.entities.EntityModel;
-import main.com.lift.game.model.entities.PowerUpModel;
-import main.com.lift.game.view.actors.EntityActor;
+import java.util.ArrayList;
+
+import static com.lift.game.controller.powerups.types.BasicPowerUP.RADIUS_OF_THE_BODY;
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 /**
  * Actor to show power ups on screen.

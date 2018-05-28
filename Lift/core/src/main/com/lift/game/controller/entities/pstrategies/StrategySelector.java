@@ -1,10 +1,10 @@
-package main.com.lift.game.controller.entities.pstrategies;
+package com.lift.game.controller.entities.pstrategies;
+
+import com.lift.game.controller.GameController;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonType;
 
 import java.util.HashMap;
-
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.PersonType;
 
 
 public class StrategySelector {

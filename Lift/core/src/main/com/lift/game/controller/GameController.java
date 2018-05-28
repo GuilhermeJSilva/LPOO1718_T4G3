@@ -1,25 +1,24 @@
-package main.com.lift.game.controller;
-
-import java.util.ArrayList;
-import java.util.Iterator;
+package com.lift.game.controller;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.lift.game.controller.entities.ElevatorBody;
+import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.controller.entities.pstrategies.StrategySelector;
+import com.lift.game.controller.powerups.PowerUpController;
+import com.lift.game.model.GameModel;
+import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.Side;
+import com.lift.game.view.GameState;
 
-import main.com.lift.game.controller.entities.ElevatorBody;
-import main.com.lift.game.controller.entities.PersonBody;
-import main.com.lift.game.controller.entities.PlatformBody;
-import main.com.lift.game.controller.entities.pstrategies.StrategySelector;
-import main.com.lift.game.controller.powerups.PowerUpController;
-import main.com.lift.game.model.GameModel;
-import main.com.lift.game.model.entities.ElevatorModel;
-import main.com.lift.game.model.entities.EntityModel;
-import main.com.lift.game.model.entities.PlatformModel;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.Side;
-import main.com.lift.game.view.GameState;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Controls the game.
@@ -95,7 +94,7 @@ public class GameController {
     private StrategySelector strategySelector;
 
     /**
-     * Power up controller.
+     * Power up com.lift.game.controller.
      */
     private PowerUpController powerUpController;
 
@@ -141,7 +140,7 @@ public class GameController {
 
 
     /**
-     * Returns the controller's left_elevator.
+     * Returns the com.lift.game.controller's left_elevator.
      *
      * @param side Side of the elevator.
      * @return Controller's left_elevator.

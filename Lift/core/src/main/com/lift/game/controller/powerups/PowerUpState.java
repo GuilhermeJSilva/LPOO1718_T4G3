@@ -1,4 +1,4 @@
-package main.com.lift.game.controller.powerups;
+package com.lift.game.controller.powerups;
 
 /**
  * Describes the states of a power up.

@@ -1,18 +1,13 @@
-package main.com.lift.game.controller;
+package com.lift.game.controller;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
-
-import main.com.lift.game.controller.entities.pstrategies.MovementStrategy;
-import main.com.lift.game.controller.powerups.PowerUpState;
-import main.com.lift.game.model.entities.ElevatorModel;
-import main.com.lift.game.model.entities.PlatformModel;
-import main.com.lift.game.model.entities.PowerUpModel;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.Side;
+import com.badlogic.gdx.physics.box2d.*;
+import com.lift.game.controller.entities.pstrategies.MovementStrategy;
+import com.lift.game.controller.powerups.PowerUpState;
+import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.PowerUpModel;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.Side;
 
 class GameCollisionHandler implements ContactListener {
     private GameController gameController;

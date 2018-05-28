@@ -1,17 +1,16 @@
-package main.com.lift.game.controller;
+package com.lift.game.controller;
 
-import main.com.lift.game.controller.entities.PersonBody;
-import main.com.lift.game.controller.entities.PlatformBody;
-import main.com.lift.game.model.GameModel;
-import main.com.lift.game.model.entities.PlatformModel;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.Side;
+import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.Side;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Responsible to generating new people in the controller.
+ * Responsible to generating new people in the com.lift.game.controller.
  */
 public class PeopleGenerator {
     /**
@@ -25,7 +24,7 @@ public class PeopleGenerator {
     public static final float SBP_DELTA = 0.1f;
 
     /**
-     * Instance of the game controller.
+     * Instance of the game com.lift.game.controller.
      */
     private final GameController gameController;
 
@@ -40,7 +39,7 @@ public class PeopleGenerator {
     private Float seconds_b_person = 3f;
 
     /**
-     * Constructs a new generator associated with a controller.
+     * Constructs a new generator associated with a com.lift.game.controller.
      * @param gameController Controller to generate the people in.
      */
     public PeopleGenerator(GameController gameController) {

@@ -1,4 +1,4 @@
-package main.com.lift.game.model.entities.person;
+package com.lift.game.model.entities.person;
 
 /**
  * Represents the state of a person.

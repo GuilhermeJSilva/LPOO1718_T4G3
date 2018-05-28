@@ -1,11 +1,10 @@
-package main.com.lift.game.controller.powerups.types;
+package com.lift.game.controller.powerups.types;
 
 import com.badlogic.gdx.physics.box2d.World;
-
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.controller.powerups.PowerUp;
-import main.com.lift.game.controller.powerups.PowerUpState;
-import main.com.lift.game.model.entities.EntityModel;
+import com.lift.game.controller.GameController;
+import com.lift.game.controller.powerups.PowerUp;
+import com.lift.game.controller.powerups.PowerUpState;
+import com.lift.game.model.entities.EntityModel;
 
 /**
  * Implements the based class for a power up which is active.

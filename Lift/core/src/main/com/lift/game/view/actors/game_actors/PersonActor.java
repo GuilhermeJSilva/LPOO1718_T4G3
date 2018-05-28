@@ -1,9 +1,4 @@
-package main.com.lift.game.view.actors.game_actors;
-
-import static main.com.lift.game.view.GameView.PIXEL_TO_METER;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+package com.lift.game.view.actors.game_actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -12,15 +7,19 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.lift.game.LiftGame;
+import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
+import com.lift.game.view.IndicatorCreator;
+import com.lift.game.view.actors.EntityActor;
+import com.lift.game.view.actors.polygon_actor.BasePolyActor;
 
-import main.com.lift.game.LiftGame;
-import main.com.lift.game.controller.entities.PersonBody;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.PersonState;
-import main.com.lift.game.model.entities.person.Side;
-import main.com.lift.game.view.IndicatorCreator;
-import main.com.lift.game.view.actors.EntityActor;
-import main.com.lift.game.view.actors.polygon_actor.BasePolyActor;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 public class PersonActor extends EntityActor {
 

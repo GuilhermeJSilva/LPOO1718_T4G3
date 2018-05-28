@@ -1,6 +1,6 @@
-package main.com.lift.game.model.entities.person;
+package com.lift.game.model.entities.person;
 
-import main.com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.EntityModel;
 
 public class PersonModel extends EntityModel {
 

@@ -1,4 +1,4 @@
-package main.com.lift.game.view.stages;
+package com.lift.game.view.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -14,11 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
-import main.com.lift.game.LiftGame;
-import main.com.lift.game.view.GameState;
-import main.com.lift.game.view.GameView;
-import main.com.lift.game.view.actors.ButtonCreator;
+import com.lift.game.LiftGame;
+import com.lift.game.view.GameState;
+import com.lift.game.view.GameView;
+import com.lift.game.view.actors.ButtonCreator;
 
 public class MenuStage extends Stage {
     private float GLOBAL_OFFSET;

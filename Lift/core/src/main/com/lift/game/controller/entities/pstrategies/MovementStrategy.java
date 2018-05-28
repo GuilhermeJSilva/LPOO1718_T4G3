@@ -1,9 +1,8 @@
-package main.com.lift.game.controller.entities.pstrategies;
+package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
-
-import main.com.lift.game.controller.entities.PersonBody;
-import main.com.lift.game.model.entities.person.Side;
+import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.model.entities.person.Side;
 
 //Declared as class because interfaces do not allow static methods.
 public interface MovementStrategy {

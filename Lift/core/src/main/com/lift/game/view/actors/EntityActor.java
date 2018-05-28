@@ -1,12 +1,11 @@
-package main.com.lift.game.view.actors;
-
-import static main.com.lift.game.view.GameView.PIXEL_TO_METER;
+package com.lift.game.view.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.lift.game.model.entities.EntityModel;
 
-import main.com.lift.game.model.entities.EntityModel;
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 /**
  * Holds a sprite's position based on the respective entity model.

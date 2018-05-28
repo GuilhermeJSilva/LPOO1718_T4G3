@@ -1,6 +1,6 @@
-package main.com.lift.game.model.entities;
+package com.lift.game.model.entities;
 
-import main.com.lift.game.model.entities.person.Side;
+import com.lift.game.model.entities.person.Side;
 
 public abstract class EntityModel {
     /**

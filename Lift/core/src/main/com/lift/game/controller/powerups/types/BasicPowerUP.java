@@ -1,16 +1,15 @@
-package main.com.lift.game.controller.powerups.types;
-
-import static main.com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
+package com.lift.game.controller.powerups.types;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.GameController;
+import com.lift.game.controller.entities.EntityBody;
+import com.lift.game.controller.powerups.PowerUp;
+import com.lift.game.controller.powerups.PowerUpState;
+import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PowerUpModel;
 
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.controller.entities.EntityBody;
-import main.com.lift.game.controller.powerups.PowerUp;
-import main.com.lift.game.controller.powerups.PowerUpState;
-import main.com.lift.game.model.entities.EntityModel;
-import main.com.lift.game.model.entities.PowerUpModel;
+import static com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
 
 /**
  * Implements a power up with a single action.

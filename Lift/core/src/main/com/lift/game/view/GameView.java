@@ -1,4 +1,4 @@
-package main.com.lift.game.view;
+package com.lift.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -14,14 +14,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-
-import main.com.lift.game.LiftGame;
-import main.com.lift.game.model.GameModel;
-import main.com.lift.game.view.stages.EndStage;
-import main.com.lift.game.view.stages.GameStage;
-import main.com.lift.game.view.stages.HudStage;
-import main.com.lift.game.view.stages.MenuStage;
-import main.com.lift.game.view.stages.StartStage;
+import com.lift.game.LiftGame;
+import com.lift.game.model.GameModel;
+import com.lift.game.view.stages.*;
 
 /**
  * Main view for the game.

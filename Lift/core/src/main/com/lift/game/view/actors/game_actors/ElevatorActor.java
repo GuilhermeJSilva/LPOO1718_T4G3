@@ -1,14 +1,14 @@
-package main.com.lift.game.view.actors.game_actors;
-import static main.com.lift.game.view.GameView.PIXEL_TO_METER;
+package com.lift.game.view.actors.game_actors;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.lift.game.LiftGame;
+import com.lift.game.controller.entities.ElevatorBody;
+import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.view.actors.EntityActor;
 
-import main.com.lift.game.LiftGame;
-import main.com.lift.game.controller.entities.ElevatorBody;
-import main.com.lift.game.model.entities.ElevatorModel;
-import main.com.lift.game.view.actors.EntityActor;
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 /**
  * A view representing an elevator.

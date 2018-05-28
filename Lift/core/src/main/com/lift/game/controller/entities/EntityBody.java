@@ -1,14 +1,8 @@
-package main.com.lift.game.controller.entities;
+package com.lift.game.controller.entities;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
-
-import main.com.lift.game.model.entities.EntityModel;
-import main.com.lift.game.model.entities.person.Side;
+import com.badlogic.gdx.physics.box2d.*;
+import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.person.Side;
 
 /**
  * Basic entity body.

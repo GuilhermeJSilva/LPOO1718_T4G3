@@ -1,4 +1,4 @@
-package main.com.lift.game.view.actors.polygon_actor;
+package com.lift.game.view.actors.polygon_actor;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;

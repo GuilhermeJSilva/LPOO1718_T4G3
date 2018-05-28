@@ -1,4 +1,4 @@
-package main.com.lift.game;
+package com.lift.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -6,12 +6,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.model.GameModel;
-import main.com.lift.game.view.GameState;
-import main.com.lift.game.view.GameView;
-import main.com.lift.game.view.TextureManager;
+import com.lift.game.controller.GameController;
+import com.lift.game.model.GameModel;
+import com.lift.game.view.GameState;
+import com.lift.game.view.GameView;
+import com.lift.game.view.TextureManager;
 
 /**
  * The game main class.

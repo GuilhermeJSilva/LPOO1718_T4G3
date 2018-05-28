@@ -1,11 +1,4 @@
-package main.com.lift.game.view.stages;
-
-import static main.com.lift.game.controller.powerups.types.BasicPowerUP.RADIUS_OF_THE_BODY;
-import static main.com.lift.game.view.GameView.PIXEL_TO_METER;
-import static main.com.lift.game.view.IndicatorCreator.INDICATOR_WIDTH;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+package com.lift.game.view.stages;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
@@ -14,19 +7,25 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.lift.game.LiftGame;
+import com.lift.game.model.GameModel;
+import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.PowerUpModel;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.Side;
+import com.lift.game.view.GameState;
+import com.lift.game.view.actors.ButtonCreator;
+import com.lift.game.view.actors.game_actors.ElevatorActor;
+import com.lift.game.view.actors.game_actors.PersonActor;
+import com.lift.game.view.actors.game_actors.PlatformActor;
+import com.lift.game.view.actors.game_actors.PowerUpActor;
 
-import main.com.lift.game.LiftGame;
-import main.com.lift.game.model.GameModel;
-import main.com.lift.game.model.entities.PlatformModel;
-import main.com.lift.game.model.entities.PowerUpModel;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.Side;
-import main.com.lift.game.view.GameState;
-import main.com.lift.game.view.actors.ButtonCreator;
-import main.com.lift.game.view.actors.game_actors.ElevatorActor;
-import main.com.lift.game.view.actors.game_actors.PersonActor;
-import main.com.lift.game.view.actors.game_actors.PlatformActor;
-import main.com.lift.game.view.actors.game_actors.PowerUpActor;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import static com.lift.game.view.IndicatorCreator.INDICATOR_WIDTH;
+import static com.lift.game.controller.powerups.types.BasicPowerUP.RADIUS_OF_THE_BODY;
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 
 public class GameStage extends Stage {

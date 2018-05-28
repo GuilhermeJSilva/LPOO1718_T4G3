@@ -1,18 +1,18 @@
-package main.com.lift.game.model;
+package com.lift.game.model;
 
-import static main.com.lift.game.controller.GameController.METERS_PER_FLOOR;
+import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.PowerUpModel;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import main.com.lift.game.controller.entities.PlatformBody;
-import main.com.lift.game.model.entities.ElevatorModel;
-import main.com.lift.game.model.entities.EntityModel;
-import main.com.lift.game.model.entities.PlatformModel;
-import main.com.lift.game.model.entities.PowerUpModel;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.PersonState;
-import main.com.lift.game.model.entities.person.Side;
+import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 
 /**
  * Represents the current state of the game.

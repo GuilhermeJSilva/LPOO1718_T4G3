@@ -1,21 +1,20 @@
-package main.com.lift.game.view;
-
-import static main.com.lift.game.controller.powerups.types.BasicPowerUP.RADIUS_OF_THE_BODY;
-import static main.com.lift.game.view.GameView.PIXEL_TO_METER;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+package com.lift.game.view;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.lift.game.LiftGame;
+import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.model.entities.PowerUpType;
+import com.lift.game.model.entities.person.PersonType;
+import com.lift.game.model.entities.person.Side;
 
-import main.com.lift.game.LiftGame;
-import main.com.lift.game.controller.entities.PlatformBody;
-import main.com.lift.game.model.entities.PowerUpType;
-import main.com.lift.game.model.entities.person.PersonType;
-import main.com.lift.game.model.entities.person.Side;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import static com.lift.game.controller.powerups.types.BasicPowerUP.RADIUS_OF_THE_BODY;
+import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 /**
  * Manages all texture that belong to recurring elements of the game.

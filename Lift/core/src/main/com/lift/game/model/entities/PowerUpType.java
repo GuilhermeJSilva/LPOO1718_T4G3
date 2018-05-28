@@ -1,4 +1,4 @@
-package main.com.lift.game.model.entities;
+package com.lift.game.model.entities;
 
 /**
  * Types of power ups that exist.

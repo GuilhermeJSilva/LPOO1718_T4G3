@@ -1,16 +1,13 @@
-package tests.controller;
+package com.lift.game.controller;
+
+import com.lift.game.GameTester;
+import com.lift.game.model.GameModel;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.Side;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
-import org.junit.Test;
-
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.controller.PeopleGenerator;
-import main.com.lift.game.model.GameModel;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.Side;
-import tests.GameTester;
 
 public class PeopleGeneratorTest extends GameTester {
 

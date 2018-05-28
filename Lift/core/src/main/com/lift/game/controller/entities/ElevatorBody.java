@@ -1,13 +1,12 @@
-package main.com.lift.game.controller.entities;
-
-import static main.com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
-import static main.com.lift.game.controller.powerups.types.BasicPowerUP.PU_MASK;
+package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.GameController;
+import com.lift.game.model.entities.ElevatorModel;
 
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.model.entities.ElevatorModel;
+import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
+import static com.lift.game.controller.powerups.types.BasicPowerUP.PU_MASK;
 
 /**
  * Represents the body of an elevator.

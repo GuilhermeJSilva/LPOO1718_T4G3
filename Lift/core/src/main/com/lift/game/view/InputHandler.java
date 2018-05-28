@@ -1,13 +1,12 @@
-package main.com.lift.game.view;
-
-import java.util.ArrayList;
+package com.lift.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.lift.game.controller.GameController;
+import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.model.entities.person.Side;
 
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.model.entities.PlatformModel;
-import main.com.lift.game.model.entities.person.Side;
+import java.util.ArrayList;
 
 public class InputHandler {
     private GameController gameController;
@@ -16,7 +15,7 @@ public class InputHandler {
     }
 
     /**
-     * Handles any inputs and passes them to the controller.
+     * Handles any inputs and passes them to the com.lift.game.controller.
      */
     void handleInputs() {
         if (Gdx.input.justTouched() || Gdx.input.isKeyJustPressed(Input.Buttons.LEFT)) {

@@ -1,4 +1,4 @@
-package main.com.lift.game.view.actors.hub;
+package com.lift.game.view.actors.hub;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
-import main.com.lift.game.LiftGame;
+import com.lift.game.LiftGame;
 
 /**
  * Represents the coin label.

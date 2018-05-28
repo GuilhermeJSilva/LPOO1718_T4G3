@@ -1,17 +1,16 @@
-package main.com.lift.game.controller;
+package com.lift.game.controller;
+
+import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.controller.entities.ElevatorBody;
+import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.controller.entities.pstrategies.StrategySelector;
+import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import com.badlogic.gdx.physics.box2d.Body;
-
-import main.com.lift.game.controller.entities.ElevatorBody;
-import main.com.lift.game.controller.entities.PersonBody;
-import main.com.lift.game.controller.entities.pstrategies.StrategySelector;
-import main.com.lift.game.model.entities.ElevatorModel;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.PersonState;
-import main.com.lift.game.model.entities.person.Side;
 
 /**
  * Changes the people states and physical attributes.

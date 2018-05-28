@@ -1,4 +1,4 @@
-package main.com.lift.game;
+package com.lift.game;
 
 import com.badlogic.gdx.Preferences;
 

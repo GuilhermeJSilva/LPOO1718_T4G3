@@ -1,12 +1,11 @@
-package main.com.lift.game.controller.powerups.types;
+package com.lift.game.controller.powerups.types;
 
 import com.badlogic.gdx.physics.box2d.World;
-
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.model.entities.EntityModel;
-import main.com.lift.game.model.entities.PowerUpModel;
-import main.com.lift.game.model.entities.PowerUpType;
-import main.com.lift.game.model.entities.person.Side;
+import com.lift.game.controller.GameController;
+import com.lift.game.model.entities.EntityModel;
+import com.lift.game.model.entities.PowerUpModel;
+import com.lift.game.model.entities.PowerUpType;
+import com.lift.game.model.entities.person.Side;
 
 /**
  * Changes the velocity of the elevator.

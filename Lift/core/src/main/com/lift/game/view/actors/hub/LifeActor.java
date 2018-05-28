@@ -1,6 +1,4 @@
-package main.com.lift.game.view.actors.hub;
-
-import java.util.ArrayList;
+package com.lift.game.view.actors.hub;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.lift.game.LiftGame;
+import com.lift.game.model.GameModel;
 
-import main.com.lift.game.LiftGame;
-import main.com.lift.game.model.GameModel;
+import java.util.ArrayList;
 
 //TODO Only one sprite????
 public class LifeActor extends Actor {

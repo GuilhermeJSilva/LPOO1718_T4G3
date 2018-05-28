@@ -1,19 +1,16 @@
-package tests.controller;
+package com.lift.game.controller;
 
-import static org.junit.Assert.assertEquals;
+import com.lift.game.GameTester;
+import com.lift.game.controller.entities.PersonBody;
+import com.lift.game.model.GameModel;
+import com.lift.game.model.entities.person.PersonModel;
+import com.lift.game.model.entities.person.PersonState;
+import com.lift.game.model.entities.person.Side;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
-
-import main.com.lift.game.controller.GameController;
-import main.com.lift.game.controller.PeopleAdministrator;
-import main.com.lift.game.controller.entities.PersonBody;
-import main.com.lift.game.model.GameModel;
-import main.com.lift.game.model.entities.person.PersonModel;
-import main.com.lift.game.model.entities.person.PersonState;
-import main.com.lift.game.model.entities.person.Side;
-import tests.GameTester;
+import static org.junit.Assert.assertEquals;
 
 public class PeopleAdministratorTest extends GameTester {
 
