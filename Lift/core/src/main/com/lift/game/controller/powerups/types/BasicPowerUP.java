@@ -6,6 +6,7 @@ import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.EntityBody;
 import com.lift.game.controller.powerups.PowerUp;
 import com.lift.game.controller.powerups.PowerUpState;
+import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PowerUpModel;
 
@@ -45,7 +46,8 @@ public abstract class BasicPowerUP extends EntityBody implements PowerUp {
      */
     public BasicPowerUP(Float timeToDisappear, EntityModel model, World world) {
         super(world, model, BodyDef.BodyType.DynamicBody);
-        this.addCircularFixture(this.getBody(), RADIUS_OF_THE_BODY, 100, 0, 0, PU_MASK, ELEVATOR_MASK, true);
+        PhysicalVariables phys =  new PhysicalVariables(RADIUS_OF_THE_BODY, 100, 0,0);
+        this.addCircularFixture(this.getBody(), phys, PU_MASK, ELEVATOR_MASK, true);
         this.timeToDisappear = timeToDisappear;
         this.powerUpState = PowerUpState.Waiting;
         this.getBody().setGravityScale(0);

@@ -14,6 +14,8 @@ public class PersonBody extends EntityBody {
     public static final short PERSON_MASK = 1 << 2;
     public static final short PERSON_SENSOR_MASK = 1 << 5;
 
+    private Integer floor;
+
     /**
      * Creates an Person body.
      *
@@ -21,6 +23,7 @@ public class PersonBody extends EntityBody {
      */
     public PersonBody(World world, PersonModel model) {
         super(world, model, BodyDef.BodyType.DynamicBody);
+        this.floor = model.getFloor();
         PhysicalVariables phys = new PhysicalVariables(WIDTH, HEIGHT, 0.01f, 0f, 0f);
 
         this.add_fixture(body, new float[]{0, 0, 0, HEIGHT, WIDTH, 0, WIDTH, HEIGHT}
@@ -37,4 +40,11 @@ public class PersonBody extends EntityBody {
         this.body.setGravityScale(5);
     }
 
+    /**
+     * Returns the floor of the person.
+     * @return Floor of the person.
+     */
+    public Integer getFloor() {
+        return floor;
+    }
 }

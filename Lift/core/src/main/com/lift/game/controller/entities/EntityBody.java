@@ -40,6 +40,26 @@ public class EntityBody {
         this.side = model.getSide();
     }
 
+
+    /**
+     * Creates an entity Body.
+     *
+     * @param world World the body is going to be inserted in.
+     * @param bodyType Box2d body type.
+     */
+    protected EntityBody(World world , BodyDef.BodyType bodyType, float x, float y) {
+        super();
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = bodyType;
+        bodyDef.position.set(x, y);
+        bodyDef.angle = 0;
+
+        body = world.createBody(bodyDef);
+
+    }
+
+
+
     /**
      * Adds a fixture to a given body.
      *

@@ -8,6 +8,8 @@ import com.lift.game.model.entities.PlatformModel;
 import static com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
 import static com.lift.game.controller.entities.PersonBody.PERSON_MASK;
 import static com.lift.game.controller.entities.PersonBody.PERSON_SENSOR_MASK;
+import static com.lift.game.controller.entities.ScreenSensorBody.BOTTOM_SENSOR;
+import static com.lift.game.controller.entities.ScreenSensorBody.TOP_SENSOR;
 
 public class PlatformBody extends EntityBody {
     /**
@@ -50,7 +52,7 @@ public class PlatformBody extends EntityBody {
         float width = phys.getWidth(), height = phys.getHeight();
 
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , phys, PLATFORM_MASK, PERSON_MASK, false
+                , phys, PLATFORM_MASK, (short)(PERSON_MASK | TOP_SENSOR | BOTTOM_SENSOR), false
         );
 
         int elevator_sensor_width = ElevatorBody.width;
@@ -75,6 +77,7 @@ public class PlatformBody extends EntityBody {
 
 
         }
+        this.body.setLinearVelocity(0, -2);
         this.body.setGravityScale(0);
     }
 

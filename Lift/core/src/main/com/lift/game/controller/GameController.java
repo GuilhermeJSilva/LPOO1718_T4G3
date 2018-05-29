@@ -11,6 +11,7 @@ import com.lift.game.controller.controllers.PlatformController;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.controller.entities.ScreenSensorBody;
 import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.controller.powerups.PowerUpController;
 import com.lift.game.model.GameModel;
@@ -81,6 +82,12 @@ public class GameController {
      */
     private ElevatorBody right_elevator;
 
+
+    /**
+     * End of screen sensors.
+     */
+    private ScreenSensorBody screenSensorBody;
+
     /**
      * Left floors of the game.
      */
@@ -124,6 +131,8 @@ public class GameController {
         this.right_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Right));
         this.strategySelector = new StrategySelector(this);
         this.powerUpController = new PowerUpController(this);
+
+        this.screenSensorBody = new ScreenSensorBody(world);
 
         this.people = new ArrayList<PersonBody>();
         this.left_floors = new ArrayList<PlatformBody>();
@@ -191,6 +200,7 @@ public class GameController {
             peopleAdministrator.updatePeople(strategySelector,1 / 60f);
             peopleGenerator.generateNewPeople(1 / 60f);
             powerUpController.update(1/60f);
+            platformController.update();
             increaseDifficulty(1/60f);
         }
 
