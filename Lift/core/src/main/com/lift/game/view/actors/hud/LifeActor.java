@@ -1,4 +1,4 @@
-package com.lift.game.view.actors.hub;
+package com.lift.game.view.actors.hud;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;

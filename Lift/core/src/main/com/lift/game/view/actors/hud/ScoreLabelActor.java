@@ -1,4 +1,4 @@
-package com.lift.game.view.actors.hub;
+package com.lift.game.view.actors.hud;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -27,7 +27,7 @@ public class ScoreLabelActor extends Actor {
     public ScoreLabelActor(LiftGame game, Camera camera) {
         Label.LabelStyle label1Style = new Label.LabelStyle();
         label1Style.font = game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
-        label1Style.fontColor = Color.BLACK;
+        label1Style.fontColor = new Color(202,200,199, 0xff);
 
         this.score_label = new Label("30.0", label1Style);
         float x = camera.viewportWidth / 2 - this.score_label.getWidth() / 2f;

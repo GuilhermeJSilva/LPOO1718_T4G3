@@ -7,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.lift.game.LiftGame;
 import com.lift.game.GameState;
 import com.lift.game.view.actors.ButtonCreator;
-import com.lift.game.view.actors.hub.CoinLabelActor;
-import com.lift.game.view.actors.hub.LifeActor;
-import com.lift.game.view.actors.hub.ScoreLabelActor;
+import com.lift.game.view.actors.hud.CoinLabelActor;
+import com.lift.game.view.actors.hud.LifeActor;
+import com.lift.game.view.actors.hud.ScoreLabelActor;
 import com.lift.game.view.clickListeners.MuteClick;
 import com.lift.game.view.clickListeners.PauseClick;
 
@@ -61,7 +61,7 @@ public class HudGroup extends Group {
     private void addPauseButton(final LiftGame game, Camera camera) {
         ImageButton pauseButton = ButtonCreator.createButton(game, "PAUSE.png");
         int x = (int) (camera.viewportWidth / 2 - pauseButton.getWidth() / 2);
-        int y = (int) (camera.viewportHeight / 4.1);
+        int y = (int) (camera.viewportHeight - pauseButton.getHeight() * 1.5);
         pauseButton.setPosition(x, y);
         pauseButton.addListener(new PauseClick(game));
         this.addActor(pauseButton);
@@ -74,9 +74,9 @@ public class HudGroup extends Group {
      * @param camera
      */
     private void addMuteButton(final LiftGame game, Camera camera) {
-        ImageButton muteButton = ButtonCreator.createButton(game, "MUTE.png");
-        int x = (int) (camera.viewportWidth / 2 - muteButton.getWidth() / 2);
-        int y = (int) (camera.viewportHeight / 5.6);
+        ImageButton muteButton = ButtonCreator.createButton(game, "sound.png");
+        int x = (int) (camera.viewportWidth / 2 - muteButton.getWidth()/1.5);
+        int y = (int) (muteButton.getHeight() * 3.5);
         muteButton.setPosition(x, y);
         muteButton.addListener(new MuteClick(game));
         this.addActor(muteButton);
