@@ -2,7 +2,7 @@ package com.lift.game.controller.entities.pstrategies;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.GameController;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 /**
  * Represents the movement of a drunken person.

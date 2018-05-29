@@ -3,7 +3,7 @@ package com.lift.game.controller;
 import com.lift.game.GameTester;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

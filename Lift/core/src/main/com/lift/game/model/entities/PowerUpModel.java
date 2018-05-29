@@ -1,7 +1,7 @@
 package com.lift.game.model.entities;
 
 import com.lift.game.controller.powerups.PowerUpState;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 /**
  * Models a power up.

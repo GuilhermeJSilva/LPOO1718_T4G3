@@ -7,7 +7,7 @@ import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 class GameCollisionHandler implements ContactListener {
     private GameController gameController;

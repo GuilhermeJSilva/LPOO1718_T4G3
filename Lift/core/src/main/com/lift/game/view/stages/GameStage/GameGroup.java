@@ -8,7 +8,7 @@ import com.lift.game.controller.powerups.types.BasicPowerUP;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 import com.lift.game.view.GameView;
 import com.lift.game.view.IndicatorCreator;
 import com.lift.game.view.actors.game_actors.ElevatorActor;

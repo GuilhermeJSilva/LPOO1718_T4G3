@@ -5,7 +5,7 @@ import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 import org.junit.Test;
 
 import java.util.ArrayList;

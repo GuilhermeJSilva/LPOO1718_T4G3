@@ -2,7 +2,7 @@ package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.*;
 import com.lift.game.model.entities.EntityModel;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 /**
  * Basic entity body.

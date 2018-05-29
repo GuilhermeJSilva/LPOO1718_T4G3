@@ -7,7 +7,7 @@ import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 import java.util.LinkedList;
 import java.util.List;

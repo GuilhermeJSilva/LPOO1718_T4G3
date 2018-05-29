@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 import java.util.ArrayList;
 
