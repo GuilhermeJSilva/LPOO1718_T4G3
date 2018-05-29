@@ -2,10 +2,11 @@ package com.lift.game.controller.powerups.types;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
+import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.PowerUpType;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 /**
  * Changes the velocity of the elevator.
@@ -46,8 +47,15 @@ public class VelocityPU extends TimedPowerUp {
     @Override
     public void end(GameController gameController) {
         gameController.getGameModel().decrementActivePowerUps();
-        gameController.getElevator(Side.Left).change_multiplier(-MULTIPLIER_INCREMENT);
-        gameController.getElevator(Side.Right).change_multiplier(-MULTIPLIER_INCREMENT);
+        ElevatorBody elevator = gameController.getElevator(Side.Left);
+        elevator.change_multiplier(-MULTIPLIER_INCREMENT);
+        if(elevator.getBody().getLinearVelocity().y != 0)
+            elevator.setLinearVelocity(0, elevator.getBody().getLinearVelocity().y / Math.abs(elevator.getBody().getLinearVelocity().y) * elevator.getVelocity());
+
+        elevator = gameController.getElevator(Side.Right);
+        elevator.change_multiplier(-MULTIPLIER_INCREMENT);
+        if(elevator.getBody().getLinearVelocity().y != 0)
+            elevator.setLinearVelocity(0, elevator.getBody().getLinearVelocity().y / Math.abs(elevator.getBody().getLinearVelocity().y) * elevator.getVelocity());
 
     }
 
@@ -60,8 +68,15 @@ public class VelocityPU extends TimedPowerUp {
     @Override
     public boolean pickup(GameController gameController) {
         if (gameController.getGameModel().incrementActivePowerUps()) {
-            gameController.getElevator(Side.Left).change_multiplier(MULTIPLIER_INCREMENT);
-            gameController.getElevator(Side.Right).change_multiplier(MULTIPLIER_INCREMENT);
+            ElevatorBody elevator = gameController.getElevator(Side.Left);
+            elevator.change_multiplier(MULTIPLIER_INCREMENT);
+            if (elevator.getBody().getLinearVelocity().y != 0)
+                elevator.setLinearVelocity(0, elevator.getBody().getLinearVelocity().y / Math.abs(elevator.getBody().getLinearVelocity().y) * elevator.getVelocity());
+
+            elevator = gameController.getElevator(Side.Right);
+            elevator.change_multiplier(MULTIPLIER_INCREMENT);
+            if (elevator.getBody().getLinearVelocity().y != 0)
+                elevator.setLinearVelocity(0, elevator.getBody().getLinearVelocity().y / Math.abs(elevator.getBody().getLinearVelocity().y) * elevator.getVelocity());
             return true;
         }
         return false;

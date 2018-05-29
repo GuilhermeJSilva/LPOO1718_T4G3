@@ -7,7 +7,6 @@ import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
-import com.lift.game.model.entities.person.Side;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

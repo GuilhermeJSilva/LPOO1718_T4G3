@@ -14,8 +14,8 @@ import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.entities.person.Side;
-import com.lift.game.view.GameState;
+import com.lift.game.model.Side;
+import com.lift.game.GameState;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -179,7 +179,9 @@ public class GameController {
         updateModel();
     }
 
-
+    /**
+     * Updates the game's model.
+     */
     private void updateModel() {
         Array<Body> bodies = new Array<Body>();
         world.getBodies(bodies);
@@ -207,23 +209,42 @@ public class GameController {
     }
 
 
+    /**
+     * Adds a person to the array of people.
+     * @param personBody Person to be added.
+     */
     public void addPerson(PersonBody personBody) {
         if (personBody != null)
             people.add(personBody);
     }
 
+    /**
+     * Returns the strategy selector.
+     * @return Strategy selector.
+     */
     public StrategySelector getStrategySelector() {
         return strategySelector;
     }
 
+    /**
+     * Returns the people administrator.
+     * @return People administrator.
+     */
     public PeopleAdministrator getPeopleAdministrator() {
         return peopleAdministrator;
     }
 
+    /**
+     * Returns the array of people in the world.
+     * @return People in the world.
+     */
     public ArrayList<PersonBody> getPeople() {
         return people;
     }
 
+    /**
+     * Removed the people flagged for removal.
+     */
     public void removeFlagged() {
         for (Iterator<PersonBody> iter = people.iterator(); iter.hasNext(); ) {
             PersonBody personBody = iter.next();
@@ -236,6 +257,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Returns the floors according to side.
+     * @param side Side of the floors to be returned.
+     * @return Floors of the respective side.
+     */
     public ArrayList<PlatformBody> getFloors(Side side) {
         if(side == Side.Left) {
             return left_floors;
@@ -243,6 +269,10 @@ public class GameController {
         return  right_floors;
     }
 
+    /**
+     * Increasing the difficulty of the game.
+     * @param delta Time passed.
+     */
     public void increaseDifficulty(float delta) {
         difficulty_accumulator += delta;
         while(difficulty_accumulator > 5f) {
@@ -252,6 +282,10 @@ public class GameController {
         }
     }
 
+    /**
+     * Returns the game model.
+     * @return Game model.
+     */
     public GameModel getGameModel() {
         return gameModel;
     }

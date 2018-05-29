@@ -4,7 +4,7 @@ import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 import java.util.ArrayList;
 import java.util.Random;

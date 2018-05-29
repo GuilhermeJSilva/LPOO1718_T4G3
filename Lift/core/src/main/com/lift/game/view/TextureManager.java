@@ -8,7 +8,7 @@ import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.PowerUpType;
 import com.lift.game.model.entities.person.PersonType;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 import java.util.ArrayList;
 import java.util.HashMap;

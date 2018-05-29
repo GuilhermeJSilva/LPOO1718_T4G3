@@ -93,4 +93,12 @@ public class ElevatorBody extends EntityBody {
     public void change_multiplier(float increment) {
         velocity_multiplier += increment;
     }
+
+    /**
+     * Returns the absolute value of the velocity.
+     * @return Absolute value of the velocity.
+     */
+    public float getVelocity() {
+        return vy * velocity_multiplier;
+    }
 }

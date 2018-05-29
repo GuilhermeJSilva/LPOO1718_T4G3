@@ -6,7 +6,7 @@ import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.powerups.types.*;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PowerUpModel;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

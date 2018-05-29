@@ -5,7 +5,7 @@ import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
-import com.lift.game.model.entities.person.Side;
+import com.lift.game.model.Side;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 

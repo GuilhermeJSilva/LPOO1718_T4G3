@@ -14,9 +14,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.lift.game.GameState;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
 import com.lift.game.view.stages.*;
+import com.lift.game.view.stages.GameStage.GameStage;
 
 /**
  * Main view for the game.
@@ -52,11 +54,6 @@ public class GameView extends ScreenAdapter {
     private  InputHandler inputHandler;
 
     /**
-     * Stage for the hud.
-     */
-    private HudStage hud;
-
-    /**
      * Stage for all game entities.
      */
     private GameStage game_stage;
@@ -75,6 +72,11 @@ public class GameView extends ScreenAdapter {
      * Menu stage.
      */
     private MenuStage menuStage;
+
+    /**
+     * Paused stage.
+     */
+    private PausedStage pausedStage;
 
     /**
      * A renderer used to debug the physical fixtures.
@@ -99,11 +101,11 @@ public class GameView extends ScreenAdapter {
         this.game = liftGame;
         loadAssets();
         camera = createCamera();
-        this.hud = new HudStage(this.game, this.camera);
-        this.game_stage = new GameStage(this.game.getGameModel(), this.game, this.camera);
+        this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
         this.menuStage = new MenuStage(this.game, this.camera);
+        this.pausedStage = new PausedStage(this.game, this.camera);
         this.inputHandler = new InputHandler(game.getGameController());
         Gdx.input.setInputProcessor(this.menuStage);
     }
@@ -213,7 +215,8 @@ public class GameView extends ScreenAdapter {
             this.menuStage.draw();
         else {
             this.game_stage.draw();
-            this.hud.draw();
+            if(game.getGameState() == GameState.Paused)
+                this.pausedStage.draw();
         }
 
         if (game.getGameState() == GameState.StartScreen) {
@@ -241,8 +244,7 @@ public class GameView extends ScreenAdapter {
         if(game.getGameState() == GameState.Playing)
             inputHandler.handleInputs();
         game.getGameController().update(this.game.getGameState(), delta);
-        this.game_stage.updateStage(this.game.getGameModel(),this.game);
-        this.hud.updateStage(this.game,delta / 5);
+        this.game_stage.updateStage(this.game, delta);
     }
 
     /**
@@ -285,13 +287,20 @@ public class GameView extends ScreenAdapter {
     public void resetGameStages() {
         this.game.resetGame();
         this.inputHandler =  new InputHandler(this.game.getGameController());
-        this.hud = new HudStage(this.game, this.camera);
-        this.game_stage = new GameStage(this.game.getGameModel(),this.game, this.camera);
+        this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
     }
 
     public GameModel getGameModel() {
         return game.getGameModel();
+    }
+
+    public GameStage getGame_stage() {
+        return game_stage;
+    }
+
+    public PausedStage getPausedStage() {
+        return pausedStage;
     }
 }

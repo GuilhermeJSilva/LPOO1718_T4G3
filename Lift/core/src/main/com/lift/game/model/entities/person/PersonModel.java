@@ -1,5 +1,6 @@
 package com.lift.game.model.entities.person;
 
+import com.lift.game.model.Side;
 import com.lift.game.model.entities.EntityModel;
 
 public class PersonModel extends EntityModel {
