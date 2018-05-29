@@ -85,19 +85,35 @@ public class ElevatorModel extends EntityModel {
         return capacity;
     }
 
+    /**
+     * Returns true if there is space in the platform.
+     * @return True if there is space in the platform.
+     */
     public boolean isThereSpaceFree() {
         return (capacity > occupancy);
     }
 
+    /**
+     * Increments the occupancy by 1.
+     */
     public void incrementOccupancy() {
         this.occupancy++;
     }
 
+    /**
+     * Decrements the occupancy by 1.
+     */
     public void decrementOccupancy() {
         this.occupancy--;
     }
 
+    /**
+     * True if the elevator can receive people.
+     * @return True if the elevator can receive people.
+     */
     public Boolean getStopped() {
         return stopped;
     }
+
+
 }

@@ -75,17 +75,22 @@ public class ElevatorBody extends EntityBody {
      *
      * @param gameController Controller that contains the floors.
      * @param floor          New target floor.
+     *
+     * @return  True if it changed target.
      */
-    public void setTarget_floor(GameController gameController, Integer floor) {
+    public boolean setTarget_floor(GameController gameController, Integer floor) {
         float y = (this.getY() - ELEVATOR_HEIGHT / 2);
         if (this.target_floor != floor) {
             this.target_floor = floor;
             if (gameController.getFloors(this.getSide()).get(floor).getY() + ELEVATOR_HEIGHT/2  > y) {
                 this.setLinearVelocity(0, vy * velocity_multiplier);
+                return true;
             } else if (gameController.getFloors(this.getSide()).get(floor).getY() + ELEVATOR_HEIGHT/2 < y) {
                 this.setLinearVelocity(0, -vy * velocity_multiplier);
+                return true;
             }
         }
+        return false;
     }
 
     /**

@@ -37,9 +37,10 @@ public class FloorClick extends ClickListener {
 
     @Override
     public void clicked(InputEvent event, float x, float y) {
-        System.out.println(side + " " + target_floor);
         game.getGameModel().getElevator(side).setTarget_floor(target_floor);
-        game.getGameController().getElevator(side).setTarget_floor(game.getGameController(),target_floor);
+        if (game.getGameController().getElevator(side).setTarget_floor(game.getGameController(),target_floor)) {
+            game.getGameModel().getElevator(side).setStopped(false);
+        }
 
     }
 }

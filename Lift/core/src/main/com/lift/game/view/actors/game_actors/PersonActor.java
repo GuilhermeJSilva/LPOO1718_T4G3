@@ -15,6 +15,7 @@ import com.lift.game.model.Side;
 import com.lift.game.view.IndicatorCreator;
 import com.lift.game.view.actors.EntityActor;
 import com.lift.game.view.actors.polygon_actor.BasePolyActor;
+import com.lift.game.view.clickListeners.FloorClick;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,7 @@ public class PersonActor extends EntityActor {
         int color = game.getTextureManager().getColor(((PersonModel) this.model).getDestination());
         this.patientIndicator = IndicatorCreator.createIndicator(new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY() + 3 * sprite.getHeight() / 2), model.getPersonType(), color, game.getPolygonBatch());
         this.setBounds(this.sprite.getX(), this.sprite.getY(), PersonBody.WIDTH / PIXEL_TO_METER, PersonBody.HEIGHT / PIXEL_TO_METER);
+        this.addCaptureListener(new FloorClick(game, model.getFloor(), model.getSide()));
     }
 
 

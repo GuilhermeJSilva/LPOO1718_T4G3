@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.lift.game.GameState;
 import com.lift.game.controller.controllers.ElevatorController;
 import com.lift.game.controller.controllers.PeopleAdministrator;
 import com.lift.game.controller.controllers.PeopleGenerator;
@@ -15,12 +16,10 @@ import com.lift.game.controller.entities.ScreenSensorBody;
 import com.lift.game.controller.entities.pstrategies.StrategySelector;
 import com.lift.game.controller.powerups.PowerUpController;
 import com.lift.game.model.GameModel;
-import com.lift.game.model.entities.ElevatorModel;
+import com.lift.game.model.Side;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.Side;
-import com.lift.game.GameState;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -218,10 +217,6 @@ public class GameController {
             Object userData = body.getUserData();
             if(userData != null) {
                 ((EntityModel) userData).setPosition(body.getPosition().x, body.getPosition().y, body.getAngle());
-                if (userData instanceof ElevatorModel) {
-                    ElevatorModel em = ((ElevatorModel) userData);
-                    em.setStopped(body.getLinearVelocity().y == 0);
-                }
             }
         }
 

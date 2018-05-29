@@ -31,7 +31,7 @@ public class GameView extends ScreenAdapter {
     /**
      * Used to debug the position of the physics fixtures.
      */
-    private static final boolean DEBUG_PHYSICS = true;
+    private static final boolean DEBUG_PHYSICS = false;
 
     /**
      * The ELEVATOR_HEIGHT of the viewport in meters.
@@ -136,7 +136,7 @@ public class GameView extends ScreenAdapter {
         manager.load("SCORE.png", Texture.class);
         manager.load("SETTINGS.png", Texture.class);
         manager.load("fundo1-1.png", Texture.class);
-        manager.load("structure.png", Texture.class);
+        manager.load("structure1.png", Texture.class);
         manager.load("SUN.png", Texture.class);
         manager.load("lifttitle.png", Texture.class);
         manager.load("PAUSE.png", Texture.class);
@@ -269,7 +269,6 @@ public class GameView extends ScreenAdapter {
         game.getSpriteBatch().draw(this.game.getTextureManager().getBackground(backgroundMovement), 0,0);
         if (game.getGameState() != GameState.InMenu) {
             game.getSpriteBatch().draw(this.game.getTextureManager().getStructure(), 0,0);
-            game.getSpriteBatch().draw(this.game.getTextureManager().getSun(), 0,0);
         }
     }
 

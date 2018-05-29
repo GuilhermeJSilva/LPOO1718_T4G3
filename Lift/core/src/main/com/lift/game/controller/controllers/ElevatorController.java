@@ -38,12 +38,14 @@ public class ElevatorController {
             if (em.getTarget_floor() == gameController.getGameModel().getLeft_floors().indexOf(pm) && b) {
                 elevatorBody.setLinearVelocity(0, platformBody.getLinearVelocity().y);
                 gameController.getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Left);
+                em.setStopped(true);
 
             }
         } else {
             if (em.getTarget_floor() == gameController.getGameModel().getRight_floors().indexOf(pm) && b) {
                 elevatorBody.setLinearVelocity(0, platformBody.getLinearVelocity().y);
                 gameController.getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Right);
+                em.setStopped(true);
 
             }
         }

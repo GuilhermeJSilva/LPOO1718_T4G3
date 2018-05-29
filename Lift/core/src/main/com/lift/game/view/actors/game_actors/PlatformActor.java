@@ -30,7 +30,6 @@ public class PlatformActor extends EntityActor {
         this.sprite = createSprite(game, model);
         this.update();
         this.addCaptureListener(new FloorClick(game, model.getFloor_number(),model.getSide()));
-        this.debug();
     }
 
     /**

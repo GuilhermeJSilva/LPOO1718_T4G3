@@ -108,7 +108,7 @@ public class TextureManager {
         initializePeopleAnimation();
         initializePowerUpTextures();
         this.background = game.getAssetManager().get("fundo1-1.png");
-        this.structure = game.getAssetManager().get("structure.png");
+        this.structure = game.getAssetManager().get("structure1.png");
         this.light = game.getAssetManager().get("SUN.png");
     }
 
