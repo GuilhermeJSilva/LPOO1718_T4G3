@@ -173,7 +173,7 @@ public class PowerUpController {
         do {
         v = MINIMUM_Y + randomGenerator.nextFloat() * (MAXIMUM_Y - MINIMUM_Y);
 
-        } while (v > gameController.getElevator(side).getY() - ElevatorBody.height && v  <  gameController.getElevator(side).getY() + ElevatorBody.height);
+        } while (v > gameController.getElevator(side).getY() - ElevatorBody.ELEVATOR_HEIGHT && v  <  gameController.getElevator(side).getY() + ElevatorBody.ELEVATOR_HEIGHT);
         return v;
     }
 

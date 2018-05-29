@@ -12,17 +12,17 @@ import static com.lift.game.controller.entities.PlatformBody.PLATFORM_MASK;
 public class ScreenSensorBody extends EntityBody {
 
     /**
-     * Screen width in meters.
+     * Screen ELEVATOR_WIDTH in meters.
      */
     public static final float SCREEN_WIDTH = 45;
 
     /**
-     * Screen height in meters.
+     * Screen ELEVATOR_HEIGHT in meters.
      */
     public static final float SCREEN_HEIGHT = 80;
 
     /**
-     * Sensor height.
+     * Sensor ELEVATOR_HEIGHT.
      */
     public static final float SENSOR_HEIGHT = 1;
 

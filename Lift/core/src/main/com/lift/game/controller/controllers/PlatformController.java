@@ -16,7 +16,7 @@ import static com.lift.game.controller.entities.ScreenSensorBody.BOTTOM_SENSOR;
 public class PlatformController {
 
     /**
-     * The platforms jump to this height.
+     * The platforms jump to this ELEVATOR_HEIGHT.
      */
     public static final int JUMP_HEIGHT = 80;
 

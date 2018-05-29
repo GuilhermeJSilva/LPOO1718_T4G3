@@ -77,7 +77,7 @@ public class PhysicalVariables {
     }
 
     /**
-     * Returns the width.
+     * Returns the ELEVATOR_WIDTH.
      * @return Width.
      */
     public float getWidth() {
@@ -85,7 +85,7 @@ public class PhysicalVariables {
     }
 
     /**
-     * Returns the height.
+     * Returns the ELEVATOR_HEIGHT.
      * @return Height.
      */
     public float getHeight() {

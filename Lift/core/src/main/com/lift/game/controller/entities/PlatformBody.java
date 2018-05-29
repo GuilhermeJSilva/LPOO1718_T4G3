@@ -18,7 +18,7 @@ public class PlatformBody extends EntityBody {
     public static int PLATFORM_LENGTH = 13;
 
     /**
-     * Platform height.
+     * Platform ELEVATOR_HEIGHT.
      */
     public static float PLATFORM_HEIGHT = 0.725f;
 
@@ -55,7 +55,7 @@ public class PlatformBody extends EntityBody {
                 , phys, PLATFORM_MASK, (short)(PERSON_MASK | TOP_SENSOR | BOTTOM_SENSOR), false
         );
 
-        int elevator_sensor_width = ElevatorBody.width;
+        int elevator_sensor_width = ElevatorBody.ELEVATOR_WIDTH;
         int person_sensor_width = 1;
         if (right) {
             this.add_fixture(body, new float[]{width, 0, width, height, width + elevator_sensor_width, 0, width + elevator_sensor_width, height}

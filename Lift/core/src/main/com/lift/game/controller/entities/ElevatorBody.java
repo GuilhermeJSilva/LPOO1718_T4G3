@@ -26,7 +26,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Height of the elevator.
      */
-    public static final int height = 8;
+    public static final int ELEVATOR_HEIGHT = 8;
 
     /**
      * Collision mask of the elevator.
@@ -36,7 +36,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Width oh the elevator.
      */
-    public static final int width = 4;
+    public static final int ELEVATOR_WIDTH = 4;
 
     /**
      * The elevator is heading towards this elevator.
@@ -53,9 +53,9 @@ public class ElevatorBody extends EntityBody {
         super(world, model, BodyDef.BodyType.DynamicBody);
         this.target_floor = model.getTarget_floor();
 
-        PhysicalVariables phys = new PhysicalVariables(width, height, 1, 0.5f, 0f);
+        PhysicalVariables phys = new PhysicalVariables(ELEVATOR_WIDTH, ELEVATOR_HEIGHT, 1, 0.5f, 0f);
 
-        this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
+        this.add_fixture(body, new float[]{0, 0, 0, ELEVATOR_HEIGHT, ELEVATOR_WIDTH, 0, ELEVATOR_WIDTH, ELEVATOR_HEIGHT}
                 , phys, ELEVATOR_MASK, (short) (PLATFORM_ELEVATOR_SENSOR | PU_MASK), true);
         this.body.setGravityScale(0);
 
@@ -77,12 +77,12 @@ public class ElevatorBody extends EntityBody {
      * @param floor          New target floor.
      */
     public void setTarget_floor(GameController gameController, Integer floor) {
-        float y = (this.getY() - height / 2);
+        float y = (this.getY() - ELEVATOR_HEIGHT / 2);
         if (this.target_floor != floor) {
             this.target_floor = floor;
-            if (gameController.getFloors(this.getSide()).get(floor).getY() > y) {
+            if (gameController.getFloors(this.getSide()).get(floor).getY() + ELEVATOR_HEIGHT/2  > y) {
                 this.setLinearVelocity(0, vy * velocity_multiplier);
-            } else if (gameController.getFloors(this.getSide()).get(floor).getY() < y) {
+            } else if (gameController.getFloors(this.getSide()).get(floor).getY() + ELEVATOR_HEIGHT/2 < y) {
                 this.setLinearVelocity(0, -vy * velocity_multiplier);
             }
         }

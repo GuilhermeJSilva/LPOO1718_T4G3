@@ -34,7 +34,7 @@ public class GameView extends ScreenAdapter {
     private static final boolean DEBUG_PHYSICS = true;
 
     /**
-     * The height of the viewport in meters.
+     * The ELEVATOR_HEIGHT of the viewport in meters.
      */
     public static final float VIEWPORT_HEIGHT = 80;
 
@@ -132,11 +132,10 @@ public class GameView extends ScreenAdapter {
         manager.load("elevator.png", Texture.class);
         manager.load("heart.png", Texture.class);
         manager.load("regular.png", Texture.class);
-        manager.load("Plano de Fundo.png", Texture.class);
         manager.load("PLAY.png", Texture.class);
         manager.load("SCORE.png", Texture.class);
         manager.load("SETTINGS.png", Texture.class);
-        manager.load("fundo.png", Texture.class);
+        manager.load("fundo1-1.png", Texture.class);
         manager.load("structure.png", Texture.class);
         manager.load("SUN.png", Texture.class);
         manager.load("lifttitle.png", Texture.class);
