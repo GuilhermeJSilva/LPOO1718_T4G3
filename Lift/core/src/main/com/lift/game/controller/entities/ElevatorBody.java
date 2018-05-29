@@ -3,6 +3,7 @@ package com.lift.game.controller.entities;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
+import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.ElevatorModel;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
@@ -28,9 +29,9 @@ public class ElevatorBody extends EntityBody {
     public static final int height = 8;
 
     /**
-     *  Collision mask of the elevator.
+     * Collision mask of the elevator.
      */
-    public static  final short ELEVATOR_MASK = 1 << 1;
+    public static final short ELEVATOR_MASK = 1 << 1;
 
     /**
      * Width oh the elevator.
@@ -52,9 +53,10 @@ public class ElevatorBody extends EntityBody {
         super(world, model, BodyDef.BodyType.DynamicBody);
         this.target_floor = model.getTarget_floor();
 
-        float density = 1f, friction = 0.5f, restitution = 0f;
+        PhysicalVariables phys = new PhysicalVariables(width, height, 1, 0.5f, 0f);
+
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , width, height, density, friction, restitution, ELEVATOR_MASK ,  (short)(PLATFORM_ELEVATOR_SENSOR| PU_MASK), true);
+                , phys, ELEVATOR_MASK, (short) (PLATFORM_ELEVATOR_SENSOR | PU_MASK), true);
         this.body.setGravityScale(0);
 
     }
@@ -72,7 +74,7 @@ public class ElevatorBody extends EntityBody {
      * Changes the target floor.
      *
      * @param gameController Controller that contains the floors.
-     * @param floor New target floor.
+     * @param floor          New target floor.
      */
     public void setTarget_floor(GameController gameController, Integer floor) {
         float y = (this.getY() - height / 2);
@@ -88,6 +90,7 @@ public class ElevatorBody extends EntityBody {
 
     /**
      * Changes the multiplier by the amount give.
+     *
      * @param increment Delta of the multiplier.
      */
     public void change_multiplier(float increment) {
@@ -96,6 +99,7 @@ public class ElevatorBody extends EntityBody {
 
     /**
      * Returns the absolute value of the velocity.
+     *
      * @return Absolute value of the velocity.
      */
     public float getVelocity() {

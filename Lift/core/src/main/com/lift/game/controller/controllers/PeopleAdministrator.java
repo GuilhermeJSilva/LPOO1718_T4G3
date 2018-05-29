@@ -1,6 +1,7 @@
-package com.lift.game.controller;
+package com.lift.game.controller.controllers;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.pstrategies.StrategySelector;
@@ -11,6 +12,9 @@ import com.lift.game.model.Side;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.lift.game.controller.controllers.PlatformController.JUMP_HEIGHT;
+import static com.lift.game.controller.entities.PersonBody.HEIGHT;
 
 /**
  * Changes the people states and physical attributes.
@@ -45,7 +49,7 @@ public class PeopleAdministrator {
      * Constructs the people administrator.
      * @param gameController Owner
      */
-    PeopleAdministrator(GameController gameController) {
+    public PeopleAdministrator(GameController gameController) {
         this.gameController = gameController;
         reachedPeople = new LinkedList<PersonBody>();
 
@@ -204,5 +208,18 @@ public class PeopleAdministrator {
      */
     public float getDifficultyFactor() {
         return difficultyFactor;
+    }
+
+    /**
+     * Makes the people of a certain floor jump to the top of the screen.
+     * @param floor_number Number of the floor.
+     * @param side Side of the floor.
+     */
+    public void jumpPeople(int floor_number, Side side) {
+        for(PersonBody personBody : gameController.getPeople()) {
+            if(personBody.getFloor() == floor_number && personBody.getSide() == side) {
+                personBody.getBody().setTransform(personBody.getBody().getPosition().x, JUMP_HEIGHT + HEIGHT/2, personBody.getBody().getAngle());
+            }
+        }
     }
 }

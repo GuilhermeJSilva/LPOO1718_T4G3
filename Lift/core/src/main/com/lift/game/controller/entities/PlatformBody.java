@@ -2,11 +2,14 @@ package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.PlatformModel;
 
 import static com.lift.game.controller.entities.ElevatorBody.ELEVATOR_MASK;
 import static com.lift.game.controller.entities.PersonBody.PERSON_MASK;
 import static com.lift.game.controller.entities.PersonBody.PERSON_SENSOR_MASK;
+import static com.lift.game.controller.entities.ScreenSensorBody.BOTTOM_SENSOR;
+import static com.lift.game.controller.entities.ScreenSensorBody.TOP_SENSOR;
 
 public class PlatformBody extends EntityBody {
     /**
@@ -45,36 +48,36 @@ public class PlatformBody extends EntityBody {
     public PlatformBody(World world, PlatformModel model, boolean right) {
         super(world, model, BodyDef.BodyType.DynamicBody);
 
-
-        float density = 1000000f, friction = 0f, restitution = 0f;
-        float width = PLATFORM_LENGTH, height = PLATFORM_HEIGHT;
+        PhysicalVariables phys = new PhysicalVariables(PLATFORM_LENGTH, PLATFORM_HEIGHT, 1000000f, 0f, 0f);
+        float width = phys.getWidth(), height = phys.getHeight();
 
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , width, height, density, friction, restitution, PLATFORM_MASK, PERSON_MASK, false
+                , phys, PLATFORM_MASK, (short)(PERSON_MASK | TOP_SENSOR | BOTTOM_SENSOR), false
         );
 
         int elevator_sensor_width = ElevatorBody.width;
         int person_sensor_width = 1;
         if (right) {
             this.add_fixture(body, new float[]{width, 0, width, height, width + elevator_sensor_width, 0, width + elevator_sensor_width, height}
-                    , width, height, density, friction, restitution, PLATFORM_ELEVATOR_SENSOR, (short)(ELEVATOR_MASK | PERSON_MASK), true
+                    , phys, PLATFORM_ELEVATOR_SENSOR, (short) (ELEVATOR_MASK | PERSON_MASK), true
             );
 
             this.add_fixture(body, new float[]{width - person_sensor_width, 0, width - person_sensor_width, -PersonBody.HEIGHT, width, 0, width, -PersonBody.HEIGHT}
-                    , width, height, density, friction, restitution, PLATFORM_END_SENSOR, PERSON_SENSOR_MASK, true
+                    , phys, PLATFORM_END_SENSOR, PERSON_SENSOR_MASK, true
             );
 
         } else {
             this.add_fixture(body, new float[]{-elevator_sensor_width, 0, -elevator_sensor_width, height, 0, 0, 0, height}
-                    , width, height, density, friction, restitution, PLATFORM_ELEVATOR_SENSOR, (short)(ELEVATOR_MASK | PERSON_MASK), true
+                    , phys, PLATFORM_ELEVATOR_SENSOR, (short) (ELEVATOR_MASK | PERSON_MASK), true
             );
 
             this.add_fixture(body, new float[]{0, 0, 0, -PersonBody.HEIGHT, person_sensor_width, 0, person_sensor_width, -PersonBody.HEIGHT}
-                    , width, height, density, friction, restitution, PLATFORM_END_SENSOR, PERSON_SENSOR_MASK, true
+                    , phys, PLATFORM_END_SENSOR, PERSON_SENSOR_MASK, true
             );
 
 
         }
+        this.body.setLinearVelocity(0, -2);
         this.body.setGravityScale(0);
     }
 

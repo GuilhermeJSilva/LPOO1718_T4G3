@@ -7,7 +7,6 @@ import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
-import com.lift.game.model.Side;
 
 class GameCollisionHandler implements ContactListener {
     private GameController gameController;
@@ -25,8 +24,19 @@ class GameCollisionHandler implements ContactListener {
         checkIfPlatformPersonCollision(contact, bodyA, bodyB);
         checkIfPersonPersonCollision(bodyA, bodyB);
         checkIfPowerUpCollision(bodyA, bodyB);
+        checkIfPlatformSensorCollision(contact);
 
 
+    }
+
+    private void checkIfPlatformSensorCollision(Contact contact) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+        if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() == null) {
+            gameController.getPlatformController().handleCollision(bodyA, contact.getFixtureB().getFilterData().categoryBits);
+        } else if (bodyA.getUserData() == null && bodyB.getUserData() instanceof PlatformModel) {
+            gameController.getPlatformController().handleCollision(bodyB, contact.getFixtureA().getFilterData().categoryBits);
+        }
     }
 
     private void checkIfPowerUpCollision(Body bodyA, Body bodyB) {
@@ -79,29 +89,9 @@ class GameCollisionHandler implements ContactListener {
 
     private void checkIfPlatformElevatorCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
-            handlePlatformElevatorCollision(bodyA, bodyB, bodyB.getLinearVelocity().y < 0);
+            gameController.getElevatorController().handlePlatformElevatorCollision(bodyA, bodyB, bodyB.getLinearVelocity().y < 0);
         } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
-            handlePlatformElevatorCollision(bodyB, bodyA, bodyA.getLinearVelocity().y < 0);
-        }
-    }
-
-    private void handlePlatformElevatorCollision(Body bodyA, Body bodyB, boolean b) {
-        PlatformModel pm = (PlatformModel) bodyA.getUserData();
-        ElevatorModel em = (ElevatorModel) bodyB.getUserData();
-
-
-        if (em == gameController.getGameModel().getElevator(Side.Left)) {
-            if (em.getTarget_floor() == gameController.getGameModel().getLeft_floors().indexOf(pm) && b) {
-                bodyB.setLinearVelocity(0, 0);
-                gameController.getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Left);
-
-            }
-        } else {
-            if (em.getTarget_floor() == gameController.getGameModel().getRight_floors().indexOf(pm) && b) {
-                bodyB.setLinearVelocity(0, 0);
-                gameController.getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Right);
-
-            }
+            gameController.getElevatorController().handlePlatformElevatorCollision(bodyB, bodyA, bodyA.getLinearVelocity().y < 0);
         }
     }
 
@@ -146,9 +136,9 @@ class GameCollisionHandler implements ContactListener {
 
     private void checkIfEndPlatformElevatorCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
-            handlePlatformElevatorCollision(bodyA, bodyB, bodyB.getLinearVelocity().y > 0);
+            gameController.getElevatorController().handlePlatformElevatorCollision(bodyA, bodyB, bodyB.getLinearVelocity().y > 0);
         } else if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() instanceof PlatformModel) {
-            handlePlatformElevatorCollision(bodyB, bodyA, bodyA.getLinearVelocity().y > 0);
+            gameController.getElevatorController().handlePlatformElevatorCollision(bodyB, bodyA, bodyA.getLinearVelocity().y > 0);
         }
     }
 

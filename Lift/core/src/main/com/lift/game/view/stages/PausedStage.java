@@ -74,7 +74,6 @@ public class PausedStage extends Stage {
         mainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("Pressed");
                 game.setGameState(GameState.InMenu);
                 MenuStage menuStage = ((GameView) game.getScreen()).getMenuStage();
                 menuStage.updateHighScore(game);

@@ -49,11 +49,6 @@ public class GameView extends ScreenAdapter {
     private final OrthographicCamera camera;
 
     /**
-     * Handles the basic inputs.
-     */
-    private  InputHandler inputHandler;
-
-    /**
      * Stage for all game entities.
      */
     private GameStage game_stage;
@@ -106,7 +101,6 @@ public class GameView extends ScreenAdapter {
         this.endStage =  new EndStage(this.game, this.camera);
         this.menuStage = new MenuStage(this.game, this.camera);
         this.pausedStage = new PausedStage(this.game, this.camera);
-        this.inputHandler = new InputHandler(game.getGameController());
         Gdx.input.setInputProcessor(this.menuStage);
     }
 
@@ -198,7 +192,6 @@ public class GameView extends ScreenAdapter {
             this.game.setGameState(GameState.EndScreen);
             this.endStage.update(this.game);
             this.game.getGamePreferences().updateHighScore(game.getGameModel().getScore().floatValue());
-            System.out.println(game.getGameModel().getCoins());
             this.game.getGamePreferences().increaseCoins(game.getGameModel().getCoins());
             game.getGameModel().incCoins(-game.getGameModel().getCoins());
             Gdx.input.setInputProcessor(this.endStage);
@@ -241,8 +234,6 @@ public class GameView extends ScreenAdapter {
      * @param delta Time passed since the last render.
      */
     private void updateGame(float delta) {
-        if(game.getGameState() == GameState.Playing)
-            inputHandler.handleInputs();
         game.getGameController().update(this.game.getGameState(), delta);
         this.game_stage.updateStage(this.game, delta);
     }
@@ -286,7 +277,6 @@ public class GameView extends ScreenAdapter {
 
     public void resetGameStages() {
         this.game.resetGame();
-        this.inputHandler =  new InputHandler(this.game.getGameController());
         this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);

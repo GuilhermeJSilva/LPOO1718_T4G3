@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.*;
+import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.Side;
 
@@ -39,24 +40,40 @@ public class EntityBody {
         this.side = model.getSide();
     }
 
+
+    /**
+     * Creates an entity Body.
+     *
+     * @param world World the body is going to be inserted in.
+     * @param bodyType Box2d body type.
+     */
+    protected EntityBody(World world , BodyDef.BodyType bodyType, float x, float y) {
+        super();
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = bodyType;
+        bodyDef.position.set(x, y);
+        bodyDef.angle = 0;
+
+        body = world.createBody(bodyDef);
+
+    }
+
+
+
     /**
      * Adds a fixture to a given body.
      *
      * @param body Body to add fixture to.
      * @param vertexes Vertexes of the fixture.
-     * @param width Width of the fixture.
-     * @param height Height of the fixture.
-     * @param density Density of the fixture.
-     * @param friction Friction of the fixture.
-     * @param restitution Restitution of the fixture.
+     * @param phys Physical attributes of the body.
      * @param category Category bits of the fixture.
      * @param mask Collision mask of the fixture.
      * @param sensor True if the fixture is a sensor.
      */
-    protected final void add_fixture(Body body, float[] vertexes, float width, float height, float density, float friction, float restitution, short category, short mask, boolean sensor) {
+    protected final void add_fixture(Body body, float[] vertexes, PhysicalVariables phys, short category, short mask, boolean sensor) {
         for (int i = 0; i < vertexes.length; i++) {
-            if (i % 2 == 0) vertexes[i] -= width / 2;
-            if (i % 2 != 0) vertexes[i] -= height / 2;
+            if (i % 2 == 0) vertexes[i] -= phys.getWidth() / 2;
+            if (i % 2 != 0) vertexes[i] -= phys.getHeight() / 2;
 
             if (i % 2 != 0) vertexes[i] *= -1;
         }
@@ -67,9 +84,9 @@ public class EntityBody {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygon;
 
-        fixtureDef.density = density;
-        fixtureDef.friction = friction;
-        fixtureDef.restitution = restitution;
+        fixtureDef.density = phys.getDensity();
+        fixtureDef.friction = phys.getFriction();
+        fixtureDef.restitution = phys.getRestitution();
         fixtureDef.filter.categoryBits = category;
         fixtureDef.filter.maskBits = mask;
         fixtureDef.isSensor = sensor;
@@ -81,23 +98,20 @@ public class EntityBody {
     /**
      * Adds a circular fixture a body.
      * @param body Body the fixture is going to be added to.
-     * @param radius Radius of the fixture.
-     * @param density Density of the fixture.
-     * @param friction Friction of the fixture.
-     * @param restitution Restitution of the fixture.
+     * @param phys Physical attributes of the body.
      * @param category Collision identifier for the fixture.
      * @param mask Collision mask.
      * @param sensor True if the fixture is a sensor.
      */
-    protected final void addCircularFixture(Body body, float radius, float density, float friction, float restitution, short category, short mask, boolean sensor) {
+    protected final void addCircularFixture(Body body, PhysicalVariables phys, short category, short mask, boolean sensor) {
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(radius);
+        circleShape.setRadius(phys.getRadius());
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape;
-        fixtureDef.density = density;
-        fixtureDef.friction = friction;
-        fixtureDef.restitution = restitution;
+        fixtureDef.density = phys.getDensity();
+        fixtureDef.friction = phys.getFriction();
+        fixtureDef.restitution = phys.getRestitution();
         fixtureDef.filter.categoryBits = category;
         fixtureDef.filter.maskBits = mask;
         fixtureDef.isSensor = sensor;
@@ -137,10 +151,18 @@ public class EntityBody {
         this.body.setLinearVelocity(vx, vy);
     }
 
+    /**
+     * Returns the body.
+     * @return Body.
+     */
     public Body getBody() {
         return body;
     }
 
+    /**
+     * Returns the side of the screen.
+     * @return Side of the screen.
+     */
     public Side getSide() {
         return side;
     }

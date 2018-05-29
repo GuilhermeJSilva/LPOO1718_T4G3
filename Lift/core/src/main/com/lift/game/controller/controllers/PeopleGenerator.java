@@ -1,5 +1,6 @@
-package com.lift.game.controller;
+package com.lift.game.controller.controllers;
 
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.PlatformModel;

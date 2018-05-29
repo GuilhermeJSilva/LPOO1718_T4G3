@@ -22,7 +22,10 @@ public abstract class EntityActor extends Actor {
      */
     protected EntityModel model;
 
-
+    /**
+     * Contructs
+     * @param model
+     */
     protected EntityActor(EntityModel model) {
 	    this.model = model;
     }
@@ -44,6 +47,10 @@ public abstract class EntityActor extends Actor {
         }
     }
 
+    /**
+     * Removes a model if its model has been set for removal.
+     * @return True if the model was removed.
+     */
     protected boolean removed() {
 	    if(model.isFlaggedForRemoval()) {
             this.getParent().removeActor(this);

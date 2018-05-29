@@ -51,7 +51,7 @@ public class LiftGame extends Game {
      */
     private void startGame() {
         setScreen(new GameView(this));
-        music.play();
+        //music.play();
         music.setVolume(gamePreferences.getVolume());
     }
 
