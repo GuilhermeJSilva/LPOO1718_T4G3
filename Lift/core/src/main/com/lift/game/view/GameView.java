@@ -52,11 +52,6 @@ public class GameView extends ScreenAdapter {
     private  InputHandler inputHandler;
 
     /**
-     * Stage for the hud.
-     */
-    private HudStage hud;
-
-    /**
      * Stage for all game entities.
      */
     private GameStage game_stage;
@@ -99,8 +94,7 @@ public class GameView extends ScreenAdapter {
         this.game = liftGame;
         loadAssets();
         camera = createCamera();
-        this.hud = new HudStage(this.game, this.camera);
-        this.game_stage = new GameStage(this.game.getGameModel(), this.game, this.camera);
+        this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
         this.menuStage = new MenuStage(this.game, this.camera);
@@ -213,7 +207,6 @@ public class GameView extends ScreenAdapter {
             this.menuStage.draw();
         else {
             this.game_stage.draw();
-            this.hud.draw();
         }
 
         if (game.getGameState() == GameState.StartScreen) {
@@ -241,8 +234,7 @@ public class GameView extends ScreenAdapter {
         if(game.getGameState() == GameState.Playing)
             inputHandler.handleInputs();
         game.getGameController().update(this.game.getGameState(), delta);
-        this.game_stage.updateStage(this.game.getGameModel(),this.game);
-        this.hud.updateStage(this.game,delta / 5);
+        this.game_stage.updateStage(this.game, delta);
     }
 
     /**
@@ -285,8 +277,7 @@ public class GameView extends ScreenAdapter {
     public void resetGameStages() {
         this.game.resetGame();
         this.inputHandler =  new InputHandler(this.game.getGameController());
-        this.hud = new HudStage(this.game, this.camera);
-        this.game_stage = new GameStage(this.game.getGameModel(),this.game, this.camera);
+        this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
     }
