@@ -45,7 +45,6 @@ public class PlatformController {
      * @param categoryBits Category bits of the sensor it hit.
      */
     public void handleCollision(Body platformBody, short categoryBits) {
-        System.out.println("collision: " + categoryBits);
         if(categoryBits == BOTTOM_SENSOR) {
             platformsToJump.add(platformBody);
         } else {

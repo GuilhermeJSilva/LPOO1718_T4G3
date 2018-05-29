@@ -25,24 +25,24 @@ public class ElevatorController {
 
     /**
      * Handles a collision between a platform and an elevator sensor.
-     * @param bodyA Collision body number 1.
-     * @param bodyB Collision body number 2.
+     * @param platformBody Collision body number 1.
+     * @param elevatorBody Collision body number 2.
      * @param b Boolean condition to stop.
      */
-    public void handlePlatformElevatorCollision(Body bodyA, Body bodyB, boolean b) {
-        PlatformModel pm = (PlatformModel) bodyA.getUserData();
-        ElevatorModel em = (ElevatorModel) bodyB.getUserData();
+    public void handlePlatformElevatorCollision(Body platformBody, Body elevatorBody, boolean b) {
+        PlatformModel pm = (PlatformModel) platformBody.getUserData();
+        ElevatorModel em = (ElevatorModel) elevatorBody.getUserData();
 
 
         if (em == gameController.getGameModel().getElevator(Side.Left)) {
             if (em.getTarget_floor() == gameController.getGameModel().getLeft_floors().indexOf(pm) && b) {
-                bodyB.setLinearVelocity(0, 0);
+                elevatorBody.setLinearVelocity(0, platformBody.getLinearVelocity().y);
                 gameController.getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Left);
 
             }
         } else {
             if (em.getTarget_floor() == gameController.getGameModel().getRight_floors().indexOf(pm) && b) {
-                bodyB.setLinearVelocity(0, 0);
+                elevatorBody.setLinearVelocity(0, platformBody.getLinearVelocity().y);
                 gameController.getPeopleAdministrator().deliverPeople(em.getTarget_floor(), Side.Right);
 
             }

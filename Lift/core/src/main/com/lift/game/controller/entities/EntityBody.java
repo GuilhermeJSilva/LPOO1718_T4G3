@@ -151,10 +151,18 @@ public class EntityBody {
         this.body.setLinearVelocity(vx, vy);
     }
 
+    /**
+     * Returns the body.
+     * @return Body.
+     */
     public Body getBody() {
         return body;
     }
 
+    /**
+     * Returns the side of the screen.
+     * @return Side of the screen.
+     */
     public Side getSide() {
         return side;
     }

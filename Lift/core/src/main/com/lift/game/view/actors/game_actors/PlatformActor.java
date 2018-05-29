@@ -7,11 +7,15 @@ import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.view.actors.EntityActor;
+import com.lift.game.view.clickListeners.FloorClick;
 
+import static com.lift.game.controller.GameController.METERS_PER_FLOOR;
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
+/**
+ * Visually represents a platform.
+ */
 public class PlatformActor extends EntityActor {
-
     /**
      * The platform's texture.
      */
@@ -24,28 +28,30 @@ public class PlatformActor extends EntityActor {
     public PlatformActor(LiftGame game, PlatformModel model) {
         super(model);
         this.sprite = createSprite(game, model);
+        this.update();
+        this.addCaptureListener(new FloorClick(game, model.getFloor_number(),model.getSide()));
+        this.debug();
     }
 
     /**
      * Creates a sprite representing a platform.
      *
      * @param game the game this view belongs to
-     * @return the sprite representing The platorm.
+     * @return the sprite representing The platform.
      */
     public Sprite createSprite(LiftGame game, PlatformModel model) {
-        platformRegion = create_platform_region(game, model);
-        return new Sprite(platformRegion);
+        Texture platformTexture = game.getTextureManager().getPlatformTexture(model.getFloor_number());
+        TextureRegion textureRegion = new TextureRegion(platformTexture,(int)(PlatformBody.PLATFORM_LENGTH/PIXEL_TO_METER), (int)(PlatformBody.PLATFORM_HEIGHT/PIXEL_TO_METER));
+        return new Sprite(textureRegion);
     }
-
 
     /**
-     * Creates a texture region.
-     * @param game Uses the asset maaget from this game.
-     * @return Texture region of the platform.
+     * Updates this view based on a certain model.
      */
-    private TextureRegion create_platform_region(LiftGame game, PlatformModel model) {
-        Texture platformTexture = game.getTextureManager().getPlatformTexture(model.getFloor_number());
-        return new TextureRegion(platformTexture,(int)(PlatformBody.PLATFORM_LENGTH/PIXEL_TO_METER), (int)(PlatformBody.PLATFORM_HEIGHT/PIXEL_TO_METER));
+    @Override
+    protected void update() {
+        sprite.setCenter(model.getX() / PIXEL_TO_METER, model.getY() / PIXEL_TO_METER);
+        sprite.setRotation((float)Math.toDegrees(model.getRotation()));
+        this.setBounds(sprite.getX(), sprite.getY(), sprite.getWidth(), METERS_PER_FLOOR/PIXEL_TO_METER);
     }
-
 }
