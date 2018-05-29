@@ -139,7 +139,7 @@ public class GameView extends ScreenAdapter {
         manager.load("structure1.png", Texture.class);
         manager.load("SUN.png", Texture.class);
         manager.load("lifttitle.png", Texture.class);
-        manager.load("PAUSE.png", Texture.class);
+        manager.load("pause1.png", Texture.class);
         manager.load("sound.png", Texture.class);
         manager.load("drunk.png", Texture.class);
         manager.load("pregnant.png", Texture.class);

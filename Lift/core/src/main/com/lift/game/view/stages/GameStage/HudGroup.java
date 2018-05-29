@@ -59,9 +59,9 @@ public class HudGroup extends Group {
      * @param camera Camera to align.
      */
     private void addPauseButton(final LiftGame game, Camera camera) {
-        ImageButton pauseButton = ButtonCreator.createButton(game, "PAUSE.png");
+        ImageButton pauseButton = ButtonCreator.createButton(game, "pause1.png");
         int x = (int) (camera.viewportWidth / 2 - pauseButton.getWidth() / 2);
-        int y = (int) (camera.viewportHeight - pauseButton.getHeight() * 1.5);
+        int y = (int) (camera.viewportHeight - pauseButton.getHeight() * 5);
         pauseButton.setPosition(x, y);
         pauseButton.addListener(new PauseClick(game));
         this.addActor(pauseButton);
