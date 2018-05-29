@@ -3,15 +3,15 @@ package com.lift.game.view.stages.GameStage;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lift.game.LiftGame;
 import com.lift.game.GameState;
 import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.actors.hub.CoinLabelActor;
 import com.lift.game.view.actors.hub.LifeActor;
 import com.lift.game.view.actors.hub.ScoreLabelActor;
+import com.lift.game.view.clickListeners.MuteClick;
+import com.lift.game.view.clickListeners.PauseClick;
 
 /**
  * Draws all non responsive modules of the game.
@@ -63,15 +63,7 @@ public class HudGroup extends Group {
         int x = (int) (camera.viewportWidth / 2 - pauseButton.getWidth() / 2);
         int y = (int) (camera.viewportHeight / 4.1);
         pauseButton.setPosition(x, y);
-        pauseButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (game.getGameState() == GameState.Playing)
-                    game.setGameState(GameState.Paused);
-                else
-                    game.setGameState(GameState.Playing);
-            }
-        });
+        pauseButton.addListener(new PauseClick(game));
         this.addActor(pauseButton);
     }
 
@@ -86,16 +78,7 @@ public class HudGroup extends Group {
         int x = (int) (camera.viewportWidth / 2 - muteButton.getWidth() / 2);
         int y = (int) (camera.viewportHeight / 5.6);
         muteButton.setPosition(x, y);
-        muteButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (game.getMusic().isPlaying()) {
-                    game.getMusic().pause();
-                } else {
-                    game.getMusic().play();
-                }
-            }
-        });
+        muteButton.addListener(new MuteClick(game));
         this.addActor(muteButton);
     }
 }

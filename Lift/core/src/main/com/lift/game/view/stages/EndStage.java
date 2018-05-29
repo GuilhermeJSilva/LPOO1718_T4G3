@@ -1,20 +1,16 @@
 package com.lift.game.view.stages;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
-import com.lift.game.GameState;
-import com.lift.game.view.GameView;
 import com.lift.game.view.actors.ButtonCreator;
+import com.lift.game.view.clickListeners.MainMenuCLick;
 
 public class EndStage extends Stage {
     private Label scoreLabel;
@@ -35,15 +31,7 @@ public class EndStage extends Stage {
         float y = camera.viewportHeight / 2 -  mainMenuButton.getHeight() / 2 ;
         this.mainMenuButton.setPosition(x, y);
 
-        mainMenuButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setGameState(GameState.InMenu);
-                MenuStage menuStage = ((GameView) game.getScreen()).getMenuStage();
-                menuStage.updateHighScore(game);
-                Gdx.input.setInputProcessor(menuStage);
-            }
-        });
+        mainMenuButton.addListener(new MainMenuCLick(game));
     }
 
     private void createScoreLabel(LiftGame game, OrthographicCamera camera) {

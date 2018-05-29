@@ -295,4 +295,12 @@ public class GameView extends ScreenAdapter {
     public GameModel getGameModel() {
         return game.getGameModel();
     }
+
+    public GameStage getGame_stage() {
+        return game_stage;
+    }
+
+    public PausedStage getPausedStage() {
+        return pausedStage;
+    }
 }
