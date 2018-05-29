@@ -144,6 +144,9 @@ public class GameView extends ScreenAdapter {
         manager.load("MUTE.png", Texture.class);
         manager.load("drunk.png", Texture.class);
         manager.load("pregnant.png", Texture.class);
+        manager.load("replay.png", Texture.class);
+        manager.load("playbutton.png", Texture.class);
+
 
         loadFonts(manager);
         manager.finishLoading();
@@ -271,10 +274,17 @@ public class GameView extends ScreenAdapter {
         }
     }
 
+    /**
+     * Returns the menu stage.
+     * @return Menu stage.
+     */
     public MenuStage getMenuStage() {
         return menuStage;
     }
 
+    /**
+     * Resets the game.
+     */
     public void resetGameStages() {
         this.game.resetGame();
         this.game_stage = new GameStage(this.game, this.camera);
@@ -282,14 +292,26 @@ public class GameView extends ScreenAdapter {
         this.endStage =  new EndStage(this.game, this.camera);
     }
 
+    /**
+     * Returns the game model.
+     * @return Game model.
+     */
     public GameModel getGameModel() {
         return game.getGameModel();
     }
 
+    /**
+     * Returns the game model.
+     * @return Game model.
+     */
     public GameStage getGame_stage() {
         return game_stage;
     }
 
+    /**
+     * Returns the paused stage.
+     * @return Paused stage.
+     */
     public PausedStage getPausedStage() {
         return pausedStage;
     }
