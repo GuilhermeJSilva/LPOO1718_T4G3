@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.GameModel;
-import com.lift.game.view.GameState;
 import com.lift.game.view.GameView;
 import com.lift.game.view.TextureManager;
 

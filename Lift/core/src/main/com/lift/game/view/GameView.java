@@ -14,9 +14,11 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.lift.game.GameState;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
 import com.lift.game.view.stages.*;
+import com.lift.game.view.stages.GameStage.GameStage;
 
 /**
  * Main view for the game.
@@ -72,6 +74,11 @@ public class GameView extends ScreenAdapter {
     private MenuStage menuStage;
 
     /**
+     * Paused stage.
+     */
+    private PausedStage pausedStage;
+
+    /**
      * A renderer used to debug the physical fixtures.
      */
     private Box2DDebugRenderer debugRenderer;
@@ -98,6 +105,7 @@ public class GameView extends ScreenAdapter {
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
         this.menuStage = new MenuStage(this.game, this.camera);
+        this.pausedStage = new PausedStage(this.game, this.camera);
         this.inputHandler = new InputHandler(game.getGameController());
         Gdx.input.setInputProcessor(this.menuStage);
     }
@@ -207,6 +215,8 @@ public class GameView extends ScreenAdapter {
             this.menuStage.draw();
         else {
             this.game_stage.draw();
+            if(game.getGameState() == GameState.Paused)
+                this.pausedStage.draw();
         }
 
         if (game.getGameState() == GameState.StartScreen) {

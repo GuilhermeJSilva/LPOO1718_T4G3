@@ -15,7 +15,7 @@ import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.Side;
-import com.lift.game.view.GameState;
+import com.lift.game.GameState;
 
 import java.util.ArrayList;
 import java.util.Iterator;

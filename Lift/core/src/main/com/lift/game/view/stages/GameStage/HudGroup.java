@@ -1,20 +1,17 @@
-package com.lift.game.view.stages;
+package com.lift.game.view.stages.GameStage;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
-import com.lift.game.view.GameState;
+import com.lift.game.GameState;
 import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.actors.hub.CoinLabelActor;
 import com.lift.game.view.actors.hub.LifeActor;
 import com.lift.game.view.actors.hub.ScoreLabelActor;
-import com.lift.game.view.actors.polygon_actor.BasePolyActor;
 
 /**
  * Draws all non responsive modules of the game.

@@ -1,16 +1,11 @@
-package com.lift.game.view.stages;
+package com.lift.game.view.stages.GameStage;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
-import com.lift.game.model.entities.PlatformModel;
-import com.lift.game.model.entities.person.Side;
-import com.lift.game.view.actors.game_actors.ElevatorActor;
 import com.lift.game.view.actors.game_actors.PersonActor;
 import com.lift.game.view.actors.game_actors.PowerUpActor;
-
-import java.util.ArrayList;
 
 /**
  * Stage to be shown when the game is being played.

@@ -12,14 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
-import com.lift.game.view.GameState;
+import com.lift.game.GameState;
 import com.lift.game.view.GameView;
 import com.lift.game.view.actors.ButtonCreator;
 
 public class EndStage extends Stage {
     private Label scoreLabel;
 
-    //TODO Change to image button
     private ImageButton mainMenuButton;
 
     public EndStage(LiftGame game, OrthographicCamera camera) {

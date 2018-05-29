@@ -1,4 +1,4 @@
-package com.lift.game.view.stages;
+package com.lift.game.view.stages.GameStage;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
