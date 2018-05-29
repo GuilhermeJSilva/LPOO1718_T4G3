@@ -1,6 +1,7 @@
 package com.lift.game.controller;
 
 import com.lift.game.GameTester;
+import com.lift.game.controller.controllers.PeopleAdministrator;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
@@ -129,10 +130,10 @@ public class PeopleAdministratorTest extends GameTester {
     @Test
     public void increaseDifficulty() {
         GameController gameController = new GameController(new GameModel());
-        while(Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f < PeopleAdministrator.MAX_DF) {
+        while(Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f < com.lift.game.controller.controllers.PeopleAdministrator.MAX_DF) {
             Float sbp = Math.round(gameController.getPeopleAdministrator().getDifficultyFactor() * 10) / 10f;
             gameController.getPeopleAdministrator().increaseDifficulty();
-            assertEquals(-PeopleAdministrator.DF_DELTA, sbp - Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f, 0.01f);
+            assertEquals(-com.lift.game.controller.controllers.PeopleAdministrator.DF_DELTA, sbp - Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f, 0.01f);
         }
         gameController.getPeopleAdministrator().increaseDifficulty();
         assertEquals(PeopleAdministrator.MAX_DF, Math.round(gameController.getPeopleAdministrator().getDifficultyFactor()* 10) /10f, 0.01f);

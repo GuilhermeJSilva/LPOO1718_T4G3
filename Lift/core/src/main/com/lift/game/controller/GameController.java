@@ -4,6 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.lift.game.controller.controllers.ElevatorController;
+import com.lift.game.controller.controllers.PeopleAdministrator;
+import com.lift.game.controller.controllers.PeopleGenerator;
+import com.lift.game.controller.controllers.PlatformController;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
@@ -38,12 +42,22 @@ public class GameController {
     /**
      * Responsible for generating new people.
      */
-    private final PeopleGenerator peopleGenerator = new PeopleGenerator(this);
+    private PeopleGenerator peopleGenerator;
 
     /**
      * Responsible for administrating people.
      */
-    private final PeopleAdministrator peopleAdministrator = new PeopleAdministrator(this);
+    private PeopleAdministrator peopleAdministrator;
+
+    /**
+     * Handles the elevators collisions.
+     */
+    private ElevatorController elevatorController;
+
+    /**
+     * Handles the platform movement.
+     */
+    private PlatformController platformController;
 
     /**
      * Time accumulator.
@@ -131,6 +145,10 @@ public class GameController {
             this.people.add(new PersonBody(world, pm));
         }
         world.setContactListener(new GameCollisionHandler(this));
+        peopleAdministrator = new PeopleAdministrator(this);
+        peopleGenerator = new PeopleGenerator(this);
+        elevatorController = new ElevatorController(this);
+        platformController = new PlatformController(this);
     }
 
 
@@ -187,10 +205,13 @@ public class GameController {
         world.getBodies(bodies);
 
         for (Body body : bodies) {
-            ((EntityModel) body.getUserData()).setPosition(body.getPosition().x, body.getPosition().y, body.getAngle());
-            if (body.getUserData() instanceof ElevatorModel) {
-                ElevatorModel em = ((ElevatorModel) body.getUserData());
-                em.setStopped(body.getLinearVelocity().y == 0);
+            Object userData = body.getUserData();
+            if(userData != null) {
+                ((EntityModel) userData).setPosition(body.getPosition().x, body.getPosition().y, body.getAngle());
+                if (userData instanceof ElevatorModel) {
+                    ElevatorModel em = ((ElevatorModel) userData);
+                    em.setStopped(body.getLinearVelocity().y == 0);
+                }
             }
         }
 
@@ -288,5 +309,21 @@ public class GameController {
      */
     public GameModel getGameModel() {
         return gameModel;
+    }
+
+    /**
+     * Returns the elevator controller.
+     * @return Elevator controller.
+     */
+    public ElevatorController getElevatorController() {
+        return elevatorController;
+    }
+
+    /**
+     * Returns the platform controller.
+     * @return Platform controller.
+     */
+    public PlatformController getPlatformController() {
+        return platformController;
     }
 }

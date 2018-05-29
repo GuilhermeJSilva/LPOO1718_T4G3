@@ -1,6 +1,7 @@
-package com.lift.game.controller;
+package com.lift.game.controller.controllers;
 
 import com.badlogic.gdx.physics.box2d.Body;
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.ElevatorBody;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.pstrategies.StrategySelector;
@@ -45,7 +46,7 @@ public class PeopleAdministrator {
      * Constructs the people administrator.
      * @param gameController Owner
      */
-    PeopleAdministrator(GameController gameController) {
+    public PeopleAdministrator(GameController gameController) {
         this.gameController = gameController;
         reachedPeople = new LinkedList<PersonBody>();
 
