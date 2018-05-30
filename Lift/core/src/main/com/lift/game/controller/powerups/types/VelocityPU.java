@@ -49,13 +49,8 @@ public class VelocityPU extends TimedPowerUp {
         gameController.getGameModel().decrementActivePowerUps();
         ElevatorBody elevator = gameController.getElevator(Side.Left);
         elevator.change_multiplier(-MULTIPLIER_INCREMENT);
-        if(elevator.getBody().getLinearVelocity().y != 0)
-            elevator.setLinearVelocity(0, elevator.getBody().getLinearVelocity().y / Math.abs(elevator.getBody().getLinearVelocity().y) * elevator.getVelocity());
-
         elevator = gameController.getElevator(Side.Right);
         elevator.change_multiplier(-MULTIPLIER_INCREMENT);
-        if(elevator.getBody().getLinearVelocity().y != 0)
-            elevator.setLinearVelocity(0, elevator.getBody().getLinearVelocity().y / Math.abs(elevator.getBody().getLinearVelocity().y) * elevator.getVelocity());
 
     }
 
@@ -70,13 +65,8 @@ public class VelocityPU extends TimedPowerUp {
         if (gameController.getGameModel().incrementActivePowerUps()) {
             ElevatorBody elevator = gameController.getElevator(Side.Left);
             elevator.change_multiplier(MULTIPLIER_INCREMENT);
-            if (elevator.getBody().getLinearVelocity().y != 0)
-                elevator.setLinearVelocity(0, elevator.getBody().getLinearVelocity().y / Math.abs(elevator.getBody().getLinearVelocity().y) * elevator.getVelocity());
-
             elevator = gameController.getElevator(Side.Right);
             elevator.change_multiplier(MULTIPLIER_INCREMENT);
-            if (elevator.getBody().getLinearVelocity().y != 0)
-                elevator.setLinearVelocity(0, elevator.getBody().getLinearVelocity().y / Math.abs(elevator.getBody().getLinearVelocity().y) * elevator.getVelocity());
             return true;
         }
         return false;
