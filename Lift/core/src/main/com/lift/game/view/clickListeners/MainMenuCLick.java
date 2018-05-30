@@ -15,7 +15,7 @@ public class MainMenuCLick extends ClickListener {
     /**
      * Game that controls.
      */
-    private LiftGame game;
+    private final LiftGame game;
 
     /**
      * Creates the Click listener.

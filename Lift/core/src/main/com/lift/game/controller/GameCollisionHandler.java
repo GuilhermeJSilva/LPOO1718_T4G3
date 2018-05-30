@@ -9,7 +9,7 @@ import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
 
 class GameCollisionHandler implements ContactListener {
-    private GameController gameController;
+    private final GameController gameController;
 
     public GameCollisionHandler(GameController gameController) {
         super();

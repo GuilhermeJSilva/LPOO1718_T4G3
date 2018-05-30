@@ -9,9 +9,18 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.mockito.Mockito;
 
+/**
+ * Headless application to test the game.
+ */
 public class GameTester {
+    /**
+     * Headless application.
+     */
     private static Application application;
 
+    /**
+     * Initiates the application.
+     */
     @BeforeClass
     public static void init() {
         application = new HeadlessApplication(new ApplicationListener() {
@@ -27,6 +36,9 @@ public class GameTester {
         Gdx.gl = Gdx.gl20;
     }
 
+    /**
+     * Ends the application.
+     */
     @AfterClass
     public static void cleanUp() {
         application.exit();

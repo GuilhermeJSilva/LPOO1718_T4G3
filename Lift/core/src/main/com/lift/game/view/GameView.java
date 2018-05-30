@@ -66,12 +66,12 @@ public class GameView extends ScreenAdapter {
     /**
      * Menu stage.
      */
-    private MenuStage menuStage;
+    private final MenuStage menuStage;
 
     /**
      * Paused stage.
      */
-    private PausedStage pausedStage;
+    private final PausedStage pausedStage;
 
     /**
      * A renderer used to debug the physical fixtures.
@@ -192,7 +192,7 @@ public class GameView extends ScreenAdapter {
 
         if (game.getGameModel().endGame() && game.getGameState() == GameState.Playing) {
             this.game.setGameState(GameState.EndScreen);
-            this.endStage.update(this.game);
+            this.endStage.update(this.game.getGameModel().getScore());
             this.game.getGamePreferences().updateHighScore(game.getGameModel().getScore().floatValue());
             this.game.getGamePreferences().increaseCoins(game.getGameModel().getCoins());
             game.getGameModel().incCoins(-game.getGameModel().getCoins());
@@ -241,7 +241,8 @@ public class GameView extends ScreenAdapter {
     }
 
     /**
-     * Resets the camera to its initial state.
+     * Resets the camera to its initial state and updates the background.
+     * @param delta Time passed.
      */
     private void resetCamera(float delta) {
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
@@ -259,6 +260,7 @@ public class GameView extends ScreenAdapter {
 
     /**
      * Draws the background.
+     * @param delta Time passed.
      */
     private void drawBackground(float delta) {
         float backgroundMovement = 0;

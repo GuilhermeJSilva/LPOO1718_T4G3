@@ -1,6 +1,5 @@
 package com.lift.game.controller.powerups.types;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.EntityBody;
@@ -45,7 +44,7 @@ public abstract class BasicPowerUP extends EntityBody implements PowerUp {
      * @param world           World the power is in.
      */
     public BasicPowerUP(Float timeToDisappear, EntityModel model, World world) {
-        super(world, model, BodyDef.BodyType.DynamicBody);
+        super(world, model);
         PhysicalVariables phys =  new PhysicalVariables(RADIUS_OF_THE_BODY, 100, 0,0);
         this.addCircularFixture(this.getBody(), phys, PU_MASK, ELEVATOR_MASK, true);
         this.timeToDisappear = timeToDisappear;
@@ -116,6 +115,9 @@ public abstract class BasicPowerUP extends EntityBody implements PowerUp {
         return getPowerUpState() == PowerUpState.Done;
     }
 
+    /**
+     * Flags the power up for removal.
+     */
     private void flagForRemoval() {
         ((PowerUpModel) this.getBody().getUserData()).setFlaggedForRemoval(true);
     }

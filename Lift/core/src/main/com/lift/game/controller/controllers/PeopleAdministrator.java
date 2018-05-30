@@ -38,7 +38,7 @@ public class PeopleAdministrator {
     /**
      * People that have reached their destination.
      */
-    private List<PersonBody> reachedPeople;
+    private final List<PersonBody> reachedPeople;
 
     /**
      * Difficulty factor.

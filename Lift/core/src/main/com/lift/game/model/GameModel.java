@@ -39,7 +39,7 @@ public class GameModel {
     /**
      * Number of left_floors in the game.
      */
-    private Integer n_levels;
+    private final Integer n_levels;
 
     /**
      * Default number of left_floors.
@@ -49,7 +49,7 @@ public class GameModel {
     /**
      * Game's left left_elevator.
      */
-    private ElevatorModel left_elevator;
+    private final ElevatorModel left_elevator;
 
     /**
      * Coins won in this game.
@@ -59,28 +59,28 @@ public class GameModel {
     /**
      * Game's right left_elevator.
      */
-    private ElevatorModel right_elevator;
+    private final ElevatorModel right_elevator;
 
     /**
      * Left floors of the game.
      */
-    private ArrayList<PlatformModel> left_floors;
+    private final ArrayList<PlatformModel> left_floors;
 
 
     /**
      * Right floors of the game.
      */
-    private ArrayList<PlatformModel> right_floors;
+    private final ArrayList<PlatformModel> right_floors;
 
     /**
      * Free flying people.
      */
-    private ArrayList<PersonModel> people;
+    private final ArrayList<PersonModel> people;
 
     /**
      * Power ups present.
      */
-    private LinkedList<PowerUpModel> powerUpModels;
+    private final LinkedList<PowerUpModel> powerUpModels;
 
     /**
      * Number of active power ups.
@@ -139,6 +139,8 @@ public class GameModel {
 
     /**
      * Return the elevator according to character.
+     * @param side Side of the elevator.
+     * @return Desired elevator.
      */
     public ElevatorModel getElevator(Side side) {
         if (side == Side.Left)

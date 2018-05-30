@@ -42,22 +42,22 @@ public class GameController {
     /**
      * Responsible for generating new people.
      */
-    private PeopleGenerator peopleGenerator;
+    private final PeopleGenerator peopleGenerator;
 
     /**
      * Responsible for administrating people.
      */
-    private PeopleAdministrator peopleAdministrator;
+    private final PeopleAdministrator peopleAdministrator;
 
     /**
      * Handles the elevators collisions.
      */
-    private ElevatorController elevatorController;
+    private final ElevatorController elevatorController;
 
     /**
      * Handles the platform movement.
      */
-    private PlatformController platformController;
+    private final PlatformController platformController;
 
     /**
      * Time accumulator.
@@ -73,50 +73,50 @@ public class GameController {
     /**
      * Game's left_elevator.
      */
-    private ElevatorBody left_elevator;
+    private final ElevatorBody left_elevator;
 
 
     /**
      * Game's right_elevator.
      */
-    private ElevatorBody right_elevator;
+    private final ElevatorBody right_elevator;
 
 
     /**
      * End of screen sensors.
      */
-    private ScreenSensorBody screenSensorBody;
+    private final ScreenSensorBody screenSensorBody;
 
     /**
      * Left floors of the game.
      */
-    private ArrayList<PlatformBody> left_floors;
+    private final ArrayList<PlatformBody> left_floors;
 
 
     /**
      * Right floors of the game.
      */
-    private ArrayList<PlatformBody> right_floors;
+    private final ArrayList<PlatformBody> right_floors;
 
     /**
      * Free flying people.
      */
-    private ArrayList<PersonBody> people;
+    private final ArrayList<PersonBody> people;
 
     /**
      * Responsible to select what strategy to use.
      */
-    private StrategySelector strategySelector;
+    private final StrategySelector strategySelector;
 
     /**
      * Power up com.lift.game.controller.
      */
-    private PowerUpController powerUpController;
+    private final PowerUpController powerUpController;
 
     /**
      * Game model to be controlled.
      */
-    private GameModel  gameModel;
+    private final GameModel  gameModel;
 
     /**
      * Constructs the model.

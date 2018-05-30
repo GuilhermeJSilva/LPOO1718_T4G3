@@ -1,6 +1,5 @@
 package com.lift.game.controller.entities;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.utils.PhysicalVariables;
@@ -16,7 +15,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Elevator's vertical speed.
      */
-    private static int vy = 50;
+    private static final int vy = 50;
 
     /**
      * Velocity multiplier.
@@ -47,10 +46,11 @@ public class ElevatorBody extends EntityBody {
     /**
      * Creates an elevator Body.
      *
+     * @param world World the body is going to belong to.
      * @param model Elevator model.
      */
     public ElevatorBody(World world, ElevatorModel model) {
-        super(world, model, BodyDef.BodyType.DynamicBody);
+        super(world, model);
         this.target_floor = model.getTarget_floor();
 
         PhysicalVariables phys = new PhysicalVariables(ELEVATOR_WIDTH, ELEVATOR_HEIGHT, 1, 0.5f, 0f);
@@ -80,7 +80,7 @@ public class ElevatorBody extends EntityBody {
      */
     public boolean setTarget_floor(GameController gameController, Integer floor) {
         float y = (this.getY() - ELEVATOR_HEIGHT / 2);
-        if (this.target_floor != floor) {
+        if (!this.target_floor.equals(floor)) {
             this.target_floor = floor;
             if (gameController.getFloors(this.getSide()).get(floor).getY() + ELEVATOR_HEIGHT/2  > y) {
                 this.setLinearVelocity(0, vy * velocity_multiplier);

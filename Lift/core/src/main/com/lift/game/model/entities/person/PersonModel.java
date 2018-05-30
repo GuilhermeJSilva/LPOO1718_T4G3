@@ -8,7 +8,7 @@ public class PersonModel extends EntityModel {
     /**
      * Starting satisfaction.
      */
-    public static Float STARTING_SATISFACTION = 25f;
+    public static final Float STARTING_SATISFACTION = 25f;
 
     /**
      * Satisfaction.
@@ -18,12 +18,12 @@ public class PersonModel extends EntityModel {
     /**
      * Person's destination.
      */
-    private Integer destination;
+    private final Integer destination;
 
     /**
      * Type of the person.
      */
-    private PersonType personType;
+    private final PersonType personType;
 
     /**
      * State of the person.
@@ -33,7 +33,7 @@ public class PersonModel extends EntityModel {
     /**
      * Floor of the person.
      */
-    private int floor;
+    private final int floor;
 
 
     /**
@@ -44,7 +44,7 @@ public class PersonModel extends EntityModel {
     /**
      * Position of the person in the platform.
      */
-    private int plat_position;
+    private final int plat_position;
 
     /**
      * Construst the model for a person.

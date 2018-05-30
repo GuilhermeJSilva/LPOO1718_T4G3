@@ -13,21 +13,23 @@ public class FloorClick extends ClickListener {
     /**
      * Game to control.
      */
-    private LiftGame game;
+    private final LiftGame game;
 
     /**
      * Side of the screen clicked.
      */
-    private Side side;
+    private final Side side;
 
     /**
      * Floor of the actor.
      */
-    private Integer target_floor;
+    private final Integer target_floor;
 
     /**
      * Detects if a floor was clicked.
      * @param game Game to control.
+     * @param side Side of the screen the click is on.
+     * @param target_floor Number of the floor the click was on.
      */
     public FloorClick(LiftGame game, int target_floor, Side side) {
         this.side = side;

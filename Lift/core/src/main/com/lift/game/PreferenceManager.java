@@ -10,12 +10,12 @@ public class PreferenceManager {
     /**
      * Contains the preferences it manages.
      */
-    private Preferences preferences;
+    private final Preferences preferences;
 
     /**
      * Owner of the preferences.
      */
-    private LiftGame game;
+    private final LiftGame game;
 
     /**
      * Constructs the Manager.

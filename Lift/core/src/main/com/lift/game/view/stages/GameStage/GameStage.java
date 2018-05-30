@@ -15,6 +15,10 @@ public class GameStage extends Stage {
      * Group of elements that belong to the hud.
      */
     private final HudGroup hudActorGroup;
+
+    /**
+     * Group of elements that make the game.
+     */
     private final GameGroup gameGroup;
 
     /**

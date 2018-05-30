@@ -15,7 +15,7 @@ public class NullStrategy implements MovementStrategy {
     /**
      * Controller to act on.
      */
-    private GameController gameController;
+    private final GameController gameController;
 
     public NullStrategy(GameController gameController) {
         this.gameController =  gameController;

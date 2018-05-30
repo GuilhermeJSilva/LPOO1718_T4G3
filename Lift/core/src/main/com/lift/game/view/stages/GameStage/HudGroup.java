@@ -9,7 +9,7 @@ import com.lift.game.GameState;
 import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.actors.hud.CoinLabelActor;
 import com.lift.game.view.actors.hud.LifeActor;
-import com.lift.game.view.actors.hud.ScoreLabelActor;
+import com.lift.game.view.actors.hud.TimeLabelActor;
 import com.lift.game.view.clickListeners.MuteClick;
 import com.lift.game.view.clickListeners.PauseClick;
 
@@ -24,7 +24,7 @@ public class HudGroup extends Group {
      * @param camera Aligns its elements according to this camera.
      */
     public HudGroup(LiftGame game, Camera camera) {
-        this.addActor(new ScoreLabelActor(game, camera));
+        this.addActor(new TimeLabelActor(game, camera));
         this.addActor(new CoinLabelActor(game, camera));
         this.addActor(new LifeActor(game, camera));
 
@@ -37,9 +37,8 @@ public class HudGroup extends Group {
      * Updates the elements of stage.
      *
      * @param game  Updates according to this game.
-     * @param delta Time passed since the last screen render.
      */
-    public void updateStage(LiftGame game, float delta) {
+    public void updateStage(LiftGame game) {
         for (Actor a :
                 this.getChildren()) {
             if (a instanceof CoinLabelActor) {
@@ -70,8 +69,8 @@ public class HudGroup extends Group {
     /**
      * Adds pause button to group.
      *
-     * @param game   Game
-     * @param camera
+     * @param game  Game to make get the images.
+     * @param camera Aligns according to this camera.
      */
     private void addMuteButton(final LiftGame game, Camera camera) {
         ImageButton muteButton = ButtonCreator.createButton(game, "sound.png");

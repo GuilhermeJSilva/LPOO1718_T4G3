@@ -13,7 +13,7 @@ public class ElevatorController {
     /**
      * Controls the elevators in this game.
      */
-    private GameController gameController;
+    private final GameController gameController;
 
     /**
      * Constructs the controller.

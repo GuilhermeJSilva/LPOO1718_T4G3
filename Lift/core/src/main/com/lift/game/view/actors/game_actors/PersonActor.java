@@ -24,15 +24,15 @@ import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
 public class PersonActor extends EntityActor {
 
-    private BasePolyActor patientIndicator;
+    private final BasePolyActor patientIndicator;
 
-    private LiftGame game;
+    private final LiftGame game;
 
     float stateTime = 0;
 
     private static HashMap<Side, ArrayList<Vector2>> indicatorPositions;
 
-    private static int indicator_number[] = {0, 0};
+    private static final int[] indicator_number = {0, 0};
 
     public static void setIndicatorPositions(HashMap<Side, ArrayList<Vector2>> indicatorPositions) {
         PersonActor.indicatorPositions = indicatorPositions;
@@ -59,8 +59,8 @@ public class PersonActor extends EntityActor {
 
 
     private void updateIndicator() {
-        ArrayList<Vector2> tmp = indicatorPositions.get(((PersonModel) this.model).getSide());
-        int pos = ((PersonModel) this.model).getSide() == Side.Left ? 0 : 1;
+        ArrayList<Vector2> tmp = indicatorPositions.get(this.model.getSide());
+        int pos = this.model.getSide() == Side.Left ? 0 : 1;
         patientIndicator.setPercentage(((PersonModel) this.model).getSatisfaction() / PersonModel.STARTING_SATISFACTION);
         patientIndicator.setPosition(tmp.get(indicator_number[pos]).x, tmp.get(indicator_number[pos]).y);
         indicator_number[pos]++;

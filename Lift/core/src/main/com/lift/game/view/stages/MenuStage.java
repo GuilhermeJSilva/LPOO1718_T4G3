@@ -19,8 +19,8 @@ import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.clickListeners.NewGameClick;
 
 public class MenuStage extends Stage {
-    private float GLOBAL_OFFSET;
-    private float SPACING_OFFSET;
+    private final float GLOBAL_OFFSET;
+    private final float SPACING_OFFSET;
 
     public MenuStage(LiftGame game, OrthographicCamera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());

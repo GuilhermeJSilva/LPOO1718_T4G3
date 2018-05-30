@@ -20,7 +20,7 @@ public class ElevatorModel extends EntityModel {
     /**
      * Maximum capacity of the elevator.
      */
-    private Integer capacity;
+    private final Integer capacity;
 
     /**
      * Number of people currently in the elevator.
@@ -66,6 +66,9 @@ public class ElevatorModel extends EntityModel {
 
     /**
      * Default constructor.
+     *
+     * @param x X coordinate for the elevator.
+     * @param side Side of the screen the elevator is on.
      */
     public ElevatorModel(Float x, Side side) {
         super(x, STARTING_Y, side);

@@ -8,7 +8,7 @@ public class PlatformModel extends EntityModel{
 
     public static final int MAX_NUMBER_OF_PEOPLE = 3;
 
-    private int floor_number;
+    private final int floor_number;
 
     /**
      * Default entity constructor.

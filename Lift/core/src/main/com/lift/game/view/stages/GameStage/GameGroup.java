@@ -22,6 +22,7 @@ import java.util.HashMap;
 /**
  * Keeps all the actors that are respective to the game.
  */
+@SuppressWarnings("SuspiciousNameCombination")
 class GameGroup extends Group {
     /**
      * Constructs the stage.
@@ -61,6 +62,7 @@ class GameGroup extends Group {
         arrayPositions = new ArrayList<Vector2>();
 
         float rightIndicatorRight = camera.viewportHeight / 2 - camera.viewportHeight / 6 - camera.viewportHeight / 56;
+        //noinspection SuspiciousNameCombination
         arrayPositions.add(new Vector2(camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH, rightIndicatorRight));
         arrayPositions.add(new Vector2(camera.viewportWidth / 2, rightIndicatorRight));
         arrayPositions.add(new Vector2(camera.viewportWidth / 2 + IndicatorCreator.INDICATOR_WIDTH, rightIndicatorRight));

@@ -10,21 +10,24 @@ import com.badlogic.gdx.utils.Align;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
 
-public class ScoreLabelActor extends Actor {
+/**
+ * Shows the time left in the game.
+ */
+public class TimeLabelActor extends Actor {
     /**
      *  Label that contains the score.
      */
-    private Label score_label;
+    private final Label score_label;
 
     /**
      * Display according to this model.
      */
-    private GameModel gameModel;
+    private final GameModel gameModel;
 
     /**
      * Constructs the label for the score.
      */
-    public ScoreLabelActor(LiftGame game, Camera camera) {
+    public TimeLabelActor(LiftGame game, Camera camera) {
         Label.LabelStyle label1Style = new Label.LabelStyle();
         label1Style.font = game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
         label1Style.fontColor = new Color(202,200,199, 0xff);

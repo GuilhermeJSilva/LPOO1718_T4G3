@@ -1,6 +1,5 @@
 package com.lift.game.controller.entities;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.utils.PhysicalVariables;
 
@@ -53,7 +52,7 @@ public class ScreenSensorBody extends EntityBody {
      * @param world World the body is going to be inserted in.
      */
     public ScreenSensorBody(World world) {
-        super(world, BodyDef.BodyType.StaticBody, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        super(world, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
         PhysicalVariables phys = new PhysicalVariables(SCREEN_WIDTH, SCREEN_HEIGHT, 0f, 0f, 0f);
 

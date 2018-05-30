@@ -13,7 +13,7 @@ import com.lift.game.LiftGame;
 public class StartStage extends Stage {
     private Label timerLabel;
     private Double timeToStart = 5.0;
-    private Camera camera;
+    private final Camera camera;
 
     public StartStage(LiftGame game, OrthographicCamera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());

@@ -23,12 +23,12 @@ public class PlatformController {
     /**
      * Controls the platforms in this controller.
      */
-    private GameController gameController;
+    private final GameController gameController;
 
     /**
      * List of platforms to jump to the top of the screen.
      */
-    private List<Body> platformsToJump;
+    private final List<Body> platformsToJump;
 
     /**
      * Creates the platform controller.

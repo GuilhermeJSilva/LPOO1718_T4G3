@@ -1,6 +1,5 @@
 package com.lift.game.controller.entities;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.PlatformModel;
@@ -15,12 +14,12 @@ public class PlatformBody extends EntityBody {
     /**
      * Platform length.
      */
-    public static int PLATFORM_LENGTH = 13;
+    public static final int PLATFORM_LENGTH = 13;
 
     /**
      * Platform ELEVATOR_HEIGHT.
      */
-    public static float PLATFORM_HEIGHT = 0.725f;
+    public static final float PLATFORM_HEIGHT = 0.725f;
 
     /**
      * Collision bit mask.
@@ -46,7 +45,7 @@ public class PlatformBody extends EntityBody {
      * @param right True if the sensor is to the right of the platform.
      */
     public PlatformBody(World world, PlatformModel model, boolean right) {
-        super(world, model, BodyDef.BodyType.DynamicBody);
+        super(world, model);
 
         PhysicalVariables phys = new PhysicalVariables(PLATFORM_LENGTH, PLATFORM_HEIGHT, 1000000f, 0f, 0f);
         float width = phys.getWidth(), height = phys.getHeight();

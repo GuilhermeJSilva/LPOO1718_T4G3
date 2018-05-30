@@ -10,9 +10,9 @@ import java.util.HashMap;
 public class StrategySelector {
 
 
-    private HashMap<PersonType,MovementStrategy> strategies;
+    private final HashMap<PersonType,MovementStrategy> strategies;
 
-    private MovementStrategy nullStrategy;
+    private final MovementStrategy nullStrategy;
 
     public StrategySelector(GameController gameController) {
         this.strategies = new HashMap<PersonType,MovementStrategy>();

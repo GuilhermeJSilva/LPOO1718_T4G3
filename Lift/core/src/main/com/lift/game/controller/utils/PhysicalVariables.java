@@ -8,32 +8,32 @@ public class PhysicalVariables {
     /**
      * Radius.
      */
-    private float radius;
+    private final float radius;
 
     /**
      * Width.
      */
-    private float width;
+    private final float width;
 
     /**
      * Height.
      */
-    private float height;
+    private final float height;
 
     /**
      * Density.
      */
-    private float density;
+    private final float density;
 
     /**
      * Friction
      */
-    private float friction;
+    private final float friction;
 
     /**
      * Restitution.
      */
-    private float restitution;
+    private final float restitution;
 
     /**
      * Creates the object.

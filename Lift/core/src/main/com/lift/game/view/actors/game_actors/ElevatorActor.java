@@ -22,6 +22,7 @@ public class ElevatorActor extends EntityActor {
     /**
      * Constructs a elevator model.
      * @param game Elevator's game.
+     * @param model Model drawn by this actor.
      */
     public ElevatorActor(LiftGame game, ElevatorModel model) {
     	super(model);

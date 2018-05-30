@@ -22,15 +22,13 @@ public class EntityBody {
 
     /**
      * Creates an entity Body.
-     *
-     * @param world World the body is going to be inserted in.
+     *  @param world World the body is going to be inserted in.
      * @param model Entity model.
-     * @param bodyType Box2d body type.
      */
-    protected EntityBody(World world, EntityModel model, BodyDef.BodyType bodyType) {
+    protected EntityBody(World world, EntityModel model) {
         super();
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(model.getX(), model.getY());
         bodyDef.angle = 0;
 
@@ -43,14 +41,16 @@ public class EntityBody {
 
     /**
      * Creates an entity Body.
+     *  @param world World the body is going to be inserted in.
      *
-     * @param world World the body is going to be inserted in.
-     * @param bodyType Box2d body type.
+     *
+     * @param x X position of the body.
+     * @param y Y position of the body.
      */
-    protected EntityBody(World world , BodyDef.BodyType bodyType, float x, float y) {
+    protected EntityBody(World world, float x, float y) {
         super();
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = bodyType;
+        bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x, y);
         bodyDef.angle = 0;
 

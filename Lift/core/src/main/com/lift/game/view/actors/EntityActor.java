@@ -20,11 +20,11 @@ public abstract class EntityActor extends Actor {
     /**
      * The actor represents this model.
      */
-    protected EntityModel model;
+    protected final EntityModel model;
 
     /**
-     * Contructs
-     * @param model
+     * Constructs a basic actor.
+     * @param model Model to be represented.
      */
     protected EntityActor(EntityModel model) {
 	    this.model = model;

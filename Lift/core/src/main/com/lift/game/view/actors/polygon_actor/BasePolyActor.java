@@ -8,27 +8,64 @@ import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+/**
+ * Used to draw polygons on the screen.
+ */
 public abstract class BasePolyActor extends Actor {
 
+    /**
+     * Percentage filled of the front polygon.
+     */
     float percentage = 1;
 
-    private PolygonSprite poly;
-    private PolygonSprite back;
-    int width;
-    int height;
-    private Texture front;
-    private PolygonSpriteBatch polyBatch;
+    /**
+     * Front polygon.
+     */
+    private final PolygonSprite poly;
+
+    /**
+     * Back polygon.
+     */
+    private final PolygonSprite back;
+
+    /**
+     * Width of polygons.
+     */
+    final int width;
+
+    /**
+     * Height of polygons.
+     */
+    final int height;
+
+    /**
+     * Texture of the front polygon.
+     */
+    private final Texture front;
+
+    /**
+     * The polygons are drawn in this batch.
+     */
+    private final PolygonSpriteBatch polyBatch;
 
 
+    /**
+     * @param x X coordinate of the polygon.
+     * @param y Y coordinate of the polygon.
+     * @param width Width of the polygon.
+     * @param height Height of the polygon.
+     * @param color Color of the front polygon.
+     * @param polygonSpriteBatch Draw destination.
+     */
     BasePolyActor(float x, float y, int width, int height, int color, PolygonSpriteBatch polygonSpriteBatch) {
         this.width = width;
         this.height = height;
         Pixmap pix = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-        pix.setColor(color); // DE is red, AD is green and BE is blue.
+        pix.setColor(color);
         pix.fill();
         front = new Texture(pix);
 
-        pix.setColor(0x000000FF); // DE is red, AD is green and BE is blue.
+        pix.setColor(0x000000FF);
         pix.fill();
         Texture backTexture = new Texture(pix);
 
@@ -40,19 +77,20 @@ public abstract class BasePolyActor extends Actor {
         polyBatch = polygonSpriteBatch;
     }
 
+    /**
+     * Changes the percentage that is shown of the front polygon.
+     * @param percentage New value for the percentage.
+     */
     public void setPercentage(float percentage) {
         this.percentage = percentage;
     }
 
-    public void decPercentage(float delta) {
-        this.percentage -= delta;
-    }
 
     /**
      * Sets the position of the actor's bottom left corner.
      *
      * @param x Position in the x coordinate.
-     * @param y Posiyion in the y coordinate.
+     * @param y Position in the y coordinate.
      */
     @Override
     public void setPosition(float x, float y) {
@@ -73,6 +111,10 @@ public abstract class BasePolyActor extends Actor {
 
     }
 
-
+    /**
+     * Returns the region to be displayed according to the percentage.
+     * @param texture Texture to be displayed as the front polygon.
+     * @return Region to be displayed.
+     */
     protected abstract PolygonRegion getRegion(Texture texture);
 }

@@ -73,17 +73,17 @@ public class TextureManager {
     /**
      * Background texture.
      */
-    private Texture background;
+    private final Texture background;
 
     /**
      * Light to be displayed above the background.
      */
-    private Texture light;
+    private final Texture light;
 
     /**
      * Represents the structure of the elevators.
      */
-    private Texture structure;
+    private final Texture structure;
 
     /**
      * Is used to determine which portion of the background is showing.
@@ -93,7 +93,7 @@ public class TextureManager {
     /**
      * Game that this texture manager belongs to, is used to get the asset manager.
      */
-    private LiftGame game;
+    private final LiftGame game;
 
     /**
      * Constructs the manager and loads all textures.

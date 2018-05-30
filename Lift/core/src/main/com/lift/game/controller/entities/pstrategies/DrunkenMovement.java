@@ -20,6 +20,7 @@ public class DrunkenMovement extends NullStrategy implements MovementStrategy {
 
     /**
      * Constructs the strategy of drunken person.
+     * @param gameController Controller to be updated.
      */
     DrunkenMovement(GameController gameController) {
         super(gameController);

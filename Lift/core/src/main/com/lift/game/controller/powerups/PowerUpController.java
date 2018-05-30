@@ -42,12 +42,12 @@ public class PowerUpController {
     /**
      * List of waiting power ups.
      */
-    private LinkedList<BasicPowerUP> powerUps;
+    private final LinkedList<BasicPowerUP> powerUps;
 
     /**
      * Owner of the com.lift.game.controller.
      */
-    private GameController gameController;
+    private final GameController gameController;
 
     /**
      * Time accumulator for the generation of power ups.
@@ -72,7 +72,7 @@ public class PowerUpController {
     /**
      * Used to get random numbers.
      */
-    private Random randomGenerator;
+    private final Random randomGenerator;
 
     /**
      * Constructs the power up com.lift.game.controller.

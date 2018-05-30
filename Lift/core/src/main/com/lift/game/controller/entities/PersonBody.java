@@ -1,6 +1,5 @@
 package com.lift.game.controller.entities;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.person.PersonModel;
@@ -14,7 +13,7 @@ public class PersonBody extends EntityBody {
     public static final short PERSON_MASK = 1 << 2;
     public static final short PERSON_SENSOR_MASK = 1 << 5;
 
-    private Integer floor;
+    private final Integer floor;
 
     /**
      * Creates an Person body.
@@ -22,7 +21,7 @@ public class PersonBody extends EntityBody {
      * @param model Person model.
      */
     public PersonBody(World world, PersonModel model) {
-        super(world, model, BodyDef.BodyType.DynamicBody);
+        super(world, model);
         this.floor = model.getFloor();
         PhysicalVariables phys = new PhysicalVariables(WIDTH, HEIGHT, 0.01f, 0f, 0f);
 

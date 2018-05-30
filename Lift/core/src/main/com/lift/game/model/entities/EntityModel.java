@@ -2,6 +2,9 @@ package com.lift.game.model.entities;
 
 import com.lift.game.model.Side;
 
+/**
+ * Represents the basic model for an entity.
+ */
 public abstract class EntityModel {
     /**
      * Position in the y axis.
@@ -32,7 +35,7 @@ public abstract class EntityModel {
     /**
      * Side of the screen the entity is on.
      */
-    private Side side;
+    private final Side side;
 
     /**
      * Default entity constructor.
@@ -66,33 +69,64 @@ public abstract class EntityModel {
         return x;
     }
 
+    /**
+     * Returns the rotation of the entity.
+     *
+     * @return Rotation of the entity.
+     */
     public float getRotation() {
         return rotation;
     }
 
+    /**
+     * Changes the position of an entity.
+     *
+     * @param x        New value for the X coordinate.
+     * @param y        New value for the Y coordinate.
+     * @param rotation New value for the rotation.
+     */
     public void setPosition(float x, float y, float rotation) {
         this.x = x;
         this.y = y;
         this.rotation = rotation;
     }
 
+    /**
+     * @return True if the entity is flagged for removal.
+     */
     public boolean isFlaggedForRemoval() {
         return flaggedForRemoval;
     }
 
+    /**
+     * Changes the value of the removal flag .
+     *
+     * @param flaggedForRemoval New value for the removal flag.
+     */
     public void setFlaggedForRemoval(boolean flaggedForRemoval) {
         this.flaggedForRemoval = flaggedForRemoval;
     }
 
+    /**
+     * Returns the side of the entity.
+     * @return Side of the entity.
+     */
     public Side getSide() {
         return side;
     }
 
-
+    /**
+     * Returns true if the entity id new.
+     * @return   True if the entity id new.
+     */
     public boolean isNew() {
         return new_entity;
     }
 
+    /**
+     * Changes the flag for a person being new.
+     * @param new_person New value for the flag.
+     */
     public void setNew(boolean new_person) {
         this.new_entity = new_person;
     }

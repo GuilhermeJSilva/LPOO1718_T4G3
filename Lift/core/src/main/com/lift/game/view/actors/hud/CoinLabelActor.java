@@ -16,7 +16,7 @@ public class CoinLabelActor extends Actor {
     /**
      *  Label that contains the score.
      */
-    private Label coin_label;
+    private final Label coin_label;
 
     /**
      * Constructs the label for the score.
