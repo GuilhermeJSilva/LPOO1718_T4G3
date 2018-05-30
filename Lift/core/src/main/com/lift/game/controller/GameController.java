@@ -126,8 +126,6 @@ public class GameController {
         super();
         this.gameModel =  gameModel;
         this.world = new World(new Vector2(0, -5), false);
-        this.left_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Left));
-        this.right_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Right));
         this.strategySelector = new StrategySelector(this);
         this.powerUpController = new PowerUpController(this);
 
@@ -152,6 +150,10 @@ public class GameController {
         for (PersonModel pm : gameModel.getPeople()) {
             this.people.add(new PersonBody(world, pm));
         }
+
+        this.left_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Left), left_floors);
+        this.right_elevator = new ElevatorBody(this.world, gameModel.getElevator(Side.Right), right_floors);
+
         world.setContactListener(new GameCollisionHandler(this));
         peopleAdministrator = new PeopleAdministrator(this);
         peopleGenerator = new PeopleGenerator(this);

@@ -1,9 +1,10 @@
 package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.lift.game.controller.GameController;
 import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.ElevatorModel;
+
+import java.util.ArrayList;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 import static com.lift.game.controller.powerups.types.BasicPowerUP.PU_MASK;
@@ -42,16 +43,22 @@ public class ElevatorBody extends EntityBody {
      */
     private Integer target_floor;
 
+    /**
+     * The floors it can reach.
+     */
+    private ArrayList<PlatformBody> platformBodies;
+
 
     /**
      * Creates an elevator Body.
-     *
-     * @param world World the body is going to belong to.
+     *  @param world World the body is going to belong to.
      * @param model Elevator model.
+     * @param platformBodies Floors it can reach.
      */
-    public ElevatorBody(World world, ElevatorModel model) {
+    public ElevatorBody(World world, ElevatorModel model, ArrayList<PlatformBody> platformBodies) {
         super(world, model);
         this.target_floor = model.getTarget_floor();
+        this.platformBodies = platformBodies;
 
         PhysicalVariables phys = new PhysicalVariables(ELEVATOR_WIDTH, ELEVATOR_HEIGHT, 1, 0.5f, 0f);
 
@@ -73,24 +80,24 @@ public class ElevatorBody extends EntityBody {
     /**
      * Changes the target floor.
      *
-     * @param gameController Controller that contains the floors.
      * @param floor          New target floor.
      *
-     * @return  True if it changed target.
      */
-    public boolean setTarget_floor(GameController gameController, Integer floor) {
+    public void setTarget_floor(Integer floor) {
+        ElevatorModel elevatorModel = ((ElevatorModel) this.getBody().getUserData());
         float y = (this.getY() - ELEVATOR_HEIGHT / 2);
         if (!this.target_floor.equals(floor)) {
             this.target_floor = floor;
-            if (gameController.getFloors(this.getSide()).get(floor).getY() + ELEVATOR_HEIGHT/2  > y) {
+            if (platformBodies.get(floor).getY() + ELEVATOR_HEIGHT/2  > y) {
                 this.setLinearVelocity(0, vy * velocity_multiplier);
-                return true;
-            } else if (gameController.getFloors(this.getSide()).get(floor).getY() + ELEVATOR_HEIGHT/2 < y) {
+                elevatorModel.setTarget_floor(floor);
+                elevatorModel.setStopped(false);
+            } else if (platformBodies.get(floor).getY() + ELEVATOR_HEIGHT/2 < y) {
                 this.setLinearVelocity(0, -vy * velocity_multiplier);
-                return true;
+                elevatorModel.setStopped(false);
+                elevatorModel.setTarget_floor(floor);
             }
         }
-        return false;
     }
 
     /**
