@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
+import com.lift.game.view.TextureManager;
 
 import java.util.ArrayList;
 
@@ -40,27 +40,26 @@ public class LifeActor extends Actor {
 
     /**
      * Creates the actor.
-     * @param game Game to represent .
      * @param camera Aligns according to this camera.
+     * @param gameModel Model it is going to represent.
      */
-    public LifeActor(LiftGame game, Camera camera) {
+    public LifeActor(Camera camera, GameModel gameModel) {
 
-        this.sprite = createSprite(game);
+        this.sprite = createSprite();
 
         this.pos = new ArrayList<Vector2>();
         this.pos.add(new Vector2(camera.viewportWidth/2 - 3.5f*heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
         this.pos.add(new Vector2(camera.viewportWidth/2 - heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
         this.pos.add(new Vector2(camera.viewportWidth/2 + 1.5f*heartRegion.getRegionWidth()/2, camera.viewportHeight - camera.viewportHeight/8));
-        this.gameModel = game.getGameModel();
+        this.gameModel = gameModel;
     }
 
     /**
      * Creates the sprite.
-     * @param game Game to get the textures.
      * @return Created sprite.
      */
-    private Sprite createSprite(LiftGame game) {
-        Texture lifeTexture = game.getAssetManager().get("heart.png");
+    private Sprite createSprite() {
+        Texture lifeTexture = TextureManager.getInstance().getAssetManager().get("heart.png");
         heartRegion = new TextureRegion(lifeTexture);
         return new Sprite(heartRegion);
     }

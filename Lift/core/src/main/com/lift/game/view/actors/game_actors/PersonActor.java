@@ -13,6 +13,7 @@ import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.entities.person.PersonState;
 import com.lift.game.model.Side;
 import com.lift.game.view.IndicatorCreator;
+import com.lift.game.view.TextureManager;
 import com.lift.game.view.actors.EntityActor;
 import com.lift.game.view.actors.polygon_actor.BasePolyActor;
 import com.lift.game.view.clickListeners.FloorClick;
@@ -26,8 +27,6 @@ public class PersonActor extends EntityActor {
 
     private final BasePolyActor patientIndicator;
 
-    private final LiftGame game;
-
     float stateTime = 0;
 
     private static HashMap<Side, ArrayList<Vector2>> indicatorPositions;
@@ -40,9 +39,8 @@ public class PersonActor extends EntityActor {
 
     public PersonActor(LiftGame game, PersonModel model) {
         super(model);
-        this.game = game;
         this.sprite = new Sprite(new Texture((int)(PersonBody.WIDTH / PIXEL_TO_METER), (int)(PersonBody.HEIGHT / PIXEL_TO_METER), Pixmap.Format.RGB888));
-        int color = game.getTextureManager().getColor(((PersonModel) this.model).getDestination());
+        int color = TextureManager.getInstance().getColor(((PersonModel) this.model).getDestination());
         this.patientIndicator = IndicatorCreator.createIndicator(new Vector2(sprite.getX() + sprite.getWidth() / 2, sprite.getY() + 3 * sprite.getHeight() / 2), model.getPersonType(), color, game.getPolygonBatch());
         this.setBounds(this.sprite.getX(), this.sprite.getY(), PersonBody.WIDTH / PIXEL_TO_METER, PersonBody.HEIGHT / PIXEL_TO_METER);
         this.addCaptureListener(new FloorClick(game, model.getFloor(), model.getSide()));
@@ -91,7 +89,7 @@ public class PersonActor extends EntityActor {
         super.draw(batch, parentAlpha);
         stateTime += Gdx.graphics.getDeltaTime();
 
-        TextureRegion currentFrame = game.getTextureManager().getPersonTexture(((PersonModel) this.model).getPersonType(), stateTime, this.getRunningDirection());
+        TextureRegion currentFrame = TextureManager.getInstance().getPersonTexture(((PersonModel) this.model).getPersonType(), stateTime, this.getRunningDirection());
         sprite.setRegion(currentFrame);
         if(((PersonModel) this.model).getPersonState() != PersonState.Reached) {
             batch.end();

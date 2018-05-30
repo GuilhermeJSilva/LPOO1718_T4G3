@@ -2,23 +2,17 @@ package com.lift.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
-import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lift.game.GameState;
 import com.lift.game.LiftGame;
-import com.lift.game.model.GameModel;
-import com.lift.game.view.stages.*;
+import com.lift.game.view.stages.EndStage;
 import com.lift.game.view.stages.GameStage.GameStage;
+import com.lift.game.view.stages.MenuStage;
+import com.lift.game.view.stages.PausedStage;
+import com.lift.game.view.stages.StartStage;
 
 /**
  * Main view for the game.
@@ -94,7 +88,6 @@ public class GameView extends ScreenAdapter {
      */
     public GameView(LiftGame liftGame) {
         this.game = liftGame;
-        loadAssets();
         camera = createCamera();
         this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
@@ -124,54 +117,7 @@ public class GameView extends ScreenAdapter {
         return camera;
     }
 
-    /**
-     * Loads the assets needed by this screen.
-     */
-    private void loadAssets() {
-        AssetManager manager = this.game.getAssetManager();
-        manager.load("elevator.png", Texture.class);
-        manager.load("heart.png", Texture.class);
-        manager.load("regular.png", Texture.class);
-        manager.load("PLAY.png", Texture.class);
-        manager.load("SCORE.png", Texture.class);
-        manager.load("SETTINGS.png", Texture.class);
-        manager.load("fundo1-1.png", Texture.class);
-        manager.load("structure1.png", Texture.class);
-        manager.load("SUN.png", Texture.class);
-        manager.load("lifttitle.png", Texture.class);
-        manager.load("pause1.png", Texture.class);
-        manager.load("sound.png", Texture.class);
-        manager.load("drunk.png", Texture.class);
-        manager.load("pregnant.png", Texture.class);
-        manager.load("replay.png", Texture.class);
-        manager.load("playbutton.png", Texture.class);
 
-
-        loadFonts(manager);
-        manager.finishLoading();
-
-    }
-
-    /**
-     * Loads the game fonts.
-     * @param manager Asset manager to use.
-     */
-    private void loadFonts(AssetManager manager) {
-        FileHandleResolver resolver = new InternalFileHandleResolver();
-        manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        manager.setLoader(BitmapFont.class, ".otf", new FreetypeFontLoader(resolver));
-
-        FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        mySmallFont.fontFileName = "fonts/font2.otf";
-        mySmallFont.fontParameters.size = 150;
-        manager.load("fonts/font2.otf", BitmapFont.class, mySmallFont);
-
-        manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-        FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        myBigFont.fontFileName = "fonts/font.ttf";
-        myBigFont.fontParameters.size = 100;
-        manager.load("fonts/font.ttf", BitmapFont.class, myBigFont);
-    }
 
 
     /**
@@ -237,7 +183,7 @@ public class GameView extends ScreenAdapter {
      */
     private void updateGame(float delta) {
         game.getGameController().update(this.game.getGameState(), delta);
-        this.game_stage.updateStage(this.game, delta);
+        this.game_stage.updateStage(this.game);
     }
 
     /**
@@ -268,9 +214,9 @@ public class GameView extends ScreenAdapter {
             backgroundMovement = delta * 20;
         else if(game.getGameState() !=  GameState.Paused)
             backgroundMovement = - delta * 400;
-        game.getSpriteBatch().draw(this.game.getTextureManager().getBackground(backgroundMovement), 0,0);
+        game.getSpriteBatch().draw(TextureManager.getInstance().getBackground(backgroundMovement), 0,0);
         if (game.getGameState() != GameState.InMenu) {
-            game.getSpriteBatch().draw(this.game.getTextureManager().getStructure(), 0,0);
+            game.getSpriteBatch().draw(TextureManager.getInstance().getStructure(), 0,0);
         }
     }
 
@@ -290,14 +236,6 @@ public class GameView extends ScreenAdapter {
         this.game_stage = new GameStage(this.game, this.camera);
         this.startStage = new StartStage(this.game, this.camera);
         this.endStage =  new EndStage(this.game, this.camera);
-    }
-
-    /**
-     * Returns the game model.
-     * @return Game model.
-     */
-    public GameModel getGameModel() {
-        return game.getGameModel();
     }
 
     /**

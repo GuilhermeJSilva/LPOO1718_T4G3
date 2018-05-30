@@ -4,11 +4,10 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.PlatformBody;
+import com.lift.game.model.Side;
 import com.lift.game.model.entities.PowerUpType;
 import com.lift.game.model.entities.person.PersonType;
-import com.lift.game.model.Side;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,11 +75,6 @@ public class TextureManager {
     private final Texture background;
 
     /**
-     * Light to be displayed above the background.
-     */
-    private final Texture light;
-
-    /**
      * Represents the structure of the elevators.
      */
     private final Texture structure;
@@ -91,25 +85,37 @@ public class TextureManager {
     private Float backgroundDelta = 0f;
 
     /**
-     * Game that this texture manager belongs to, is used to get the asset manager.
+     * Asset manager.
      */
-    private final LiftGame game;
+    private final GameAssetManager assetManager;
+
+    /**
+     * Texture manager.
+     */
+    private static TextureManager instance;
+
+    /**
+     *
+     * @return The instance of the texture manager.
+     */
+    public static TextureManager getInstance() {
+        if(instance == null)
+            instance = new TextureManager();
+        return instance;
+    }
 
     /**
      * Constructs the manager and loads all textures.
-     *
-     * @param game Owner of this texture manager.
      */
-    public TextureManager(LiftGame game) {
-        this.game = game;
+    private TextureManager() {
+        assetManager = new GameAssetManager();
         initializeColors();
         initializePlatformTextures();
         initializeDefault();
         initializePeopleAnimation();
         initializePowerUpTextures();
-        this.background = game.getAssetManager().get("fundo1-1.png");
-        this.structure = game.getAssetManager().get("structure1.png");
-        this.light = game.getAssetManager().get("SUN.png");
+        this.background = assetManager.get("fundo1-1.png");
+        this.structure = assetManager.get("structure1.png");
     }
 
     /**
@@ -177,7 +183,7 @@ public class TextureManager {
      * @param fileName   Filename of the sprite sheet.
      */
     private void walkAnimation(PersonType personType, String fileName) {
-        Texture walkSheet = game.getAssetManager().get(fileName);
+        Texture walkSheet = assetManager.get(fileName);
 
         TextureRegion[][] tmp = TextureRegion.split(walkSheet,
                 walkSheet.getWidth() / FRAME_COLS,
@@ -283,14 +289,6 @@ public class TextureManager {
 
 
     /**
-     * Returns the texture to be displayed above the background.
-     * @return Texture to be displayed above the background.
-     */
-    public TextureRegion getSun() {
-        return new TextureRegion(light, 0, 0, 1080, 1920);
-    }
-
-    /**
      * Returns a power up texture based on the power up type.
      * @param powerUpType Type of power up.
      * @return Texture associated to that type.
@@ -300,5 +298,19 @@ public class TextureManager {
             return powerUpTexture.get(powerUpType);
         }
         return defaultPowerUpTexture;
+    }
+
+    /**
+     * Disposes of the asset manager.
+     */
+    public void dispose() {
+        assetManager.dispose();
+    }
+
+    /**
+     * @return The asset manager.
+     */
+    public GameAssetManager getAssetManager() {
+        return assetManager;
     }
 }

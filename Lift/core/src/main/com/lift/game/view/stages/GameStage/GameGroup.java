@@ -33,8 +33,8 @@ class GameGroup extends Group {
         this.initiateIndicatorPositions(camera);
         this.initiateActivePUPositions(camera);
 
-        this.addActor(new ElevatorActor(game, game.getGameModel().getElevator(Side.Left)));
-        this.addActor(new ElevatorActor(game, game.getGameModel().getElevator(Side.Right)));
+        this.addActor(new ElevatorActor(game.getGameModel().getElevator(Side.Left)));
+        this.addActor(new ElevatorActor(game.getGameModel().getElevator(Side.Right)));
 
         ArrayList<PlatformModel> platformModels = game.getGameModel().getLeft_floors();
         this.addPlatforms(game, platformModels);
@@ -115,7 +115,7 @@ class GameGroup extends Group {
     void addPUActors(LiftGame game) {
         for (PowerUpModel powerUpModel : game.getGameModel().getPowerUpModels()) {
             if (powerUpModel.isNew()) {
-                this.addActor(new PowerUpActor(game, powerUpModel));
+                this.addActor(new PowerUpActor(powerUpModel));
                 powerUpModel.setNew(false);
             }
         }

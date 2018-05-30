@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.lift.game.LiftGame;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.PlatformModel;
+import com.lift.game.view.TextureManager;
 import com.lift.game.view.actors.EntityActor;
 import com.lift.game.view.clickListeners.FloorClick;
 
@@ -27,7 +28,7 @@ public class PlatformActor extends EntityActor {
      */
     public PlatformActor(LiftGame game, PlatformModel model) {
         super(model);
-        this.sprite = createSprite(game, model);
+        this.sprite = createSprite(model);
         this.update();
         this.addCaptureListener(new FloorClick(game, model.getFloor_number(),model.getSide()));
     }
@@ -35,11 +36,10 @@ public class PlatformActor extends EntityActor {
     /**
      * Creates a sprite representing a platform.
      *
-     * @param game the game this view belongs to
      * @return the sprite representing The platform.
      */
-    public Sprite createSprite(LiftGame game, PlatformModel model) {
-        Texture platformTexture = game.getTextureManager().getPlatformTexture(model.getFloor_number());
+    public Sprite createSprite(PlatformModel model) {
+        Texture platformTexture = TextureManager.getInstance().getPlatformTexture(model.getFloor_number());
         TextureRegion textureRegion = new TextureRegion(platformTexture,(int)(PlatformBody.PLATFORM_LENGTH/PIXEL_TO_METER), (int)(PlatformBody.PLATFORM_HEIGHT/PIXEL_TO_METER));
         return new Sprite(textureRegion);
     }

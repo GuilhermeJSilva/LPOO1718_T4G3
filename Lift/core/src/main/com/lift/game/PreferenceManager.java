@@ -35,7 +35,7 @@ public class PreferenceManager {
         float highScore = preferences.getFloat("highscore", 0f);
 
         if (game.getGameModel().getScore() > highScore) {
-            preferences.putFloat("highscore", game.getGameModel().getScore().floatValue());
+            preferences.putFloat("highscore", new_score);
             preferences.flush();
 
         }

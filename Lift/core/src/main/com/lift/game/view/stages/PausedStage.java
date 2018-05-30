@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
+import com.lift.game.view.TextureManager;
 
 /**
  * Shown when the game is paused.
@@ -28,18 +29,17 @@ public class PausedStage extends Stage {
     public PausedStage(LiftGame game, OrthographicCamera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
 
-        addPausedLabel(game, camera);
+        addPausedLabel(camera);
         this.addActor(new ButtonsGroup(game, camera));
     }
 
     /**
      * Creates the paused label.
-     * @param game Uses the asset manager of this game.
      * @param camera Aligns the label with this camera.
      */
-    private void addPausedLabel(LiftGame game, OrthographicCamera camera) {
+    private void addPausedLabel(OrthographicCamera camera) {
         Label.LabelStyle label1Style = new Label.LabelStyle();
-        label1Style.font = game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
+        label1Style.font = TextureManager.getInstance().getAssetManager().get("fonts/font2.otf", BitmapFont.class);
         label1Style.fontColor = Color.WHITE;
 
         this.pausedLabel = new Label("PAUSED", label1Style);

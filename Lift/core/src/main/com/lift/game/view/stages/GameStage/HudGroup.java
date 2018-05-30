@@ -26,7 +26,7 @@ public class HudGroup extends Group {
     public HudGroup(LiftGame game, Camera camera) {
         this.addActor(new TimeLabelActor(game, camera));
         this.addActor(new CoinLabelActor(game, camera));
-        this.addActor(new LifeActor(game, camera));
+        this.addActor(new LifeActor(camera, game.getGameModel()));
 
         addPauseButton(game, camera);
         addMuteButton(game, camera);
@@ -35,8 +35,8 @@ public class HudGroup extends Group {
 
     /**
      * Updates the elements of stage.
+     *  @param game  Updates according to this game.
      *
-     * @param game  Updates according to this game.
      */
     public void updateStage(LiftGame game) {
         for (Actor a :
@@ -58,7 +58,7 @@ public class HudGroup extends Group {
      * @param camera Camera to align.
      */
     private void addPauseButton(final LiftGame game, Camera camera) {
-        ImageButton pauseButton = ButtonCreator.createButton(game, "pause1.png");
+        ImageButton pauseButton = ButtonCreator.createButton("pause1.png");
         int x = (int) (camera.viewportWidth / 2 - pauseButton.getWidth() / 2);
         int y = (int) (camera.viewportHeight - pauseButton.getHeight() * 5);
         pauseButton.setPosition(x, y);
@@ -73,7 +73,7 @@ public class HudGroup extends Group {
      * @param camera Aligns according to this camera.
      */
     private void addMuteButton(final LiftGame game, Camera camera) {
-        ImageButton muteButton = ButtonCreator.createButton(game, "sound.png");
+        ImageButton muteButton = ButtonCreator.createButton("sound.png");
         int x = (int) (camera.viewportWidth / 2 - muteButton.getWidth()/1.5);
         int y = (int) (muteButton.getHeight() * 3.5);
         muteButton.setPosition(x, y);

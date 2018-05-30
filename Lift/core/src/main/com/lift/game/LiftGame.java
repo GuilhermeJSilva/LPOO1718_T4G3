@@ -2,7 +2,6 @@ package com.lift.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,8 +16,6 @@ import com.lift.game.view.TextureManager;
 public class LiftGame extends Game {
     private PolygonSpriteBatch polygonBatch;
     private SpriteBatch spriteBatch;
-    private AssetManager assetManager;
-    private TextureManager textureManager;
     private Music music;
     private PreferenceManager gamePreferences;
     private GameModel gameModel;
@@ -37,7 +34,6 @@ public class LiftGame extends Game {
     public void create() {
         spriteBatch = new SpriteBatch();
         polygonBatch = new PolygonSpriteBatch();
-        assetManager = new AssetManager();
         music = Gdx.audio.newMusic(Gdx.files.internal("themesong.mp3"));
         gamePreferences = new PreferenceManager(Gdx.app.getPreferences("Game Preferences"), this);
         this.gameState = GameState.InMenu;
@@ -62,16 +58,7 @@ public class LiftGame extends Game {
     public void dispose() {
         spriteBatch.dispose();
         polygonBatch.dispose();
-        assetManager.dispose();
-    }
-
-    /**
-     * Returns the asset manager used to load all textures and sounds.
-     *
-     * @return the asset manager
-     */
-    public AssetManager getAssetManager() {
-        return assetManager;
+        TextureManager.getInstance().dispose();
     }
 
     /**
@@ -90,17 +77,6 @@ public class LiftGame extends Game {
      */
     public PolygonSpriteBatch getPolygonBatch() {
         return polygonBatch;
-    }
-
-    /**
-     * Returns the texture manager.
-     *
-     * @return Texture manager.
-     */
-    public TextureManager getTextureManager() {
-        if (textureManager == null)
-            textureManager = new TextureManager(this);
-        return textureManager;
     }
 
     /**

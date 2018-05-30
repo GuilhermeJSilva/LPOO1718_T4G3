@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
+import com.lift.game.view.TextureManager;
 
 /**
  * Stage to be shown when the game is over.
@@ -36,7 +37,7 @@ public class EndStage extends Stage {
      */
     private void createScoreLabel(LiftGame game, OrthographicCamera camera) {
         Label.LabelStyle label1Style = new Label.LabelStyle();
-        label1Style.font = game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
+        label1Style.font = TextureManager.getInstance().getAssetManager().get("fonts/font2.otf", BitmapFont.class);
         label1Style.fontColor = Color.WHITE;
 
         this.scoreLabel = new Label("Score: " + game.getGameModel().getScore(), label1Style);

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
+import com.lift.game.view.TextureManager;
 
 public class StartStage extends Stage {
     private Label timerLabel;
@@ -18,13 +19,13 @@ public class StartStage extends Stage {
     public StartStage(LiftGame game, OrthographicCamera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
         this.camera = camera;
-        createTimerLabel(game);
+        createTimerLabel();
         this.addActor(timerLabel);
     }
 
-    private void createTimerLabel(LiftGame game) {
+    private void createTimerLabel() {
         Label.LabelStyle label1Style = new Label.LabelStyle();
-        label1Style.font = game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
+        label1Style.font = TextureManager.getInstance().getAssetManager().get("fonts/font2.otf", BitmapFont.class);
         label1Style.fontColor = Color.WHITE;
 
         this.timerLabel = new Label(timeToStart.toString(), label1Style);

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.lift.game.LiftGame;
+import com.lift.game.view.TextureManager;
 
 /**
  * Represents the coin label.
@@ -26,7 +27,7 @@ public class CoinLabelActor extends Actor {
      */
     public CoinLabelActor(LiftGame game, Camera camera) {
         Label.LabelStyle label2Style = new Label.LabelStyle();
-        label2Style.font = game.getAssetManager().get("fonts/font.ttf", BitmapFont.class);
+        label2Style.font = TextureManager.getInstance().getAssetManager().get("fonts/font.ttf", BitmapFont.class);
         label2Style.fontColor = Color.WHITE;
 
         this.coin_label =  new Label(Integer.toString(game.getGamePreferences().getCoins()),label2Style );

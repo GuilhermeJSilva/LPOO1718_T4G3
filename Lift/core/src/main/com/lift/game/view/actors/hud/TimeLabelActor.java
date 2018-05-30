@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.lift.game.LiftGame;
 import com.lift.game.model.GameModel;
+import com.lift.game.view.TextureManager;
 
 /**
  * Shows the time left in the game.
@@ -29,7 +30,7 @@ public class TimeLabelActor extends Actor {
      */
     public TimeLabelActor(LiftGame game, Camera camera) {
         Label.LabelStyle label1Style = new Label.LabelStyle();
-        label1Style.font = game.getAssetManager().get("fonts/font2.otf", BitmapFont.class);
+        label1Style.font = TextureManager.getInstance().getAssetManager().get("fonts/font2.otf", BitmapFont.class);
         label1Style.fontColor = new Color(202,200,199, 0xff);
 
         this.score_label = new Label("30.0", label1Style);

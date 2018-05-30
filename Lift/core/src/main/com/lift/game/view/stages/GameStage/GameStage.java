@@ -40,12 +40,11 @@ public class GameStage extends Stage {
     /**
      * Updates the stage.
      * @param game Updates are accordingly to this game.
-     * @param delta Time since the last update.
      */
-    public void updateStage(LiftGame game, float delta) {
+    public void updateStage(LiftGame game) {
         gameGroup.addPeopleActors(game);
         gameGroup.addPUActors(game);
-        this.hudActorGroup.updateStage(game, delta);
+        this.hudActorGroup.updateStage(game);
     }
 
     @Override

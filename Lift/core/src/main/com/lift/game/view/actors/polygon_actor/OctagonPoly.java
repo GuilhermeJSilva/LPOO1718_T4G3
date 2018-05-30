@@ -15,7 +15,7 @@ public class OctagonPoly extends BasePolyActor {
     @Override
     protected PolygonRegion getRegion(Texture texture) {
         if (staticFront == null) {
-            return new PolygonRegion(new TextureRegion(texture), new float[]{      // Four vertices
+            staticFront = new PolygonRegion(new TextureRegion(texture), new float[]{      // Four vertices
                     width /2, 0,
                     (float) Math.sqrt(2) / 2f * width /2, (float) Math.sqrt(2) / 2f * height /2,
                     0, height /2,
