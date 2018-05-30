@@ -99,7 +99,7 @@ public class PersonActor extends EntityActor {
     }
 
     private Side getRunningDirection() {
-        if(((PersonModel) this.model).getSide() == Side.Left) {
+        if(this.model.getSide() == Side.Left) {
             if(((PersonModel) this.model).getPersonState() != PersonState.Reached)
                 return Side.Right;
             else

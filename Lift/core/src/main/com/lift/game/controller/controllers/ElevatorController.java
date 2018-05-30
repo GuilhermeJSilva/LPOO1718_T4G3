@@ -6,6 +6,8 @@ import com.lift.game.model.Side;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.PlatformModel;
 
+import static com.lift.game.controller.entities.ScreenSensorBody.BOTTOM_SENSOR;
+
 /**
  * Controls the elevator movement.
  */
@@ -48,6 +50,18 @@ public class ElevatorController {
                 em.setStopped(true);
 
             }
+        }
+    }
+
+    /**
+     * Handles the collision between the elevator and the bottom sensor
+     * @param elevatorBody Body of the elevator that suffered a collision.
+     * @param categoryBits Category bits of the sensor it hit.
+     */
+    public void handleCollision(Body elevatorBody, short categoryBits) {
+        if(categoryBits == BOTTOM_SENSOR) {
+            elevatorBody.setLinearVelocity(0,0);
+            ((ElevatorModel) elevatorBody.getUserData()).setTarget_floor(-1);
         }
     }
 }

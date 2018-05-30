@@ -40,15 +40,13 @@ public class PlatformController {
     }
 
     /**
-     * Handles the collision between
+     * Handles the collision between a platform and the bottom sensor.
      * @param platformBody Body of the platform that suffered a collision.
      * @param categoryBits Category bits of the sensor it hit.
      */
     public void handleCollision(Body platformBody, short categoryBits) {
         if(categoryBits == BOTTOM_SENSOR) {
             platformsToJump.add(platformBody);
-        } else {
-
         }
     }
 

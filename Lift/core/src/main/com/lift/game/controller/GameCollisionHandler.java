@@ -25,8 +25,18 @@ class  GameCollisionHandler implements ContactListener {
         checkIfPersonPersonCollision(bodyA, bodyB);
         checkIfPowerUpCollision(bodyA, bodyB);
         checkIfPlatformSensorCollision(contact);
+        checkIfElevatorSensorCollision(contact);
 
+    }
 
+    private void checkIfElevatorSensorCollision(Contact contact) {
+        Body bodyA = contact.getFixtureA().getBody();
+        Body bodyB = contact.getFixtureB().getBody();
+        if (bodyA.getUserData() instanceof ElevatorModel && bodyB.getUserData() == null) {
+            gameController.getElevatorController().handleCollision(bodyA, contact.getFixtureB().getFilterData().categoryBits);
+        } else if (bodyA.getUserData() == null && bodyB.getUserData() instanceof ElevatorModel) {
+            gameController.getElevatorController().handleCollision(bodyB, contact.getFixtureA().getFilterData().categoryBits);
+        }
     }
 
     private void checkIfPlatformSensorCollision(Contact contact) {

@@ -4,7 +4,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.Side;
 
-//Declared as class because interfaces do not allow static methods.
+/**
+ * Defines the interface for a movement strategy.
+ */
 public interface MovementStrategy {
 
     int getPriority();
