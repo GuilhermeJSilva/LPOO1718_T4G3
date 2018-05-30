@@ -8,7 +8,7 @@ import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
 
-class GameCollisionHandler implements ContactListener {
+class  GameCollisionHandler implements ContactListener {
     private final GameController gameController;
 
     public GameCollisionHandler(GameController gameController) {

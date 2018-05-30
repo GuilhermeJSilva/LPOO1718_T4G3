@@ -7,6 +7,8 @@ import com.lift.game.model.entities.ElevatorModel;
 import java.util.ArrayList;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
+import static com.lift.game.controller.entities.ScreenSensorBody.BOTTOM_SENSOR;
+import static com.lift.game.controller.entities.ScreenSensorBody.TOP_SENSOR;
 import static com.lift.game.controller.powerups.types.BasicPowerUP.PU_MASK;
 
 /**
@@ -63,7 +65,7 @@ public class ElevatorBody extends EntityBody {
         PhysicalVariables phys = new PhysicalVariables(ELEVATOR_WIDTH, ELEVATOR_HEIGHT, 1, 0.5f, 0f);
 
         this.add_fixture(body, new float[]{0, 0, 0, ELEVATOR_HEIGHT, ELEVATOR_WIDTH, 0, ELEVATOR_WIDTH, ELEVATOR_HEIGHT}
-                , phys, ELEVATOR_MASK, (short) (PLATFORM_ELEVATOR_SENSOR | PU_MASK), true);
+                , phys, ELEVATOR_MASK, (short) (PLATFORM_ELEVATOR_SENSOR | PU_MASK | TOP_SENSOR | BOTTOM_SENSOR), true);
         this.body.setGravityScale(0);
 
     }
