@@ -40,7 +40,7 @@ public class LiftGame extends Game {
     private GameModel gameModel;
 
     /**
-     * Contoller of the game.
+     * Controller of the game.
      */
     private GameController gameController;
 
