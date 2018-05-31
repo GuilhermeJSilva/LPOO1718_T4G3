@@ -1,4 +1,4 @@
-package com.lift.game.view;
+package com.lift.game.view.actors.polygon_actor;
 
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -22,7 +22,7 @@ public class IndicatorCreator {
     /**
      * Height of the indicator.
      */
-    private static final float INDICATOR_HEIGHT = (3 / PIXEL_TO_METER);
+    public static final float INDICATOR_HEIGHT = (3 / PIXEL_TO_METER);
 
     /**
      * Creates the indicator.

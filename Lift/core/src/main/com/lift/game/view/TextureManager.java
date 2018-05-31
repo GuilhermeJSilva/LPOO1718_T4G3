@@ -115,7 +115,7 @@ public class TextureManager {
         initializePeopleAnimation();
         initializePowerUpTextures();
         this.background = assetManager.get("fundo1-1.png");
-        this.structure = assetManager.get("structure1.png");
+        this.structure = assetManager.get("structure.png");
     }
 
     /**
@@ -153,13 +153,25 @@ public class TextureManager {
      */
     private void initializePlatformTextures() {
         platformTextures = new ArrayList<Texture>();
+        platformTextures.add(assetManager.get("blue.png", Texture.class));
+        platformTextures.add(assetManager.get("green.png", Texture.class));
+        platformTextures.add(assetManager.get("orange.png", Texture.class));
+        platformTextures.add(assetManager.get("purple.png", Texture.class));
+        platformTextures.add(assetManager.get("red.png", Texture.class));
+        platformTextures.add(assetManager.get("yellow.png", Texture.class));
+    }
 
-        for (int color : colors) {
-            Pixmap pix = new Pixmap((int) (PlatformBody.PLATFORM_LENGTH / PIXEL_TO_METER), (int) (PlatformBody.PLATFORM_HEIGHT / PIXEL_TO_METER), Pixmap.Format.RGBA8888);
-            pix.setColor(color);
-            pix.fill();
-            platformTextures.add(new Texture(pix));
-        }
+    /**
+     * Initializes the colors.
+     */
+    private void initializeColors() {
+        colors = new ArrayList<Integer>();
+        colors.add(0x0140a5ff);
+        colors.add(0x119c87ff);
+        colors.add(0xff4603ff);
+        colors.add(0x9400d3ff);
+        colors.add(0x9b111eff);
+        colors.add(0xcfb53bff);
     }
 
     /**
@@ -172,6 +184,8 @@ public class TextureManager {
         walkAnimation(PersonType.Regular, "regular.png");
         walkAnimation(PersonType.Drunken, "drunk.png");
     }
+
+
 
     /**
      * Initializes the animations for a given type of person.
@@ -200,18 +214,7 @@ public class TextureManager {
         reverseWalkAnimation.put(personType, new Animation<TextureRegion>(0.125f, reverseWalkFrames));
     }
 
-    /**
-     * Initializes the colors.
-     */
-    private void initializeColors() {
-        colors = new ArrayList<Integer>();
-        colors.add(0x129824ff);
-        colors.add(0x4ffb41ff);
-        colors.add(0x0000ffff);
-        colors.add(0xffff00ff);
-        colors.add(0xff00ffff);
-        colors.add(0x00ffffff);
-    }
+
 
     /**
      * Returns the color for a certain floor, if there is no color for that floor the default color is returned.

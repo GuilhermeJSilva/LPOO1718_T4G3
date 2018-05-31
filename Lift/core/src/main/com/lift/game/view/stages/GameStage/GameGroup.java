@@ -10,7 +10,7 @@ import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
 import com.lift.game.model.Side;
 import com.lift.game.view.GameView;
-import com.lift.game.view.IndicatorCreator;
+import com.lift.game.view.actors.polygon_actor.IndicatorCreator;
 import com.lift.game.view.actors.game_actors.ElevatorActor;
 import com.lift.game.view.actors.game_actors.PersonActor;
 import com.lift.game.view.actors.game_actors.PlatformActor;
@@ -53,19 +53,19 @@ class GameGroup extends Group {
         HashMap<Side, ArrayList<Vector2>> indicatorPositions = new HashMap<Side, ArrayList<Vector2>>();
         ArrayList<Vector2> arrayPositions = new ArrayList<Vector2>();
 
-        float leftIndicatorHeight = camera.viewportHeight / 2 + camera.viewportHeight / 4 + camera.viewportHeight / 60;
-        arrayPositions.add(new Vector2(camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH, leftIndicatorHeight));
-        arrayPositions.add(new Vector2(camera.viewportWidth / 2, leftIndicatorHeight));
-        arrayPositions.add(new Vector2(camera.viewportWidth / 2 + IndicatorCreator.INDICATOR_WIDTH, leftIndicatorHeight));
+        float xLeft = camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH / 2 - camera.viewportWidth / 15f;
+        arrayPositions.add(new Vector2(xLeft, camera.viewportHeight/ 2 + 1.5f * IndicatorCreator.INDICATOR_HEIGHT));
+        arrayPositions.add(new Vector2(xLeft, camera.viewportHeight/ 2 - 0.5f * IndicatorCreator.INDICATOR_HEIGHT));
+        arrayPositions.add(new Vector2(xLeft, camera.viewportHeight/ 2 - 2.5f * IndicatorCreator.INDICATOR_HEIGHT));
         indicatorPositions.put(Side.Left, arrayPositions);
 
         arrayPositions = new ArrayList<Vector2>();
 
-        float rightIndicatorRight = camera.viewportHeight / 2 - camera.viewportHeight / 6 - camera.viewportHeight / 56;
-        //noinspection SuspiciousNameCombination
-        arrayPositions.add(new Vector2(camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH, rightIndicatorRight));
-        arrayPositions.add(new Vector2(camera.viewportWidth / 2, rightIndicatorRight));
-        arrayPositions.add(new Vector2(camera.viewportWidth / 2 + IndicatorCreator.INDICATOR_WIDTH, rightIndicatorRight));
+
+        float xRight = camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH / 2 + camera.viewportWidth / 10;
+        arrayPositions.add(new Vector2(xRight, camera.viewportHeight/ 2 + 1.5f * IndicatorCreator.INDICATOR_HEIGHT));
+        arrayPositions.add(new Vector2(xRight, camera.viewportHeight/ 2 - 0.5f * IndicatorCreator.INDICATOR_HEIGHT));
+        arrayPositions.add(new Vector2(xRight, camera.viewportHeight/ 2 - 2.5f * IndicatorCreator.INDICATOR_HEIGHT));
         indicatorPositions.put(Side.Right, arrayPositions);
 
         PersonActor.setIndicatorPositions(indicatorPositions);
@@ -77,10 +77,10 @@ class GameGroup extends Group {
      */
     private void initiateActivePUPositions(Camera camera) {
         ArrayList<Vector2> activePositions = new ArrayList<Vector2>();
-        float activeWidth = camera.viewportWidth / 2 - BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER;
-        activePositions.add(new Vector2(activeWidth, camera.viewportHeight / 2 - 2f * BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER));
-        activePositions.add(new Vector2(activeWidth, camera.viewportHeight / 2));
-        activePositions.add(new Vector2(activeWidth, camera.viewportHeight / 2 + 2f * BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER));
+        float y = camera.viewportHeight / 2 - BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER + camera.viewportHeight / 6;
+        activePositions.add(new Vector2(camera.viewportWidth / 2 - 2* BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER, y));
+        activePositions.add(new Vector2(camera.viewportWidth / 2 - 4 * BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER, y));
+        activePositions.add(new Vector2(camera.viewportWidth / 2 + 0 * BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER, y));
         PowerUpActor.setActivePositions(activePositions);
     }
 

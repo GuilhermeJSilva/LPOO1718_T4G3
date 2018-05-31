@@ -32,7 +32,7 @@ public class GameAssetManager extends AssetManager {
         this.load("SCORE.png", Texture.class);
         this.load("SETTINGS.png", Texture.class);
         this.load("fundo1-1.png", Texture.class);
-        this.load("structure1.png", Texture.class);
+        this.load("structure.png", Texture.class);
         this.load("SUN.png", Texture.class);
         this.load("lifttitle.png", Texture.class);
         this.load("pause1.png", Texture.class);
@@ -41,6 +41,15 @@ public class GameAssetManager extends AssetManager {
         this.load("pregnant.png", Texture.class);
         this.load("replay.png", Texture.class);
         this.load("playbutton.png", Texture.class);
+
+        this.load("blue.png", Texture.class);
+        this.load("green.png", Texture.class);
+        this.load("orange.png", Texture.class);
+        this.load("purple.png", Texture.class);
+        this.load("red.png", Texture.class);
+        this.load("yellow.png", Texture.class);
+
+
         loadFonts();
         this.finishLoading();
 
