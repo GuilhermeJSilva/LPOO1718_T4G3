@@ -3,6 +3,9 @@ package com.lift.game.model.entities.person;
 import com.lift.game.model.Side;
 import com.lift.game.model.entities.EntityModel;
 
+/**
+ * Models a person.
+ */
 public class PersonModel extends EntityModel {
 
     /**
@@ -82,6 +85,7 @@ public class PersonModel extends EntityModel {
      * Updates the person's satisfaction based on the time that passed.
      *
      * @param delta Time that passed.
+     * @return True if the satisfaction has reached zero.
      */
     public boolean update(float delta) {
         this.satisfaction -= delta;
@@ -107,28 +111,47 @@ public class PersonModel extends EntityModel {
     }
 
 
-
+    /**
+     * Changes the person's state.
+     * @param personState New person state.
+     */
     public void setPersonState(PersonState personState) {
         this.personState = personState;
     }
 
+    /**
+     * @return Person's state.
+     */
     public PersonState getPersonState() {
         return personState;
     }
 
+    /**
+     * @return Person's floor.
+     */
     public int getFloor() {
         return floor;
     }
 
-
+    /**
+     * @return True if the person is trying to enter.
+     */
     public boolean isTryingToEnter() {
         return tryingToEnter;
     }
 
+    /**
+     * Changes the trying to enter flag.
+     * @param tryingToEnter New value for the flag.
+     */
     public void setTryingToEnter(boolean tryingToEnter) {
         this.tryingToEnter = tryingToEnter;
     }
 
+    /**
+     * Returns the position
+     * @return Position of the person in plat.
+     */
     public int getPlat_position() {
         return plat_position;
     }

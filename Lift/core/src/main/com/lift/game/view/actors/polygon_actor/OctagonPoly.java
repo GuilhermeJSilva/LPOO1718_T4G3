@@ -5,9 +5,24 @@ import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * Represents an octagon.
+ */
 public class OctagonPoly extends BasePolyActor {
+    /**
+     * Static front of the polygon.
+     */
     private PolygonRegion staticFront;
 
+    /**
+     *
+     * @param x X coordinate.
+     * @param y Y Coordinate.
+     * @param width Width.
+     * @param height Height.
+     * @param color Color.
+     * @param polygonSpriteBatch Batch.
+     */
     public OctagonPoly(float x, float y, int width, int height, int color, PolygonSpriteBatch polygonSpriteBatch) {
         super(x, y, width, height, color, polygonSpriteBatch);
     }

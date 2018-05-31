@@ -8,9 +8,20 @@ import com.lift.game.model.entities.PlatformModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.person.PersonModel;
 
+/**
+ * Collision handler for Box2D
+ */
 class  GameCollisionHandler implements ContactListener {
+
+    /**
+     * Access to sub controllers.
+     */
     private final GameController gameController;
 
+    /**
+     * Creates the collision handler.
+     * @param gameController Master game controller.
+     */
     public GameCollisionHandler(GameController gameController) {
         super();
         this.gameController = gameController;
@@ -29,6 +40,10 @@ class  GameCollisionHandler implements ContactListener {
 
     }
 
+    /**
+     * Checks if an elevator hit the sensor.
+     * @param contact Contact to check.
+     */
     private void checkIfElevatorSensorCollision(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
@@ -39,6 +54,10 @@ class  GameCollisionHandler implements ContactListener {
         }
     }
 
+    /**
+     * Verifies if a platform hit the sensor.
+     * @param contact Contact to check.
+     */
     private void checkIfPlatformSensorCollision(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
         Body bodyB = contact.getFixtureB().getBody();
@@ -49,6 +68,11 @@ class  GameCollisionHandler implements ContactListener {
         }
     }
 
+    /**
+     * Checks if a power up collided with an elevator.
+     * @param bodyA One of the bodies that collided.
+     * @param bodyB One of the bodies that collided.
+     */
     private void checkIfPowerUpCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PowerUpModel && bodyB.getUserData() instanceof ElevatorModel) {
             pickUpPowerUp(bodyA);
@@ -57,6 +81,10 @@ class  GameCollisionHandler implements ContactListener {
         }
     }
 
+    /**
+     * If a power up is waiting for a collision, it changes its state.
+     * @param powerUpBody Physical body of the power up.
+     */
     private void pickUpPowerUp(Body powerUpBody) {
         PowerUpModel powerUpModel = (PowerUpModel) powerUpBody.getUserData();
         if (powerUpModel.getPowerUpState() == PowerUpState.Waiting) {
@@ -64,25 +92,23 @@ class  GameCollisionHandler implements ContactListener {
         }
     }
 
+    /**
+     * Checks if a person collided with another.
+     * @param bodyA One of the bodies that collided.
+     * @param bodyB One of the bodies that collided.
+     */
     private void checkIfPersonPersonCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PersonModel && bodyB.getUserData() instanceof PersonModel) {
-            solvePersonPersonCollision(bodyA, bodyB);
+            gameController.getStrategySelector().getStrategy((PersonModel) bodyA.getUserData(), (PersonModel) bodyB.getUserData()).collisionPersonPersonInPlatform(bodyA, bodyB);
         }
     }
 
-    private void solvePersonPersonCollision(Body person1, Body person2) {
-        MovementStrategy movementStrategy1 = gameController.getStrategySelector().getStrategy((PersonModel) person1.getUserData());
-        MovementStrategy movementStrategy2 = gameController.getStrategySelector().getStrategy((PersonModel) person2.getUserData());
-        MovementStrategy movementStrategy;
-        if (movementStrategy1.getPriority() > movementStrategy2.getPriority())
-            movementStrategy = movementStrategy1;
-        else
-            movementStrategy = movementStrategy2;
-        movementStrategy.collisionPersonPersonInPlatform(person1, person2);
-
-
-    }
-
+    /**
+     * Verifies if a person collided with a platform.
+     * @param contact Physical contact.
+     * @param bodyA One of the bodies that collided.
+     * @param bodyB One of the bodies that collided.
+     */
     private void checkIfPlatformPersonCollision(Contact contact, Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof PersonModel) {
             solvePersonPlatformCollision(bodyB, bodyA, contact.getFixtureA().getFilterData().categoryBits);
@@ -91,12 +117,22 @@ class  GameCollisionHandler implements ContactListener {
         }
     }
 
+    /**
+     * Solves a collision between a person and a platform.
+     * @param personBody Body of the person.
+     * @param platformBody Body of the platform.
+     * @param platformFixture Category bits of the platform fixture.
+     */
     private void solvePersonPlatformCollision(Body personBody, Body platformBody, int platformFixture) {
         MovementStrategy movementStrategy = gameController.getStrategySelector().getStrategy((PersonModel) personBody.getUserData());
         movementStrategy.solvePersonPlatformCollision(personBody, platformBody, platformFixture);
     }
 
-
+    /**
+     * Verifies if the collision is between a platform and an elevator.
+     * @param bodyA One of the bodies that collided.
+     * @param bodyB One of the bodies that collided.
+     */
     private void checkIfPlatformElevatorCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
             gameController.getElevatorController().handlePlatformElevatorCollision(bodyA, bodyB, bodyB.getLinearVelocity().y < 0);
@@ -104,7 +140,6 @@ class  GameCollisionHandler implements ContactListener {
             gameController.getElevatorController().handlePlatformElevatorCollision(bodyB, bodyA, bodyA.getLinearVelocity().y < 0);
         }
     }
-
 
     public void endContact(Contact contact) {
         Body bodyA = contact.getFixtureA().getBody();
@@ -115,6 +150,11 @@ class  GameCollisionHandler implements ContactListener {
         checkIfEndPowerUP(bodyA, bodyB);
     }
 
+    /**
+     * Checks if a collision between a power up and an elevator ended.
+     * @param bodyA One of the bodies that collided.
+     * @param bodyB One of the bodies that collided.
+     */
     private void checkIfEndPowerUP(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PowerUpModel && bodyB.getUserData() instanceof ElevatorModel) {
             dropPowerUp(bodyA);
@@ -123,6 +163,10 @@ class  GameCollisionHandler implements ContactListener {
         }
     }
 
+    /**
+     * Solves a the end of a collision between a power up and an elevator.
+     * @param powerUpBody Body of the power up.
+     */
     private void dropPowerUp(Body powerUpBody) {
         PowerUpModel powerUpModel = (PowerUpModel) powerUpBody.getUserData();
         if (powerUpModel.getPowerUpState() == PowerUpState.PickedUp) {
@@ -130,20 +174,22 @@ class  GameCollisionHandler implements ContactListener {
         }
     }
 
+    /**
+     * Verifies if a collision between two people ended.
+     * @param person1 One of the bodies that collided.
+     * @param person2 One of the bodies that collided.
+     */
     private void checkIfEndPersonPersonCollision(Body person1, Body person2) {
         if (person1.getUserData() instanceof PersonModel && person2.getUserData() instanceof PersonModel) {
-            MovementStrategy movementStrategy1 = gameController.getStrategySelector().getStrategy((PersonModel) person1.getUserData());
-            MovementStrategy movementStrategy2 = gameController.getStrategySelector().getStrategy((PersonModel) person2.getUserData());
-            MovementStrategy movementStrategy;
-            if (movementStrategy1.getPriority() > movementStrategy2.getPriority())
-                movementStrategy = movementStrategy1;
-            else
-                movementStrategy = movementStrategy2;
-            movementStrategy.collisionEndPersonPersonInPlatform(person1, person2, ((PersonModel) person1.getUserData()).getSide());
+            gameController.getStrategySelector().getStrategy((PersonModel) person1.getUserData(), (PersonModel) person2.getUserData()).collisionEndPersonPersonInPlatform(person1, person2, ((PersonModel) person1.getUserData()).getSide());
         }
     }
 
-
+    /**
+     * Verifies if a platform end its collision with an elevator.
+     * @param bodyA One of the bodies that collided.
+     * @param bodyB One of the bodies that collided.
+     */
     private void checkIfEndPlatformElevatorCollision(Body bodyA, Body bodyB) {
         if (bodyA.getUserData() instanceof PlatformModel && bodyB.getUserData() instanceof ElevatorModel) {
             gameController.getElevatorController().handlePlatformElevatorCollision(bodyA, bodyB, bodyB.getLinearVelocity().y > 0);

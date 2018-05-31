@@ -10,6 +10,9 @@ import com.lift.game.model.Side;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_ELEVATOR_SENSOR;
 
+/**
+ * Null object for strategies.
+ */
 public class NullStrategy implements MovementStrategy {
 
     /**
@@ -17,6 +20,10 @@ public class NullStrategy implements MovementStrategy {
      */
     private final GameController gameController;
 
+    /**
+     * Constructs the new strategy.
+     * @param gameController Controller to act on.
+     */
     public NullStrategy(GameController gameController) {
         this.gameController =  gameController;
     }

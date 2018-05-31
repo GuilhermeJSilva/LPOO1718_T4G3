@@ -29,7 +29,7 @@ public class MainMenuCLick extends ClickListener {
     public void clicked(InputEvent event, float x, float y) {
         game.setGameState(GameState.InMenu);
         MenuStage menuStage = ((GameView) game.getScreen()).getMenuStage();
-        menuStage.updateHighScore(game);
+        menuStage.updateHighScore(game.getGamePreferences().getHighscore());
         Gdx.input.setInputProcessor(menuStage);
     }
 }

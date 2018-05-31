@@ -9,13 +9,30 @@ import com.lift.game.model.Side;
 
 import static com.lift.game.controller.entities.PlatformBody.PLATFORM_END_SENSOR;
 
+/**
+ * Describes the movement for a regular person.
+ */
 public class RegularMovement extends NullStrategy implements MovementStrategy {
+    /**
+     * Initial x velocity.
+     */
     private static final int INITIAL_V = 10;
+
+    /**
+     * Giving up velocity.
+     */
     private static final int GIVING_UP_V = 2;
 
+    /**
+     * Priority of the strategy.
+     */
     private final Integer priority = 0;
 
 
+    /**
+     * Constructs the strategy.
+     * @param gameController Controller of the game.
+     */
     public RegularMovement(GameController gameController) {
         super(gameController);
     }

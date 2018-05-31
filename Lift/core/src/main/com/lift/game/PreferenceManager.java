@@ -30,6 +30,7 @@ public class PreferenceManager {
 
     /**
      * Updates the high score.
+     * @param new_score New high score.
      */
     public void updateHighScore(float new_score) {
         float highScore = preferences.getFloat("highscore", 0f);
