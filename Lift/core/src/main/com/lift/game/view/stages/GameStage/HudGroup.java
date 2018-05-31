@@ -59,7 +59,7 @@ public class HudGroup extends Group {
      */
     private void addPauseButton(final LiftGame game, Camera camera) {
         ImageButton pauseButton = ButtonCreator.createButton("pause1.png");
-        int x = (int) (camera.viewportWidth / 2 - pauseButton.getWidth() / 2);
+        int x = (int) (camera.viewportWidth / 2 + 1 * pauseButton.getWidth() / 2);
         int y = (int) (camera.viewportHeight - pauseButton.getHeight() * 5);
         pauseButton.setPosition(x, y);
         pauseButton.addListener(new PauseClick(game));
@@ -74,8 +74,8 @@ public class HudGroup extends Group {
      */
     private void addMuteButton(final LiftGame game, Camera camera) {
         ImageButton muteButton = ButtonCreator.createButton("sound.png");
-        int x = (int) (camera.viewportWidth / 2 - muteButton.getWidth()/1.5);
-        int y = (int) (muteButton.getHeight() * 3.5);
+        int x = (int) (camera.viewportWidth / 2 -  2.6 * muteButton.getWidth()/2);
+        int y = (int) (camera.viewportHeight - muteButton.getHeight() * 3.7);
         muteButton.setPosition(x, y);
         muteButton.addListener(new MuteClick(game));
         this.addActor(muteButton);
