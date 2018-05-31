@@ -1,8 +1,10 @@
+package com.lift.game;
+
 public interface PlayInterface {
 
     void signIn();
     void signOut();
     boolean isSignedIn();
-    void onShowLeaderboardsRequest();
+    void onShowLeaderboardsRequested();
     void updateLeaderboards(int finalScore);
 }
