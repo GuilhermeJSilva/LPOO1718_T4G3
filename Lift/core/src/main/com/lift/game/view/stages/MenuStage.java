@@ -19,23 +19,42 @@ import com.lift.game.view.TextureManager;
 import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.clickListeners.NewGameClick;
 
+/**
+ * Stage to access the menu.
+ */
 public class MenuStage extends Stage {
+    /**
+     * Global offset of the buttons.
+     */
     private final float GLOBAL_OFFSET;
+
+    /**
+     * Spacing between buttons.
+     */
     private final float SPACING_OFFSET;
 
+    /**
+     * Creates the stage and all its actors.
+     * @param game Owner of the stage.
+     * @param camera Camera to align.
+     */
     public MenuStage(LiftGame game, OrthographicCamera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
         GLOBAL_OFFSET = -camera.viewportHeight / 6.5f;
         SPACING_OFFSET = camera.viewportHeight / 20f;
         addPlayButton(game, camera);
         addScoreButton(camera);
-        addSettingsButton(camera);
+        addThemeButton(camera);
         addHighScore(game, camera);
         addLiftTitle(camera);
         Gdx.input.setInputProcessor(this);
 
     }
 
+    /**
+     * Adds the title to the stage.
+     * @param camera Camera to align.
+     */
     private void addLiftTitle(OrthographicCamera camera) {
         Texture titleTexture = TextureManager.getInstance().getAssetManager().get("lifttitle.png");
         Image title = new Image(titleTexture);
@@ -45,6 +64,11 @@ public class MenuStage extends Stage {
         this.addActor(title);
     }
 
+    /**
+     * Adds high score to the stage.
+     * @param game Owner of the label.
+     * @param camera Camera to align.
+     */
     private void addHighScore(LiftGame game, OrthographicCamera camera) {
         Float highScore = game.getGamePreferences().getHighscore();
         if(highScore != 0 ) {
@@ -62,14 +86,23 @@ public class MenuStage extends Stage {
         }
     }
 
-    private void addPlayButton(final LiftGame game, OrthographicCamera camera) {
+    /**
+     * Adds play button to the stage.
+     * @param game Owner of the button.
+     * @param camera Camera to align.
+     */
+    private void addPlayButton(LiftGame game, OrthographicCamera camera) {
         ImageButton button = ButtonCreator.createButton("PLAY.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 + button.getHeight() / 2 + GLOBAL_OFFSET + SPACING_OFFSET);
         button.addListener(new NewGameClick(game));
         this.addActor(button);
     }
 
-    private void addSettingsButton(OrthographicCamera camera) {
+    /**
+     * Adds theme button to the stage.
+     * @param camera Camera to align.
+     */
+    private void addThemeButton(OrthographicCamera camera) {
         ImageButton button = ButtonCreator.createButton("SETTINGS.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 - button.getHeight() / 2 + GLOBAL_OFFSET);
         button.addListener(new ClickListener() {
@@ -81,6 +114,10 @@ public class MenuStage extends Stage {
         this.addActor(button);
     }
 
+    /**
+     * Adds score button to the stage.
+     * @param camera Camera to align.
+     */
     private void addScoreButton(OrthographicCamera camera) {
         ImageButton button = ButtonCreator.createButton("SCORE.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 - 3 * button.getHeight() / 2 + GLOBAL_OFFSET - SPACING_OFFSET);
@@ -93,12 +130,14 @@ public class MenuStage extends Stage {
         this.addActor(button);
     }
 
-
-    public void updateHighScore(LiftGame game) {
-        Float highScore = game.getGamePreferences().getHighscore();
+    /**
+     * Updates the high score label.
+     * @param highscore New high score.
+     */
+    public void updateHighScore(float highscore) {
         for(Actor a :  this.getActors()) {
             if(a instanceof Label)
-                ((Label) a).setText("High Score: " + highScore);
+                ((Label) a).setText("High Score: " + highscore);
         }
     }
 }

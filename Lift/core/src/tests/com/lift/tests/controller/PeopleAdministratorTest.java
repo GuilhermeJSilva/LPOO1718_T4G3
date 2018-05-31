@@ -1,6 +1,7 @@
-package com.lift.game.controller;
+package com.lift.tests.controller;
 
-import com.lift.game.GameTester;
+import com.lift.tests.GameTester;
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.controllers.PeopleAdministrator;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.model.GameModel;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("ALL")
 public class PeopleAdministratorTest extends GameTester {
 
     @Test

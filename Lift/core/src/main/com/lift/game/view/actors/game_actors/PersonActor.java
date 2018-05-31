@@ -23,20 +23,44 @@ import java.util.HashMap;
 
 import static com.lift.game.view.GameView.PIXEL_TO_METER;
 
+/**
+ * Represents a person in the scene.
+ */
 public class PersonActor extends EntityActor {
 
+    /**
+     * Patient indicator.
+     */
     private final BasePolyActor patientIndicator;
 
+    /**
+     * Animation time.
+     */
     float stateTime = 0;
 
+    /**
+     * Indicator positions for people in the elevator.
+     */
     private static HashMap<Side, ArrayList<Vector2>> indicatorPositions;
 
+    /**
+     * Indicator counters.
+     */
     private static final int[] indicator_number = {0, 0};
 
+    /**
+     * Changes the positions for the indicators of people in the elevator.
+     * @param indicatorPositions New value for the positions.
+     */
     public static void setIndicatorPositions(HashMap<Side, ArrayList<Vector2>> indicatorPositions) {
         PersonActor.indicatorPositions = indicatorPositions;
     }
 
+    /**
+     * Constructs a person actor.
+     * @param game Game it belongs to.
+     * @param model Model it represents.
+     */
     public PersonActor(LiftGame game, PersonModel model) {
         super(model);
         this.sprite = new Sprite(new Texture((int)(PersonBody.WIDTH / PIXEL_TO_METER), (int)(PersonBody.HEIGHT / PIXEL_TO_METER), Pixmap.Format.RGB888));
@@ -56,6 +80,9 @@ public class PersonActor extends EntityActor {
     }
 
 
+    /**
+     * Updates the indicator.
+     */
     private void updateIndicator() {
         ArrayList<Vector2> tmp = indicatorPositions.get(this.model.getSide());
         int pos = this.model.getSide() == Side.Left ? 0 : 1;
@@ -78,6 +105,11 @@ public class PersonActor extends EntityActor {
     }
 
 
+    /**
+     * Draws only the indicator.
+     * @param batch Batch.
+     * @param parentAlpha Parent Alpha.
+     */
     private void drawIndicatorOnly(Batch batch, float parentAlpha) {
         this.updateIndicator();
         batch.end();
@@ -85,6 +117,11 @@ public class PersonActor extends EntityActor {
         batch.begin();
     }
 
+    /**
+     * Draws the person.
+     * @param batch Batch.
+     * @param parentAlpha Parent Alpha.
+     */
     private void drawPerson(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         stateTime += Gdx.graphics.getDeltaTime();
@@ -98,6 +135,10 @@ public class PersonActor extends EntityActor {
         }
     }
 
+    /**
+     * Returns the direction the person is running.
+     * @return Direction the person is running.
+     */
     private Side getRunningDirection() {
         if(this.model.getSide() == Side.Left) {
             if(((PersonModel) this.model).getPersonState() != PersonState.Reached)
@@ -112,6 +153,9 @@ public class PersonActor extends EntityActor {
         }
     }
 
+    /**
+     * Resets the indicator counters.
+     */
     public static void resetCounters() {
         for (int i = 0; i < indicator_number.length; i++) {
             indicator_number[i] = 0;

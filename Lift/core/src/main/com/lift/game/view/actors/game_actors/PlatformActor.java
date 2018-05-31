@@ -25,6 +25,7 @@ public class PlatformActor extends EntityActor {
     /**
      * Constructs a platform model.
      * @param game Platform's game.
+     * @param model Model it represents.
      */
     public PlatformActor(LiftGame game, PlatformModel model) {
         super(model);
@@ -36,6 +37,7 @@ public class PlatformActor extends EntityActor {
     /**
      * Creates a sprite representing a platform.
      *
+     * @param model Model it represents.
      * @return the sprite representing The platform.
      */
     public Sprite createSprite(PlatformModel model) {

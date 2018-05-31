@@ -14,11 +14,34 @@ import com.lift.game.view.TextureManager;
  * The game main class.
  */
 public class LiftGame extends Game {
+    /**
+     * Batch to print polygon.
+     */
     private PolygonSpriteBatch polygonBatch;
+
+    /**
+     * Batch to print sprites.
+     */
     private SpriteBatch spriteBatch;
+
+    /**
+     * Game music.
+     */
     private Music music;
+
+    /**
+     * Preference manager of the game.
+     */
     private PreferenceManager gamePreferences;
+
+    /**
+     * Model of the game.
+     */
     private GameModel gameModel;
+
+    /**
+     * Contoller of the game.
+     */
     private GameController gameController;
 
     /**

@@ -11,11 +11,28 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lift.game.LiftGame;
 import com.lift.game.view.TextureManager;
 
+/**
+ * Represents the stage before the game starts.
+ */
 public class StartStage extends Stage {
+    /**
+     * Label for the countdown.
+     */
     private Label timerLabel;
+    /**
+     * Time left for the game to start.
+     */
     private Double timeToStart = 5.0;
+
+    /**
+     * Camera to align.
+     */
     private final Camera camera;
 
+    /**
+     * @param game Game it represents.
+     * @param camera Camera to align.
+     */
     public StartStage(LiftGame game, OrthographicCamera camera) {
         super(new FitViewport(camera.viewportWidth, camera.viewportHeight), game.getSpriteBatch());
         this.camera = camera;
@@ -23,6 +40,9 @@ public class StartStage extends Stage {
         this.addActor(timerLabel);
     }
 
+    /**
+     * Creates the countdown timer.
+     */
     private void createTimerLabel() {
         Label.LabelStyle label1Style = new Label.LabelStyle();
         label1Style.font = TextureManager.getInstance().getAssetManager().get("fonts/font2.otf", BitmapFont.class);
@@ -36,6 +56,11 @@ public class StartStage extends Stage {
 
     }
 
+    /**
+     * Updates the countdown label.
+     * @param delta Time it passed.
+     * @return Time left to start.
+     */
     public Double update( double delta) {
         timeToStart -= delta;
         if (timeToStart < 0) {
@@ -49,9 +74,6 @@ public class StartStage extends Stage {
         return timeToStart;
     }
 
-    public void resetCounter() {
-        timeToStart = 5.0;
-    }
 
 
 

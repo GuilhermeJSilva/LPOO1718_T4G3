@@ -9,6 +9,9 @@ import static com.lift.game.controller.entities.PersonBody.PERSON_MASK;
 import static com.lift.game.controller.entities.PersonBody.PERSON_SENSOR_MASK;
 import static com.lift.game.controller.entities.ScreenSensorBody.BOTTOM_SENSOR;
 
+/**
+ * Represents the body of a platform.
+ */
 public class PlatformBody extends EntityBody {
     /**
      * Platform length.

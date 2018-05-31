@@ -4,6 +4,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.model.entities.EntityModel;
 
+/**
+ * Represents a power up without action.
+ */
 public class NullPU extends BasicPowerUP {
     /**
      * Time to disappear.

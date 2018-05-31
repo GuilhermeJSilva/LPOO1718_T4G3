@@ -1,6 +1,7 @@
-package com.lift.game.controller;
+package com.lift.tests.controller;
 
-import com.lift.game.GameTester;
+import com.lift.tests.GameTester;
+import com.lift.game.controller.GameController;
 import com.lift.game.controller.controllers.PeopleGenerator;
 import com.lift.game.model.GameModel;
 import com.lift.game.model.entities.person.PersonModel;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+@SuppressWarnings("ALL")
 public class PeopleGeneratorTest extends GameTester {
 
     @Test
@@ -62,6 +64,7 @@ public class PeopleGeneratorTest extends GameTester {
 
     }
 
+    @SuppressWarnings("JavaDoc")
     @Test
     public void add_waiting_person() {
         GameModel gameModel =  new GameModel();
@@ -76,6 +79,7 @@ public class PeopleGeneratorTest extends GameTester {
         
     }
 
+    @SuppressWarnings("JavaDoc")
     @Test
     public void increaseDifficulty() {
         GameModel gameModel =  new GameModel();

@@ -6,18 +6,40 @@ import com.lift.game.model.entities.person.PersonModel;
 
 import static com.lift.game.controller.entities.PlatformBody.*;
 
+/**
+ * Represents a person bdy.
+ */
 public class PersonBody extends EntityBody {
 
+    /**
+     * Width of the body.
+     */
     public static final int WIDTH = 3;
+
+    /**
+     * Height od the body.
+     */
     public static final int HEIGHT = 5;
+
+    /**
+     * Person collision mask.
+     */
     public static final short PERSON_MASK = 1 << 2;
+
+    /**
+     * Sensor collision mask.
+     */
     public static final short PERSON_SENSOR_MASK = 1 << 5;
 
+    /**
+     * Floor the person is on.
+     */
     private final Integer floor;
 
     /**
      * Creates an Person body.
      *
+     * @param world World it belongs to.
      * @param model Person model.
      */
     public PersonBody(World world, PersonModel model) {

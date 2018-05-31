@@ -27,6 +27,8 @@ public class TimeLabelActor extends Actor {
 
     /**
      * Constructs the label for the score.
+     * @param game Game it belongs to.
+     * @param camera Camera to align.
      */
     public TimeLabelActor(LiftGame game, Camera camera) {
         Label.LabelStyle label1Style = new Label.LabelStyle();
