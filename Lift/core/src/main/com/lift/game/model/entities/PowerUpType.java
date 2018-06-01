@@ -15,5 +15,9 @@ public enum PowerUpType {
     /**
      * Null power up.
      */
-    NullPowerUp
+    NullPowerUp,
+    /**
+     * Grants coins.
+     */
+    CoinPowerUp
 }

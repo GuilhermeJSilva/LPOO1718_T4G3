@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion "25.0.3"
-    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -19,8 +19,8 @@ android {
     }
     defaultConfig {
         applicationId "com.lift.game"
-        minSdkVersion 9
-        targetSdkVersion 25
+        minSdkVersion 14
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }

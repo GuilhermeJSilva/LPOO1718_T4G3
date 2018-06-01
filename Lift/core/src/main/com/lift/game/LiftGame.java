@@ -10,6 +10,8 @@ import com.lift.game.model.GameModel;
 import com.lift.game.view.GameView;
 import com.lift.game.view.TextureManager;
 
+import javax.activity.ActivityCompletedException;
+
 /**
  * The game main class.
  */
@@ -48,6 +50,16 @@ public class LiftGame extends Game {
      * State of the game.
      */
     private GameState gameState;
+
+    /**
+     * Interface for google play services.
+     */
+    private PlayInterface googlePlay;
+
+    public LiftGame(PlayInterface googlePlay) {
+        this.googlePlay = googlePlay;
+    }
+
 
     /**
      * Creates the game. Initializes the sprite spriteBatch and asset manager.
@@ -162,5 +174,13 @@ public class LiftGame extends Game {
     public void resetGame() {
         this.gameModel = new GameModel();
         this.gameController = new GameController(this.gameModel);
+    }
+
+    /**
+     * Returns the play interface.
+     * @return Play interface.
+     */
+    public PlayInterface getGooglePlay() {
+        return googlePlay;
     }
 }
