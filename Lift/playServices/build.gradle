@@ -2,3 +2,11 @@ apply plugin: "java"
 
 sourceCompatibility = 1.6
 sourceSets.main.java.srcDirs = [ "src/" ]
+
+
+eclipse {
+    project {
+        name = appName + "-playServices"
+        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/android/assets'
+    }
+}
