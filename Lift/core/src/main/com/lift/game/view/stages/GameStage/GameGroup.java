@@ -53,7 +53,7 @@ class GameGroup extends Group {
         HashMap<Side, ArrayList<Vector2>> indicatorPositions = new HashMap<Side, ArrayList<Vector2>>();
         ArrayList<Vector2> arrayPositions = new ArrayList<Vector2>();
 
-        float xLeft = camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH / 2 - camera.viewportWidth / 15f;
+        float xLeft = camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH / 2 - camera.viewportWidth / 14f;
         arrayPositions.add(new Vector2(xLeft, camera.viewportHeight/ 2 + 1.5f * IndicatorCreator.INDICATOR_HEIGHT));
         arrayPositions.add(new Vector2(xLeft, camera.viewportHeight/ 2 - 0.5f * IndicatorCreator.INDICATOR_HEIGHT));
         arrayPositions.add(new Vector2(xLeft, camera.viewportHeight/ 2 - 2.5f * IndicatorCreator.INDICATOR_HEIGHT));
@@ -62,7 +62,7 @@ class GameGroup extends Group {
         arrayPositions = new ArrayList<Vector2>();
 
 
-        float xRight = camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH / 2 + camera.viewportWidth / 10;
+        float xRight = camera.viewportWidth / 2 - IndicatorCreator.INDICATOR_WIDTH / 2 + camera.viewportWidth / 8f;
         arrayPositions.add(new Vector2(xRight, camera.viewportHeight/ 2 + 1.5f * IndicatorCreator.INDICATOR_HEIGHT));
         arrayPositions.add(new Vector2(xRight, camera.viewportHeight/ 2 - 0.5f * IndicatorCreator.INDICATOR_HEIGHT));
         arrayPositions.add(new Vector2(xRight, camera.viewportHeight/ 2 - 2.5f * IndicatorCreator.INDICATOR_HEIGHT));

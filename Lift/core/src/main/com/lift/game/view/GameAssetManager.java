@@ -41,6 +41,7 @@ public class GameAssetManager extends AssetManager {
         this.load("pregnant.png", Texture.class);
         this.load("replay.png", Texture.class);
         this.load("playbutton.png", Texture.class);
+        this.load("coin.png", Texture.class);
 
         this.load("blue.png", Texture.class);
         this.load("green.png", Texture.class);

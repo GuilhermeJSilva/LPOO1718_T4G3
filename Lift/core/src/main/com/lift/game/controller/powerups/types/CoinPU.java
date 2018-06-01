@@ -2,6 +2,8 @@ package com.lift.game.controller.powerups.types;
 
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
+import com.lift.game.controller.entities.EntityBody;
+import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
 import com.lift.game.model.entities.PowerUpModel;
 import com.lift.game.model.entities.PowerUpType;
@@ -26,9 +28,9 @@ public class CoinPU extends BasicPowerUP {
      * @param model           Model the power up is based on.
      * @param world           World the power is in.
      */
-    public CoinPU(PowerUpModel model, World world) {
+    public CoinPU(EntityModel model, World world) {
         super(TIME_TO_DISAPPEAR, model, world);
-        model.setPowerUpType(PowerUpType.CoinPowerUp);
+        ((PowerUpModel) model).setPowerUpType(PowerUpType.CoinPowerUp);
     }
 
     /**
