@@ -25,11 +25,6 @@ public class ScoreClick extends ClickListener {
 
         if (game.getGooglePlay().isSignedIn()) {
             game.getGooglePlay().onShowLeaderboardsRequested();
-
-            if (game.getMusic().isPlaying())
-                game.getMusic().stop();
-            else
-                game.getMusic().play();
         }
     }
 }

@@ -129,6 +129,7 @@ public class TextureManager {
         pix.setColor(0x00aaaaff);
         pix.fill();
         this.powerUpTexture.put(PowerUpType.ElevatorVelocity, new Texture(pix));
+        this.powerUpTexture.put(PowerUpType.CoinPowerUp, assetManager.get("heart.png", Texture.class));
 
     }
 
