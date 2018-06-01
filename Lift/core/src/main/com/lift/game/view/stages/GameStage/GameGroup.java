@@ -22,7 +22,6 @@ import java.util.HashMap;
 /**
  * Keeps all the actors that are respective to the game.
  */
-@SuppressWarnings("SuspiciousNameCombination")
 class GameGroup extends Group {
     /**
      * Constructs the stage.

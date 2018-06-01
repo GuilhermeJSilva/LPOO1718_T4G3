@@ -33,7 +33,6 @@ public class IndicatorCreator {
      * @return Created polygon actor.
      */
     public static BasePolyActor createIndicator(Vector2 pos, PersonType personType, int color, PolygonSpriteBatch polygonSpriteBatch) {
-        System.out.println((int) INDICATOR_WIDTH + " " +  (int) INDICATOR_HEIGHT);
         switch (personType) {
 
             case Regular:

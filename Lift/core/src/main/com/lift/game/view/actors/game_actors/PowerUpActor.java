@@ -51,7 +51,6 @@ public class PowerUpActor extends EntityActor {
      */
     public PowerUpActor(EntityModel model) {
         super(model);
-        System.out.println((int)(RADIUS_OF_THE_BODY * 2/ PIXEL_TO_METER)+ " " + (int)(RADIUS_OF_THE_BODY * 2 / PIXEL_TO_METER));
         this.sprite = new Sprite(new Texture((int)(RADIUS_OF_THE_BODY * 2/ PIXEL_TO_METER), (int)(RADIUS_OF_THE_BODY * 2 / PIXEL_TO_METER), Pixmap.Format.RGB888));
         this.sprite.setRegion(TextureManager.getInstance().getPUTexture(((PowerUpModel) model).getPowerUpType()));
     }
