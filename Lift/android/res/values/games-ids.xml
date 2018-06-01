@@ -8,8 +8,6 @@ Save this file as res/values/games-ids.xml in your project.
     <string name="app_id" translatable="false">340680943104</string>
     <!-- package_name -->
     <string name="package_name" translatable="false">com.lift.game</string>
-    <!-- achievement Beginner -->
-    <string name="achievement_beginner" translatable="false">CgkIgMyqkfUJEAIQAQ</string>
     <!-- leaderboard World -->
     <string name="leaderboard_world" translatable="false">CgkIgMyqkfUJEAIQAg</string>
 </resources>

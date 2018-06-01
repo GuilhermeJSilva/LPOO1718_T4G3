@@ -175,4 +175,12 @@ public class LiftGame extends Game {
         this.gameModel = new GameModel();
         this.gameController = new GameController(this.gameModel);
     }
+
+    /**
+     * Returns the play interface.
+     * @return Play interface.
+     */
+    public PlayInterface getGooglePlay() {
+        return googlePlay;
+    }
 }

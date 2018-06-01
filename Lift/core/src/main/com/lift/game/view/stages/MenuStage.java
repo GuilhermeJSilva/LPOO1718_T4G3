@@ -18,6 +18,7 @@ import com.lift.game.LiftGame;
 import com.lift.game.view.TextureManager;
 import com.lift.game.view.actors.ButtonCreator;
 import com.lift.game.view.clickListeners.NewGameClick;
+import com.lift.game.view.clickListeners.ScoreClick;
 
 /**
  * Stage to access the menu.
@@ -43,7 +44,7 @@ public class MenuStage extends Stage {
         GLOBAL_OFFSET = -camera.viewportHeight / 6.5f;
         SPACING_OFFSET = camera.viewportHeight / 20f;
         addPlayButton(game, camera);
-        addScoreButton(camera);
+        addScoreButton(game,camera);
         addThemeButton(camera);
         addHighScore(game, camera);
         addLiftTitle(camera);
@@ -116,17 +117,14 @@ public class MenuStage extends Stage {
 
     /**
      * Adds score button to the stage.
+     *
+     * @param game Owner of the score.
      * @param camera Camera to align.
      */
-    private void addScoreButton(OrthographicCamera camera) {
+    private void addScoreButton(final LiftGame game, OrthographicCamera camera) {
         ImageButton button = ButtonCreator.createButton("SCORE.png");
         button.setPosition(camera.viewportWidth / 2 - button.getWidth() / 2, camera.viewportHeight / 2 - 3 * button.getHeight() / 2 + GLOBAL_OFFSET - SPACING_OFFSET);
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("WIP");
-            }
-        });
+        button.addListener(new ScoreClick(game, button));
         this.addActor(button);
     }
 

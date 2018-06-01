@@ -1,5 +1,6 @@
 package com.lift.game;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.games.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,15 +26,15 @@ public class AndroidLauncher extends AndroidApplication implements PlayInterface
     private PlayersClient mPlayersClient;
 
     // request codes we use when invoking an external activity
-    private static final int RC_UNUSED = 5001;
+    private static final int RC_UNUSED = 9004;
     private static final int RC_SIGN_IN = 9001;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        // Create the client used to sign in to Google services.
         mGoogleSignInClient = GoogleSignIn.getClient(this,
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN).build());
+
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useImmersiveMode =true;
 		initialize(new LiftGame(this), config);
@@ -79,9 +81,10 @@ public class AndroidLauncher extends AndroidApplication implements PlayInterface
 
     @Override
     public void signIn() {
-
+        startSignInIntent();
     }
 
+    @Override
     public void signOut() {
 
         if (!isSignedIn()) {
@@ -92,27 +95,21 @@ public class AndroidLauncher extends AndroidApplication implements PlayInterface
                 new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        boolean successful = task.isSuccessful();
-
                         onDisconnected();
                     }
                 });
     }
 
     public void onShowLeaderboardsRequested() {
-        mLeaderboardsClient.getAllLeaderboardsIntent()
+        Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .getLeaderboardIntent(getString(R.string.leaderboard_world))
                 .addOnSuccessListener(new OnSuccessListener<Intent>() {
                     @Override
                     public void onSuccess(Intent intent) {
                         startActivityForResult(intent, RC_UNUSED);
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //handleException(e, getString(R.string.leaderboards_exception));
-                    }
                 });
+
     }
 
     /**
@@ -122,17 +119,15 @@ public class AndroidLauncher extends AndroidApplication implements PlayInterface
      */
     public void updateLeaderboards(int finalScore) {
         if(isSignedIn()) {
-            mLeaderboardsClient.submitScore(getString(R.string.leaderboard_world),
-                    finalScore);
+            Games.getLeaderboardsClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                    .submitScore(getString(R.string.leaderboard_world), finalScore);
         }
     }
 
 
     private void onConnected(GoogleSignInAccount googleSignInAccount) {
-
         mLeaderboardsClient = Games.getLeaderboardsClient(this, googleSignInAccount);
         mPlayersClient = Games.getPlayersClient(this, googleSignInAccount);
-
 
         // Set the greeting appropriately on main menu
         mPlayersClient.getCurrentPlayer()
@@ -157,17 +152,46 @@ public class AndroidLauncher extends AndroidApplication implements PlayInterface
     }
 
     private void signInSilently() {
-        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this,
+        GoogleSignInClient signInClient = GoogleSignIn.getClient(this,
+                GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
+        signInClient.silentSignIn().addOnCompleteListener(this,
                 new OnCompleteListener<GoogleSignInAccount>() {
                     @Override
                     public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
                         if (task.isSuccessful()) {
-                            onConnected(task.getResult());
+                            // The signed in account is stored in the task's result.
+                            GoogleSignInAccount signedInAccount = task.getResult();
                         } else {
-                            onDisconnected();
+                            // Player will need to sign-in explicitly using via UI
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task =
+                    GoogleSignIn.getSignedInAccountFromIntent(intent);
+
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                onConnected(account);
+            } catch (ApiException apiException) {
+                String message = apiException.getMessage();
+                if (message == null || message.isEmpty()) {
+                    message = "OTHER";
+                }
+
+                onDisconnected();
+
+                new AlertDialog.Builder(this)
+                        .setMessage(message)
+                        .setNeutralButton(android.R.string.ok, null)
+                        .show();
+            }
+        }
     }
 
 
