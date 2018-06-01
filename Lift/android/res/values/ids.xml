@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Google Play game services IDs.
-Save this file as res/values/games-ids.xml in your project.
+Save this file as res/values/ids.xml in your project.
 -->
 <resources>
     <!-- app_id -->

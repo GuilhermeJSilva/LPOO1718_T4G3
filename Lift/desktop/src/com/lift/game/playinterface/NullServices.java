@@ -1,4 +1,4 @@
-package com.lift.game.desktop;
+package com.lift.game.playinterface;
 
 import com.lift.game.PlayInterface;
 

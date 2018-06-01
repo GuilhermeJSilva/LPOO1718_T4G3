@@ -32,12 +32,6 @@ android {
     }
 }
 
-dependencies {
-    compile "com.android.support:appcompat-v7:${appcompat_library_version}"
-    compile "com.android.support:support-v4:${support_library_version}"
-    compile "com.google.android.gms:play-services-games:${gms_library_version}"
-    compile "com.google.android.gms:play-services-auth:${gms_library_version}"
-}
 
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
@@ -106,6 +100,13 @@ eclipse {
     classpath {
         plusConfigurations += [ project.configurations.compile ]        
         containers 'com.android.ide.eclipse.adt.ANDROID_FRAMEWORK', 'com.android.ide.eclipse.adt.LIBRARIES'       
+    }
+
+    dependencies{
+        compile "com.android.support:appcompat-v7:${appcompat_library_version}"
+        compile "com.android.support:support-v4:${support_library_version}"
+        compile "com.google.android.gms:play-services-games:${gms_library_version}"
+        compile "com.google.android.gms:play-services-auth:${gms_library_version}"
     }
 
     project {

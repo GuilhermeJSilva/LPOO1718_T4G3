@@ -5,7 +5,6 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://maven.google.com" }
         jcenter()
         maven {
             url 'https://maven.google.com/'
@@ -32,7 +31,7 @@ allprojects {
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
 
-        android_compile_version = 26
+        android_compile_version = 27
         android_min_sdk_version = 14
 
         appcompat_library_version = '27.0.2'
@@ -58,6 +57,7 @@ project(":desktop") {
 
     dependencies {
         compile project(":core")
+
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -95,7 +95,11 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
-        
+
+    compile "com.android.support:appcompat-v7:${appcompat_library_version}"
+    compile "com.android.support:support-v4:${support_library_version}"
+    compile "com.google.android.gms:play-services-games:${gms_library_version}"
+    compile "com.google.android.gms:play-services-auth:${gms_library_version}"
     }
 }
 
@@ -108,6 +112,7 @@ project(":core") {
 
     dependencies {
         compile project(":playServices")
+
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"

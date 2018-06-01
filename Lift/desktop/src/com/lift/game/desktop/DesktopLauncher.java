@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import com.lift.game.LiftGame;
+import com.lift.game.playinterface.NullServices;
 
 public class DesktopLauncher{
 	public static void main (String[] arg) {
@@ -12,6 +13,6 @@ public class DesktopLauncher{
 		config.resizable = false;
 		config.height = 16 * grade;
 		config.width = 9 * grade;
-		new LwjglApplication(new LiftGame(new com.lift.game.desktop.NullServices()), config);
+		new LwjglApplication(new LiftGame(new NullServices()), config);
 	}
 }
