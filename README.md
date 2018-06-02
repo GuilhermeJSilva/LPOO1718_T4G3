@@ -19,7 +19,7 @@ Guilherme José Ferreira do Couto Fonseca da Silva 201603647 up201603647@fe.up.p
     **Warning**: As of 02/06/2018, the Desktop and Unit Tests were not running in IntelliJ or Android Studio, due to incompatibilities
 ## UML
 
-![UML](class diagram.png)
+![UML](class_diagram.png)
 
 ## Design Patterns
 
