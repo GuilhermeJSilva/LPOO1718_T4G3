@@ -1,4 +1,4 @@
-package com.lift.game.view.stages.GameStage;
+package com.lift.game.view.stages.gameStage;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,7 +14,7 @@ public class GameStage extends Stage {
     /**
      * Group of elements that belong to the hud.
      */
-    private final HudGroup hudActorGroup;
+    private final com.lift.game.view.stages.gameStage.HudGroup hudActorGroup;
 
     /**
      * Group of elements that make the game.
@@ -31,7 +31,7 @@ public class GameStage extends Stage {
         gameGroup = new GameGroup(game, camera);
         gameGroup.toBack();
         this.addActor(gameGroup);
-        hudActorGroup = new HudGroup(game, camera);
+        hudActorGroup = new com.lift.game.view.stages.gameStage.HudGroup(game, camera);
         hudActorGroup.toFront();
         this.addActor(hudActorGroup);
 

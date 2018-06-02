@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.lift.game.GameState;
 import com.lift.game.LiftGame;
 import com.lift.game.view.stages.EndStage;
-import com.lift.game.view.stages.GameStage.GameStage;
+import com.lift.game.view.stages.gameStage.GameStage;
 import com.lift.game.view.stages.MenuStage;
 import com.lift.game.view.stages.PausedStage;
 import com.lift.game.view.stages.StartStage;

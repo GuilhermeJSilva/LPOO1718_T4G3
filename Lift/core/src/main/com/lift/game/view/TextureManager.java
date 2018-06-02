@@ -123,12 +123,8 @@ public class TextureManager {
      */
     private void initializePowerUpTextures() {
         this.powerUpTexture = new HashMap<PowerUpType, Texture>();
-        //TODO Change to the real textures.
         this.powerUpTexture.put(PowerUpType.LifePowerUp, assetManager.get("heart.png", Texture.class));
-        Pixmap pix = new Pixmap((int) (RADIUS_OF_THE_BODY / PIXEL_TO_METER), (int) (RADIUS_OF_THE_BODY / PIXEL_TO_METER), Pixmap.Format.RGBA8888);
-        pix.setColor(0x00aaaaff);
-        pix.fill();
-        this.powerUpTexture.put(PowerUpType.ElevatorVelocity, new Texture(pix));
+        this.powerUpTexture.put(PowerUpType.ElevatorVelocity, assetManager.get("speed.png", Texture.class));
         this.powerUpTexture.put(PowerUpType.CoinPowerUp, assetManager.get("coin.png", Texture.class));
 
     }

@@ -38,7 +38,7 @@ public class ButtonsGroup extends Group {
      * @param camera Aligns the button with this camera.
      */
     private void createMainMenuButton(LiftGame game, OrthographicCamera camera) {
-        mainMenuButton = ButtonCreator.createButton("playbutton.png");
+        mainMenuButton = ButtonCreator.createButton("menu.png");
         float x = camera.viewportWidth / 2 - 3 * mainMenuButton.getWidth() / 2;
         float y = camera.viewportHeight / 2 -   mainMenuButton.getHeight() / 2 ;
         this.mainMenuButton.setPosition(x, y);

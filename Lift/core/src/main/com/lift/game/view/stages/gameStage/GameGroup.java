@@ -1,4 +1,4 @@
-package com.lift.game.view.stages.GameStage;
+package com.lift.game.view.stages.gameStage;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
@@ -76,10 +76,10 @@ class GameGroup extends Group {
      */
     private void initiateActivePUPositions(Camera camera) {
         ArrayList<Vector2> activePositions = new ArrayList<Vector2>();
-        float y = camera.viewportHeight / 2 - BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER + camera.viewportHeight / 6;
-        activePositions.add(new Vector2(camera.viewportWidth / 2 - 2* BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER, y));
+        float y = camera.viewportHeight / 2 - BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER + camera.viewportHeight / 3.8f;
+        activePositions.add(new Vector2(camera.viewportWidth / 2 - BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER, y));
         activePositions.add(new Vector2(camera.viewportWidth / 2 - 4 * BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER, y));
-        activePositions.add(new Vector2(camera.viewportWidth / 2 + 0 * BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER, y));
+        activePositions.add(new Vector2(camera.viewportWidth / 2 + 2 * BasicPowerUP.RADIUS_OF_THE_BODY / GameView.PIXEL_TO_METER, y));
         PowerUpActor.setActivePositions(activePositions);
     }
 

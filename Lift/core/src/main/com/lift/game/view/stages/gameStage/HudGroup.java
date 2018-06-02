@@ -1,4 +1,4 @@
-package com.lift.game.view.stages.GameStage;
+package com.lift.game.view.stages.gameStage;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
