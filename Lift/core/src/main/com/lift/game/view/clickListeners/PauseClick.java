@@ -30,7 +30,10 @@ public class PauseClick extends ClickListener {
             game.setGameState(GameState.Paused);
             Gdx.input.setInputProcessor(((GameView)game.getScreen()).getPausedStage());
         }
-        else
+        else if (game.getGameState() == GameState.Paused) {
             game.setGameState(GameState.Playing);
+            Gdx.input.setInputProcessor(((GameView)game.getScreen()).getGame_stage());
+
+        }
     }
 }
