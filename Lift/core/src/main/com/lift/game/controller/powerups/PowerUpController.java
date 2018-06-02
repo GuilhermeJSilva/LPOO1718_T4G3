@@ -22,12 +22,12 @@ public class PowerUpController {
     /**
      * Minimum interval between power up generations.
      */
-    public static final float MIN_INTERVAL = 1f;
+    public static final float MIN_INTERVAL = 5f;
 
     /**
      * Maximum interval between power up generations.
      */
-    public static final float MAX_INTERVAL = 1f;
+    public static final float MAX_INTERVAL = 10f;
 
     /**
      * Maximum y coordinate for a power up in meters.
@@ -95,9 +95,9 @@ public class PowerUpController {
         this.incPercentages = new ArrayList<Float>();
         this.typesOfPowerUps = new ArrayList<Class<? extends BasicPowerUP>>();
         this.typesOfPowerUps.add(CoinPU.class);
-        this.incPercentages.add(0f);
+        this.incPercentages.add(0.6f);
         this.typesOfPowerUps.add(LifePU.class);
-        this.incPercentages.add(0f);
+        this.incPercentages.add(0.8f);
         this.typesOfPowerUps.add(VelocityPU.class);
         this.incPercentages.add(1f);
     }
