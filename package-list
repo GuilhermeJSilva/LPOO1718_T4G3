@@ -6,11 +6,9 @@ com.lift.game.controller.entities.pstrategies
 com.lift.game.controller.powerups
 com.lift.game.controller.powerups.types
 com.lift.game.controller.utils
-com.lift.game.desktop
 com.lift.game.model
 com.lift.game.model.entities
 com.lift.game.model.entities.person
-com.lift.game.playinterface
 com.lift.game.view
 com.lift.game.view.actors
 com.lift.game.view.actors.game_actors
