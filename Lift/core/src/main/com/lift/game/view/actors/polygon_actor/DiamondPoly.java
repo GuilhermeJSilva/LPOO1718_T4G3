@@ -4,21 +4,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Draws a diamond polygon.
  */
 public class DiamondPoly extends BasePolyActor{
     /**
-     * @param x X coordinate of the polygon.
-     * @param y Y coordinate of the polygon.
+     * @param pos Position of the polygon
      * @param width Width of the polygon.
      * @param height Height of the polygon.
      * @param color Color of the front polygon.
      * @param polygonSpriteBatch Draw destination.
      */
-    public DiamondPoly(float x, float y, int width, int height, int color, PolygonSpriteBatch polygonSpriteBatch) {
-        super(x, y, width, height, color, polygonSpriteBatch);
+    public DiamondPoly(Vector2 pos, int width, int height, int color, PolygonSpriteBatch polygonSpriteBatch) {
+        super(pos, width, height, color, polygonSpriteBatch);
     }
 
     @Override
