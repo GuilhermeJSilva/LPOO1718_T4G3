@@ -1,11 +1,14 @@
 The Basics
 Clicking above a level makes the elevator move to it and pick up all the
 people waiting.
-Dropping people at the level with the indicator's color to win time.
-An unattended person will give up after a given time and make a life will be lost.
+Dropping people at the level with the indicator's color increases the time
+that is left.
+An unattended person will give up after a given time and decrease the number of
+lives remaining.
 
 
 The Conditions
-The objective is to last as long as possible without letting the lives run out.
+The objective is to last as long as possible without letting the lives and time
+run out.
 The bars in the middle of the game show the indicators of the people in the
 elevators, which has a max capacity of 3 people.
