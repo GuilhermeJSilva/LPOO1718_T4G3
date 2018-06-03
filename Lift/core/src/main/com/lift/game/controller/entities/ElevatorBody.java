@@ -17,7 +17,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Elevator's vertical speed.
      */
-    private static final int vy = 50;
+    public static final int vy = 50;
 
     /**
      * Velocity multiplier.

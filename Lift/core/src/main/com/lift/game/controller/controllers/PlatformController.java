@@ -62,4 +62,12 @@ public class PlatformController {
             iterator.remove();
         }
     }
+
+    /**
+     * Returns the number of platforms to jump to the top of the screen.
+     * @return Number of platforms to jump to the top of the screen.
+     */
+    public Integer nPlatformsToJump(){
+        return platformsToJump.size();
+    }
 }
