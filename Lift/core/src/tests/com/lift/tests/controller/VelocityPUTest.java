@@ -1,5 +1,6 @@
 package com.lift.tests.controller;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.powerups.types.CoinPU;
 import com.lift.game.controller.powerups.types.VelocityPU;
@@ -19,7 +20,7 @@ public class VelocityPUTest {
     public void pickup() {
         GameModel gameModel =  new GameModel();
         GameController gameController = new GameController(gameModel);
-        VelocityPU velocityPU = new VelocityPU(new PowerUpModel(0,0,Side.Left), gameController.getWorld());
+        VelocityPU velocityPU = new VelocityPU(new PowerUpModel(new Vector2(0,0),Side.Left), gameController.getWorld());
 
         assertEquals(vy, gameController.getElevator(Side.Left).getVelocity(), 0.01);
         assertEquals(vy, gameController.getElevator(Side.Right).getVelocity(), 0.01);
