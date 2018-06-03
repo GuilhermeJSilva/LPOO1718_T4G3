@@ -1,5 +1,6 @@
 package com.lift.tests.controller;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.pstrategies.DrunkenMovement;
 import com.lift.game.controller.entities.pstrategies.NullStrategy;
@@ -22,7 +23,7 @@ public class StrategySelectorTest {
         boolean drunk = false;
 
         while (!reg && !drunk) {
-            PersonModel personModel = new PersonModel(0, 0, 0, Side.Left, 1, 0);
+            PersonModel personModel = new PersonModel(new Vector2(0,0), 0, Side.Left, 1, 0);
             if (personModel.getPersonType() == PersonType.Regular) {
                 reg = true;
                 assertTrue(gameController.getStrategySelector().getStrategy(personModel) instanceof RegularMovement);
@@ -48,8 +49,8 @@ public class StrategySelectorTest {
         boolean reg_drunk2 = false;
 
         while (!reg && !drunk &&  !reg_drunk && !reg_drunk2) {
-            PersonModel personModel = new PersonModel(0, 0, 0, Side.Left, 1, 0);
-            PersonModel personModel1 = new PersonModel(0, 0, 0, Side.Left, 1, 0);
+            PersonModel personModel = new PersonModel(new Vector2(0,0), 0, Side.Left, 1, 0);
+            PersonModel personModel1 = new PersonModel(new Vector2(0,0), 0, Side.Left, 1, 0);
 
             if (personModel.getPersonType() == PersonType.Regular && personModel1.getPersonType() == PersonType.Drunken) {
                 reg_drunk = true;

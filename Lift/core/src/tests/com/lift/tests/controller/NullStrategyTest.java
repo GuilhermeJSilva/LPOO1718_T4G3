@@ -1,5 +1,6 @@
 package com.lift.tests.controller;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.pstrategies.NullStrategy;
@@ -19,7 +20,7 @@ public class NullStrategyTest {
         GameModel gameModel = new GameModel();
         GameController gameController = new GameController(gameModel);
         NullStrategy nullStrategy = new NullStrategy(gameController);
-        PersonModel personModel = new PersonModel(0, 0, 0, Side.Left, 1, 0);
+        PersonModel personModel = new PersonModel(new Vector2(0,0), 0, Side.Left, 1, 0);
         gameModel.addPerson(personModel);
         gameController.addPerson(new PersonBody(gameController.getWorld(), personModel));
         gameModel.getLeft_floors().get(0).incrementNPeople();
@@ -50,7 +51,7 @@ public class NullStrategyTest {
         GameModel gameModel = new GameModel();
         GameController gameController = new GameController(gameModel);
         NullStrategy nullStrategy = new NullStrategy(gameController);
-        PersonModel personModel = new PersonModel(0, 0, 0, Side.Left, 1, 0);
+        PersonModel personModel = new PersonModel(new Vector2(0,0), 0, Side.Left, 1, 0);
         gameModel.addPerson(personModel);
         gameController.addPerson(new PersonBody(gameController.getWorld(), personModel));
         gameModel.getElevator(Side.Left).incrementOccupancy();

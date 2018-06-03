@@ -1,5 +1,6 @@
 package com.lift.tests.controller;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.powerups.types.CoinPU;
 import com.lift.game.model.GameModel;
@@ -16,7 +17,7 @@ public class CoinPUTest {
     public void pickup() {
         GameModel gameModel =  new GameModel();
         GameController gameController = new GameController(gameModel);
-        CoinPU coinPU = new CoinPU(new PowerUpModel(0,0,Side.Left), gameController.getWorld());
+        CoinPU coinPU = new CoinPU(new PowerUpModel(new Vector2(0,0),Side.Left), gameController.getWorld());
 
         Integer coins = gameModel.getCoins();
 

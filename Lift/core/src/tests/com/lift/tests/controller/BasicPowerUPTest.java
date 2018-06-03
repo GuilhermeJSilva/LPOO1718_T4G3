@@ -1,5 +1,6 @@
 package com.lift.tests.controller;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.powerups.PowerUpState;
 import com.lift.game.controller.powerups.types.LifePU;
@@ -16,13 +17,13 @@ public class BasicPowerUPTest {
     public void update() {
         GameModel gameModel =  new GameModel();
         GameController gameController = new GameController(gameModel);
-        LifePU lifePU = new LifePU(new PowerUpModel(0,0,Side.Left), gameController.getWorld());
+        LifePU lifePU = new LifePU(new PowerUpModel(new Vector2(0,0),Side.Left), gameController.getWorld());
         assertEquals(3l, (long)gameModel.getLives());
         assertEquals(PowerUpState.Waiting, lifePU.getPowerUpState());
         lifePU.update(gameController, LifePU.TIME_TO_DISAPPEAR);
         assertEquals(PowerUpState.Done, lifePU.getPowerUpState());
 
-        LifePU lifePU2 = new LifePU(new PowerUpModel(0,0,Side.Left), gameController.getWorld());
+        LifePU lifePU2 = new LifePU(new PowerUpModel(new Vector2(0,0),Side.Left), gameController.getWorld());
         assertEquals(PowerUpState.Waiting, lifePU2.getPowerUpState());
         lifePU2.setPowerUpState(PowerUpState.PickedUp);
         lifePU.update(gameController, LifePU.TIME_TO_DISAPPEAR);
