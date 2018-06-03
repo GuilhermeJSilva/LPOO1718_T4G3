@@ -60,6 +60,10 @@ Guilherme José Ferreira do Couto Fonseca da Silva 201603647 up201603647@fe.up.p
  * **Performance Improvements**
     * List of new people: Avoiding iterating through all the people.
     * Add listener to the elevator: so people leave when they reach instead of searching all the people ofr those who have to leave.
+   
+## Test Coverage
+
+![Coverage](coverage.png)
     
 ## Time spent
  
