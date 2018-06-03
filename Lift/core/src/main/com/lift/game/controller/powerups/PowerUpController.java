@@ -1,5 +1,6 @@
 package com.lift.game.controller.powerups;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.ElevatorBody;
@@ -132,7 +133,7 @@ public class PowerUpController {
         Side side = pickSide();
         Float x = gameController.getElevator(side).getX();
         Float y = randomY(side);
-        PowerUpModel powerUpModel = new PowerUpModel(x, y, side);
+        PowerUpModel powerUpModel = new PowerUpModel(new Vector2(x, y), side);
         gameController.getGameModel().addPowerUp(powerUpModel);
         powerUps.add(this.randomPowerUp(powerUpModel));
     }

@@ -1,5 +1,6 @@
 package com.lift.game.controller.controllers;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.entities.PersonBody;
 import com.lift.game.controller.entities.PlatformBody;
@@ -155,7 +156,7 @@ public class PeopleGenerator {
             return null;
         int people_position = floors.get(floor).incrementNPeople();
         float y = floors.get(floor).getY() + PersonBody.HEIGHT / 2f + PlatformBody.PLATFORM_HEIGHT / 2;
-        PersonModel new_p = new PersonModel(x, y, floor, side, dest, people_position);
+        PersonModel new_p = new PersonModel(new Vector2(x, y), floor, side, dest, people_position);
         gameController.getGameModel().addPerson(new_p);
 
         return new_p;

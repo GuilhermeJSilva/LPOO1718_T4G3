@@ -1,5 +1,6 @@
 package com.lift.tests.controller;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.tests.GameTester;
 import com.lift.game.controller.GameController;
 import com.lift.game.controller.controllers.PeopleAdministrator;
@@ -20,7 +21,7 @@ public class PeopleAdministratorTest extends GameTester {
     @Test
     public void movePeopleOut() {
         GameController gameController = new GameController(new GameModel());
-        PersonModel model = new PersonModel(0, 0, 1, Side.Left, 2, 1);
+        PersonModel model = new PersonModel(new Vector2(0,0), 1, Side.Left, 2, 1);
         gameController.addPerson(new PersonBody(gameController.getWorld(), model));
         model.setPersonState(PersonState.InElevator);
         gameController.getGameModel().getElevator(Side.Left).setTarget_floor(2);
@@ -34,7 +35,7 @@ public class PeopleAdministratorTest extends GameTester {
     @Test
     public void updatePositionWhenReached() {
         GameController gameController = new GameController(new GameModel());
-        gameController.addPerson(new PersonBody(gameController.getWorld(), new PersonModel(0,0,1,Side.Left,2,1)));
+        gameController.addPerson(new PersonBody(gameController.getWorld(), new PersonModel(new Vector2(0,0),1,Side.Left,2,1)));
         PersonBody personBody = gameController.getPeople().get(0);
         gameController.getPeopleAdministrator().updatePositionWhenReached(Side.Left, personBody);
         assertEquals(gameController.getElevator(Side.Left).getX(),personBody.getX(), 0.01);
@@ -47,11 +48,11 @@ public class PeopleAdministratorTest extends GameTester {
     public void enterTheElevator() {
         GameModel gameModel = new GameModel();
         GameController gameController = new GameController(gameModel);
-        PersonModel model = new PersonModel(0, 0, 1, Side.Left, 2, 1);
-        PersonModel model1 = new PersonModel(0, 0, 1, Side.Left, 2, 1);
-        PersonModel model2 = new PersonModel(0, 0, 1, Side.Left, 2, 1);
-        PersonModel model3 = new PersonModel(0, 0, 1, Side.Left, 2, 1);
-        PersonModel model4 = new PersonModel(0, 0, 2, Side.Left, 2, 1);
+        PersonModel model = new PersonModel(new Vector2(0,0), 1, Side.Left, 2, 1);
+        PersonModel model1 = new PersonModel(new Vector2(0,0), 1, Side.Left, 2, 1);
+        PersonModel model2 = new PersonModel(new Vector2(0,0), 1, Side.Left, 2, 1);
+        PersonModel model3 = new PersonModel(new Vector2(0,0), 1, Side.Left, 2, 1);
+        PersonModel model4 = new PersonModel(new Vector2(0,0), 2, Side.Left, 2, 1);
         gameModel.addPerson(model);
         gameModel.addPerson(model1);
         gameModel.addPerson(model2);
@@ -88,7 +89,7 @@ public class PeopleAdministratorTest extends GameTester {
     @Test
     public void moveToFreeFly() {
         GameController gameController = new GameController(new GameModel());
-        PersonModel personModel = new PersonModel(0, 0, 1, Side.Left, 2, 1);
+        PersonModel personModel = new PersonModel(new Vector2(0,0), 1, Side.Left, 2, 1);
         personModel.setPersonState(PersonState.Waiting);
         gameController.getPeopleAdministrator().moveToFreeFly(personModel);
         assertEquals(PersonState.FreeFalling, personModel.getPersonState());
@@ -100,7 +101,7 @@ public class PeopleAdministratorTest extends GameTester {
     @Test
     public void freeSpaceInPlatform() {
         GameController gameController = new GameController(new GameModel());
-        PersonModel personModel = new PersonModel(0, 0, 1, Side.Left, 2, 1);
+        PersonModel personModel = new PersonModel(new Vector2(0,0), 1, Side.Left, 2, 1);
         gameController.getGameModel().addPerson(personModel);
         gameController.getGameModel().getLeft_floors().get(personModel.getFloor()).incrementNPeople();
         assertEquals(1, gameController.getGameModel().getLeft_floors().get(personModel.getFloor()).getNumber_of_people());
@@ -113,17 +114,17 @@ public class PeopleAdministratorTest extends GameTester {
     @Test
     public void deliverPeople() {
         GameController gameController = new GameController(new GameModel());
-        PersonModel model = new PersonModel(0, 0, 1, Side.Left, 2, 1);
+        PersonModel model = new PersonModel(new Vector2(0,0), 1, Side.Left, 2, 1);
         gameController.addPerson(new PersonBody(gameController.getWorld(), model));
         model.setPersonState(PersonState.InElevator);
         gameController.getGameModel().getElevator(Side.Left).setTarget_floor(2);
         gameController.getPeopleAdministrator().deliverPeople(2, Side.Left);
         assertEquals(1, gameController.getPeopleAdministrator().getReachedPeople().size());
-        model = new PersonModel(0, 0, 1, Side.Right, 2, 1);
+        model = new PersonModel(new Vector2(0,0), 1, Side.Right, 2, 1);
         gameController.addPerson(new PersonBody(gameController.getWorld(), model));
         gameController.getPeopleAdministrator().deliverPeople(2, Side.Left);
         assertEquals(1, gameController.getPeopleAdministrator().getReachedPeople().size());
-        model = new PersonModel(0, 0, 1, Side.Left, 1, 1);
+        model = new PersonModel(new Vector2(0,0), 1, Side.Left, 1, 1);
         gameController.addPerson(new PersonBody(gameController.getWorld(), model));
         gameController.getPeopleAdministrator().deliverPeople(2, Side.Left);
         assertEquals(1, gameController.getPeopleAdministrator().getReachedPeople().size());

@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.utils.CollisionVariables;
 import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.PlatformModel;
 
@@ -50,30 +51,33 @@ public class PlatformBody extends EntityBody {
         super(world, model);
 
         PhysicalVariables phys = new PhysicalVariables(PLATFORM_LENGTH, PLATFORM_HEIGHT, 1000000f, 0f, 0f);
+        CollisionVariables cv = new CollisionVariables(PLATFORM_MASK, (short)(PERSON_MASK |  BOTTOM_SENSOR), false);
+        CollisionVariables cv1 = new CollisionVariables(PLATFORM_ELEVATOR_SENSOR, (short) (ELEVATOR_MASK | PERSON_MASK), true);
+        CollisionVariables cv2 = new CollisionVariables(PLATFORM_END_SENSOR, PERSON_SENSOR_MASK, true);
         float width = phys.getWidth(), height = phys.getHeight();
 
         this.add_fixture(body, new float[]{0, 0, 0, height, width, 0, width, height}
-                , phys, PLATFORM_MASK, (short)(PERSON_MASK |  BOTTOM_SENSOR), false
+                , phys, cv
         );
 
         int elevator_sensor_width = ElevatorBody.ELEVATOR_WIDTH;
         int person_sensor_width = 1;
         if (right) {
             this.add_fixture(body, new float[]{width, 0, width, height, width + elevator_sensor_width, 0, width + elevator_sensor_width, height}
-                    , phys, PLATFORM_ELEVATOR_SENSOR, (short) (ELEVATOR_MASK | PERSON_MASK), true
+                    , phys, cv1
             );
 
             this.add_fixture(body, new float[]{width - person_sensor_width, 0, width - person_sensor_width, -PersonBody.HEIGHT, width, 0, width, -PersonBody.HEIGHT}
-                    , phys, PLATFORM_END_SENSOR, PERSON_SENSOR_MASK, true
+                    , phys, cv2
             );
 
         } else {
             this.add_fixture(body, new float[]{-elevator_sensor_width, 0, -elevator_sensor_width, height, 0, 0, 0, height}
-                    , phys, PLATFORM_ELEVATOR_SENSOR, (short) (ELEVATOR_MASK | PERSON_MASK), true
+                    , phys, cv1
             );
 
             this.add_fixture(body, new float[]{0, 0, 0, -PersonBody.HEIGHT, person_sensor_width, 0, person_sensor_width, -PersonBody.HEIGHT}
-                    , phys, PLATFORM_END_SENSOR, PERSON_SENSOR_MASK, true
+                    , phys, cv2
             );
 
 

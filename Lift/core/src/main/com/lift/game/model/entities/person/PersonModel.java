@@ -1,5 +1,6 @@
 package com.lift.game.model.entities.person;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.model.Side;
 import com.lift.game.model.entities.EntityModel;
 
@@ -51,15 +52,14 @@ public class PersonModel extends EntityModel {
 
     /**
      * Construst the model for a person.
-     * @param x X position.
-     * @param y Y position.
+     * @param pos Position of the model.
      * @param floor Floor of the person.
      * @param side Side of the screen.
      * @param destination Destination floor.
      * @param people_position Position of the person on the platform.
      */
-    public PersonModel(float x, float y, int floor, Side side, int destination, int people_position) {
-        super(x, y, side);
+    public PersonModel(Vector2 pos, int floor, Side side, int destination, int people_position) {
+        super(pos, side);
 
         this.personType = RandomTypeGenerator.getRandomType();
         this.personState = PersonState.Waiting;

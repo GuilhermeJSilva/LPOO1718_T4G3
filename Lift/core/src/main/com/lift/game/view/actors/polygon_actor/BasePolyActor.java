@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
@@ -50,14 +51,13 @@ public abstract class BasePolyActor extends Actor {
 
 
     /**
-     * @param x X coordinate of the polygon.
-     * @param y Y coordinate of the polygon.
+     * @param pos Position of the polygon
      * @param width Width of the polygon.
      * @param height Height of the polygon.
      * @param color Color of the front polygon.
      * @param polygonSpriteBatch Draw destination.
      */
-    BasePolyActor(float x, float y, int width, int height, int color, PolygonSpriteBatch polygonSpriteBatch) {
+    BasePolyActor(Vector2 pos, int width, int height, int color, PolygonSpriteBatch polygonSpriteBatch) {
         this.width = width;
         this.height = height;
         Pixmap pix = new Pixmap(width, height, Pixmap.Format.RGBA8888);
@@ -71,8 +71,8 @@ public abstract class BasePolyActor extends Actor {
 
         poly = new PolygonSprite(getRegion(front));
         back = new PolygonSprite(getRegion(backTexture));
-        poly.setPosition(x ,y);
-        back.setPosition(x ,y );
+        poly.setPosition(pos.x ,pos.y);
+        back.setPosition(pos.x ,pos.y);
 
         polyBatch = polygonSpriteBatch;
     }

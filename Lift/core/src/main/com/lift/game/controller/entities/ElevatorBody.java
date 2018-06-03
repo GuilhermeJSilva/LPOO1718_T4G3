@@ -1,6 +1,7 @@
 package com.lift.game.controller.entities;
 
 import com.badlogic.gdx.physics.box2d.World;
+import com.lift.game.controller.utils.CollisionVariables;
 import com.lift.game.controller.utils.PhysicalVariables;
 import com.lift.game.model.entities.ElevatorModel;
 
@@ -17,7 +18,7 @@ public class ElevatorBody extends EntityBody {
     /**
      * Elevator's vertical speed.
      */
-    private static final int vy = 50;
+    public static final int vy = 50;
 
     /**
      * Velocity multiplier.
@@ -62,9 +63,9 @@ public class ElevatorBody extends EntityBody {
         this.platformBodies = platformBodies;
 
         PhysicalVariables phys = new PhysicalVariables(ELEVATOR_WIDTH, ELEVATOR_HEIGHT, 1, 0.5f, 0f);
-
+        CollisionVariables cv = new CollisionVariables(ELEVATOR_MASK, (short) (PLATFORM_ELEVATOR_SENSOR | PU_MASK | BOTTOM_SENSOR), true);
         this.add_fixture(body, new float[]{0, 0, 0, ELEVATOR_HEIGHT, ELEVATOR_WIDTH, 0, ELEVATOR_WIDTH, ELEVATOR_HEIGHT}
-                , phys, ELEVATOR_MASK, (short) (PLATFORM_ELEVATOR_SENSOR | PU_MASK | BOTTOM_SENSOR), true);
+                , phys, cv);
         this.body.setGravityScale(0);
 
     }

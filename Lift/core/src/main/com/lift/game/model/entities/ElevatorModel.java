@@ -1,5 +1,6 @@
 package com.lift.game.model.entities;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.model.Side;
 
 /**
@@ -71,7 +72,7 @@ public class ElevatorModel extends EntityModel {
      * @param side Side of the screen the elevator is on.
      */
     public ElevatorModel(Float x, Side side) {
-        super(x, STARTING_Y, side);
+        super(new Vector2(x, STARTING_Y), side);
         this.capacity = DEFAULT_CAPACITY;
         this.occupancy = 0;
         this.stopped = true;
