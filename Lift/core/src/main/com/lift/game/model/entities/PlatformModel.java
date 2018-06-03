@@ -1,5 +1,6 @@
 package com.lift.game.model.entities;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.model.Side;
 
 /**
@@ -25,13 +26,12 @@ public class PlatformModel extends EntityModel{
     /**
      * Default entity constructor.
      *
-     * @param x position.
-     * @param y position
+     * @param pos Position of the model.
      * @param side Side of the screen.
      * @param floor_number Number if the floor.
      */
-    public PlatformModel(float x, float y, Side side, int floor_number) {
-        super(x, y, side);
+    public PlatformModel(Vector2 pos, Side side, int floor_number) {
+        super(pos, side);
         number_of_people = 0;
         this.floor_number = floor_number;
     }

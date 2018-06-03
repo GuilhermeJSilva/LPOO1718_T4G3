@@ -1,5 +1,6 @@
 package com.lift.game.model;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.controller.entities.PlatformBody;
 import com.lift.game.model.entities.ElevatorModel;
 import com.lift.game.model.entities.EntityModel;
@@ -109,11 +110,11 @@ public class GameModel {
         this.right_floors = new ArrayList<PlatformModel>();
 
         for (int i = 1; i <= n_levels; i++) {
-            left_floors.add(new PlatformModel(PlatformBody.PLATFORM_LENGTH / 2f + 0.1f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f, Side.Left, i - 1));
+            left_floors.add(new PlatformModel(new Vector2(PlatformBody.PLATFORM_LENGTH / 2f + 0.1f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f), Side.Left, i - 1));
         }
 
         for (int i = 1; i <= n_levels; i++) {
-            right_floors.add(new PlatformModel(38.5f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f, Side.Right, i - 1));
+            right_floors.add(new PlatformModel(new Vector2(38.5f, i * METERS_PER_FLOOR - METERS_PER_FLOOR / 2f), Side.Right, i - 1));
         }
 
         this.powerUpModels = new LinkedList<PowerUpModel>();

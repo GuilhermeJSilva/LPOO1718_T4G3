@@ -1,5 +1,6 @@
 package com.lift.game.model.entities;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.model.Side;
 
 /**
@@ -40,14 +41,13 @@ public abstract class EntityModel {
     /**
      * Default entity constructor.
      *
-     * @param x    position.
-     * @param y    position.
+     * @param pos Position of the model.
      * @param side Side of the screen.
      */
-    protected EntityModel(float x, float y, Side side) {
+    protected EntityModel(Vector2 pos, Side side) {
         super();
-        this.y = y;
-        this.x = x;
+        this.y = pos.y;
+        this.x = pos.x;
         this.side = side;
     }
 

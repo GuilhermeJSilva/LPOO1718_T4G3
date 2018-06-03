@@ -40,6 +40,6 @@ public class IndicatorCreator {
             case Drunken:
                 return new OctagonPoly(pos, (int) INDICATOR_WIDTH, (int) INDICATOR_HEIGHT, color, polygonSpriteBatch);
         }
-        return new DiamondPoly(pos.x, pos.y, (int) INDICATOR_WIDTH, (int) INDICATOR_HEIGHT, 0x000000f, polygonSpriteBatch);
+        return new DiamondPoly(pos, (int) INDICATOR_WIDTH, (int) INDICATOR_HEIGHT, 0x000000f, polygonSpriteBatch);
     }
 }

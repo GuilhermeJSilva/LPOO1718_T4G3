@@ -1,5 +1,6 @@
 package com.lift.game.model.entities;
 
+import com.badlogic.gdx.math.Vector2;
 import com.lift.game.controller.powerups.PowerUpState;
 import com.lift.game.model.Side;
 
@@ -20,12 +21,11 @@ public class PowerUpModel extends EntityModel {
     /**
      * Default entity constructor.
      *
-     * @param x    position.
-     * @param y    position.
+     * @param pos Position of the model.
      * @param side Side of the screen.
      */
-    public PowerUpModel(float x, float y, Side side) {
-        super(x, y, side);
+    public PowerUpModel(Vector2 pos, Side side) {
+        super(pos, side);
         this.powerUpState = PowerUpState.Waiting;
         this.powerUpType = PowerUpType.NullPowerUp;
     }

@@ -1,5 +1,6 @@
 package com.lift.game.controller.entities;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.lift.game.controller.utils.CollisionVariables;
 import com.lift.game.controller.utils.PhysicalVariables;
@@ -45,14 +46,13 @@ public class EntityBody {
      *  @param world World the body is going to be inserted in.
      *
      *
-     * @param x X position of the body.
-     * @param y Y position of the body.
+     * @param pos Position of the body.
      */
-    protected EntityBody(World world, float x, float y) {
+    protected EntityBody(World world, Vector2 pos) {
         super();
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(pos);
         bodyDef.angle = 0;
 
         body = world.createBody(bodyDef);
