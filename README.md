@@ -7,12 +7,15 @@ Antero Campos Gandra 201607926 up201607926@fe.up.pt
 
 Guilherme José Ferreira do Couto Fonseca da Silva 201603647 up201603647@fe.up.pt
 
+## Mockup
+
+![Mockup](MOCKUP2.png)
+
 ## Setup
 
   * ### Android
-  
-  * ### Desktop
-  
+    **APK**: [APK](https://drive.google.com/open?id=1CB2SmrCA250k_zOOSifG5IOc9Z1YOUZF)
+    
   * ### Development environment
     1. Clone this repository and open with gradle in an IDE.
     2. Change the working directory to the assets folder in the android module.
