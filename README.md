@@ -1,4 +1,5 @@
 # LPOO_T4G3
+[![BCH compliance](https://bettercodehub.com/edge/badge/GuilhermeJSilva/LPOO1718_T4G3?branch=final_project&token=26c6f8e9a6e79565d346f876933151ac304ef7d7)](https://bettercodehub.com/)
 
 **Group Members:**
 
