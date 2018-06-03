@@ -7,6 +7,10 @@ Antero Campos Gandra 201607926 up201607926@fe.up.pt
 
 Guilherme José Ferreira do Couto Fonseca da Silva 201603647 up201603647@fe.up.pt
 
+## Mockup
+
+![Mockup](MOCKUP2.png)
+
 ## Setup
 
   * ### Android
